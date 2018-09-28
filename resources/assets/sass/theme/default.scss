@@ -1,0 +1,45 @@
+nav.navbar {
+
+  & > .navbar-brand {
+    background-color: #262626;
+  }
+
+}
+
+nav.sidebar {
+  background-color: var(--dark);
+
+  .sidebar-sticky {
+
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #ffffff26;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--primary);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--secondary);
+    }
+
+    .nav-item {
+
+      .nav-link {
+
+        &.active {
+          background-color: var(--active_dark);
+        }
+
+        span, .icon {
+          color: var(--white);
+        }
+
+      }
+    }
+  }
+}
