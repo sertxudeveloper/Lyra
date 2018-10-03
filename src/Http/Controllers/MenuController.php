@@ -12,11 +12,10 @@ class MenuController extends Controller {
    */
   public function getMenu(): Collection {
     $items = collect(config('lyra.menu'));
-
     return $items->filter(function (&$item) {
       return $this->can($item);
     })->map(function ($item, $key) {
-      $item['link'] = $this->link($item, true);
+//      $item['link'] = $this->link($item, true);
       return $item;
     });
   }
@@ -27,13 +26,14 @@ class MenuController extends Controller {
    * @return bool
    */
   private function can(array $item): bool {
-    $regex = str_replace('/', '\/', preg_quote(route(config('lyra.routes.name') . 'dashboard')));
-    $slug = preg_replace('/' . $regex . '/', '', $this->link($item, true));
-    $slug = str_replace('/', '', $slug);
+//    $regex = str_replace('/', '\/', preg_quote(route(config('lyra.routes.name') . 'dashboard')));
+//    $slug = preg_replace('/' . $regex . '/', '', $this->link($item, true));
+//    $slug = str_replace('/', '', $slug);
+//
+//    $slug = ($slug == "") ? 'lyra' : $slug;
 
-    $slug = ($slug == "") ? 'lyra' : $slug;
-
-    return auth()->user()->hasPermission('read_' . $slug);
+//    return auth()->user()->hasPermission('read_' . $slug);
+    return auth()->user()->hasPermission('read_' . $item['key']);
   }
 
   /**
@@ -44,7 +44,7 @@ class MenuController extends Controller {
    */
   public static function link(array $item, $absolute = false): string {
     if (isset($item['url']) && $item['url']) {
-      return $absolute ? url($item['url']) : $item['url'];
+      return $absolute ? url(config('lyra.routes.prefix') . "/{$item['url']}") : $item['url'];
     } else if (isset($item['route']) && $item['route']) {
       return route($item['route'], null, $absolute);
     }

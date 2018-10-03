@@ -10,9 +10,6 @@ return [
   |--------------------------------------------------------------------------
   | Path to the Lyra Assets
   |--------------------------------------------------------------------------
-  |
-  | Here you can specify the location of the lyra assets path
-  |
   */
   'assets_path' => '/vendor/sertxudeveloper/lyra/assets',
 
@@ -28,57 +25,60 @@ return [
 
   /*
   |--------------------------------------------------------------------------
-  | Title and description of the Lyra Panel
+  | Lyra menu
   |--------------------------------------------------------------------------
   */
   "menu" => [
     [
       "name" => "Dashboard",
-      "route" => "lyra.dashboard",
+      "key" => "lyra",
       "icon" => "fas fa-home",
     ],
     [
       "name" => "Media",
-      "route" => "lyra.media",
+      "key" => "media",
       "icon" => "fas fa-images",
     ],
     [
       "name" => "Widgets",
-      "route" => "lyra.widget",
+      "key" => "widget",
       "icon" => "fas fa-tachometer-alt",
     ],
-//    [
-//      "name" => "Users",
-//      "route" => "lyra.users",
-//      "icon" => "fas fa-users",
-//    ],
+    [
+      "name" => "Users",
+      "key" => "users",
+      "icon" => "fas fa-users",
+    ],
     [
       "name" => "Roles",
-      "route" => "lyra.roles",
+      "key" => "roles",
       "icon" => "fas fa-lock",
     ],
     [
       "name" => "Menu",
-      "route" => "lyra.menu",
+      "key" => "menu",
       "icon" => "fas fa-list",
     ],
     [
       "name" => "Settings",
-      "route" => "lyra.settings",
+      "key" => "settings",
       "icon" => "fas fa-cog",
     ],
     [
       "name" => "CRUD",
-      "route" => "lyra.crud",
+      "key" => "crud",
       "icon" => "fas fa-database",
     ]
   ],
 
-  "datatypes" => [
-    "users" => [
-      "singular_name" => "User",
-      "plural_name" => "Users",
-      "model" => "App\User",
+  /*
+  |--------------------------------------------------------------------------
+  | Lyra widgets
+  |--------------------------------------------------------------------------
+  */
+  "widgets" => [
+    "row" => [
+      "SertxuDeveloper\Lyra\Http\Widgets\UserWidget",
     ]
   ]
 ];

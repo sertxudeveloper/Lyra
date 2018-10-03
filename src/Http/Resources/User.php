@@ -5,8 +5,8 @@ namespace SertxuDeveloper\Lyra\Http\Resources;
 class User extends Resource {
 
   public static $group = "Users";
-  public static $model = 'App\User';
-  public $with = ['post'];
+  public static $model = "App\User";
+  public $with = ["post"];
 
   public function fields() {
     return [];

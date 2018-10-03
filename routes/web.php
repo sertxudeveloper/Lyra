@@ -16,26 +16,29 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::group(['middleware' => 'lyra.user'], function () use ($namespacePrefix) {
       Route::get('/', $namespacePrefix . 'MainController@index')->name('dashboard');
-      Route::get('/media', $namespacePrefix . 'MainController@index')->name('media');
-      Route::get('/widgets', $namespacePrefix . 'MainController@index')->name('widget');
-      Route::get('/users', $namespacePrefix . 'DatatypesController@index')->name('users');
-      Route::get('/roles', $namespacePrefix . 'MainController@index')->name('roles');
-      Route::get('/menu', $namespacePrefix . 'MainController@menu')->name('menu');
-      Route::get('/crud', $namespacePrefix . 'MainController@index')->name('crud');
-      Route::get('/settings', $namespacePrefix . 'MainController@index')->name('settings');
 
-      Route::get('/profile', $namespacePrefix . 'MainController@index')->name('profile');
+//      Route::get('/media', $namespacePrefix . 'MainController@index')->name('media');
+//      Route::get('/widgets', $namespacePrefix . 'MainController@index')->name('widget');
+//      Route::get('/users', $namespacePrefix . 'DatatypesController@index')->name('users');
+//      Route::get('/roles', $namespacePrefix . 'MainController@index')->name('roles');
+//      Route::get('/menu', $namespacePrefix . 'MainController@menu')->name('menu');
+//      Route::get('/crud', $namespacePrefix . 'MainController@index')->name('crud');
+//      Route::get('/settings', $namespacePrefix . 'MainController@index')->name('settings');
+//
+//      Route::get('/profile', $namespacePrefix . 'MainController@index')->name('profile');
+//
+//      Route::get('/foo', function() {
+//        $namespace_resource = Lyra::getResources()[0];
+//        $namespace_model = $namespace_resource::$model;
+//        $model = new $namespace_model();
+//        $resource = new $namespace_resource($model::all());
+//        dd($resource->fields());
+//      });
 
-      Route::get('/foo', function() {
-        $namespace_resource = Lyra::getResources()[0];
-        $namespace_model = $namespace_resource::$model;
-        $model = new $namespace_model();
-        $resource = new $namespace_resource($model::all());
-        dd($resource->fields());
-      });
-
+      Route::get('/{any}', $namespacePrefix . 'MainController@index')->where('any', '.*');
     });
 
   });
+
 
 });
