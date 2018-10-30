@@ -9,7 +9,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 
 use SertxuDeveloper\Lyra\Http\Middleware\LyraAdminMiddleware;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
-use SertxuDeveloper\Lyra\Http\Resources\User;
+use SertxuDeveloper\Lyra\Http\Resources\Users;
 use SertxuDeveloper\Lyra\Models\MenuItems;
 use SertxuDeveloper\Lyra\Policy\MenuItemsPolicy;
 
@@ -31,7 +31,7 @@ class LyraServiceProvider extends ServiceProvider {
    * @return void
    */
   public function boot(Router $router) {
-    $router->aliasMiddleware('lyra.user', LyraAdminMiddleware::class);
+    $router->aliasMiddleware('lyra', LyraAdminMiddleware::class);
     $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lyra');
 
     $this->registerConfigs();
@@ -66,6 +66,9 @@ class LyraServiceProvider extends ServiceProvider {
 
   private function registerConfigs() {
     $this->mergeConfigFrom(dirname(__DIR__) . '/publishable/config/lyra.php', 'lyra');
+    $this->mergeConfigFrom(dirname(__DIR__) . '/publishable/config/auth/guards.php', 'auth.guards.lyra');
+    $this->mergeConfigFrom(dirname(__DIR__) . '/publishable/config/auth/passwords.php', 'auth.passwords.lyra');
+    $this->mergeConfigFrom(dirname(__DIR__) . '/publishable/config/auth/providers.php', 'auth.providers.lyra');
   }
 
   private function registerPublishable() {
@@ -109,7 +112,7 @@ class LyraServiceProvider extends ServiceProvider {
   private function registerResources() {
 
     Lyra::resources([
-      User::class
+      "users" => Users::class
     ]);
   }
 

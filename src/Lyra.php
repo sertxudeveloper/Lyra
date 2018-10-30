@@ -32,6 +32,7 @@ class Lyra {
    * @return void
    */
   static public function routes() {
+    require __DIR__ . '/../routes/api.php';
     require __DIR__ . '/../routes/web.php';
   }
 
@@ -40,7 +41,7 @@ class Lyra {
    * @return string
    */
   public function getPreferredTheme() {
-    return lyra_asset("css/" . auth()->user()->preferred_theme . ".css");
+    return lyra_asset("css/" . auth()->guard('lyra')->user()->preferred_theme . ".css");
   }
 
   /**
