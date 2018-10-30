@@ -26,14 +26,14 @@ class MenuController extends Controller {
    * @return bool
    */
   private function can(array $item): bool {
-//    $regex = str_replace('/', '\/', preg_quote(route(config('lyra.routes.name') . 'dashboard')));
+//    $regex = str_replace('/', '\/', preg_quote(route(config('lyra.routes.web.name') . 'dashboard')));
 //    $slug = preg_replace('/' . $regex . '/', '', $this->link($item, true));
 //    $slug = str_replace('/', '', $slug);
 //
 //    $slug = ($slug == "") ? 'lyra' : $slug;
 
 //    return auth()->user()->hasPermission('read_' . $slug);
-    return auth()->user()->hasPermission('read_' . $item['key']);
+    return auth()->guard('lyra')->user()->hasPermission('read_' . $item['key']);
   }
 
   /**
@@ -44,7 +44,7 @@ class MenuController extends Controller {
    */
   public static function link(array $item, $absolute = false): string {
     if (isset($item['url']) && $item['url']) {
-      return $absolute ? url(config('lyra.routes.prefix') . "/{$item['url']}") : $item['url'];
+      return $absolute ? url(config('lyra.routes.web.prefix') . "/{$item['url']}") : $item['url'];
     } else if (isset($item['route']) && $item['route']) {
       return route($item['route'], null, $absolute);
     }

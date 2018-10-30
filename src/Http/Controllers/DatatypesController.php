@@ -3,35 +3,61 @@
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
-use SertxuDeveloper\Lyra\Models\Datatype;
+use SertxuDeveloper\Lyra\Lyra;
 
 class DatatypesController extends CrudController {
 
-  public function index(Request $request) {
-//    dd($request->query('select'));
-    $slug = explode('.', $request->route()->getName())[1];
+  public function index(Request $request, string $resource) {
+    $resourcesNamespace = Lyra::getResources()[$resource];
+    $model = $resourcesNamespace::$model;
+    $query = $model;
+    if ($request->get('search')) {
+      $search = urldecode($request->get('search'));
+      foreach ($resourcesNamespace::$search as $key => $column) {
+        $query = ($key === 0) ? $query = $query::orWhere($column, 'like', "%$search%") : $query = $query->orWhere($column, 'like', "%$search%");
+      }
+      $query = $this->checkSoftDeletes($request, $query, $model);
+      $query = $query->paginate($request->get('perPage'));
+    } else {
+      $query = $this->checkSoftDeletes($request, $query, $model);
+      $query = ($query === $model) ? $query::paginate($request->get('perPage')) : $query->paginate($request->get('perPage'));
+    }
 
-//    $datatype = Datatype::where('slug', $slug)->first();
-
-    $datatype = config('lyra.datatypes.' . $slug);
-
-    $model = $datatype['model'];
-
-    $collection = $model::all();
-
-    if(!auth()->user()->hasPermission('read_' . $slug)) abort(403);
-
-
-    return view('lyra::datatypes.index', [
-      "datatype" => $datatype,
-      "collection" => $collection
-    ]);
+    $resourceCollection = new $resourcesNamespace($query);
+    if (!auth()->guard('lyra')->user()->hasPermission('read_' . $resource)) abort(403);
+    return $resourceCollection->getCollection('index');
   }
 
-  public function show($id) {
-    return view('lyra::datatypes.show', [
-      "element"
-    ]);
+  public function show(string $resource, string $id) {
+    $resourcesNamespace = '\SertxuDeveloper\Lyra\Http\Resources\\' . ucfirst($resource);
+    $model = $resourcesNamespace::$model;
+    $resourceCollection = new $resourcesNamespace($model::where($resourcesNamespace::$primary, $id)->get());
+    if (!auth()->guard('lyra')->user()->hasPermission('read_' . $resource)) abort(403);
+    return $resourceCollection->getCollection('show');
+  }
+
+  public function create(string $resource) {
+    $resourcesNamespace = '\SertxuDeveloper\Lyra\Http\Resources\\' . ucfirst($resource);
+    $model = $resourcesNamespace::$model;
+    $resourceCollection = new $resourcesNamespace(new $model);
+    if (!auth()->guard('lyra')->user()->hasPermission('create_' . $resource)) abort(403);
+    return $resourceCollection->getCollection('create');
+  }
+
+  private function checkSoftDeletes(Request $request, $query, $model) {
+    if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($model))) {
+      switch ($request->get('visibility')) {
+        case 'trashed':
+          return ($query === $model) ? $query::onlyTrashed() : $query->onlyTrashed();
+          break;
+        case 'all':
+          return ($query === $model) ? $query::withTrashed() : $query->withTrashed();
+          break;
+        default:
+          return $query;
+          break;
+      }
+    }
+    return $query;
   }
 }

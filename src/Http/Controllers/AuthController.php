@@ -6,8 +6,10 @@ use function Couchbase\fastlzDecompress;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Validation\ValidationException;
+use SertxuDeveloper\Lyra\Models\User;
 
 class AuthController extends Controller {
 
@@ -21,7 +23,7 @@ class AuthController extends Controller {
    * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
    */
   protected function authenticated(Request $request, $user) {
-    return redirect(config('lyra.routes.prefix'));
+    return redirect(config('lyra.routes.web.prefix'));
   }
 
   /**
@@ -38,6 +40,15 @@ class AuthController extends Controller {
   }
 
   /**
+   * Get the guard to be used during authentication.
+   *
+   * @return \Illuminate\Contracts\Auth\StatefulGuard
+   */
+  protected function guard() {
+    return Auth::guard('lyra');
+  }
+
+  /**
    * Handle a login request to the application.
    *
    * @param  \Illuminate\Http\Request $request
@@ -46,7 +57,6 @@ class AuthController extends Controller {
    * @throws \Illuminate\Validation\ValidationException
    */
   public function login(Request $request) {
-
     $this->validateLogin($request);
 
     // If the class is using the ThrottlesLogins trait, we can automatically throttle

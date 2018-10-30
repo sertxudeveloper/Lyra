@@ -3,8 +3,13 @@
 namespace SertxuDeveloper\Lyra\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable {
+
+  use Notifiable;
+
+  protected $table = 'lyra_users';
 
   protected $guarded = [];
 
