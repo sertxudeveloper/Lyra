@@ -14,7 +14,7 @@ class MenuItemsPolicy extends BasePolicy {
    * @param string $name
    * @return bool
    */
-//  protected function checkPermission(User $user, MenuItems $model, string $name): bool {
+//  protected function checkPermission(Users $user, MenuItems $model, string $name): bool {
 //    $regex = str_replace('/', '\/', preg_quote(route('lyra.dashboard')));
 //    $slug = preg_replace('/' . $regex . '/', '', $model->link(true));
 //    $slug = str_replace('/', '', $slug);

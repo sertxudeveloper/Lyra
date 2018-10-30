@@ -31,13 +31,13 @@ class BasePolicy {
 //  /**
 //   * Check if user has an associated permission.
 //   *
-//   * @param \SertxuDeveloper\Voyager\Contracts\User $user
+//   * @param \SertxuDeveloper\Voyager\Contracts\Users $user
 //   * @param object $model
 //   * @param string $action
 //   *
 //   * @return bool
 //   */
-//  protected function checkPermission(User $user, $model, $action) {
+//  protected function checkPermission(Users $user, $model, $action) {
 //    if (!isset(self::$datatypes[get_class($model)])) {
 //      $dataType = Voyager::model('Datatype');
 //      self::$datatypes[get_class($model)] = $dataType->where('model_name', get_class($model))->first();
