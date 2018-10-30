@@ -52,13 +52,18 @@
             <a href="#" role="button" id="notifyDropdown" data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false">
               <i class="fas fa-bell"></i>
-              <span class="badge badge-danger">{{ count(auth()->user()->unreadNotifications) }}</span>
+{{--              @php dd(auth()->guard('lyra')->user()->unreadNotifications[0]) @endphp--}}
+              @if(isset(auth()->guard('lyra')->user()->unreadNotifications[0]))
+                <span class="badge badge-danger">
+                  {{ count(auth()->guard('lyra')->user()->unreadNotifications) }}
+                </span>
+              @endif
             </a>
 
             <div class="dropdown-menu dropdown-menu-right dropdown-large" aria-labelledby="notifyDropdown">
               <div class="list-group">
 
-                @foreach(auth()->user()->notifications as $notification)
+                @foreach(auth()->guard('lyra')->user()->notifications as $notification)
                   <a
                     class="border-left-0 border-right-0 list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
@@ -81,10 +86,10 @@
              aria-expanded="false">
             <div class="align-items-center d-flex h-100 px-0 mr-2">
               <div class="align-items-center d-flex h-100">
-                <span class="d-none d-lg-block">{{ auth()->user()->name }}</span>
+                <span class="d-none d-lg-block">{{ auth()->guard('lyra')->user()->name }}</span>
               </div>
               <div class="align-items-center avatar d-flex h-100 pl-0 pl-lg-3 pr-3">
-                <img src="{{ asset("storage/" . auth()->user()->avatar) }}"
+                <img src="{{ asset("storage/" . auth()->guard('lyra')->user()->avatar) }}"
                      alt="John Alexander Doe Avatar">
               </div>
               <i class="fa-chevron-down fas"></i>
@@ -107,7 +112,7 @@
 
             @foreach(Lyra::getMenuItems() as $item)
               <li class="nav-item">
-                <router-link class="nav-link" {{ ($item['key'] !== 'lyra') ?  ":to='$item[key]'" :  ":to='/'" }}>
+                <router-link class="nav-link" {{ ($item['key'] !== 'lyra') ?  ":to='/$item[key]'" :  ":to='/' exact" }}>
                   <div class="icon">
                     <i class="{{$item['icon']}}"></i>
                   </div>
@@ -123,7 +128,7 @@
 
       <main role="main" class="col-11 col-lg-10 col-md-9 col-sm-9 ml-sm-auto px-0">
 
-        <div class="container-fluid px-3">
+        <div class="container-fluid px-md-5 pt-4 pb-5" :class="{ loading: loader }">
           @yield('content')
         </div>
 
