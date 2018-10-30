@@ -1,3 +1,7 @@
+body {
+  background-color: #eceff1;
+}
+
 nav.navbar {
 
   & > .navbar-brand {
@@ -31,7 +35,7 @@ nav.sidebar {
 
       .nav-link {
 
-        &.active {
+        &.router-link-active {
           background-color: var(--active_dark);
         }
 

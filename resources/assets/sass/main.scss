@@ -2,6 +2,18 @@
 @import '~bootstrap/scss/bootstrap';
 @import url("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900');
+@import "~toastr/toastr";
+@import '~axios-progress-bar/dist/nprogress.css';
+
+
+#toast-container > .toast-success,
+#toast-container > .toast-info,
+#toast-container > .toast-warning,
+#toast-container > .toast-error {
+  background-image: none !important;
+  padding: 15px;
+  width: 100%;
+}
 
 :root {
   --primary: #4BB9EC;
@@ -129,7 +141,7 @@ body div {
             padding: 0.5rem 1rem;
             border-left: 4px solid transparent;
 
-            &.active {
+            &.router-link-active {
               border-left-color: var(--secondary);
             }
 
@@ -158,6 +170,14 @@ body div {
         }
       }
 
+      & > .container-fluid.loading {
+        height: calc(100% - 32.5px);
+      }
+
+      & > .container-fluid {
+        min-height: calc(100% - 32.5px);
+      }
+
       footer {
         position: relative;
         bottom: 0;
@@ -167,9 +187,9 @@ body div {
         color: var(--white);
         width: 100%;
         text-align: right;
+        font-size: 15px;
 
         a {
-          font-size: 15px;
           color: var(--white);
           outline: none;
 
@@ -204,4 +224,38 @@ body div {
   top: 16px;
   padding: 0.15em 0.4em;
   position: absolute;
+  animation: pulse-danger 2s infinite;
+}
+
+@keyframes pulse-danger {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
+@import "./formfields/button";
+@import "./formfields/checkbox";
+@import "./formfields/select";
+
+.btn-outline-dark {
+  color: var(--dark);
+  border-color: var(--dark);
+
+  &.focus,
+  &:focus,
+  &:not(:disabled):not(.disabled):active:focus,
+  &:not(:disabled):not(.disabled).active:focus,
+  &.dropdown-toggle:focus {
+    box-shadow: 0 0 7px 0 var(--dark)!important;
+  }
+}
+
+.box-dark-shadow {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
 }

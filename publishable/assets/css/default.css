@@ -1,3 +1,7 @@
+body {
+  background-color: #eceff1;
+}
+
 nav.navbar > .navbar-brand {
   background-color: #262626;
 }
@@ -22,7 +26,7 @@ nav.sidebar .sidebar-sticky::-webkit-scrollbar-thumb:hover {
   background: var(--secondary);
 }
 
-nav.sidebar .sidebar-sticky .nav-item .nav-link.active {
+nav.sidebar .sidebar-sticky .nav-item .nav-link.router-link-active {
   background-color: var(--active_dark);
 }
 
