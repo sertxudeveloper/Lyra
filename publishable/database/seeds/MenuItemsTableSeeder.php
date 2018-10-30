@@ -38,7 +38,7 @@ class MenuItemsTableSeeder extends Seeder {
 
     $item = MenuItems::firstOrNew(['route' => 'lyra.users']);
     if(!$item->exist) {
-      $item->name = "User";
+      $item->name = "Users";
       $item->icon = "fas fa-users";
       $item->order = 4;
       $item->save();

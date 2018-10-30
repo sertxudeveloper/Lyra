@@ -20,7 +20,7 @@ class RolesTableSeeder extends Seeder {
 
     $role = Role::firstOrNew(['name' => 'user']);
     if (!$role->exists) {
-      $role->display_name = "Normal User";
+      $role->display_name = "Normal Users";
       $role->save();
     }
   }
