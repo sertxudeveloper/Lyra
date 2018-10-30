@@ -8,6 +8,6 @@ if (!function_exists('lyra_asset')) {
 
 if (!function_exists('lyra_route')) {
   function lyra_route($name) {
-    return route(config('lyra.routes.name') . $name);
+    return route(config('lyra.routes.web.name') . $name);
   }
 }

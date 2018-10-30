@@ -18,29 +18,14 @@ class LyraAdminMiddleware {
    * @param \Illuminate\Http\Request $request
    * @param \Closure $next
    *
+   * @param  string|null $guard
    * @return mixed
    */
-  public function handle($request, Closure $next) {
-    if (!Auth::guest()) {
-
-      /**
-       * @TODO
-       *
-       * If the user access to /lyra/foo and it's not logged,
-       * this middleware will return a redirect to the login form route,
-       * but once the user has logged in we want to redirect it to the requested route (/lyra/foo)
-       * not to the default one (/lyra)
-       *
-       * We want this:
-       * @example /lyra/foo --> /lyra/login --> /lyra/foo
-       *
-       * Now is doing this:
-       * @example /lyra/foo --> /lyra/login --> /lyra
-       */
-
-      return (auth()->user()->hasPermission('read_lyra')) ? $next($request) : redirect('/');
+  public function handle($request, Closure $next, $guard = 'lyra') {
+    if (Auth::guard($guard)->check()) {
+      return (auth()->guard('lyra')->user()->hasPermission('read_lyra')) ? $next($request) : redirect('/');
     }
 
-    return redirect()->route(config('lyra.routes.name') . 'login');
+    return redirect()->route(config('lyra.routes.web.name') . 'login');
   }
 }
