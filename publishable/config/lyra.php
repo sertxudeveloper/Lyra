@@ -2,8 +2,14 @@
 
 return [
   "routes" => [
-    "prefix" => "lyra",
-    "name" => "lyra."
+    "web" => [
+      "prefix" => "lyra",
+      "name" => "lyra.",
+    ],
+    "api" => [
+      "prefix" => "lyra-api",
+      "name" => "lyra-api."
+    ]
   ],
 
   /*
@@ -41,7 +47,7 @@ return [
     ],
     [
       "name" => "Widgets",
-      "key" => "widget",
+      "key" => "widgets",
       "icon" => "fas fa-tachometer-alt",
     ],
     [
