@@ -1,19 +1,28 @@
 <?php
 
-namespace App\Http\Resources;
+namespace SertxuDeveloper\Lyra\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use SertxuDeveloper\Lyra\Fields\Id;
+use SertxuDeveloper\Lyra\Fields\Password;
+use SertxuDeveloper\Lyra\Fields\Text;
 
-class Roles extends JsonResource
-{
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function toArray($request)
-    {
-        return parent::toArray($request);
-    }
+
+class Roles extends Resource {
+
+  public static $model = "SertxuDeveloper\Lyra\Models\Role";
+
+  public $labels = [
+    "singular" => "Roles",
+    "plural" => "Roles"
+  ];
+
+  public function fields() {
+    return [
+      ID::make('ID', 'id')->get(),
+      Text::make('Name', 'name')->sortable()->get(),
+      Text::make('Display Name', 'display_name')->sortable()->get(),
+//      Password::make('Username', 'name')->sortable()
+    ];
+  }
+
 }
