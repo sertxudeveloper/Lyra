@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "[BUG]"
+title: ""
 labels: bug
 assignees: ''
 
@@ -24,8 +24,13 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Device(please complete the following information):**
+ - Laravel Version: [e.g. 5.7.3]
+ - Lyra Version: [e.g. 1.0.3]
+ - PHP Version: [e.g. 7.3]
+ - Database Driver & Version: [e.g. MariaDB 10.4]
+ 
  - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
+ - Browser [e.g. Chrome, Safari]
  - Version [e.g. 22]
 
 **Additional context**
