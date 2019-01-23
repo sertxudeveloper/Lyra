@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Device(please complete the following information):**
+**Software description(please complete the following information):**
  - Laravel Version: [e.g. 5.7.3]
  - Lyra Version: [e.g. 1.0.3]
  - PHP Version: [e.g. 7.3]
