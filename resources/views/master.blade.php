@@ -52,7 +52,7 @@
             <a href="#" role="button" id="notifyDropdown" data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false">
               <i class="fas fa-bell"></i>
-{{--              @php dd(auth()->guard('lyra')->user()->unreadNotifications[0]) @endphp--}}
+              {{--              @php dd(auth()->guard('lyra')->user()->unreadNotifications[0]) @endphp--}}
               @if(isset(auth()->guard('lyra')->user()->unreadNotifications[0]))
                 <span class="badge badge-danger">
                   {{ count(auth()->guard('lyra')->user()->unreadNotifications) }}
@@ -110,15 +110,45 @@
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
 
+            {{--@php dd(Lyra::getMenuItems()); @endphp--}}
+
             @foreach(Lyra::getMenuItems() as $item)
-              <li class="nav-item">
-                <router-link class="nav-link" {{ ($item['key'] !== 'lyra') ?  ":to='/$item[key]'" :  ":to='/' exact" }}>
-                  <div class="icon">
-                    <i class="{{$item['icon']}}"></i>
-                  </div>
-                  <span class="d-none d-sm-block">{{$item['name']}}</span>
-                </router-link>
-              </li>
+
+              @if(!isset($item['items']))
+                <li class="nav-item">
+                  <router-link
+                    class="nav-link" {{ ($item['key'] !== 'lyra') ?  ":to='/$item[key]'" :  ":to='/' exact" }}>
+                    <div class="icon">
+                      <i class="{{$item['icon']}}"></i>
+                    </div>
+                    <span class="d-none d-sm-block">{{$item['name']}}</span>
+                  </router-link>
+                </li>
+              @else
+
+                <li class="nav-item">
+                  <a href="#{{$item['key']}}Submenu" data-toggle="collapse" aria-expanded="false"
+                     class="dropdown-toggle collapsed nav-link">
+                    <div class="icon">
+                      <i class="{{$item['icon']}}"></i>
+                    </div>
+                    <span class="d-none d-sm-block">{{$item['name']}}</span>
+                  </a>
+                  <ul class="list-unstyled collapse" id="{{$item['key']}}Submenu">
+                    @foreach($item['items'] as $subitem)
+                      <li class="nav-item">
+                        <router-link
+                          class="nav-link" :to="'/{{$subitem['key']}}'" exact>
+                          <div class="icon">
+                            <i class="{{$subitem['icon']}}"></i>
+                          </div>
+                          <span class="d-none d-sm-block">{{$subitem['name']}}</span>
+                        </router-link>
+                      </li>
+                    @endforeach
+                  </ul>
+                </li>
+              @endif
             @endforeach
 
           </ul>
@@ -134,7 +164,7 @@
 
         <footer class="px-3">
           <div>
-          <span>{!! trans('lyra::theme.footer_copyright') !!}
+          <span>{!! trans('lyra::theme.footer_copyright', ['year' => date("Y")]) !!}
             - {{ trans('lyra::theme.version') }} {{ Lyra::getVersion() }}</span>
           </div>
         </footer>
