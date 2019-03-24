@@ -31,6 +31,24 @@ return [
 
   /*
   |--------------------------------------------------------------------------
+  | Specify the authenticator driver to use in the login
+  |
+  | If you select the basic driver, the user will be authenticated using the default Laravel authenticator driver.
+  | With this driver, all the user will be blocked except those ones specified in the config file.
+  | Besides the notifications functionality should be added manually to the User model.
+  |
+  | If you select the Lyra driver, the user will be authenticated using the Lyra provider and the Lyra guard.
+  | With this driver, only the user registered in Lyra will be able to log in and access.
+  | Besides the Lyra driver require its own user table in the database, so it won't work until you run the migration.
+  | In addition, the notifications functionality will require another table to work.
+  |
+  | Supported: "basic", "lyra"
+  |--------------------------------------------------------------------------
+  */
+  'authenticator' => 'basic',
+
+  /*
+  |--------------------------------------------------------------------------
   | Lyra menu
   |--------------------------------------------------------------------------
   */
@@ -56,24 +74,31 @@ return [
       "icon" => "fas fa-users",
     ],
     [
-      "name" => "Roles",
-      "key" => "roles",
-      "icon" => "fas fa-lock",
-    ],
-    [
-      "name" => "Menu",
-      "key" => "menu",
-      "icon" => "fas fa-list",
-    ],
-    [
-      "name" => "Settings",
-      "key" => "settings",
-      "icon" => "fas fa-cog",
-    ],
-    [
-      "name" => "CRUD",
-      "key" => "crud",
-      "icon" => "fas fa-database",
+      "name" => "Lyra",
+      "key" => "lyra-settings",
+      "icon" => "fas fa-cogs",
+      "items" => [
+        [
+          "name" => "Roles",
+          "key" => "roles",
+          "icon" => "fas fa-lock",
+        ],
+        [
+          "name" => "Menu",
+          "key" => "menu",
+          "icon" => "fas fa-list",
+        ],
+        [
+          "name" => "Settings",
+          "key" => "settings",
+          "icon" => "fas fa-cog",
+        ],
+        [
+          "name" => "CRUD",
+          "key" => "crud",
+          "icon" => "fas fa-database",
+        ]
+      ]
     ]
   ],
 
