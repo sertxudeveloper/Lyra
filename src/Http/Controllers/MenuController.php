@@ -11,9 +11,18 @@ class MenuController extends Controller {
    * @return Collection
    */
   public function getMenu(): Collection {
+
     $items = collect(config('lyra.menu'));
     return $items->filter(function (&$item) {
-      return $this->can($item);
+      if (isset($item['items'])) {
+        $filtered = collect($item['items'])->filter(function (&$item) {
+          return $this->can($item);
+        });
+        if (!$filtered->count()) return false;
+        return true;
+      } else {
+        return $this->can($item);
+      }
     })->map(function ($item, $key) {
 //      $item['link'] = $this->link($item, true);
       return $item;
