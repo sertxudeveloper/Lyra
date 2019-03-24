@@ -1,4 +1,4 @@
-const { mix } = require('laravel-mix');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -10,9 +10,8 @@ const { mix } = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-mix.setPublicPath('.');
-mix.options({processCssUrls: false})
-	.sass('resources/assets/sass/login.scss', 'publishable/assets/css')
+// mix.setPublicPath('.');
+mix.sass('resources/assets/sass/login.scss', 'publishable/assets/css')
   .sass('resources/assets/sass/main.scss', 'publishable/assets/css')
   .sass('resources/assets/sass/theme/default.scss', 'publishable/assets/css')
   .sass('resources/assets/sass/theme/dark.scss', 'publishable/assets/css')
