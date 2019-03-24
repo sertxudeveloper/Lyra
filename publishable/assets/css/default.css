@@ -30,6 +30,8 @@ nav.sidebar .sidebar-sticky .nav-item .nav-link.router-link-active {
   background-color: var(--active_dark);
 }
 
-nav.sidebar .sidebar-sticky .nav-item .nav-link span, nav.sidebar .sidebar-sticky .nav-item .nav-link .icon {
+nav.sidebar .sidebar-sticky .nav-item .nav-link span,
+nav.sidebar .sidebar-sticky .nav-item .nav-link .icon {
   color: var(--white);
 }
+

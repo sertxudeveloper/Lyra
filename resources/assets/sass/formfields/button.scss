@@ -1,6 +1,4 @@
 .btn-primary {
-  //background-color: var(--primary);
-  //border-color: var(--primary);
   background-color: var(--secondary);
   border-color: var(--secondary);
 }
@@ -8,8 +6,6 @@
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
-  //background-color: var(--secondary);
-  //border-color: var(--secondary);
   background-color: var(--primary);
   border-color: var(--primary);
 }

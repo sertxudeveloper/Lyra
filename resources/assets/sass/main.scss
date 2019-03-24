@@ -46,12 +46,14 @@ nav.navbar {
   & > div {
     height: 65px;
   }
+
   & .form-group {
 
     & > i {
       color: #B3B3B3;
       padding: 0 5px 0 5px;
     }
+
     & .form-control {
       border: none;
       box-shadow: none;
@@ -150,7 +152,23 @@ body div {
               padding: 0 1rem 0 0;
               font-size: 1.1rem;
             }
+
+            &.dropdown-toggle::after {
+              position: absolute;
+              right: 20px;
+              color: #fff;
+              font-size: 20px;
+            }
+
+            &.dropdown-toggle[aria-expanded="true"] {
+              //border-left-color: var(--secondary);
+
+              &::after {
+                transform: rotate(180deg);
+              }
+            }
           }
+
         }
       }
     }
@@ -208,6 +226,7 @@ body div {
   &:first-child {
     border-top: 0;
   }
+
   &:last-child {
     border-bottom: 0;
   }
@@ -252,7 +271,7 @@ body div {
   &:not(:disabled):not(.disabled):active:focus,
   &:not(:disabled):not(.disabled).active:focus,
   &.dropdown-toggle:focus {
-    box-shadow: 0 0 7px 0 var(--dark)!important;
+    box-shadow: 0 0 7px 0 var(--dark) !important;
   }
 }
 

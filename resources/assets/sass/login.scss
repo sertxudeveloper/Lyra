@@ -40,11 +40,11 @@ h5 {
       border-radius: 15px;
       box-shadow: 0 0 20px 10px #0000004d;
       margin: 25px 0;
-  
+
       & > form {
         display: flex;
         flex-direction: column;
-  
+
         & > img {
           height: auto;
           width: 220px;
@@ -54,22 +54,22 @@ h5 {
         & > h5 {
           margin-bottom: 25px;
         }
-  
+
         .form-group {
           position: relative;
           margin-bottom: 1.8rem;
           width: 100%;
-  
+
           .form-control {
             border: none;
             border-bottom: 1px solid #BDBDBD;
             border-radius: 0;
-  
+
             &:focus {
               box-shadow: none;
-              border-bottom-color: #006cf0 !important;
+              border-bottom-color: var(--dark) !important;
             }
-  
+
             &:invalid {
               border-bottom-color: #dc3545 !important;
             }
@@ -99,9 +99,9 @@ h5 {
             &:-ms-input-placeholder { /* Internet Explorer 10+ */
               color: transparent;
             }
-  
+
           }
-  
+
           .form-control-placeholder {
             font-size: 15px;
             position: absolute;
@@ -111,14 +111,14 @@ h5 {
             opacity: 0.5;
           }
         }
-  
+
         button {
           background-color: #262626;
           border-color: #262626;
           width: 75%;
           margin: 0 auto;
         }
-  
+
         .checkbox-container {
           display: block;
           position: relative;
@@ -130,12 +130,12 @@ h5 {
           user-select: none;
           font-size: 15px;
           margin: 0;
-  
+
           input[type="checkbox"] {
             position: absolute;
             opacity: 0;
             cursor: pointer;
-  
+
             & + .checkmark {
               position: absolute;
               top: 1px;
@@ -145,7 +145,7 @@ h5 {
               border: 1px solid #BDBDBD;
               border-radius: 5px;
               transition: all 200ms;
-  
+
               &:after {
                 content: "";
                 position: absolute;
@@ -162,33 +162,33 @@ h5 {
               }
             }
           }
-  
+
           &:hover input[type="checkbox"] ~ .checkmark,
-          & input[type="checkbox"]:focus ~ .checkmark{
+          & input[type="checkbox"]:focus ~ .checkmark {
             background-color: #ccc;
           }
-  
+
           & input[type="checkbox"]:checked ~ .checkmark {
             background-color: #262626;
             border-color: #262626;
-  
+
             &:after {
               display: block;
             }
           }
-  
+
         }
-  
+
         a {
           font-size: 15px;
           color: #262626;
           outline: none;
-  
+
           &:focus {
             text-decoration: underline;
           }
         }
-  
+
       }
     }
   }
@@ -201,5 +201,19 @@ h5 {
     left: 0;
     position: fixed;
     z-index: -1;
+  }
+
+  .btn-primary:not(:disabled):not(.disabled):active:focus,
+  .btn-primary:not(:disabled):not(.disabled).active:focus,
+  .show > .btn-primary.dropdown-toggle:focus,
+  .btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 10px 1px #262626b3;
+  }
+
+  .btn-primary:not(:disabled):not(.disabled):active,
+  .btn-primary:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle {
+    border-color: #404040;
+    background-color: #404040;
   }
 }
