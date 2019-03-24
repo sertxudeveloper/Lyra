@@ -1,14 +1,10 @@
 **Software description(please complete the following information):**
  - Laravel Version: [e.g. 5.7.3]
  - Lyra Version: [e.g. 1.0.3]
- - PHP Version: [e.g. 7.3]
- - Database Driver & Version: [e.g. MariaDB 10.4]
- 
-
+ - PHP Version: [e.g. 7.3] 
+ - Database Driver & Version: [e.g. MariaDB 10.4] 
  - OS: [e.g. iOS]
- - Environment Type [e.g. Barebone | Vagrant | Docker | LXC ]
-
-
+ - Environment Type [e.g. Barebone, Vagrant, Docker, LXC ]
  - Browser & Version [e.g. Chrome 22, Safari 12]
 
 **Additional context**
