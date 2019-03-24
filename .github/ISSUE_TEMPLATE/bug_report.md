@@ -29,9 +29,12 @@ If applicable, add screenshots to help explain your problem.
  - PHP Version: [e.g. 7.3]
  - Database Driver & Version: [e.g. MariaDB 10.4]
  
+ 
  - OS: [e.g. iOS]
- - Browser [e.g. Chrome, Safari]
- - Version [e.g. 22]
+ - Environment Type [e.g. Barebone, Vagrant, Docker, LXC ]
+ 
+ 
+ - Browser & Version [e.g. Chrome 22, Safari 12]
 
 **Additional context**
 Add any other context about the problem here.
