@@ -70,19 +70,19 @@ class InstallCommand extends Command {
     $this->call('migrate');
 
 
-    $this->info('Attempting to set Lyra Users model as parent to App\Users');
-    if (file_exists(app_path('Users.phpp'))) {
-      $str = file_get_contents(app_path('Users.phpp'));
-
-      if ($str !== false) {
-        $str = str_replace('extends Authenticatable', "extends \SertxuDeveloper\Lyra\Models\User", $str);
-
-        file_put_contents(app_path('Users.phpp'), $str);
-      }
-    } else {
-      $this->warn('Unable to locate "app/Userss.php".  Did you move this file?');
-      $this->warn('You will need to update this manually.  Change "extends Authenticatable" to "extends \SertxuDeveloper\Lyra\Models\Users" in your Users model');
-    }
+//    $this->info('Attempting to set Lyra Users model as parent to App\Users');
+//    if (file_exists(app_path('Users.php'))) {
+//      $str = file_get_contents(app_path('Users.php'));
+//
+//      if ($str !== false) {
+//        $str = str_replace('extends Authenticatable', "extends \SertxuDeveloper\Lyra\Models\User", $str);
+//
+//        file_put_contents(app_path('Users.phpp'), $str);
+//      }
+//    } else {
+//      $this->warn('Unable to locate "app/Users.php".  Did you move this file?');
+//      $this->warn('You will need to update this manually.  Change "extends Authenticatable" to "extends \SertxuDeveloper\Lyra\Models\Users" in your Users model');
+//    }
 
     $this->info('Seeding data into the database');
     $this->seed('LyraDatabaseSeeder');
