@@ -27,7 +27,7 @@ abstract class Resource extends ResourceCollection {
     $resource = ($this->type !== 'create') ? $this->resource->toArray() : [];
     $this->collection = ($this->type !== 'create') ? $this->collection : collect([[]]);
 
-    if (isset($resource[0])) $resource = [];
+    if (!array_first($resource)) $resource = [];
     $resource = (object)$resource;
 
     $resource->data = $this->collection->map(function ($item) {
@@ -46,14 +46,13 @@ abstract class Resource extends ResourceCollection {
           } else {
             $field['class']['value'] = $field['class']['key']::all();
           }
+
         } else {
           $field['value'] = isset($item[$field['column']]) ? $item[$field['column']] : null;
         }
 
-        if ($field['primary'] === true) {
-          if (isset($item[$item->getDeletedAtColumn()])) {
-            $field['softDeleted'] = $item[$item->getDeletedAtColumn()];
-          }
+        if ($field['primary'] === true && method_exists($item, 'getDeletedAtColumn')) {
+          $field['softDeleted'] = $item[$item->getDeletedAtColumn()];
         }
 
         $fields[] = $field;
