@@ -10801,6 +10801,11 @@ button.toast-close-button {
   width: 100%;
 }
 
+#toast-container > div,
+#toast-container > div:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
 :root {
   --primary: #4BB9EC;
   --secondary: #006DF3;
@@ -10906,7 +10911,7 @@ body div > .container-fluid nav.sidebar .sidebar-sticky {
   height: calc(100vh - 65px);
   overflow-x: hidden;
   overflow-y: auto;
-  box-shadow: 0.5rem 0 1rem rgba(0, 0, 0, 0.15);
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
 }
 
 body div > .container-fluid nav.sidebar .sidebar-sticky .nav-item {
@@ -11137,5 +11142,13 @@ select.form-control {
 
 .box-dark-shadow {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+.shadow {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dropdown-menu {
+  top: 80%;
 }
 

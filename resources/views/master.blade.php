@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="{{ Lyra::getPreferredTheme() }}">
 </head>
 
-<body>
+<body class="theme_{{ auth()->guard('lyra')->user()->preferred_theme }}">
 <div id="lyra">
   {{--  {{ dd(auth()->user()->notify(new \App\Notifications\LyraVersion())) }}--}}
   {{--{{ dd(auth()->user()->notifications) }}--}}
@@ -134,7 +134,7 @@
                     </div>
                     <span class="d-none d-sm-block">{{$item['name']}}</span>
                   </a>
-                  <ul class="list-unstyled collapse" id="{{$item['key']}}Submenu">
+                  <ul class="list-unstyled collapse ml-3" id="{{$item['key']}}Submenu">
                     @foreach($item['items'] as $subitem)
                       <li class="nav-item">
                         <router-link
