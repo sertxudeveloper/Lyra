@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="{{ Lyra::getPreferredTheme() }}">
 </head>
 
-<body class="theme_{{ auth()->guard('lyra')->user()->preferred_theme }}">
+<body>
 <div id="lyra">
   {{--  {{ dd(auth()->user()->notify(new \App\Notifications\LyraVersion())) }}--}}
   {{--{{ dd(auth()->user()->notifications) }}--}}
@@ -52,10 +52,10 @@
             <a href="#" role="button" id="notifyDropdown" data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false">
               <i class="fas fa-bell"></i>
-              {{--              @php dd(auth()->guard('lyra')->user()->unreadNotifications[0]) @endphp--}}
-              @if(isset(auth()->guard('lyra')->user()->unreadNotifications[0]))
+              {{--              @php dd(lyra_auth()->user()->unreadNotifications[0]) @endphp--}}
+              @if(isset(lyra_auth()->user()->unreadNotifications[0]))
                 <span class="badge badge-danger">
-                  {{ count(auth()->guard('lyra')->user()->unreadNotifications) }}
+                  {{ count(lyra_auth()->user()->unreadNotifications) }}
                 </span>
               @endif
             </a>
@@ -63,7 +63,7 @@
             <div class="dropdown-menu dropdown-menu-right dropdown-large" aria-labelledby="notifyDropdown">
               <div class="list-group">
 
-                @foreach(auth()->guard('lyra')->user()->notifications as $notification)
+                @foreach(lyra_auth()->user()->notifications as $notification)
                   <a
                     class="border-left-0 border-right-0 list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
@@ -86,10 +86,10 @@
              aria-expanded="false">
             <div class="align-items-center d-flex h-100 px-0 mr-2">
               <div class="align-items-center d-flex h-100">
-                <span class="d-none d-lg-block">{{ auth()->guard('lyra')->user()->name }}</span>
+                <span class="d-none d-lg-block">{{ lyra_auth()->user()->name }}</span>
               </div>
               <div class="align-items-center avatar d-flex h-100 pl-0 pl-lg-3 pr-3">
-                <img src="{{ asset("storage/" . auth()->guard('lyra')->user()->avatar) }}"
+                <img src="{{ asset("storage/" . lyra_auth()->user()->avatar) }}"
                      alt="John Alexander Doe Avatar">
               </div>
               <i class="fa-chevron-down fas"></i>
