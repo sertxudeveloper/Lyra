@@ -2,6 +2,7 @@ require('bootstrap');
 const $ = require("jquery");
 
 import Popper from 'popper.js';
+require('bootstrap-select');
 
 Popper.Defaults.modifiers.computeStyle.gpuAcceleration = !(window.devicePixelRatio < 1.5 && /Win/.test(navigator.platform));
 
@@ -28,11 +29,6 @@ import Loader from './components/Loader'
 
 Vue.component('lyra-loader', Loader);
 
-const Media = {template: '<div>This is Media {{ $route.params.id }}</div>'};
-const Menu = {template: '<div>This is Menu {{ $route.params.id }}</div>'};
-const Settings = {template: '<div>This is Settings {{ $route.params.id }}</div>'};
-const Crud = {template: '<div>This is Crud {{ $route.params.id }}</div>'};
-
 const HTTP_404 = {template: '<div>This is HTTP_404 {{ $route.params }}</div>'};
 const HTTP_403 = {template: '<div>This is HTTP_403 {{ $route.params }}</div>'};
 
@@ -41,11 +37,6 @@ import Show from './components/CRUD/Show/Show'
 import Edit from './components/CRUD/Edit/Edit'
 import Create from './components/CRUD/Create/Create'
 
-// const Index = { template: '<div>This is Resource Index {{ $route.params }}</div>' };
-// const Create = {template: '<div>This is Resource Create {{ $route.params }}</div>'};
-// const Show = {template: '<div>This is Resource Show {{ $route.params }}</div>'};
-// const Edit = {template: '<div>This is Resource Edit {{ $route.params }}</div>'};
-
 const router = new VueRouter({
   mode: 'history',
   base: 'lyra',
@@ -53,10 +44,6 @@ const router = new VueRouter({
 
     // Default pages
     {path: '/', name: 'lyra', component: Dashboard},
-    {path: '/media', name: 'media', component: Media},
-    {path: '/menu', name: 'menu', component: Menu},
-    {path: '/setting', name: 'settings', component: Settings},
-    {path: '/crud', name: 'crud', component: Crud},
 
     // HTTP Errors
     {path: '/404', name: '404', component: HTTP_404},
@@ -98,8 +85,12 @@ new Vue({
       return response;
     }, (error) => {
       if (error.response.data.message) toastr.error(error.response.data.message);
-      if (error.response.status === 403) router.push('403');
-      router.push('404');
+      if (error.response.status === 403) {
+        // router.push('/403');
+        location.reload();
+      } else {
+        router.push('/404');
+      }
 
       this.disableLoader();
       return Promise.reject(error);
@@ -110,3 +101,7 @@ new Vue({
 $(document).on('click', '.dropdown-menu', function (e) {
   e.stopPropagation();
 });
+
+// $(document).on('ready', () => {
+//   $('.selectpicker').selectpicker();
+// });
