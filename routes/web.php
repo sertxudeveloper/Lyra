@@ -15,6 +15,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::group(['middleware' => 'lyra'], function () use ($namespacePrefix) {
       Route::get('/', $namespacePrefix . 'MainController@index')->name('dashboard');
+      Route::get('/404', function (){ return redirect(route('lyra.dashboard')); });
       Route::get('/{any}', $namespacePrefix . 'MainController@index')->where('any', '.*');
     });
 
