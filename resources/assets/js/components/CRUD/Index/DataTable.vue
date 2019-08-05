@@ -1,6 +1,7 @@
 <template>
   <div class="table-container box-dark-shadow">
-    <div v-if="resource.collection.data.length > 0 && resource.labels.plural !== null && $root.loader === false">
+    <div
+      v-if="resource.collection.data !== null && resource.collection.data.length && resource.labels.plural !== null && $root.loader === false">
       <div class="header d-flex justify-content-between align-items-center">
         <div class="h-100">
           <div class="align-items-center d-inline-flex h-100 justify-content-center select-checkbox">
@@ -61,7 +62,15 @@
           <thead class="thead-dark">
           <tr>
             <th class="select-checkbox"></th>
-            <th scope="col" v-for="field in resource.collection.data[0]">{{ field.name }}</th>
+            <th scope="col" v-for="field in resource.collection.data[0]"
+                @click="field.sortable && sortField(field.column)">
+              {{ field.name }}
+              <template v-if="field.sortable">
+                <i class="fas fa-sort-down" v-if="sortClass(field.column, 'desc')"></i>
+                <i class="fas fa-sort-up" v-if="sortClass(field.column, 'asc')"></i>
+                <i class="fas fa-sort" v-if="sortClass(field.column, 'none')"></i>
+              </template>
+            </th>
             <th></th>
           </tr>
           </thead>
@@ -79,19 +88,23 @@
               <component :is="field.component" :field="field"></component>
             </td>
             <td class="p-0 actions">
-              <router-link :to="{ name: 'show', params: { resourceId: getPrimaryField(collection).value }}" append
-                           class="btn btn-link text-body" title="Show">
+              <router-link
+                :to="{ name: 'show', params: { resourceName: getResource(), resourceId: getPrimaryField(collection).value }}"
+                class="btn btn-link text-body" title="Show">
+                <!--<router-link :to="{ path: `${getRoute()}/${getPrimaryField(collection).value}` }" class="btn btn-link text-body" title="Show">-->
                 <i class="fas fa-eye"></i>
               </router-link>
-              <router-link :to="{ name: 'edit', params: { resourceId: getPrimaryField(collection).value }}" append
-                           class="btn btn-link text-body" title="Edit">
+              <router-link
+                :to="{ name: 'edit', params: { resourceName: getResource(), resourceId: getPrimaryField(collection).value }}"
+                class="btn btn-link text-body" title="Edit">
+                <!--<router-link :to="{ path: `${getRoute()}/${getPrimaryField(collection).value}/edit` }" class="btn btn-link text-body" title="Edit">-->
                 <i class="fas fa-pencil-alt"></i>
               </router-link>
               <a href="#" v-on:click="recoverItem(collection)" v-if="getPrimaryField(collection).softDeleted"
                  class="btn btn-link text-body" title="Recover">
                 <i class="fas fa-undo"></i>
               </a>
-              <a href="#" v-on:click="restoreItem(collection)" v-else class="btn btn-link text-body" title="Delete">
+              <a href="#" v-on:click="removeItem(collection)" v-else class="btn btn-link text-body" title="Delete">
                 <i class="fas fa-trash-alt"></i>
               </a>
             </td>
@@ -109,60 +122,110 @@
         <pagination v-if="resource.collection.last_page > 1" :pagination="resource.collection" :offset="5"></pagination>
       </div>
     </div>
-    <div v-if="resource.collection.data.length === 0 && resource.labels.plural !== null && $root.loader === false">
+    <lyra-loader v-if="isLoaderEnabled" class="py-5"></lyra-loader>
+    <div v-if="isNoDataAvailable">
       <div class="py-5 text-center">No data available</div>
     </div>
   </div>
 </template>
 
 <script>
+  import Loader from '../../Loader'
   import Pagination from './Pagination'
 
   import IdField from '../../Fields/Read/IdField'
   import TextField from '../../Fields/Read/TextField'
   import BelongsToField from '../../Fields/Read/BelongsToField'
+  import BooleanField from '../../Fields/Read/BooleanField'
 
   export default {
-    props: ['resource'],
-    components: {Pagination, IdField, TextField, BelongsToField},
+    props: ['resource', 'path'],
+    components: {Loader, Pagination, IdField, TextField, BelongsToField, BooleanField},
     data() {
       return {
         perPage: (this.$route.query.perPage) ? this.$route.query.perPage : 25,
         visibility: (this.$route.query.visibility) ? this.$route.query.visibility : 'default',
         selected: [],
+        currentSortCol: [],
+        currentSortDir: []
       }
     },
     methods: {
       formOnChange: function () {
         this.$router.push({query: {...this.$route.query, perPage: this.perPage, page: 1, visibility: this.visibility}});
-        this.$http.get(this.$route.fullPath).then((response) => this.$parent.resource = response.data);
+        this.$emit('clear-resource');
+        this.$emit('get-resource');
       },
-      selectItem: function (item, event) {
-        if (event.target.checked === true) {
-          this.selected.push(item);
-          if (this.selected.length === this.resource.collection.data.length) this.allSelected = true;
-        } else {
-          if (this.selected.length === this.resource.collection.data.length) this.allSelected = false;
-          let index = this.selected.indexOf(item);
-          this.selected.splice(index, 1);
-        }
+      removeSelectedItems: function () {
+        this.selected.forEach(collection => this.removeItem(collection))
       },
       removeItem: function (collection) {
+        this.$http.delete(`${this.getRoute()}/${this.getPrimaryField(collection).value}`).then(response => {
+          console.log(response);
+          if (response.status === 200) {
+            toastr.success(`${this.resource.labels.singular} deleted successfully`);
+            this.$parent.resourceClear();
+            return this.$parent.getResource()
+          }
+        })
+      },
+      recoverItem: function (collection) {
         console.log(collection)
       },
       getPrimaryField: function (collection) {
-        return collection.find(function (field) {
-          if (field.primary === true) {
-            return field
+        return collection.find(field => {
+            if (field.primary === true) return field
           }
-        });
+        );
+      },
+      getRoute: function () {
+        return (!this.path) ? this.$route.fullPath : `/${this.path}`
+      }
+      ,
+      getResource: function () {
+        return (!this.path) ? this.$route.params.resourceName : this.path
+      }
+      ,
+      sortField: function (fieldColumn) {
+        let sortIndex = this.currentSortCol.indexOf(fieldColumn);
+        if (sortIndex === -1) this.currentSortCol.push(fieldColumn);
+        switch (this.currentSortDir[sortIndex]) {
+          case 'asc':
+            this.currentSortDir[sortIndex] = 'desc';
+            break;
+          case 'desc':
+            this.currentSortCol.splice(sortIndex, 1);
+            this.currentSortDir.splice(sortIndex, 1);
+            break;
+          default:
+            this.currentSortDir.push('asc');
+            break;
+        }
+        let sortCol = this.currentSortCol.join(',');
+        let sortDir = this.currentSortDir.join(',');
+        this.$router.push({query: {...this.$route.query, sortCol, sortDir, page: 1, visibility: this.visibility}});
+        this.$emit('clear-resource');
+        this.$emit('get-resource');
+      }
+      ,
+      sortClass: function (fieldColumn, sort) {
+        let sortIndex = this.currentSortCol.indexOf(fieldColumn);
+        if (sortIndex === -1 && sort === 'none') return true;
+        return (sort === this.currentSortDir[sortIndex]);
       }
     },
     computed: {
+      isLoaderEnabled: function () {
+        return (this.$root.loader === false && this.resource.collection.data === null && this.resource.labels.plural !== null)
+      },
+      isNoDataAvailable: function () {
+        return (this.$root.loader === false && this.resource.collection.data !== null && this.resource.collection.data.length === 0 && this.resource.labels.plural !== null)
+      },
       allSelected: {
         get: function () {
           return this.resource.collection.data ? this.selected.length === this.resource.collection.data.length : false;
-        },
+        }
+        ,
         set: function (value) {
           let selected = [];
 
@@ -180,57 +243,5 @@
 </script>
 
 <style scoped>
-  .table-container {
-    border-radius: 10px;
-    background-color: #fff;
-  }
 
-  .table-container .header {
-    min-height: 50px;
-  }
-
-  .table-container .checkbox-container {
-    width: 20px;
-    height: 20px;
-  }
-
-  .table-container .pagination-container {
-    border-radius: 0;
-    min-height: 40px;
-    border-top: 1px solid;
-  }
-
-  .header .select-checkbox {
-    width: 40px;
-    text-align: center;
-  }
-
-  .dropdown-menu {
-    min-width: 300px;
-  }
-
-  .dropdown-header {
-    padding: 7px 15px;
-    color: #6c757d;
-    background-color: rgba(0, 0, 0, 0.07);
-    font-size: 15px;
-    font-weight: bold;
-  }
-
-  form {
-    height: 38px;
-  }
-
-  td.actions {
-    width: 140px;
-    vertical-align: middle;
-  }
-
-  tr:hover {
-    background-color: var(--background);
-  }
-
-  .select-checkbox {
-    width: 20px;
-  }
 </style>
