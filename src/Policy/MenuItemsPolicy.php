@@ -2,7 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Policy;
 
-use SertxuDeveloper\Lyra\Models\MenuItems;
+use SertxuDeveloper\Lyra\Models\MenuItem;
 use SertxuDeveloper\Lyra\Models\User;
 
 class MenuItemsPolicy extends BasePolicy {
@@ -10,11 +10,11 @@ class MenuItemsPolicy extends BasePolicy {
   /**
    * Chech if the user has permission to browse the $model
    * @param User $user
-   * @param MenuItems $model
+   * @param MenuItem $model
    * @param string $name
    * @return bool
    */
-//  protected function checkPermission(Users $user, MenuItems $model, string $name): bool {
+//  protected function checkPermission(Users $user, MenuItem $model, string $name): bool {
 //    $regex = str_replace('/', '\/', preg_quote(route('lyra.dashboard')));
 //    $slug = preg_replace('/' . $regex . '/', '', $model->link(true));
 //    $slug = str_replace('/', '', $slug);
