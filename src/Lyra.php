@@ -3,9 +3,11 @@
 namespace SertxuDeveloper\Lyra;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use SertxuDeveloper\Lyra\Http\Controllers\MenuController;
-use SertxuDeveloper\Lyra\Models\MenuItems;
+use SertxuDeveloper\Lyra\Models\MenuItem;
 use SertxuDeveloper\Lyra\Models\Permission;
 
 /**
@@ -28,8 +30,8 @@ class Lyra {
 
   /**
    * This method defines the web routes for the Lyra package.
-   * @version 1.0
    * @return void
+   * @version 1.0
    */
   static public function routes() {
     require __DIR__ . '/../routes/api.php';
@@ -41,6 +43,14 @@ class Lyra {
    * @return string
    */
   public function getPreferredTheme() {
+    if (config('lyra.authenticator') == 'basic') {
+      if (Cookie::get('preferred_theme')) {
+        return lyra_asset("css/" . Cookie::get('preferred_theme') . ".css");
+      } else {
+        return lyra_asset("css/default.css");
+      }
+    }
+
     return lyra_asset("css/" . auth()->guard('lyra')->user()->preferred_theme . ".css");
   }
 
@@ -71,9 +81,7 @@ class Lyra {
 
     if ($this->filesystem->exists(base_path('composer.lock'))) {
       // Get the composer.lock file
-      $file = json_decode(
-        $this->filesystem->get(base_path('composer.lock'))
-      );
+      $file = json_decode($this->filesystem->get(base_path('composer.lock')));
 
       // Loop through all the packages and get the version of lyra
       foreach ($file->packages as $package) {
@@ -83,6 +91,15 @@ class Lyra {
         }
       }
     }
+  }
+
+  static public function auth() {
+    if (config('lyra.authenticator') == 'basic') {
+      return auth();
+    } else if (config('lyra.authenticator') == 'lyra') {
+      return auth()->guard('lyra');
+    }
+    return abort(403);
   }
 
   static public function resources(array $resources) {
