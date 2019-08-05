@@ -12,7 +12,7 @@ class CreateMenuItemsTable extends Migration {
    * @return void
    */
   public function up() {
-    Schema::create('menu_items', function (Blueprint $table) {
+    Schema::create('lyra_menu_items', function (Blueprint $table) {
       $table->increments('id');
       $table->integer('parent_id')->unsigned()->nullable();
       $table->string('name', 30);
@@ -32,6 +32,6 @@ class CreateMenuItemsTable extends Migration {
    * @return void
    */
   public function down() {
-    Schema::drop('menu_items');
+    Schema::drop('lyra_menu_items');
   }
 }

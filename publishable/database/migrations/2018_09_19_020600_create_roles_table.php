@@ -12,7 +12,7 @@ class CreateRolesTable extends Migration {
    * @return void
    */
   public function up() {
-    Schema::create('roles', function (Blueprint $table) {
+    Schema::create('lyra_roles', function (Blueprint $table) {
       $table->increments('id');
       $table->string('name', 50)->unique();
       $table->string('display_name', 150);
@@ -28,6 +28,6 @@ class CreateRolesTable extends Migration {
    * @return void
    */
   public function down() {
-    Schema::drop('roles');
+    Schema::drop('lyra_roles');
   }
 }

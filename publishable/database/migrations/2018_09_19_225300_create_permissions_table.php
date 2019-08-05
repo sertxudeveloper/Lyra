@@ -12,7 +12,7 @@ class CreatePermissionsTable extends Migration {
    * @return void
    */
   public function up() {
-    Schema::create('permissions', function (Blueprint $table) {
+    Schema::create('lyra_permissions', function (Blueprint $table) {
       $table->increments('id');
       $table->string('key', 50)->unique();
       $table->string('table_name', 50)->nullable();
@@ -28,6 +28,6 @@ class CreatePermissionsTable extends Migration {
    * @return void
    */
   public function down() {
-    Schema::drop('permissions');
+    Schema::drop('lyra_permissions');
   }
 }

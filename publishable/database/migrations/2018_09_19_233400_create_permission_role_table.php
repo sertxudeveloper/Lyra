@@ -12,7 +12,7 @@ class CreatePermissionRoleTable extends Migration {
    * @return void
    */
   public function up() {
-    Schema::create('permission_role', function (Blueprint $table) {
+    Schema::create('lyra_permission_role', function (Blueprint $table) {
       $table->integer('role_id')->unsigned();
       $table->integer('permission_id')->unsigned();
 
@@ -26,6 +26,6 @@ class CreatePermissionRoleTable extends Migration {
    * @return void
    */
   public function down() {
-    Schema::drop('permission_role');
+    Schema::drop('lyra_permission_role');
   }
 }
