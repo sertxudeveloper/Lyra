@@ -2,13 +2,13 @@
 
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
-use function Couchbase\fastlzDecompress;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Validation\ValidationException;
+use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\Models\User;
 
 class AuthController extends Controller {
@@ -45,13 +45,13 @@ class AuthController extends Controller {
    * @return \Illuminate\Contracts\Auth\StatefulGuard
    */
   protected function guard() {
-    return Auth::guard('lyra');
+    return Lyra::auth();
   }
 
   /**
    * Handle a login request to the application.
    *
-   * @param  \Illuminate\Http\Request $request
+   * @param \Illuminate\Http\Request $request
    * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
    *
    * @throws \Illuminate\Validation\ValidationException
@@ -84,7 +84,7 @@ class AuthController extends Controller {
   /**
    * Get the failed login response instance.
    *
-   * @param  \Illuminate\Http\Request $request
+   * @param \Illuminate\Http\Request $request
    * @return \Symfony\Component\HttpFoundation\Response
    *
    * @throws \Illuminate\Validation\ValidationException
@@ -98,7 +98,7 @@ class AuthController extends Controller {
   /**
    * Redirect the user after determining they are locked out.
    *
-   * @param  \Illuminate\Http\Request $request
+   * @param \Illuminate\Http\Request $request
    * @return void
    * @throws \Illuminate\Validation\ValidationException
    */
@@ -120,7 +120,7 @@ class AuthController extends Controller {
   /**
    * Log the user out of the application.
    *
-   * @param  \Illuminate\Http\Request $request
+   * @param \Illuminate\Http\Request $request
    * @return \Illuminate\Http\Response
    */
   public function logout(Request $request) {

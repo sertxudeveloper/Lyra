@@ -3,6 +3,7 @@
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
 use Illuminate\Support\Collection;
+use SertxuDeveloper\Lyra\Lyra;
 
 class MenuController extends Controller {
 
@@ -42,7 +43,8 @@ class MenuController extends Controller {
 //    $slug = ($slug == "") ? 'lyra' : $slug;
 
 //    return auth()->user()->hasPermission('read_' . $slug);
-    return auth()->guard('lyra')->user()->hasPermission('read_' . $item['key']);
+    if (config('lyra.authenticator') == 'basic') return true;
+    return Lyra::auth()->user()->hasPermission('read_' . $item['key']);
   }
 
   /**
