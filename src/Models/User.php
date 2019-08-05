@@ -2,24 +2,14 @@
 
 namespace SertxuDeveloper\Lyra\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticable;
+use SertxuDeveloper\Lyra\Traits\Notifiable;
 
-class User extends Authenticatable {
+class User extends Authenticable {
 
   use Notifiable;
-
   protected $table = 'lyra_users';
-
   protected $guarded = [];
-
-  /**
-   * Get the role of the user
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-   */
-  public function role() {
-    return $this->belongsTo(Role::class);
-  }
 
   /**
    * Check if the user has the requested permission
@@ -29,5 +19,13 @@ class User extends Authenticatable {
    */
   public function hasPermission($permission): bool {
     return $this->role->permissions->contains("key", $permission);
+  }
+
+  /**
+   * Get the role of the user
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function role() {
+    return $this->belongsTo(Role::class);
   }
 }

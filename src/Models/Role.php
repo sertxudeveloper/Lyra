@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model {
-  use SoftDeletes;
 
+  use SoftDeletes;
+  protected $table = 'lyra_roles';
   protected $guarded = [];
 
   /**
@@ -15,6 +16,10 @@ class Role extends Model {
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
   public function permissions() {
-    return $this->belongsToMany(Permission::class, 'permission_role');
+    return $this->belongsToMany(Permission::class, 'lyra_permission_role');
+  }
+
+  public function users() {
+    return $this->hasMany(User::class);
   }
 }

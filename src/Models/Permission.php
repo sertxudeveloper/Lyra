@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Permission extends Model {
 
   use SoftDeletes;
+  protected $table = 'lyra_permissions';
   protected $guarded = [];
   protected $appends = ['menu_key'];
 
