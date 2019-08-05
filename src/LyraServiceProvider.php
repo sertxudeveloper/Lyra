@@ -2,15 +2,17 @@
 
 namespace SertxuDeveloper\Lyra;
 
+use App\Providers\AuthServiceProvider;
+use Illuminate\Auth\SessionGuard;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
-//use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
+use Illuminate\Support\Facades\Auth;
 use SertxuDeveloper\Lyra\Http\Middleware\LyraAdminMiddleware;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
-use SertxuDeveloper\Lyra\Http\Resources\Users;
-use SertxuDeveloper\Lyra\Models\MenuItems;
+use SertxuDeveloper\Lyra\Http\Middleware\LyraApiAdminMiddleware;
+use SertxuDeveloper\Lyra\Models\MenuItem;
 use SertxuDeveloper\Lyra\Policy\MenuItemsPolicy;
 
 class LyraServiceProvider extends ServiceProvider {
@@ -21,7 +23,7 @@ class LyraServiceProvider extends ServiceProvider {
    * @var array
    */
   protected $policies = [
-    MenuItems::class => MenuItemsPolicy::class,
+    MenuItem::class => MenuItemsPolicy::class,
   ];
 
   /**
@@ -32,6 +34,7 @@ class LyraServiceProvider extends ServiceProvider {
    */
   public function boot(Router $router) {
     $router->aliasMiddleware('lyra', LyraAdminMiddleware::class);
+    $router->aliasMiddleware('lyra-api', LyraApiAdminMiddleware::class);
     $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lyra');
 
     $this->registerConfigs();
@@ -110,10 +113,12 @@ class LyraServiceProvider extends ServiceProvider {
   }
 
   private function registerResources() {
-
-    Lyra::resources([
-      "users" => Users::class
-    ]);
+    $resources = collect(config('lyra.menu'));
+    $resources = $resources->mapWithKeys(function ($item) {
+      if (!isset($item['resource'])) return [];
+      return [$item['key'] => $item['resource']];
+    })->toArray();
+    Lyra::resources($resources);
   }
 
   /**
