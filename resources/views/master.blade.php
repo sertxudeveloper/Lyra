@@ -38,67 +38,14 @@
 
       <div class="align-items-center d-flex h-100 right-menu">
         <div class="d-flex h-100 menu-icons px-0">
-          <div class="align-items-center d-flex h-100 justify-content-center px-2 dropdown">
-            <a href="#" role="button" id="helpDropdown" data-toggle="dropdown" aria-haspopup="true"
-               aria-expanded="false">
-              <i class="fas fa-life-ring"></i>
-            </a>
-
-            <div class="dropdown-large dropdown-menu dropdown-menu-right" aria-labelledby="helpDropdown">
-              <p class="text-center my-5">Help not available.</p>
-            </div>
-          </div>
-          <div class="align-items-center d-flex h-100 justify-content-center px-2 dropdown">
-            <a href="#" role="button" id="notifyDropdown" data-toggle="dropdown" aria-haspopup="true"
-               aria-expanded="false">
-              <i class="fas fa-bell"></i>
-              {{--              @php dd(lyra_auth()->user()->unreadNotifications[0]) @endphp--}}
-              @if(isset(lyra_auth()->user()->unreadNotifications[0]))
-                <span class="badge badge-danger">
-                  {{ count(lyra_auth()->user()->unreadNotifications) }}
-                </span>
-              @endif
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-right dropdown-large" aria-labelledby="notifyDropdown">
-              <div class="list-group">
-
-                @foreach(lyra_auth()->user()->notifications as $notification)
-                  <a
-                    class="border-left-0 border-right-0 list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h6 class="font-weight-bold mb-1">{{ $notification->data['title'] }}</h6>
-                      <small>{{ $notification->created_at }}</small>
-                    </div>
-                    <span class="mb-1" style="font-size: 0.85rem;">{{ $notification->data['message'] }}</span>
-                  </a>
-                @endforeach
-
-              </div>
-
-            </div>
-          </div>
+          @include('lyra::common.navbar.help')
+          @if(config('lyra.notificator'))
+            @include('lyra::common.navbar.notifications')
+          @endif
         </div>
 
         <div class="mx-3 divider"></div>
-        <div class="dropdown h-100">
-          <a id="navbarMenuUser" class="user" data-toggle="dropdown" aria-haspopup="true" role="button"
-             aria-expanded="false">
-            <div class="align-items-center d-flex h-100 px-0 mr-2">
-              <div class="align-items-center d-flex h-100">
-                <span class="d-none d-lg-block">{{ lyra_auth()->user()->name }}</span>
-              </div>
-              <div class="align-items-center avatar d-flex h-100 pl-0 pl-lg-3 pr-3">
-                <img src="{{ asset("storage/" . lyra_auth()->user()->avatar) }}"
-                     alt="John Alexander Doe Avatar">
-              </div>
-              <i class="fa-chevron-down fas"></i>
-            </div>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right mr-2" aria-labelledby="navbarMenuUser">
-            <a class="dropdown-item" href="{{ lyra_route('logout') }}">Cerrar sesión</a>
-          </div>
-        </div>
+        @include('lyra::common.navbar.user')
       </div>
 
     </div>
@@ -158,7 +105,7 @@
 
       <main role="main" class="col-11 col-lg-10 col-md-9 col-sm-9 ml-sm-auto px-0">
 
-        <div class="container-fluid px-md-5 pt-4 pb-5" :class="{ loading: loader }">
+        <div class="container-fluid pb-5 pt-4 px-lg-5" :class="{ loading: loader }">
           @yield('content')
         </div>
 
