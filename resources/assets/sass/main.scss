@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900');
 @import "~toastr/toastr";
 @import '~axios-progress-bar/dist/nprogress.css';
-
+@import "~vue-multiselect/dist/vue-multiselect.min.css";
 
 #toast-container > .toast-success,
 #toast-container > .toast-info,
@@ -93,6 +93,7 @@ nav.navbar {
 
       .avatar img {
         height: 40px;
+        border-radius: 50%;
       }
     }
   }
@@ -186,6 +187,10 @@ body div {
       right: 0;
       margin: 65px 0 0;
       overflow-y: auto;
+
+      table td {
+        white-space: nowrap;
+      }
 
       @media only screen and (max-width: 576px) {
         &.col-11 {
@@ -282,7 +287,7 @@ body div {
 }
 
 .box-dark-shadow {
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.10);
 }
 
 .shadow {
@@ -291,4 +296,77 @@ body div {
 
 .dropdown-menu {
   top: 80%;
+}
+
+.table .thead-dark th {
+  border-color: #343a40;
+}
+
+.panel {
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.field-row {
+  min-height: 60px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.field-row:last-child {
+  border-bottom: none;
+}
+
+
+.table-container {
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.table-container .header {
+  min-height: 50px;
+}
+
+.table-container .checkbox-container {
+  width: 20px;
+  height: 20px;
+}
+
+.table-container .pagination-container {
+  border-radius: 0;
+  min-height: 40px;
+  border-top: 1px solid;
+}
+
+.header .select-checkbox {
+  width: 40px;
+  text-align: center;
+}
+
+.dropdown-menu {
+  min-width: 300px;
+}
+
+.dropdown-header {
+  padding: 7px 15px;
+  color: #6c757d;
+  background-color: rgba(0, 0, 0, 0.07);
+  font-size: 15px;
+  font-weight: bold;
+}
+
+form {
+  height: 38px;
+}
+
+td.actions {
+  width: 140px;
+  vertical-align: middle;
+}
+
+tr:hover {
+  background-color: var(--background);
+}
+
+.select-checkbox {
+  width: 20px;
 }
