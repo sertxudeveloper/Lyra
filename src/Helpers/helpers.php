@@ -12,13 +12,13 @@ if (!function_exists('lyra_route')) {
   }
 }
 
-if (!function_exists('lyra_auth')) {
-  function lyra_auth() {
-    if (config('lyra.authenticator') == 'basic') {
-      return auth();
-    } else if (config('lyra.authenticator') == 'lyra') {
-      return auth()->guard('lyra');
-    }
-    return null;
-  }
-}
+//if (!function_exists('lyra_auth')) {
+//  function lyra_auth() {
+//    if (config('lyra.authenticator') == 'basic') {
+//      return auth();
+//    } else if (config('lyra.authenticator') == 'lyra') {
+//      return auth()->guard('lyra');
+//    }
+//    return null;
+//  }
+//}
