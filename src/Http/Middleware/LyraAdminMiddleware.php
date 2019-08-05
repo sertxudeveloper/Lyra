@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use SertxuDeveloper\Lyra\Lyra;
 
 /**
  * This middleware is used to check if the user is authenticated and has permissions to access to the admin panel
@@ -18,12 +19,15 @@ class LyraAdminMiddleware {
    * @param \Illuminate\Http\Request $request
    * @param \Closure $next
    *
-   * @param  string|null $guard
    * @return mixed
    */
-  public function handle($request, Closure $next, $guard = 'lyra') {
-    if (Auth::guard($guard)->check()) {
-      return (auth()->guard('lyra')->user()->hasPermission('read_lyra')) ? $next($request) : redirect('/');
+  public function handle($request, Closure $next) {
+    if (Lyra::auth()->check()) {
+      if (config('lyra.authenticator') == 'basic') {
+        return $next($request);
+      }
+
+      return (Lyra::auth()->user()->hasPermission('read_lyra')) ? $next($request) : redirect('/');
     }
 
     return redirect()->route(config('lyra.routes.web.name') . 'login');
