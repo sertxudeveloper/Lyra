@@ -9,7 +9,4 @@ class Password extends Field {
   protected $hideOnIndex = true;
   protected $hideOnShow = true;
 
-  protected static function getNewInstance() {
-    return new self();
-  }
 }

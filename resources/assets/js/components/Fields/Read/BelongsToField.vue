@@ -1,5 +1,5 @@
 <template>
-  <span>{{ field.read.value }}</span>
+  <span>{{ field.value }}</span>
 </template>
 
 <script>

@@ -2,44 +2,50 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-class BelongsTo extends Field {
+class BelongsTo extends Relation {
 
   protected $component = "belongs-to-field";
-  private static $read;
-  private static $write;
-  private static $class;
-  private static $where;
+  protected $disabled;
 
-  public static function make(string $name, $column = false, $read = 'name', $write = 'id', $class = false, $where = false) {
-    if (!$column) $column = strtolower($name);
-    static::$name = $name;
-    static::$column = $column;
-    static::$read = $read;
-    static::$write = $write;
-    static::$class = $class;
-    static::$where = $where;
-    return static::getNewInstance();
+  protected function getValueIndex($model) {
+    return $this->class::find($model[$this->column])[$this->display_column];
   }
 
-  protected static function getNewInstance() {
-    return new self();
+  protected function getValueShow($model) {
+    return $this->class::find($model[$this->column])[$this->display_column];
+  }
+
+  protected function getValueEdit($model) {
+    $field = $this;
+    $this->options = $this->class::all()->map(function ($item) use ($field) {
+      return ['key' => $item[$field->foreign_column], 'value' => $item[$field->display_column]];
+    });
+    return $model[$this->column];
+  }
+
+  protected function getValueCreate($model) {
+    $field = $this;
+    $this->options = $this->class::all()->map(function ($item) use ($field) {
+      return ['key' => $item[$field->foreign_column], 'value' => $item[$field->display_column]];
+    });
+
+    $param = request()->get($this->column);
+    if ($param) $this->disabled = true;
+    return ($param) ? $param : null;
   }
 
   public function get() {
 
     return [
       "component" => $this->component,
-      "name" => static::$name,
-      "column" => static::$column,
-      "read" => ["key" => static::$read],
-      "write" => ["key" => static::$write],
-      "class" => ["key" => static::$class, "where" => static::$where],
+      "name" => $this->name,
+      "column" => $this->column,
+      "description" => $this->description,
       "sortable" => $this->sortable,
+      "disabled" => $this->disabled,
       "primary" => $this->primary,
-      "hideOnIndex" => $this->hideOnIndex,
-      "hideOnShow" => $this->hideOnShow,
-      "hideOnCreate" => $this->hideOnCreate,
-      "hideOnEdit" => $this->hideOnEdit,
+      "options" => $this->options,
+      "value" => $this->value,
     ];
   }
 }
