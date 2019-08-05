@@ -2,8 +2,10 @@
 
 namespace SertxuDeveloper\Lyra\Http\Resources;
 
-use Illuminate\Container\Container;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 abstract class Resource extends ResourceCollection {
 
@@ -14,12 +16,26 @@ abstract class Resource extends ResourceCollection {
 
   public abstract function fields();
 
-  public function getCollection(string $type) {
+  public static function getPrimary() {
+    return (new static::$model)->getKeyName();
+  }
+
+  public static function getFields($resource) {
+    return collect((new static($resource))->fields());
+  }
+
+  public function getCollection(Request $request, string $type) {
     $this->type = $type;
 
+    $singular = (isset($this->labels) && $this->labels['singular']) ? $this->labels['singular'] : Str::singular(class_basename($this));
+    $plural = (isset($this->labels) && $this->labels['plural']) ? $this->labels['plural'] : Str::singular(class_basename($this));
+
     return [
-      "labels" => $this->labels,
-      "collection" => $this->toArray(Container::getInstance()->make('request'))
+      "labels" => [
+        "singular" => $singular,
+        "plural" => $plural
+      ],
+      "collection" => $this->toArray($request)
     ];
   }
 
@@ -27,39 +43,31 @@ abstract class Resource extends ResourceCollection {
     $resource = ($this->type !== 'create') ? $this->resource->toArray() : [];
     $this->collection = ($this->type !== 'create') ? $this->collection : collect([[]]);
 
-    if (!array_first($resource)) $resource = [];
+
+    if (!Arr::first($resource) || $this->type !== 'index') $resource = [];
     $resource = (object)$resource;
 
-    $resource->data = $this->collection->map(function ($item) {
+    $resource->data = $this->collection->map(function ($item) use ($request) {
       if (isset($item->load)) $item->load($this->with);
       $fields = [];
 
       foreach ($this->fields() as $field) {
-        if ($field['hideOn' . ucfirst($this->type)]) continue;
+        $permission = $field->getPermissions();
+        if ($permission['hideOn' . ucfirst($this->type)]) continue;
 
-        if (isset($field['read']) && isset($field['write']) && isset($field['class'])) {
-          $field['read']['value'] = $item[$field['column']][$field['read']['key']];
-          $field['write']['value'] = $item[$field['column']][$field['write']['key']];
-
-          if (isset($field['class']['where'])) {
-            $field['class']['value'] = $field['class']['key']::where($field['class']['where'])->get();
-          } else {
-            $field['class']['value'] = $field['class']['key']::all();
-          }
-
-        } else {
-          $field['value'] = isset($item[$field['column']]) ? $item[$field['column']] : null;
-        }
-
-        if ($field['primary'] === true && method_exists($item, 'getDeletedAtColumn')) {
-          $field['softDeleted'] = $item[$item->getDeletedAtColumn()];
-        }
+        $field = $field->getValue($item, $this->type);
 
         $fields[] = $field;
       }
 
       return $fields;
     });
+
+    $resource->hasSoftDeletes = in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses(static::$model));
+
+    $resource = collect($resource)->filter(function ($item, $key) {
+      return !preg_match('/^[0-9]$/', $key);
+    })->toArray();
 
     return $resource;
   }
