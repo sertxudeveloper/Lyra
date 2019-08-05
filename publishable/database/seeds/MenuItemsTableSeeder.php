@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use SertxuDeveloper\Lyra\Models\MenuItems;
+use SertxuDeveloper\Lyra\Models\MenuItem;
 
 class MenuItemsTableSeeder extends Seeder {
 
@@ -12,7 +12,7 @@ class MenuItemsTableSeeder extends Seeder {
    */
   public function run() {
 
-    $item = MenuItems::firstOrNew(['route' => 'lyra.dashboard']);
+    $item = MenuItem::firstOrNew(['route' => 'lyra.dashboard']);
     if(!$item->exist) {
       $item->name = "Dashboard";
       $item->icon = "fas fa-home";
@@ -20,7 +20,7 @@ class MenuItemsTableSeeder extends Seeder {
       $item->save();
     }
 
-    $item = MenuItems::firstOrNew(['route' => 'lyra.media']);
+    $item = MenuItem::firstOrNew(['route' => 'lyra.media']);
     if(!$item->exist) {
       $item->name = "Media";
       $item->icon = "fas fa-images";
@@ -28,7 +28,7 @@ class MenuItemsTableSeeder extends Seeder {
       $item->save();
     }
 
-    $item = MenuItems::firstOrNew(['route' => 'lyra.widgets']);
+    $item = MenuItem::firstOrNew(['route' => 'lyra.widgets']);
     if(!$item->exist) {
       $item->name = "Widgets";
       $item->icon = "fas fa-tachometer-alt";
@@ -36,7 +36,7 @@ class MenuItemsTableSeeder extends Seeder {
       $item->save();
     }
 
-    $item = MenuItems::firstOrNew(['route' => 'lyra.users']);
+    $item = MenuItem::firstOrNew(['route' => 'lyra.users']);
     if(!$item->exist) {
       $item->name = "Users";
       $item->icon = "fas fa-users";
@@ -44,7 +44,7 @@ class MenuItemsTableSeeder extends Seeder {
       $item->save();
     }
 
-    $item = MenuItems::firstOrNew(['route' => 'lyra.roles']);
+    $item = MenuItem::firstOrNew(['route' => 'lyra.roles']);
     if(!$item->exist) {
       $item->name = "Roles";
       $item->icon = "fas fa-lock";
@@ -52,7 +52,7 @@ class MenuItemsTableSeeder extends Seeder {
       $item->save();
     }
 
-    $item = MenuItems::firstOrNew(['route' => 'lyra.menu']);
+    $item = MenuItem::firstOrNew(['route' => 'lyra.menu']);
     if(!$item->exist) {
       $item->name = "Menu";
       $item->icon = "fas fa-list";
@@ -60,7 +60,7 @@ class MenuItemsTableSeeder extends Seeder {
       $item->save();
     }
 
-    $item = MenuItems::firstOrNew(['route' => 'lyra.settings']);
+    $item = MenuItem::firstOrNew(['route' => 'lyra.settings']);
     if(!$item->exist) {
       $item->name = "Settings";
       $item->icon = "fas fa-cog";
@@ -68,7 +68,7 @@ class MenuItemsTableSeeder extends Seeder {
       $item->save();
     }
 
-    $item = MenuItems::firstOrNew(['route' => 'lyra.crud']);
+    $item = MenuItem::firstOrNew(['route' => 'lyra.crud']);
     if(!$item->exist) {
       $item->name = "CRUD";
       $item->icon = "fas fa-database";
