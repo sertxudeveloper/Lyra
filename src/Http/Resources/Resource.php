@@ -12,7 +12,8 @@ abstract class Resource extends ResourceCollection {
   protected $type;
   public static $model;
   public static $primary;
-  public $labels;
+  public $singular;
+  public $plural;
 
   public abstract function fields();
 
@@ -27,8 +28,8 @@ abstract class Resource extends ResourceCollection {
   public function getCollection(Request $request, string $type) {
     $this->type = $type;
 
-    $singular = (isset($this->labels) && $this->labels['singular']) ? $this->labels['singular'] : Str::singular(class_basename($this));
-    $plural = (isset($this->labels) && $this->labels['plural']) ? $this->labels['plural'] : Str::singular(class_basename($this));
+    $singular = ($this->singular) ? $this->singular : Str::singular(class_basename($this));
+    $plural = ($this->plural) ? $this->plural : Str::plural(class_basename($this));
 
     return [
       "labels" => [
