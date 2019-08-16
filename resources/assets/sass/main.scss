@@ -33,7 +33,8 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Source Sans Pro', sans-serif;
+  //font-family: 'Source Sans Pro', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   outline: none;
 }
 
@@ -140,11 +141,10 @@ body div {
         //box-shadow: 0.5rem 0 1rem rgba(0, 0, 0, 0.15);
 
         .nav-item {
-          height: 50px;
 
           .nav-link {
             width: 100%;
-            height: 100%;
+            height: 50px;
             display: flex;
             align-items: center;
             padding: 0.5rem 1rem;
@@ -155,6 +155,7 @@ body div {
             }
 
             .icon {
+              width: 38px;
               display: flex;
               padding: 0 1rem 0 0;
               font-size: 1.1rem;
@@ -291,7 +292,7 @@ body div {
 }
 
 .shadow {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1)!important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
 }
 
 .dropdown-menu {
@@ -369,4 +370,12 @@ tr:hover {
 
 .select-checkbox {
   width: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+ol, ul {
+  padding-inline-start: 20px;
 }
