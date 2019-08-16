@@ -11,7 +11,7 @@ use SertxuDeveloper\Lyra\Models\User;
 class LyraRole extends Resource {
 
   public static $model = Role::class;
-  public static $search = ["id", "name", "email"];
+  public static $search = ["id", "key", 'display_name'];
 
   public $labels = [
     "singular" => "Role",
