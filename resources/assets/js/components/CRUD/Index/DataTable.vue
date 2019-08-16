@@ -133,14 +133,9 @@
   import Loader from '../../Loader'
   import Pagination from './Pagination'
 
-  import IdField from '../../Fields/Read/IdField'
-  import TextField from '../../Fields/Read/TextField'
-  import BelongsToField from '../../Fields/Read/BelongsToField'
-  import BooleanField from '../../Fields/Read/BooleanField'
-
   export default {
     props: ['resource', 'path'],
-    components: {Loader, Pagination, IdField, TextField, BelongsToField, BooleanField},
+    components: {Loader, Pagination},
     data() {
       return {
         perPage: (this.$route.query.perPage) ? this.$route.query.perPage : 25,

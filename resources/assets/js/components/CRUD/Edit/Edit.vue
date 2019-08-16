@@ -26,13 +26,6 @@
 </template>
 
 <script>
-  import IdField from '../../Fields/Edit/IdField'
-  import TextField from '../../Fields/Edit/TextField'
-  import PasswordField from '../../Fields/Edit/PasswordField'
-  import BelongsToField from '../../Fields/Edit/BelongsToField'
-  import BelongsToManyField from '../../Fields/Edit/BelongsToManyField'
-  import BooleanField from '../../Fields/Edit/BooleanField'
-
   export default {
     data() {
       return {
@@ -53,7 +46,6 @@
         })
       }
     },
-    components: {IdField, TextField, BelongsToField, PasswordField, BelongsToManyField, BooleanField},
     beforeMount: function () {
       this.getResource();
     }

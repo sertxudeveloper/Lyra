@@ -24,12 +24,8 @@
 </template>
 
 <script>
-  import IdField from '../../Fields/Read/IdField'
-  import TextField from '../../Fields/Read/TextField'
-  import BelongsToField from '../../Fields/Read/BelongsToField'
-  import BelongsToManyField from '../../Fields/Show/BelongsToManyField'
   import HasManyField from '../../Fields/Show/HasManyField'
-  import BooleanField from '../../Fields/Read/BooleanField'
+  import BelongsToManyInverseField from '../../Fields/Show/BelongsToManyInverseField'
 
   export default {
     data() {
@@ -43,10 +39,10 @@
         this.$http.get(this.$route.fullPath).then((response) => this.resource = response.data);
       },
       isHasField: function (component) {
-        return (component === 'has-many-field')
+        return (component === 'has-many-field' || component === 'belongs-to-many-inverse-field')
       }
     },
-    components: {IdField, TextField, BelongsToField, BelongsToManyField, HasManyField, BooleanField},
+    components: {HasManyField, BelongsToManyInverseField},
     beforeMount: function () {
       this.getResource();
     }

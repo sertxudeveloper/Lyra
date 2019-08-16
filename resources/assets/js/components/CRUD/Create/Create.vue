@@ -25,14 +25,8 @@
 </template>
 
 <script>
-  import IdField from '../../Fields/Edit/IdField'
-  import TextField from '../../Fields/Edit/TextField'
-  import PasswordField from '../../Fields/Edit/PasswordField'
-  import BelongsToField from '../../Fields/Edit/BelongsToField'
-  import BelongsToManyField from '../../Fields/Edit/BelongsToManyField'
 
   export default {
-    components: {IdField, TextField, PasswordField, BelongsToField, BelongsToManyField},
     data() {
       return {
         resource: null,
