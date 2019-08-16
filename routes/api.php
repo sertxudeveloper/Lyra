@@ -14,7 +14,7 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
     Route::get('{resource}/{id}', $namespacePrefix . 'DatatypesController@show');
 
     Route::get('{resource}/{id}/edit', $namespacePrefix . 'DatatypesController@edit');
-    Route::put('{resource}/{id}/edit', $namespacePrefix . 'DatatypesController@update');
+    Route::post('{resource}/{id}/edit', $namespacePrefix . 'DatatypesController@update');
 
     Route::delete('{resource}/{id}', $namespacePrefix . 'DatatypesController@destroy');
 
