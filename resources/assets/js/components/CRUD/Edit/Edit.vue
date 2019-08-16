@@ -14,13 +14,12 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="px-4 py-3 text-right">
-          <div>
-            <button class="btn btn-primary" @click="edit">Update {{ resource.labels.singular.toLowerCase() }}</button>
+          <div class="px-4 py-3 text-right">
+            <div>
+              <button class="btn btn-primary" @click="edit">Update {{ resource.labels.singular.toLowerCase() }}</button>
+            </div>
           </div>
         </div>
-      </div>
     </div>
     {{ $data }}
   </div>
@@ -31,6 +30,7 @@
     data() {
       return {
         resource: null,
+        formData: new FormData()
       }
     },
     methods: {
@@ -39,7 +39,8 @@
         this.$http.get(this.$route.fullPath).then((response) => this.resource = response.data);
       },
       edit: function () {
-        this.$http.put(this.$route.fullPath, this.resource).then(response => {
+        this.formData.append('collection', JSON.stringify(this.resource.collection));
+        this.$http.post(this.$route.fullPath, this.formData, { headers: { 'Content-Type': 'multipart/form-data' }}).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} edited successfully`);
             return this.$router.back()
