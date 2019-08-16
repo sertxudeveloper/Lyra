@@ -14,8 +14,8 @@ class Boolean extends Field {
     }
   }
 
-  public function updateValue($value) {
-    return $value ? 'ACTIVE' : 'BLOCKED';
+  public function saveValue($field, $resource) {
+    $resource[$this->column] = $field['value'] ? 'ACTIVE' : 'BLOCKED';
   }
 
 }

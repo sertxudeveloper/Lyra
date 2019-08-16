@@ -14,7 +14,6 @@ class Field {
 
   protected $sortable = false;
   protected $primary = false;
-  protected $size = false;
 
   protected $hideOnIndex = false;
   protected $hideOnShow = false;
@@ -51,11 +50,6 @@ class Field {
 
   public function primary() {
     $this->primary = true;
-    return $this;
-  }
-
-  public function size($number = null) {
-    $this->size = $number;
     return $this;
   }
 
@@ -146,13 +140,16 @@ class Field {
       "description" => $this->description,
       "sortable" => $this->sortable,
       "primary" => $this->primary,
-      "size" => $this->size,
       "value" => $this->value,
     ];
   }
 
-  public function updateValue($value) {
-    return $value;
+  public function updateValue($field, $old, $resource) {
+//    return $field['value'];
+  }
+
+  public function saveValue($field, $resource) {
+    $resource[$this->column] = $field['value'];
   }
 
 }

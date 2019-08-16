@@ -7,10 +7,9 @@ class BelongsToMany extends Relation {
   protected $component = "belongs-to-many-field";
 
   protected function getValueIndex($model) {
-    $value = $this->class::where($this->foreign_column, $model[$this->column])->get();
     $field = $this;
-    return $value->map(function ($element) use ($field) {
-      return ['key' => $element[$field->column], 'value' => $element[$field->display_column]];
+    return $model->{$this->column}->map(function ($element) use ($field) {
+      return ['key' => $element[$field->foreign_column], 'value' => $element[$field->display_column]];
     });
   }
 
@@ -23,9 +22,11 @@ class BelongsToMany extends Relation {
     $field = $this;
     $value = collect([]);
     $this->options = $options->map(function ($element) use ($field, $value, $model) {
-      if ($model[$this->column] == $element[$this->foreign_column]) $value->push(['key' => $element[$field->column], 'value' => $element[$field->display_column]]);
-      return ['key' => $element[$field->column], 'value' => $element[$field->display_column]];
+      $count = $model[$this->column]->where($this->foreign_column, $element[$this->foreign_column])->count();
+      if ($count) $value->push(['key' => $element[$field->foreign_column], 'value' => $element[$field->display_column]]);
+      return ['key' => $element[$field->foreign_column], 'value' => $element[$field->display_column]];
     });
+
     return $value;
   }
 
@@ -33,9 +34,13 @@ class BelongsToMany extends Relation {
     $value = $this->class::all();
     $field = $this;
     $this->options = $value->map(function ($element) use ($field) {
-      return ['key' => $element[$field->column], 'value' => $element[$field->display_column]];
+      return ['key' => $element[$field->foreign_column], 'value' => $element[$field->display_column]];
     });
     return [];
   }
 
+  public function saveValue($field, $resource) {
+    $keys = collect($field['value'])->pluck('key');
+    $resource->{$this->column}()->sync($keys);
+  }
 }

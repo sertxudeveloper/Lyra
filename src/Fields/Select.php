@@ -4,8 +4,13 @@ namespace SertxuDeveloper\Lyra\Fields;
 
 class Select extends Field {
 
-  protected $component = "boolean-field";
-  protected $options = ["ACTIVE", "BLOCKED"];
+  protected $component = "select-field";
+//  protected $options = ["ACTIVE", "BLOCKED"];
+
+  public function options(array $options) {
+    $this->options = $options;
+    return $this;
+  }
 
   public function get() {
 

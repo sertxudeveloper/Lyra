@@ -40,6 +40,7 @@ class HasMany extends Relation {
     }
 
     if (request()->get('sortCol') && request()->get('sortDir')) {
+      $query->getBaseQuery()->orders = null;
       $sortCol = explode(',', request()->get('sortCol'));
       $sortDir = explode(',', request()->get('sortDir'));
       foreach ($sortCol as $key => $value) {
@@ -49,13 +50,13 @@ class HasMany extends Relation {
 
     $this->foreign_column = $query->getForeignKeyName();
 
-    $query = DatatypesController::checkSoftDeletes(request(), $query, $model);
+    $query = DatatypesController::checkSoftDeletes(request(), $query, $model->{$this->column}()->getRelated());
     $query = request()->has('perPage') ? $query->paginate(request()->get('perPage')) : $query->paginate(25);
 
     $resourceCollection = new $this->resource($query);
 
-    $resourceCollection->labels['singular'] = Str::singular($this->name);
-    $resourceCollection->labels['plural'] = Str::plural($this->name);
+    $resourceCollection->singular = Str::singular($this->name);
+    $resourceCollection->plural = Str::plural($this->name);
 
     return $resourceCollection->getCollection(request(), 'index');
   }
