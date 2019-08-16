@@ -60,42 +60,7 @@
             {{--@php dd(Lyra::getMenuItems()); @endphp--}}
 
             @foreach(Lyra::getMenuItems() as $item)
-
-              @if(!isset($item['items']))
-                <li class="nav-item">
-                  <router-link
-                    class="nav-link" {{ ($item['key'] !== 'lyra') ?  ":to='/$item[key]'" :  ":to='/' exact" }}>
-                    <div class="icon">
-                      <i class="{{$item['icon']}}"></i>
-                    </div>
-                    <span class="d-none d-sm-block">{{$item['name']}}</span>
-                  </router-link>
-                </li>
-              @else
-
-                <li class="nav-item">
-                  <a href="#{{$item['key']}}Submenu" data-toggle="collapse" aria-expanded="false"
-                     class="dropdown-toggle collapsed nav-link">
-                    <div class="icon">
-                      <i class="{{$item['icon']}}"></i>
-                    </div>
-                    <span class="d-none d-sm-block">{{$item['name']}}</span>
-                  </a>
-                  <ul class="list-unstyled collapse ml-3" id="{{$item['key']}}Submenu">
-                    @foreach($item['items'] as $subitem)
-                      <li class="nav-item">
-                        <router-link
-                          class="nav-link" :to="'/{{$subitem['key']}}'" exact>
-                          <div class="icon">
-                            <i class="{{$subitem['icon']}}"></i>
-                          </div>
-                          <span class="d-none d-sm-block">{{$subitem['name']}}</span>
-                        </router-link>
-                      </li>
-                    @endforeach
-                  </ul>
-                </li>
-              @endif
+              @include('lyra::common.sidebar.item')
             @endforeach
 
           </ul>
