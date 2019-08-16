@@ -10,24 +10,28 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "bootstrap-select": "^1.13.10",
-    "cross-env": "^5.1",
-    "laravel-mix": "^4.1.2",
-    "resolve-url-loader": "^2.3.2",
-    "sass": "^1.22.4",
-    "sass-loader": "^7.1.0",
-    "vue-multiselect": "^2.1.6",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "dependencies": {
+    "@primer/css": "^12.6.0",
     "axios": "^0.18.1",
     "axios-progress-bar": "^1.2.0",
     "bootstrap": "^4.3.1",
+    "bootstrap-select": "^1.13.10",
+    "cross-env": "^5.1",
     "jquery": "^3.4.1",
+    "laravel-mix": "^4.1.2",
+    "lodash": "^4.17.15",
+    "marked": "^0.7.0",
     "popper.js": "^1.15.0",
+    "prismjs": "^1.17.1",
+    "resolve-url-loader": "^2.3.2",
+    "sass": "^1.22.4",
+    "sass-loader": "^7.1.0",
+    "simplemde": "^1.11.2",
     "toastr": "^2.1.4",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
-    "vue-router": "^3.0.7"
-  }
+    "vue-multiselect": "^2.1.6",
+    "vue-router": "^3.0.7",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "dependencies": {}
 }
