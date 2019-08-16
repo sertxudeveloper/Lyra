@@ -27,12 +27,11 @@
         return this.pagination.current_page === page;
       },
       changePage(page) {
-        if (page > this.pagination.last_page) {
-          page = this.pagination.last_page;
-        }
+        if (page > this.pagination.last_page) page = this.pagination.last_page;
 
         this.$router.push({query: {...this.$route.query, page: page}});
-        this.$http.get(this.$route.fullPath).then((response) => this.$parent.$parent.resource = response.data);
+        this.$emit('clear-resource');
+        this.$emit('get-resource');
       }
     },
     computed: {
