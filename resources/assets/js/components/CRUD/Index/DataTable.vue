@@ -85,7 +85,7 @@
               </div>
             </td>
             <td v-for="field in collection">
-              <component :is="field.component" :field="field"></component>
+              <component :is="`${field.component}-readable`" :field="field"></component>
             </td>
             <td class="p-0 actions">
               <router-link

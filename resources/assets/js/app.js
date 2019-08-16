@@ -26,6 +26,28 @@ Vue.use(VueAxios, axios);
 
 import Dashboard from './components/Dashboard'
 import Loader from './components/Loader'
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+
+/**
+ * Vue.js register dynamically the components
+ * Two modalities available: "editable" and "readable"
+ */
+const requireComponentEditable = require.context('./components/Fields/Edit', false, /[A-Z]\w+\.(vue|)$/);
+requireComponentEditable.keys().forEach(fileName => {
+  const componentConfig = requireComponentEditable(fileName);
+  const componentName = upperFirst(camelCase(fileName.split('/').pop().replace(/\.\w+$/, '')));
+
+  Vue.component(`${componentName}Editable`, componentConfig.default || componentConfig)
+});
+
+const requireComponentReadable = require.context('./components/Fields/Read', false, /[A-Z]\w+\.(vue|)$/);
+requireComponentReadable.keys().forEach(fileName => {
+  const componentConfig = requireComponentReadable(fileName);
+  const componentName = upperFirst(camelCase(fileName.split('/').pop().replace(/\.\w+$/, '')));
+
+  Vue.component(`${componentName}Readable`, componentConfig.default || componentConfig)
+});
 
 Vue.component('lyra-loader', Loader);
 

@@ -6,12 +6,12 @@
       <div class="panel box-dark-shadow px-4 py-2 w-100">
         <div v-for="field in resource.collection.data[0]" class="row field-row py-2 align-items-center"
              v-if="!isHasField(field.component)">
-          <div class="col-3 text-muted">
+          <div class="col-3 mb-1 mb-lg-0 text-muted">
             <span>{{ field.name }}</span><br>
             <small>{{ field.description }}</small>
           </div>
-          <div class="col">
-            <component :is="field.component" :field="field"></component>
+          <div class="col-12 col-md-12 col-lg-9 col-xl-6">
+            <component :is="`${field.component}-readable`" :field="field"></component>
           </div>
         </div>
       </div>

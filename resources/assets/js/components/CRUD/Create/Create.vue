@@ -10,7 +10,7 @@
               <small>{{ field.description }}</small>
             </div>
             <div class="col-5">
-              <component :is="field.component" :field="field"></component>
+              <component :is="`${field.component}-editable`" :field="field"></component>
             </div>
           </div>
         </div>
