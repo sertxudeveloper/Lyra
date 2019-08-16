@@ -28,6 +28,7 @@ Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 
 import Dashboard from './components/Dashboard'
+import MediaManager from './components/MediaManager'
 import Loader from './components/Loader'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
@@ -69,6 +70,7 @@ const router = new VueRouter({
 
     // Default pages
     {path: '/', name: 'lyra', component: Dashboard},
+    {path: '/media', name: 'media', component: MediaManager},
 
     // HTTP Errors
     {path: '/404', name: '404', component: HTTP_404},

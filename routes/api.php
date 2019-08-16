@@ -6,6 +6,15 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
 
     $namespacePrefix = '\\SertxuDeveloper\Lyra\Http\Controllers\\';
 
+    /* Media Manager routes */
+//    Route::get('media', $namespacePrefix . 'MediaManagerController@index');
+    Route::get('media/disks', $namespacePrefix . 'MediaManagerController@disks');
+    Route::get('media/tree', $namespacePrefix . 'MediaManagerController@tree');
+    Route::get('media/files', $namespacePrefix . 'MediaManagerController@files');
+
+
+    /* Dynamic Resource routes */
+
     Route::get('{resource}', $namespacePrefix . 'DatatypesController@index');
 
     Route::get('{resource}/create', $namespacePrefix . 'DatatypesController@create');
