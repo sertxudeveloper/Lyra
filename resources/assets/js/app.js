@@ -120,6 +120,9 @@ new Vue({
       this.disableLoader();
       return Promise.reject(error);
     });
+  },
+  mounted() {
+    $('.router-link-active').parents('ul.list-unstyled').addClass('show')
   }
 });
 
