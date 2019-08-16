@@ -113,12 +113,20 @@ class LyraServiceProvider extends ServiceProvider {
   }
 
   private function registerResources() {
-    $resources = collect(config('lyra.menu'));
-    $resources = $resources->mapWithKeys(function ($item) {
-      if (!isset($item['resource'])) return [];
-      return [$item['key'] => $item['resource']];
-    })->toArray();
+    $resources = config('lyra.menu');
+    $resources = $this->generateResourcesMap($resources)->toArray();
     Lyra::resources($resources);
+  }
+
+  private function generateResourcesMap($resources) {
+    return collect($resources)->mapWithKeys(function ($item) {
+      if (isset($item['items'])) {
+        return $this->generateResourcesMap($item['items']);
+      } else {
+        if (!isset($item['resource'])) return [];
+        return [$item['key'] => $item['resource']];
+      }
+    });
   }
 
   /**
