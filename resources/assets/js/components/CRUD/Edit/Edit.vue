@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$root.loader === false && resource !== null">
+  <div v-if="$root.loader === false && resource !== null" class="pb-5 pt-4 px-lg-5">
     <h3 class="pb-3">{{ resource.labels.singular }} details</h3>
     <div class="align-items-baseline d-flex justify-content-between" v-if="resource.labels.plural !== null">
       <div class="panel box-dark-shadow w-100">

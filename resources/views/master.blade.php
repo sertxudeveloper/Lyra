@@ -105,7 +105,7 @@
 
       <main role="main" class="col-11 col-lg-10 col-md-9 col-sm-9 ml-sm-auto px-0">
 
-        <div class="container-fluid pb-5 pt-4 px-lg-5" :class="{ loading: loader }">
+        <div class="container-fluid p-0 m-0" :class="{ loading: loader }">
           @yield('content')
         </div>
 
