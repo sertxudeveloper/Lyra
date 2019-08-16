@@ -5,6 +5,12 @@
 @import "~toastr/toastr";
 @import '~axios-progress-bar/dist/nprogress.css';
 @import "~vue-multiselect/dist/vue-multiselect.min.css";
+//@import "~@primer/css/markdown/index.scss";
+
+@import "~simplemde/dist/simplemde.min.css";
+@import "vendors/prism.css";
+
+@import "vendors/markdown";
 
 #toast-container > .toast-success,
 #toast-container > .toast-info,
