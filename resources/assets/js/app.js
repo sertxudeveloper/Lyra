@@ -1,7 +1,10 @@
 require('bootstrap');
 const $ = require("jquery");
+window.$ = $;
+window.jQuery = $;
 
 import Popper from 'popper.js';
+
 require('bootstrap-select');
 
 Popper.Defaults.modifiers.computeStyle.gpuAcceleration = !(window.devicePixelRatio < 1.5 && /Win/.test(navigator.platform));
