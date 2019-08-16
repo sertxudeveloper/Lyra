@@ -55,6 +55,10 @@ return [
   /*
   |--------------------------------------------------------------------------
   | Lyra menu
+  |
+  | The keys "lyra" and "media" keys cannot be removed or modified,
+  | if this is done it is possible for Lyra to stop working properly
+  | as they are part of the core. Do it at your own risk.
   |--------------------------------------------------------------------------
   */
   "menu" => [
@@ -63,61 +67,12 @@ return [
       "key" => "lyra",
       "icon" => "fas fa-home",
     ],
-    /*[
-      "name" => "Media",
+    [
+      "name" => "Media Manager",
       "key" => "media",
-      "icon" => "fas fa-images",
+      "icon" => "fas fa-photo-video"
     ],
-    [
-      "name" => "Widgets",
-      "key" => "widgets",
-      "icon" => "fas fa-tachometer-alt",
-    ],*/
-    [
-      "name" => "Users", // The name is going to appear in the left side menu
-      "key" => "users", // This key should be the same in the Lyra::resources() array
-      "icon" => "fas fa-users", // Icon classes
-      "resource" => SertxuDeveloper\Lyra\Http\Resources\User::class
-    ],
-    [
-      "name" => "Lyra Users", // The name is going to appear in the left side menu
-      "key" => "lyra-users", // This key should be the same in the Lyra::resources() array
-      "icon" => "fas fa-user", // Icon classes
-      "resource" => SertxuDeveloper\Lyra\Http\Resources\LyraUser::class
-    ],
-    [
-      "name" => "Lyra Roles", // The name is going to appear in the left side menu
-      "key" => "lyra-roles", // This key should be the same in the Lyra::resources() array
-      "icon" => "fas fa-users-cog", // Icon classes
-      "resource" => SertxuDeveloper\Lyra\Http\Resources\LyraRole::class
-    ],
-    /*[
-      "name" => "Lyra",
-      "key" => "lyra-settings",
-      "icon" => "fas fa-cogs",
-      "items" => [
-        [
-          "name" => "Roles",
-          "key" => "roles",
-          "icon" => "fas fa-lock",
-        ],
-        [
-          "name" => "Menu",
-          "key" => "menu",
-          "icon" => "fas fa-list",
-        ],
-        [
-          "name" => "Settings",
-          "key" => "settings",
-          "icon" => "fas fa-cog",
-        ],
-        [
-          "name" => "CRUD",
-          "key" => "crud",
-          "icon" => "fas fa-database",
-        ]
-      ]
-    ]*/
+    /* Add your own resources here */
   ],
 
   /*
