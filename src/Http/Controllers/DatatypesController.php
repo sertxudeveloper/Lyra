@@ -150,6 +150,7 @@ class DatatypesController extends CrudController {
     $resource = $resourcesNamespace::$model::where($resourcesNamespace::getPrimary(), $id)->first();
 
     $collection = $request->post('collection');
+    $collection = json_decode($collection, true);
     $values = collect(Arr::first($collection['data']));
 
     $fields = $resourcesNamespace::getFields($resource);
@@ -160,7 +161,7 @@ class DatatypesController extends CrudController {
     })->values();
 
     $fields->each(function ($field, $key) use ($values, $resource) {
-      $resource[$values[$key]['column']] = $field->updateValue($values[$key]['value']);
+      $field->saveValue($values[$key], $resource);
     });
 
     $resource->saveOrFail();
