@@ -38,7 +38,7 @@
                     </div>
                   </div>
 
-                  <div>
+                  <div v-if="resource.collection.hasSoftDeletes">
                     <span class="dropdown-header">Visibility</span>
                     <div class="form-group mx-3 my-2">
                       <select class="form-control" title="Visibility" v-model="visibility">
@@ -119,7 +119,8 @@
             {{resource.labels.plural.toLowerCase()}}
           </small>
         </div>
-        <pagination v-if="resource.collection.last_page > 1" :pagination="resource.collection" :offset="5"></pagination>
+        <pagination v-if="resource.collection.last_page > 1" :pagination="resource.collection" :offset="5"
+                    @get-resource="getResourceEmit" @clear-resource="clearResourceEmit"></pagination>
       </div>
     </div>
     <lyra-loader v-if="isLoaderEnabled" class="py-5"></lyra-loader>
@@ -146,6 +147,12 @@
       }
     },
     methods: {
+      getResourceEmit: function () {
+        this.$emit('get-resource');
+      },
+      clearResourceEmit: function () {
+        this.$emit('clear-resource');
+      },
       formOnChange: function () {
         this.$router.push({query: {...this.$route.query, perPage: this.perPage, page: 1, visibility: this.visibility}});
         this.$emit('clear-resource');
