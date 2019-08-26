@@ -5,18 +5,18 @@
 </template>
 
 <script>
-  import SimpleMDE from 'simplemde'
+  import EasyMDE from 'easymde'
   import "../../../vendors/prism"
 
   export default {
     data() {
       return {
-        simplemde: null
+        easymde: null
       }
     },
     props: ['field', 'formData'],
     mounted() {
-      this.simplemde = new SimpleMDE({
+      this.easymde = new EasyMDE({
         element: $(this.$refs.markdown)[0],
         forceSync: true,
         autofocus: true,
