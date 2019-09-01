@@ -10,7 +10,7 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "@primer/css": "^12.6.0",
+    "@primer/css": "^12.6.2",
     "axios": "^0.18.1",
     "axios-progress-bar": "^1.2.0",
     "bootstrap": "^4.3.1",
@@ -24,13 +24,13 @@
     "popper.js": "^1.15.0",
     "prismjs": "^1.17.1",
     "resolve-url-loader": "^2.3.2",
-    "sass": "^1.22.4",
-    "sass-loader": "^7.1.0",
+    "sass": "^1.22.10",
+    "sass-loader": "^7.3.1",
     "toastr": "^2.1.4",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-multiselect": "^2.1.6",
-    "vue-router": "^3.0.7",
+    "vue-router": "^3.1.2",
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {}
