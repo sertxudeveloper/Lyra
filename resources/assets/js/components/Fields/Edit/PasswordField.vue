@@ -1,6 +1,6 @@
 <template>
   <div class="text-right">
-    <input type="password" v-model="field.value" :title="field.name" class="form-control">
+    <input type="password" v-model="field.value" :title="field.name" class="form-control" :placeholder="field.placeholder">
     <small v-if="field.size" class="font-weight-bold text-muted">
       <span :class="classLength">{{ length }}</span> / {{ field.size }}
     </small>
