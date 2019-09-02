@@ -31,6 +31,44 @@ return [
 
   /*
   |--------------------------------------------------------------------------
+  | User avatar system
+  | Here you can specify the name of the database column where it's saved the user's avatar image
+  | If there's not any avatar column, you should set it to 'false' in order to use Gravatar API.
+  |--------------------------------------------------------------------------
+  */
+  "avatar" => false,
+
+  /*
+  |--------------------------------------------------------------------------
+  | User login
+  | You should specify the 'name', 'email' and 'password' database columns
+  | in order to be able to log in with your account.
+  |--------------------------------------------------------------------------
+  */
+  "user" => [
+    "name" => "name",
+    "email" => "email",
+    "password" => "password"
+  ],
+
+  /*
+  |--------------------------------------------------------------------------
+  | The translator functionality works with the package sertxudeveloper/translatable.
+  | You're able to enable or disable this functionality depending on the project requirements.
+  | If you enable it, you should set the default locale and the available locales using the ISO 639-1 format.
+  | Once you've configured it you should see in the Lyra resources the button group with the different languages.
+  | The default locale is used also as the fallback language.
+  | (https://en.wikipedia.org/wiki/ISO_639-1)
+  |--------------------------------------------------------------------------
+   */
+  "translator" => [
+    "enabled" => true,
+    "default_locale" => "es",
+    "available_locales" => ["en", "it"]
+  ],
+
+  /*
+  |--------------------------------------------------------------------------
   | Specify the authenticator driver to use in the login
   |
   | If you select the basic driver, the user will be authenticated using the default Laravel authenticator driver.
@@ -48,7 +86,9 @@ return [
   'authenticator' => 'basic',
 
   /*
-   * Enable or disable the notificator system
+  |--------------------------------------------------------------------------
+  | Enable or disable the notificator system
+  |--------------------------------------------------------------------------
    */
   'notificator' => false,
 
