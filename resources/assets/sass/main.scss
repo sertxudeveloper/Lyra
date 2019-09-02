@@ -44,6 +44,10 @@
   outline: none;
 }
 
+body {
+  overflow: hidden;
+}
+
 nav.navbar {
 
   & > * {
@@ -206,12 +210,12 @@ body div {
         }
       }
 
-      & > .container-fluid.loading {
-        height: calc(100% - 32.5px);
-      }
-
       & > .container-fluid {
         min-height: calc(100% - 32.5px);
+
+        &.loading {
+          height: calc(100% - 32.5px);
+        }
       }
 
       footer {
@@ -224,6 +228,7 @@ body div {
         width: 100%;
         text-align: right;
         font-size: 15px;
+        z-index: 100;
 
         a {
           color: var(--white);
