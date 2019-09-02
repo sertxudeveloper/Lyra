@@ -1,14 +1,17 @@
 <template>
   <div class="form-group">
-    <select class="form-control" v-model="field.value" :disabled="field.disabled">
-      <option disabled value="">Select a {{field.name.toLowerCase()}}</option>
-      <option v-for="element in field.options" :value="element.key">{{element.value}}</option>
-    </select>
+    <multiselect
+      v-model="field.value" :options="field.options" :multiple="false" :close-on-select="false"
+      :clear-on-select="false" :preserve-search="true" placeholder="Pick some"
+      label="value" track-by="value" :preselect-first="false"></multiselect>
   </div>
 </template>
 
 <script>
+  import Multiselect from 'vue-multiselect'
+
   export default {
+    components: {Multiselect},
     props: ['field']
   }
 </script>
