@@ -10,33 +10,23 @@ use SertxuDeveloper\Lyra\Lyra;
 class BelongsToManyInverse extends Relation {
 
   protected $component = "belongs-to-many-inverse-field";
-  protected $resource;
-  protected $path;
 
   protected $hideOnIndex = true;
   protected $hideOnCreate = true;
   protected $hideOnEdit = true;
 
-  public function setResource($resource) {
-    $this->resource = $resource;
-    $resources = Lyra::getResources();
-    $this->path = array_search($resource, $resources);
-    return $this;
-  }
-
   protected function retrieveValue($model) {
-    $query = $model->{$this->column}();
+    $query = $model->{$this->data->get('column')}();
 
     if (request()->get('search')) {
       $search = urldecode(request()->get('search'));
-      $resource = $this->resource;
+      $resource = $this->data->get('resource');
 
       $query = $query->where(function (Builder $query) use ($resource, $search) {
         foreach ($resource::$search as $key => $column) {
           $query = $query->orWhere($column, 'like', "%$search%");
         }
       });
-
     }
 
     if (request()->get('sortCol') && request()->get('sortDir')) {
@@ -48,27 +38,18 @@ class BelongsToManyInverse extends Relation {
       }
     }
 
-    $this->foreign_column = $query->getForeignPivotKeyName();
+    $this->data->put('foreign_column', $query->getForeignPivotKeyName());
 
-    $query = DatatypesController::checkSoftDeletes(request(), $query, $model->{$this->column}()->getRelated());
+    $query = DatatypesController::checkSoftDeletes(request(), $query, $model->{$this->data->get('column')}()->getRelated());
     $query = request()->has('perPage') ? $query->paginate(request()->get('perPage')) : $query->paginate(25);
 
-    $resourceCollection = new $this->resource($query);
+    $resource = $this->data->get('resource');
+    $resourceCollection = new $resource($query);
 
-    $resourceCollection->singular = Str::singular($this->name);
-    $resourceCollection->plural = Str::plural($this->name);
+    $resourceCollection->singular = Str::singular($this->data->get('name'));
+    $resourceCollection->plural = Str::plural($this->data->get('name'));
 
     return $resourceCollection->getCollection(request(), 'index');
-  }
-
-  public function get() {
-    return [
-      "component" => $this->component,
-      "name" => $this->name,
-      "path" => $this->path,
-      "foreign_column" => $this->foreign_column,
-      "value" => $this->value,
-    ];
   }
 
 }

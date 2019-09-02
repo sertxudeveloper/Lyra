@@ -5,42 +5,60 @@ namespace SertxuDeveloper\Lyra\Fields;
 class BelongsToMany extends Relation {
 
   protected $component = "belongs-to-many-field";
+  protected $hideOnIndex = true;
 
-  protected function getValueIndex($model) {
+  protected function getValueIndex($model, $resource) {
+    $query = $model->{$this->data->get('column')}();
     $field = $this;
-    return $model->{$this->column}->map(function ($element) use ($field) {
-      return ['key' => $element[$field->foreign_column], 'value' => $element[$field->display_column]];
+    if (!$this->data->get('display_column')) $this->data->put('display_column', $query->getParentKeyName());
+
+    return $model->{$this->data->get('column')}->map(function ($element) use ($field, $query) {
+      return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
     });
   }
 
-  protected function getValueShow($model) {
-    return $this->getValueIndex($model);
+  protected function getValueShow($model, $resource) {
+    return $this->getValueIndex($model, $resource);
   }
 
-  protected function getValueEdit($model) {
-    $options = $this->class::all();
+  protected function getValueEdit($model, $resource) {
+    $query = $model->{$this->data->get('column')}();
     $field = $this;
-    $value = collect([]);
-    $this->options = $options->map(function ($element) use ($field, $value, $model) {
-      $count = $model[$this->column]->where($this->foreign_column, $element[$this->foreign_column])->count();
-      if ($count) $value->push(['key' => $element[$field->foreign_column], 'value' => $element[$field->display_column]]);
-      return ['key' => $element[$field->foreign_column], 'value' => $element[$field->display_column]];
+    if (!$this->data->get('display_column')) $this->data->put('display_column', $query->getParentKeyName());
+
+    $options = $this->data->get('resource')::$model::all();
+    $options = $options->map(function ($element) use ($field, $query) {
+      return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
+    });
+    $this->data->put('options', $options);
+
+    $value = $model->{$this->data->get('column')}->map(function ($element) use ($field, $query) {
+      return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
     });
 
     return $value;
   }
 
-  protected function getValueCreate($model) {
-    $value = $this->class::all();
+  protected function getValueCreate($model, $resource) {
+    $query = $model->{$this->data->get('column')}();
     $field = $this;
-    $this->options = $value->map(function ($element) use ($field) {
-      return ['key' => $element[$field->foreign_column], 'value' => $element[$field->display_column]];
+
+    if (!$this->data->get('display_column')) $this->data->put('display_column', $query->getParentKeyName());
+    $options = $this->data->get('resource')::$model::all()->map(function ($item) use ($field, $query) {
+      return ['key' => $item[$query->getParentKeyName()], 'value' => $item[$this->data->get('display_column')]];
     });
-    return [];
+    $this->data->put('options', $options);
+
+    if (request()->get($query->getRelatedPivotKeyName())) {
+      $element = $this->data->get('resource')::$model::find(request()->get($query->getRelatedPivotKeyName()));
+      return [['key' => $element[$query->getRelatedKeyName()], 'value' => $element[$this->data->get('display_column')]]];
+    }
+
+    return null;
   }
 
-  public function saveValue($field, $resource) {
+  public function syncRelationship($field, $resource) {
     $keys = collect($field['value'])->pluck('key');
-    $resource->{$this->column}()->sync($keys);
+    $resource->{$this->data->get('column')}()->sync($keys);
   }
 }

@@ -5,47 +5,57 @@ namespace SertxuDeveloper\Lyra\Fields;
 class BelongsTo extends Relation {
 
   protected $component = "belongs-to-field";
-  protected $disabled;
 
-  protected function getValueIndex($model) {
-    return $this->class::find($model[$this->column])[$this->display_column];
+  public function nullable() {
+    $this->data->put('nullable', true);
+    return $this;
   }
 
-  protected function getValueShow($model) {
-    return $this->class::find($model[$this->column])[$this->display_column];
+  protected function getValueIndex($model, $resource) {
+    $query = $model->{$this->data->get('column')}();
+    if (!$this->data->get('display_column')) $this->data->put('display_column', $query->getOwnerKeyName());
+    $item = $model->{$this->data->get('column')};
+    return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$this->data->get('display_column')]];
   }
 
-  protected function getValueEdit($model) {
+  protected function getValueShow($model, $resource) {
+    return $this->getValueIndex($model, $resource);
+  }
+
+  protected function getValueEdit($model, $resource) {
+    $query = $model->{$this->data->get('column')}();
     $field = $this;
-    $this->options = $this->class::all()->map(function ($item) use ($field) {
-      return ['key' => $item[$field->foreign_column], 'value' => $item[$field->display_column]];
+    if (!$field->data->get('display_column')) $field->data->put('display_column', $query->getOwnerKeyName());
+    $options = $this->data->get('resource')::$model::all()->map(function ($item) use ($field, $query) {
+      return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$field->data->get('display_column')]];
     });
-    return $model[$this->column];
+    $this->data->put('options', $options);
+    $item = $model->{$this->data->get('column')};
+    return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$this->data->get('display_column')]];
   }
 
-  protected function getValueCreate($model) {
+  protected function getValueCreate($model, $resource) {
+    $query = $model->{$this->data->get('column')}();
     $field = $this;
-    $this->options = $this->class::all()->map(function ($item) use ($field) {
-      return ['key' => $item[$field->foreign_column], 'value' => $item[$field->display_column]];
+
+    if (!$field->data->get('display_column')) $field->data->put('display_column', $query->getOwnerKeyName());
+    $options = $this->data->get('resource')::$model::all()->map(function ($item) use ($field, $query) {
+      return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$field->data->get('display_column')]];
     });
+    $this->data->put('options', $options);
 
-    $param = request()->get($this->column);
-    if ($param) $this->disabled = true;
-    return ($param) ? $param : null;
+    if (request()->get($query->getForeignKeyName())) {
+      $this->data->put('disabled', true);
+      $element = $this->data->get('resource')::$model::find(request()->get($query->getForeignKeyName()));
+      return $element[$query->getOwnerKeyName()];
+    }
+
+    return null;
   }
 
-  public function get() {
-
-    return [
-      "component" => $this->component,
-      "name" => $this->name,
-      "column" => $this->column,
-      "description" => $this->description,
-      "sortable" => $this->sortable,
-      "disabled" => $this->disabled,
-      "primary" => $this->primary,
-      "options" => $this->options,
-      "value" => $this->value,
-    ];
+  public function saveValue($field, $model) {
+    $query = $model->{$this->data->get('column')}();
+    $model[$query->getForeignKeyName()] = $field['value']['key'] ?: null;
   }
+
 }
