@@ -22,9 +22,7 @@ class LyraApiAdminMiddleware {
    * @return mixed
    */
   public function handle($request, Closure $next) {
-    if (Lyra::auth()->check()) {
-      return $next($request);
-    }
+    if (Lyra::auth()->check()) return $next($request);
 
     return abort(403);
   }
