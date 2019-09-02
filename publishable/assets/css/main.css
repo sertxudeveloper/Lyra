@@ -11682,6 +11682,10 @@ button.toast-close-button {
   outline: none;
 }
 
+body {
+  overflow: hidden;
+}
+
 nav.navbar > * {
   height: 65px;
 }
@@ -11825,12 +11829,12 @@ body div > .container-fluid main table td {
   }
 }
 
-body div > .container-fluid main > .container-fluid.loading {
-  height: calc(100% - 32.5px);
-}
-
 body div > .container-fluid main > .container-fluid {
   min-height: calc(100% - 32.5px);
+}
+
+body div > .container-fluid main > .container-fluid.loading {
+  height: calc(100% - 32.5px);
 }
 
 body div > .container-fluid main footer {
@@ -11843,6 +11847,7 @@ body div > .container-fluid main footer {
   width: 100%;
   text-align: right;
   font-size: 15px;
+  z-index: 100;
 }
 
 body div > .container-fluid main footer a {
@@ -12091,5 +12096,51 @@ ol,
 ul {
   -webkit-padding-start: 20px;
           padding-inline-start: 20px;
+}
+
+/**
+  Media Manager Styles
+ */
+
+.media-manager {
+  height: calc(100vh - 32.5px - 65px);
+}
+
+.media-manager .media-viewer {
+  overflow: auto;
+  height: 100%;
+}
+
+.media-manager .media-viewer .element {
+  z-index: 1;
+  margin-right: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.media-manager .media-viewer .element .card .card-body {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.media-manager .media-viewer .element .card .card-preview {
+  height: 70px;
+  width: 70px;
+}
+
+.media-manager .media-viewer .element .card .element-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.media-manager .media-viewer .media-backdrop {
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.swal2-title {
+  word-break: break-all;
 }
 
