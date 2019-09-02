@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="text-right">
     <input type="text" v-model="field.value" :title="field.name" class="form-control">
     <small v-if="field.size" class="font-weight-bold text-muted">
@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    props: ['field'],
+    props: ['field', 'formData'],
     computed: {
       length: function () {
         return (this.field.value) ? this.field.value.length : 0;
