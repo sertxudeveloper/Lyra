@@ -1,0 +1,44 @@
+/**
+  Media Manager Styles
+ */
+
+.media-manager {
+  height: calc(100vh - 32.5px - 65px);
+
+  .media-viewer {
+    overflow: auto;
+    height: 100%;
+
+    .element {
+      z-index: 1;
+      margin-right: 0.8rem;
+      margin-bottom: 0.8rem;
+
+      .card {
+
+        .card-body {
+          padding-top: 0.75rem;
+          padding-bottom: 0.75rem;
+        }
+
+        .card-preview {
+          height: 70px;
+          width: 70px;
+        }
+
+        .element-name {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    .media-backdrop {
+      top: 0;
+      left: 0;
+      position: absolute;
+      z-index: 0;
+    }
+  }
+}

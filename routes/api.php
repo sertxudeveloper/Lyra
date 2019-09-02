@@ -6,27 +6,32 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
 
     $namespacePrefix = '\\SertxuDeveloper\Lyra\Http\Controllers\\';
 
-    /* Media Manager routes */
-//    Route::get('media', $namespacePrefix . 'MediaManagerController@index');
+    /** Media Manager routes */
     Route::get('media/disks', $namespacePrefix . 'MediaManagerController@disks');
     Route::get('media/tree', $namespacePrefix . 'MediaManagerController@tree');
     Route::get('media/files', $namespacePrefix . 'MediaManagerController@files');
+    Route::post('media/rename', $namespacePrefix . 'MediaManagerController@rename');
+    Route::post('media/move', $namespacePrefix . 'MediaManagerController@move');
+    Route::post('media/copy', $namespacePrefix . 'MediaManagerController@copy');
+    Route::post('media/delete', $namespacePrefix . 'MediaManagerController@delete');
 
+    /** Dynamic Resource routes */
+    /** Show Controller */
+    Route::get('{resource}', $namespacePrefix . 'CRUD\ShowController@index');
+    Route::get('{resource}/{id}', $namespacePrefix . 'CRUD\ShowController@show');
 
-    /* Dynamic Resource routes */
+    /** Create Controller */
+    Route::get('{resource}/create', $namespacePrefix . 'CRUD\CreateController@create');
+    Route::post('{resource}/create', $namespacePrefix . 'CRUD\CreateController@store');
 
-    Route::get('{resource}', $namespacePrefix . 'DatatypesController@index');
+    /** Edit Controller */
+    Route::get('{resource}/{id}/edit', $namespacePrefix . 'CRUD\EditController@edit');
+    Route::post('{resource}/{id}/edit', $namespacePrefix . 'CRUD\EditController@update');
 
-    Route::get('{resource}/create', $namespacePrefix . 'DatatypesController@create');
-    Route::post('{resource}/create', $namespacePrefix . 'DatatypesController@store');
-
-    Route::get('{resource}/{id}', $namespacePrefix . 'DatatypesController@show');
-
-    Route::get('{resource}/{id}/edit', $namespacePrefix . 'DatatypesController@edit');
-    Route::post('{resource}/{id}/edit', $namespacePrefix . 'DatatypesController@update');
-
-    Route::delete('{resource}/{id}', $namespacePrefix . 'DatatypesController@destroy');
-
+    /** Destroy Controller */
+    Route::post('{resource}/{id}/delete', $namespacePrefix . 'CRUD\DestroyController@delete');
+    Route::post('{resource}/{id}/restore', $namespacePrefix . 'CRUD\DestroyController@restore');
+    Route::post('{resource}/{id}/forceDelete', $namespacePrefix . 'CRUD\DestroyController@forceDelete');
   });
 
 });

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="h-100 tree-folder">
     <lyra-loader v-if="isLoaderEnabled" class="py-5"></lyra-loader>
-    <ul v-else>
+    <ul v-else class="pt-2">
       <tree-folder-contents class="item" :folder="folders" @change-path="changePathEvent"></tree-folder-contents>
     </ul>
   </div>
@@ -15,7 +15,7 @@
     data() {
       return {
         folders: {
-          name: "$root",
+          name: "<i class=\"fas fa-home\"></i> My disk",
           path: null,
           children: null
         }
@@ -43,5 +43,7 @@
 </script>
 
 <style scoped>
-
+.tree-folder li.item span {
+  white-space: nowrap;
+}
 </style>

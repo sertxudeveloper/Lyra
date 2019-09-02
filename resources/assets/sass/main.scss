@@ -385,3 +385,9 @@ tr:hover {
 ol, ul {
   padding-inline-start: 20px;
 }
+
+@import "sections/media-manager";
+
+.swal2-title {
+  word-break: break-all;
+}

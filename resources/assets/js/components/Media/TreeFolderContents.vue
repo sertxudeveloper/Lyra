@@ -2,7 +2,7 @@
   <li>
 
     <div :class="{bold: isFolder}" @click="toggle" @dblclick="changePath">
-      {{ folder.name }}
+      <span v-html="folder.name"></span>
       <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
     </div>
 

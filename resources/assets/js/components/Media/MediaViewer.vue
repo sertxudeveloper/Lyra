@@ -1,122 +1,143 @@
 <template>
-  <div class="mt-3">
+  <div class="pt-3 h-100">
     <lyra-loader v-if="isLoaderEnabled" class="py-5"></lyra-loader>
     <template v-else>
       <div class="row m-0">
-        <div v-for="element in elements" class="mb-3 mr-3" @dblclick="dblclickEvent(element)">
-          <div class="card card-folder">
-            <!--<div class="card-body">
-              {{element.name}}
-            </div>-->
-            <div class="row no-gutters" style="height: 70px;width: 200px;">
-              <div class="card-preview d-flex align-items-center justify-content-center">
-                <template v-if="hasFilePreview(element.mime)">
-                  <div class="justify-content-around m-2 rounded" style="overflow: hidden;height: calc(100% - 1rem);width: inherit;display: flex;">
-                    <img :src="element.storage_path" :alt="element.name" style="height: 100%;width: auto;">
-                  </div>
-                </template>
-                <template v-else>
-                  <i class="fas fa-folder" style="font-size: 40px;" v-if="element.mime === 'directory'"></i>
-                  <i class="fas fa-file" style="font-size: 40px;" v-else></i>
-                </template>
-              </div>
-              <div class="pr-2" style="width:130px;">
-                <div class="card-body h-100 px-0 py-2">
-                  <p class="card-text element-name my-1" :title="element.name">{{element.name}}</p>
-                  <p class="card-text d-flex flex-column">
-                    <small class="text-muted mb-1" v-if="element.size !== undefined">{{humanFileSize(element.size, true)}}</small>
-                    <!--<small class="text-muted mb-1" v-if="element.last_modified">{{formatDate(element.last_modified)}}</small>-->
-                    <small class="text-muted mb-1" v-if="element.items !== undefined">Items: {{element.items}}</small>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div v-for="element in elements" class="element" :title="element.name"
+             @contextmenu.prevent="openContextElement($event, element)">
+
+          <template v-if="/^image\/\w+$/.test(element.mime)">
+            <image-file :element="element"></image-file>
+          </template>
+
+          <template v-else-if="/^video\/\w+$/.test(element.mime)">
+            <video-file :element="element"></video-file>
+          </template>
+
+          <template v-else-if="/^audio\/\w+$/.test(element.mime)">
+            <audio-file :element="element"></audio-file>
+          </template>
+
+          <template v-else-if="/^directory$/.test(element.mime)">
+            <directory :element="element"></directory>
+          </template>
+
+          <template v-else>
+            <generic-file :element="element"></generic-file>
+          </template>
+
         </div>
       </div>
+
+      <div class="h-100 w-100 media-backdrop" @contextmenu.prevent="openContextGeneric($event)"></div>
+
+      <preview-modal :element="previewElement" ref="previewModal"
+                     :key="previewElement.path" v-if="previewElement"></preview-modal>
+
+      <context-menu-elements :element="contextElement" :folder-tree="folderTree"
+                             @reload-viewer="loadViewer"></context-menu-elements>
+      <context-menu-generic></context-menu-generic>
+
     </template>
   </div>
 </template>
 
 <script>
+  import ImageFile from './FileTypes/ImageFile'
+  import VideoFile from './FileTypes/VideoFile'
+  import AudioFile from './FileTypes/AudioFile'
+  import GenericFile from './FileTypes/GenericFile'
+  import Directory from './FileTypes/Directory'
+
+  import PreviewModal from './Modals/PreviewModal'
+  import DetailsModal from './Modals/DetailsModal'
+
+  import ContextMenuElements from './ContextMenu/ContextMenuElements'
+  import ContextMenuGeneric from './ContextMenu/ContextMenuGeneric'
+
   export default {
+    components: {
+      PreviewModal, DetailsModal,
+      ContextMenuElements, ContextMenuGeneric,
+      ImageFile, VideoFile, AudioFile, GenericFile, Directory
+    },
+    props: ['folderTree'],
     data() {
       return {
-        elements: null
+        elements: null,
+        previewElement: null,
+        contextElement: null,
+        contextMenu: null,
       }
     },
-    name: "MediaViewer",
     methods: {
       getElementsFolder: function () {
         const path = this.$route.fullPath.split('?')[0];
         const query = this.$route.fullPath.split('?')[1];
         this.$http.get(`${path}/files?${query}`).then((response) => this.elements = response.data);
       },
-      humanFileSize: function (bytes, si) {
-        const thresh = si ? 1000 : 1024;
-        if (Math.abs(bytes) < thresh) {
-          return bytes + ' B';
+      openContextElement: function (e, element) {
+        this.removePreviousContextMenu();
+        this.contextMenu = $('#contextMenuElement');
+        this.contextElement = element;
+        this.mountContextMenu(e);
+      },
+      openContextGeneric: function (e) {
+        this.removePreviousContextMenu();
+        this.contextMenu = $('#contextMenu');
+        this.mountContextMenu(e);
+      },
+      removePreviousContextMenu: function() {
+        if (this.contextMenu) {
+          this.contextMenu.hide();
+          $(this.contextMenu).removeClass("dropup");
+          this.contextMenu = null;
         }
-        const units = si
-          ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-          : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-        let u = -1;
-        do {
-          bytes /= thresh;
-          ++u;
-        } while (Math.abs(bytes) >= thresh && u < units.length - 1);
-        return bytes.toFixed(1) + ' ' + units[u];
       },
-      formatDate: function(timestamp) {
-        const date = new Date(timestamp * 1000);
+      mountContextMenu: function(e) {
+        this.contextMenu[0].style.position = 'absolute';
+        this.contextMenu[0].style.left = `${e.clientX}px`;
+        this.contextMenu[0].style.top = `${e.clientY}px`;
 
-        const hour = date.getHours();
-        const minute = date.getMinutes();
-        const seconds = date.getSeconds();
+        this.contextMenu.appendTo('body').show();
 
-        const day = date.getDate();
-        const month = date.getMonth();
-        const year = date.getFullYear();
+        let $ul = $(this.contextMenu).children(".dropdown-menu");
+        let ulOffset = $ul.offset();
 
-        return `${hour}:${minute}: ${seconds} ${day}/${month}/${year}`
+        // how much space would be left on the top if the dropdown opened that direction
+        let spaceUp = (ulOffset.top - $ul.height()) - $(window).scrollTop();
+
+        // how much space is left at the bottom
+        let spaceDown = $(window).scrollTop() + $(window).height() - (ulOffset.top + $ul.height());
+
+        // switch to dropup only if there is no space at the bottom AND there is space at the top,
+        // or there isn't either but it would be still better fit
+        if (spaceDown < 0 && (spaceUp >= 0 || spaceUp > spaceDown)) $(this.contextMenu).addClass("dropup");
       },
-      hasFilePreview: function (mime) {
-        return (/^image\/\w+$/.test(mime))
-      },
-      dblclickEvent: function (element) {
-        if (element.mime === 'directory') return this.$emit('change-path', element.path)
+      loadViewer: function () {
+        this.$emit('reload-manager');
+        this.elements = null;
+        this.getElementsFolder();
       }
     },
     beforeMount() {
-      this.getElementsFolder()
+      this.getElementsFolder();
+    },
+    mounted() {
+      $('body > #contextMenu').remove();
+      $('body > #contextMenuElement').remove();
+      $('body').click(() => {
+        this.removePreviousContextMenu()
+      });
     },
     computed: {
       isLoaderEnabled: function () {
-        return (this.$root.loader === false && this.elements === null)
+        return (this.$root.loader === false && !this.elements && !this.folderTree)
       },
     },
-    // watch: {
-    //   '$route': function (from, to) {
-    //     this.getElementsFolder()
-    //   }
-    // }
   }
 </script>
 
 <style scoped>
-  .card-folder .card-body {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
 
-  .element-name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .card-preview {
-    height: 70px;
-    width: 70px;
-  }
 </style>

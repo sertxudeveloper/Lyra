@@ -26,7 +26,12 @@ class MediaManagerController extends Controller {
     $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
     $rootPath = Storage::disk($selectedDisk)->getDriver()->getAdapter()->getPathPrefix();
     $folderTree = $this->fillArrayWithFileNodes(Storage::disk($selectedDisk)->directories(), $selectedDisk, $rootPath);
-    return $folderTree;
+    return [
+      "children" => $folderTree,
+      "files" => collect(Storage::disk($selectedDisk)->files('/'))->map(function ($file) {
+        return ["name" => basename($file)];
+      })
+    ];
   }
 
   public function files(Request $request) {
@@ -37,6 +42,52 @@ class MediaManagerController extends Controller {
     return array_merge($folders->toArray(), $files->toArray());
   }
 
+  public function rename(Request $request) {
+    $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
+
+    $oldPath = $request->get('element')['path'];
+    $newPath = explode('/', $oldPath);
+    array_pop($newPath);
+    $newPath = implode('/', $newPath);
+    $newPath = $newPath ? $newPath . '/' . $request->get('newName') : $request->get('newName');
+
+    Storage::disk($selectedDisk)->move($oldPath, $newPath);
+  }
+
+  public function move(Request $request) {
+    $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
+    $element = $request->get('element');
+    $oldPath = $element['path'];
+    $newPath = $request->get('newPath');
+    $newPath = $newPath . '/' . $element['name'];
+
+    Storage::disk($selectedDisk)->move($oldPath, $newPath);
+  }
+
+  public function copy(Request $request) {
+    $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
+    $element = $request->get('element');
+    $oldPath = $element['path'];
+    $newPath = $request->get('newPath');
+    $newPath = $newPath . '/' . $element['name'];
+
+    if (Storage::disk($selectedDisk)->exists($newPath)) {
+      $newPath = $request->get('newPath');
+      $filename = pathinfo($element['name'])['filename'];
+      $extension = pathinfo($element['name'])['extension'];
+      $newPath = $newPath . '/' . $filename . '-copy.' . $extension;
+    }
+
+    Storage::disk($selectedDisk)->copy($oldPath, $newPath);
+  }
+
+  public function delete(Request $request) {
+    $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
+    $element = $request->get('element');
+
+    Storage::disk($selectedDisk)->delete($element['path']);
+  }
+
   private function getFoldersInPath($selectedDisk, $selectedPath) {
     return collect(Storage::disk($selectedDisk)->directories($selectedPath))->map(function ($folder) use ($selectedDisk) {
       return [
@@ -44,7 +95,8 @@ class MediaManagerController extends Controller {
         "storage_path" => Storage::url(null),
         "path" => $folder,
         "mime" => "directory",
-        "items" => count(Storage::disk($selectedDisk)->files($folder)) + count(Storage::disk($selectedDisk)->directories($folder)),
+        "files_count" => count(Storage::disk($selectedDisk)->files($folder)),
+        "directories_count" => count(Storage::disk($selectedDisk)->directories($folder)),
         "last_modified" => Storage::disk($selectedDisk)->lastModified($folder),
         "visibility" => Storage::disk($selectedDisk)->getVisibility($folder),
       ];
@@ -72,7 +124,10 @@ class MediaManagerController extends Controller {
       $data->push([
         "name" => Arr::last(explode('/', $node)),
         "path" => str_replace($rootPath, "", $node),
-        "children" => $this->fillArrayWithFileNodes(Storage::disk($disk)->directories($node), $disk, $rootPath)
+        "children" => $this->fillArrayWithFileNodes(Storage::disk($disk)->directories($node), $disk, $rootPath),
+        "files" => collect(Storage::disk($disk)->files($node))->map(function ($file) {
+          return ["name" => basename($file)];
+        })
       ]);
     }
 
