@@ -1,5 +1,7 @@
 <template>
-  <span>{{ field.value }}</span>
+  <router-link
+    :to="{name: 'show', params: {resourceName: field.path, resourceId: field.value.key}}">{{field.value.value}}
+  </router-link>
 </template>
 
 <script>
