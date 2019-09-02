@@ -1,16 +1,31 @@
 <template>
   <div v-if="$root.loader === false && resource !== null" class="pb-5 pt-4 px-lg-5">
-    <h3 class="pb-3">New {{ resource.labels.singular.toLowerCase() }}</h3>
+
+    <div class="align-items-baseline d-flex justify-content-between">
+      <div>
+        <h3 class="pb-3">New {{ resource.labels.singular.toLowerCase() }}</h3>
+      </div>
+      <div class="mb-2 text-right">
+        <div class="btn-group" role="group" aria-label="Languages available">
+          <button type="button" class="btn" :class="languagesClass(language, key)"
+                  data-toggle="tooltip" data-placement="top"
+                  :title="key !== 0 ? 'Additional languages disabled until the model is created': ''"
+                  v-for="(language, key) in resource.languages">{{language.toUpperCase()}}
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="align-items-baseline d-flex justify-content-between" v-if="resource.labels.plural !== null">
       <div class="panel box-dark-shadow w-100">
         <div class="px-4 py-2">
-          <div v-for="field in resource.collection.data[0]" class="row field-row py-2 align-items-center">
-            <div class="col-3 text-muted">
-              <span>{{ field.name }}</span><br>
+          <div v-for="field in resource.collection.data[0]" class="row field-row py-2">
+            <div class="col-3 my-lg-2 mb-1 mb-lg-0 text-muted">
+              <span>{{ field.name }} <i class="fas fa-language" v-if="field.translatable"></i></span><br>
               <small>{{ field.description }}</small>
             </div>
-            <div class="col-5">
-              <component :is="`${field.component}-editable`" :field="field"></component>
+            <div class="col-12 col-md-12 col-lg-9 col-xl-6 align-self-center">
+              <component :is="`${field.component}-editable`" :field="field" :formData="formData"></component>
             </div>
           </div>
         </div>
@@ -25,11 +40,11 @@
 </template>
 
 <script>
-
   export default {
     data() {
       return {
         resource: null,
+        formData: new FormData()
       }
     },
     methods: {
@@ -38,16 +53,28 @@
         this.$http.get(this.$route.fullPath).then(response => this.resource = response.data);
       },
       create: function () {
-        this.$http.post(this.$route.fullPath, this.resource).then(response => {
+        this.formData.append('collection', JSON.stringify(this.resource.collection.data[0]));
+        this.$http.post(this.$route.fullPath, this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(response => {
+          // this.$http.post(this.$route.fullPath, this.resource).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} created successfully`);
             return this.$router.back()
           }
         })
-      }
+      },
+      languagesClass: function (lang, key) {
+        return {
+          'btn-secondary': (!this.$route.query.lang && key === 0) || (this.$route.query.lang && this.$route.query.lang === lang),
+          'btn-outline-dark': (!this.$route.query.lang && key !== 0) || (this.$route.query.lang && this.$route.query.lang !== lang),
+          'disabled': key !== 0
+        }
+      },
     },
     beforeMount: function () {
       this.getResource();
+    },
+    updated: function () {
+      $('[data-toggle="tooltip"]').tooltip();
     }
   }
 </script>

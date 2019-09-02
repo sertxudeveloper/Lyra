@@ -10,9 +10,17 @@
           <input type="text" class="form-control border-0" v-model="search" placeholder="Search">
         </div>
       </div>
-      <router-link :to="{ name: 'create'}" append class="btn btn-primary py-1">
-        Create {{ resource.labels.singular }}
-      </router-link>
+      <div>
+        <div class="btn-group" role="group" aria-label="Languages available">
+          <button type="button" class="btn" :class="languagesClass(language, key)"
+                  @click="changeLanguage(language)"
+                  v-for="(language, key) in resource.languages">{{language.toUpperCase()}}
+          </button>
+        </div>
+        <router-link :to="{ name: 'create'}" append class="btn btn-primary py-1">
+          Create {{ resource.labels.singular }}
+        </router-link>
+      </div>
     </div>
     <div>
       <data-table :resource="resource" @get-resource="getResource" @clear-resource="clearResource"/>
@@ -38,6 +46,16 @@
       },
       clearResource: function () {
         this.resource.collection = {data: null}
+      },
+      changeLanguage: function (lang) {
+        this.$router.push({query: {...this.$route.query, lang}});
+        this.getResource();
+      },
+      languagesClass: function (lang, key) {
+        return {
+          'btn-secondary': (!this.$route.query.lang && key === 0) || (this.$route.query.lang && this.$route.query.lang === lang),
+          'btn-outline-dark': (!this.$route.query.lang && key !== 0) || (this.$route.query.lang && this.$route.query.lang !== lang)
+        }
       }
     },
     watch: {

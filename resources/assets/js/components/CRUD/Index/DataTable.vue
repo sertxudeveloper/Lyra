@@ -87,20 +87,20 @@
             <td v-for="field in collection">
               <component :is="`${field.component}-readable`" :field="field"></component>
             </td>
-            <td class="p-0 actions">
+            <td class="p-0 pr-1 text-right actions">
               <router-link
-                :to="{ name: 'show', params: { resourceName: getResource(), resourceId: getPrimaryField(collection).value }}"
+                :to="{ name: 'show', params: { resourceName: getResourceName(), resourceId: getPrimaryField(collection).value }, query: { lang: $route.query.lang }}"
                 class="btn btn-link text-body" title="Show">
-                <!--<router-link :to="{ path: `${getRoute()}/${getPrimaryField(collection).value}` }" class="btn btn-link text-body" title="Show">-->
                 <i class="fas fa-eye"></i>
               </router-link>
               <router-link
-                :to="{ name: 'edit', params: { resourceName: getResource(), resourceId: getPrimaryField(collection).value }}"
+                :to="{ name: 'edit', params: { resourceName: getResourceName(), resourceId: getPrimaryField(collection).value }, query: { lang: $route.query.lang }}"
+                v-if="!getPrimaryField(collection).soft_deleted"
                 class="btn btn-link text-body" title="Edit">
-                <!--<router-link :to="{ path: `${getRoute()}/${getPrimaryField(collection).value}/edit` }" class="btn btn-link text-body" title="Edit">-->
                 <i class="fas fa-pencil-alt"></i>
               </router-link>
-              <a href="#" v-on:click="recoverItem(collection)" v-if="getPrimaryField(collection).softDeleted"
+              <a v-else class="btn btn-link text-body" style="width:42px;">&nbsp;</a>
+              <a href="#" v-on:click="recoverItem(collection)" v-if="getPrimaryField(collection).soft_deleted"
                  class="btn btn-link text-body" title="Recover">
                 <i class="fas fa-undo"></i>
               </a>
@@ -163,16 +163,21 @@
       },
       removeItem: function (collection) {
         this.$http.delete(`${this.getRoute()}/${this.getPrimaryField(collection).value}`).then(response => {
-          console.log(response);
           if (response.status === 200) {
-            toastr.success(`${this.resource.labels.singular} deleted successfully`);
-            this.$parent.resourceClear();
-            return this.$parent.getResource()
+            toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
+            this.$emit('clear-resource');
+            this.$emit('get-resource');
           }
         })
       },
       recoverItem: function (collection) {
-        console.log(collection)
+        this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/recover`).then(response => {
+          if (response.status === 200) {
+            toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} recovered successfully`);
+            this.$emit('clear-resource');
+            this.$emit('get-resource');
+          }
+        })
       },
       getPrimaryField: function (collection) {
         return collection.find(field => {
@@ -181,13 +186,11 @@
         );
       },
       getRoute: function () {
-        return (!this.path) ? this.$route.fullPath : `/${this.path}`
-      }
-      ,
-      getResource: function () {
+        return (!this.path) ? this.$route.path : `/${this.path}`
+      },
+      getResourceName: function () {
         return (!this.path) ? this.$route.params.resourceName : this.path
-      }
-      ,
+      },
       sortField: function (fieldColumn) {
         let sortIndex = this.currentSortCol.indexOf(fieldColumn);
         if (sortIndex === -1) this.currentSortCol.push(fieldColumn);
@@ -208,8 +211,7 @@
         this.$router.push({query: {...this.$route.query, sortCol, sortDir, page: 1, visibility: this.visibility}});
         this.$emit('clear-resource');
         this.$emit('get-resource');
-      }
-      ,
+      },
       sortClass: function (fieldColumn, sort) {
         let sortIndex = this.currentSortCol.indexOf(fieldColumn);
         if (sortIndex === -1 && sort === 'none') return true;
@@ -226,8 +228,7 @@
       allSelected: {
         get: function () {
           return this.resource.collection.data ? this.selected.length === this.resource.collection.data.length : false;
-        }
-        ,
+        },
         set: function (value) {
           let selected = [];
 
