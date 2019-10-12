@@ -2,13 +2,10 @@
 
 namespace SertxuDeveloper\Lyra;
 
-use App\Providers\AuthServiceProvider;
-use Illuminate\Auth\SessionGuard;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-use Illuminate\Support\Facades\Auth;
 use SertxuDeveloper\Lyra\Http\Middleware\LyraAdminMiddleware;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
 use SertxuDeveloper\Lyra\Http\Middleware\LyraApiAdminMiddleware;
@@ -79,22 +76,22 @@ class LyraServiceProvider extends ServiceProvider {
 
     $publishable = [
       'lyra-assets' => [
-        "{$packagePath}/publishable/assets" => public_path(config('lyra.assets_path')),
+        "${packagePath}/publishable/assets" => public_path(config('lyra.assets_path')),
       ],
       "lyra-views" => [
-        "{$packagePath}/resources/views" => base_path('resources/views/vendor/lyra')
+        "${packagePath}/resources/views" => base_path('resources/views/vendor/lyra')
       ],
       "lyra-config" => [
-        "{$packagePath}/publishable/config/lyra.php" => config_path('lyra.php')
+        "${packagePath}/publishable/config/lyra.php" => config_path('lyra.php')
       ],
       'lyra-migrations' => [
-        "{$packagePath}/publishable/database/migrations/" => database_path('migrations'),
+        "${packagePath}/publishable/database/migrations/" => database_path('migrations'),
       ],
       'lyra-seeds' => [
-        "{$packagePath}/publishable/database/seeds/" => database_path('seeds'),
+        "${packagePath}/publishable/database/seeds/" => database_path('seeds'),
       ],
       'lyra-demo_content' => [
-        "{$packagePath}/publishable/demo_content/" => storage_path('app/public'),
+        "${packagePath}/publishable/demo_content/" => storage_path('app/public'),
       ],
     ];
 
