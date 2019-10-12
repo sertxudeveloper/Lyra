@@ -16,9 +16,9 @@
 
     <template v-else>
       <div class="mb-2 mx-0 row">
-        <div class="col-12 pl-0 text-left">
+        <div class="col-9 text-left px-0">
           <div class="position-relative">
-            <img :src="field.storage_path + field.value" :id="`${field.column}-image`" class="img-thumbnail">
+            <img :src="field.storage_path + field.value" :id="`${field.column}-image`" class="img-thumbnail w-100">
             <span class="bg-white input-group-text text-primary cursor-pointer" @click="download(field.value)">
               <i class="fas fa-download"></i>
             </span>
