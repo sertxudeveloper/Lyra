@@ -70,7 +70,7 @@
       },
       addNewFile: function (e) {
         if (!this.field.value) this.field.value = [];
-        let files = event.target.files;
+        let files = e.target.files;
 
         for (let i = 0; i < files.length; i++) {
           let file = files[i];
