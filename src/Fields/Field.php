@@ -2,8 +2,6 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-use SertxuDeveloper\Lyra\Lyra;
-
 class Field {
 
   protected $component;
@@ -40,13 +38,11 @@ class Field {
   }
 
   public function description($text = null) {
-//    $this->description = $text;
     $this->data->put('description', $text);
     return $this;
   }
 
   public function sortable() {
-//    $this->sortable = true;
     $this->data->put('sortable', true);
     return $this;
   }
@@ -150,18 +146,18 @@ class Field {
 
   protected function getTranslatedValue($model) {
     if (request()->get('lang') && request()->get('lang') !== config('lyra.translator.default_locale')) {
-      return $model->getModelTranslated(request()->get('lang'))[$this->data->get('column')];
+      return $model->getTranslated($this->data->get('column'), request()->get('lang'));
     }
     return $this->retrieveValue($model);
   }
 
   protected function setPrimary($resource, $model) {
     if (method_exists($model, 'trashed')) $this->data->put('soft_deleted', $model->trashed());
-    $this->data->put('primary', $this->data->get('column') === $resource::$primary);
+    $this->data->put('primary', $this->data->get('column') === $resource::getPrimary());
   }
 
   public function isPrimary($resource) {
-    return $this->data->get('column') === $resource::$primary;
+    return $this->data->get('column') === $resource::getPrimary();
   }
 
   public function isTranslatable() {
