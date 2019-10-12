@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-body">
-    <textarea v-model="field.value" ref="markdown" cols="200"></textarea>
+    <textarea v-model="field.value" ref="markdown" cols="200" :name="field.column"></textarea>
   </div>
 </template>
 
@@ -40,7 +40,11 @@
           return "Loading..."
         }
         ,
-      })
+      });
+
+      this.easymde.codemirror.on("change", () => {
+        this.field.value = this.easymde.value();
+      });
     }
   }
 </script>
