@@ -16,13 +16,14 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
     Route::post('media/delete', $namespacePrefix . 'MediaManagerController@delete');
 
     /** Dynamic Resource routes */
-    /** Show Controller */
-    Route::get('{resource}', $namespacePrefix . 'CRUD\ShowController@index');
-    Route::get('{resource}/{id}', $namespacePrefix . 'CRUD\ShowController@show');
 
     /** Create Controller */
     Route::get('{resource}/create', $namespacePrefix . 'CRUD\CreateController@create');
     Route::post('{resource}/create', $namespacePrefix . 'CRUD\CreateController@store');
+
+    /** Show Controller */
+    Route::get('{resource}', $namespacePrefix . 'CRUD\ShowController@index');
+    Route::get('{resource}/{id}', $namespacePrefix . 'CRUD\ShowController@show');
 
     /** Edit Controller */
     Route::get('{resource}/{id}/edit', $namespacePrefix . 'CRUD\EditController@edit');
