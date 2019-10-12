@@ -13,7 +13,9 @@
     }
   ],
   "minimum-stability": "dev",
-  "require": {},
+  "require": {
+    "laravel/framework": "^6.0"
+  },
   "autoload": {
     "psr-4": {
       "SertxuDeveloper\\Lyra\\": "src/"
