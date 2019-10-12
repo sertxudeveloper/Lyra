@@ -14,3 +14,4 @@ class Lyra extends Facade {
     return 'lyra';
   }
 }
+
