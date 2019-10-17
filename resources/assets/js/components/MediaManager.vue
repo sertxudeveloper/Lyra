@@ -6,7 +6,7 @@
         <div class="col-8">
           <Breadcrumb :key="$route.fullPath" @change-path="changePathEvent"></Breadcrumb>
         </div>
-        <div class="col-3 align-self-center">
+        <div class="col-4 align-self-center">
           <div class="form-group row m-0">
             <label for="selectDisk" class="col-sm-5 text-right col-form-label">Selected Disk:</label>
             <div class="col-sm-7 px-0">
