@@ -24,7 +24,7 @@
               <span>{{ field.name }} <i class="fas fa-language" v-if="field.translatable"></i></span><br>
               <small>{{ field.description }}</small>
             </div>
-            <div class="col-12 col-md-12 col-lg-9 col-xl-6 align-self-center">
+            <div class="col-12 col-md-12 col-lg-9 col-xl-7 align-self-center">
               <component :is="`${field.component}-editable`" :field="field" :formData="formData"></component>
             </div>
           </div>
