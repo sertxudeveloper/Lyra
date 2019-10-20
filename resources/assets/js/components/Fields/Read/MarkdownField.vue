@@ -1,21 +1,21 @@
 <template>
-  <div>
+  <div class="markdown-body">
     <template v-if="outputHTML.length > limitChar">
       <template v-if="readMoreActive">
-        <div class="my-3 markdown-body" v-html="outputHTML"></div>
+        <div class="my-3 editor-preview-active" v-html="outputHTML"></div>
         <div class="text-right">
           <button class="btn btn-outline-primary" @click="readLess">Read Less</button>
         </div>
       </template>
       <template v-else>
-        <div class="my-3 markdown-body" v-html="excerpt"></div>
+        <div class="my-3 editor-preview-active" v-html="excerpt"></div>
         <div class="text-right">
           <button class="btn btn-outline-primary" @click="readMore">Read More</button>
         </div>
       </template>
     </template>
     <template v-else>
-      <div class="my-3 markdown-body" v-html="outputHTML"></div>
+      <div class="my-3 editor-preview-active" v-html="outputHTML"></div>
     </template>
   </div>
 </template>
