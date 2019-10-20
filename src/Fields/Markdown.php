@@ -6,4 +6,6 @@ class Markdown extends Field {
 
   protected $component = "markdown-field";
 
+  protected $hideOnIndex = true;
+
 }
