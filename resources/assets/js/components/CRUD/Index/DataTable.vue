@@ -28,12 +28,7 @@
                     <span class="dropdown-header">Items per page</span>
                     <div class="form-group mx-3 my-2">
                       <select class="form-control" title="Items per page" v-model="perPage">
-                        <option>5</option>
-                        <option>15</option>
-                        <option>25</option>
-                        <option>50</option>
-                        <option>100</option>
-                        <option>200</option>
+                        <option v-for="option in resource.perPageOptions">{{option}}</option>
                       </select>
                     </div>
                   </div>
@@ -139,7 +134,7 @@
     components: {Loader, Pagination},
     data() {
       return {
-        perPage: (this.$route.query.perPage) ? this.$route.query.perPage : 25,
+        perPage: (this.$route.query.perPage) ? this.$route.query.perPage : this.resource.perPageOptions[0],
         visibility: (this.$route.query.visibility) ? this.$route.query.visibility : 'default',
         selected: [],
         currentSortCol: [],

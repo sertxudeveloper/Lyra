@@ -33,7 +33,7 @@ class ShowController extends DatatypesController {
     }
 
     $query = $this->checkSoftDeletes($request, $query, $model);
-    $query = $request->has('perPage') ? $query->paginate($request->get('perPage')) : $query->paginate(25);
+    $query = $request->has('perPage') ? $query->paginate($request->get('perPage')) : $query->paginate($resourcesNamespace::$perPageOptions[0]);
 
     $resourceCollection = new $resourcesNamespace($query);
     return $resourceCollection->getCollection($request, 'index');

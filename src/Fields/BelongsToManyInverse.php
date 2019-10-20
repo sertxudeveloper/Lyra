@@ -39,11 +39,11 @@ class BelongsToManyInverse extends Relation {
     }
 
     $this->data->put('foreign_column', $query->getForeignPivotKeyName());
+    $resource = $this->data->get('resource');
 
     $query = DatatypesController::checkSoftDeletes(request(), $query, $model->{$this->data->get('column')}()->getRelated());
-    $query = request()->has('perPage') ? $query->paginate(request()->get('perPage')) : $query->paginate(25);
+    $query = request()->has('perPage') ? $query->paginate(request()->get('perPage')) : $query->paginate($resource::$perPageOptions[0]);
 
-    $resource = $this->data->get('resource');
     $resourceCollection = new $resource($query);
 
     $resourceCollection->singular = Str::singular($this->data->get('name'));

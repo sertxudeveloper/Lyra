@@ -11,9 +11,11 @@ abstract class Resource extends ResourceCollection {
 
   protected $type;
   public static $model;
+  public static $search;
   public static $primary;
   public $singular;
   public $plural;
+  public static $perPageOptions = [15, 50, 100];
 
   protected $response = [];
 
@@ -43,6 +45,7 @@ abstract class Resource extends ResourceCollection {
     $this->response['labels'] = ["singular" => $singular, "plural" => $plural];
     if (config('lyra.translator.enabled')) $this->response['languages'] = $this->getAvailableLanguages();
     $this->response['collection'] = $this->toArray($request);
+    $this->response['perPageOptions'] = $this::$perPageOptions;
 
     return $this->response;
   }
