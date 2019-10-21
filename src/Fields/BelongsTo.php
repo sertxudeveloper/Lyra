@@ -47,7 +47,7 @@ class BelongsTo extends Relation {
     if (request()->get($query->getForeignKeyName())) {
       $this->data->put('disabled', true);
       $element = $this->data->get('resource')::$model::find(request()->get($query->getForeignKeyName()));
-      return $element[$query->getOwnerKeyName()];
+      return ['key' => $element[$query->getOwnerKeyName()], 'value' => $element[$field->data->get('display_column')]];
     }
 
     return null;
