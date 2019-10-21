@@ -11991,6 +11991,10 @@ body div > .container-fluid main footer a:focus {
   padding-bottom: 0;
 }
 
+.multiselect__tags {
+  border: 1px solid #ced4da;
+}
+
 .btn-outline-dark {
   color: var(--dark);
   border-color: var(--dark);
