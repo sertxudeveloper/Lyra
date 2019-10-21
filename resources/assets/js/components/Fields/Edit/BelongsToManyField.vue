@@ -12,7 +12,7 @@
 
   export default {
     components: {Multiselect},
-    props: ['field'],
+    props: ['field', 'formData'],
   }
 </script>
 

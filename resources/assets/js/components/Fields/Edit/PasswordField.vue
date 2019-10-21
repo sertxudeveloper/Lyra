@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    props: ['field'],
+    props: ['field', 'formData'],
     computed: {
       length: function () {
         return (this.field.value) ? this.field.value.length : 0;
