@@ -2,19 +2,19 @@
 
 namespace DummyNamespace;
 
-use DummyFullModelClass;
+use DummyFullModelClass as Model;
 use SertxuDeveloper\Lyra\Fields\Id;
 use SertxuDeveloper\Lyra\Http\Resources\Resource;
 
 class DummyClass extends Resource
 {
-  public static $model = DummyModelClass::class;
+  public static $model = Model::class;
   public static $search = ["id"];
 
   public function fields() {
 
     return [
-      Id::make('Id')->primary(),
+      Id::make('Id'),
     ];
   }
 

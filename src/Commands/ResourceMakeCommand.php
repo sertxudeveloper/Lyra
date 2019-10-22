@@ -48,7 +48,7 @@ class ResourceMakeCommand extends GeneratorCommand {
    * @return string
    */
   protected function getDefaultNamespace($rootNamespace) {
-    return $rootNamespace.'\Http\LyraResources';
+    return $rootNamespace.'\Http\Lyra';
   }
 
   /**
@@ -89,7 +89,7 @@ class ResourceMakeCommand extends GeneratorCommand {
     }
     return array_merge($replace, [
       'DummyFullModelClass' => $modelClass,
-      'DummyModelClass' => class_basename($modelClass),
+//      'DummyModelClass' => class_basename($modelClass),
     ]);
   }
 
