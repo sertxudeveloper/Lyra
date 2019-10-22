@@ -1,7 +1,7 @@
 <template>
   <div class="form-group">
     <select class="form-control" v-model="field.value">
-      <option v-for="option in field.options">{{ option }}</option>
+      <option v-for="option in field.options" :value="option.key">{{ option.value }}</option>
     </select>
   </div>
 </template>
