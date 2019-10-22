@@ -6,8 +6,12 @@ class Text extends Field {
 
   protected $component = "text-field";
 
-  public function size($number = null) {
-    $this->data->put('size', $number);
+  public function size(int $number = null, bool $hardMode = false){
+    $this->data->put('size', [
+      'number' => $number,
+      'hardMode' => $hardMode
+    ]);
+
     return $this;
   }
 }
