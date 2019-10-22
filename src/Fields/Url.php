@@ -2,12 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-class Url extends Field {
+class Url extends Text {
 
   protected $component = "url-field";
 
-  public function size($number = null) {
-    $this->data->put('size', $number);
-    return $this;
-  }
 }
