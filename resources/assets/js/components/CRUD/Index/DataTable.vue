@@ -1,7 +1,6 @@
 <template>
   <div class="table-container box-dark-shadow">
-    <div
-      v-if="resource.collection.data !== null && resource.collection.data.length && resource.labels.plural !== null && $root.loader === false">
+    <div v-if="resource.collection.data !== null && resource.labels.plural !== null && $root.loader === false">
       <div class="header d-flex justify-content-between align-items-center">
         <div class="h-100">
           <div class="align-items-center d-inline-flex h-100 justify-content-center select-checkbox">
@@ -52,7 +51,7 @@
         </div>
 
       </div>
-      <div class="table-responsive">
+      <div class="table-responsive" v-if="!isNoDataAvailable">
         <table class="table mb-0">
           <thead class="thead-dark">
           <tr>
@@ -107,6 +106,11 @@
           </tbody>
         </table>
       </div>
+
+      <div v-else>
+        <div class="py-5 text-center">No data available</div>
+      </div>
+
       <div class="align-items-center d-flex justify-content-between px-4 w-100 pagination-container">
         <div>
           <small>
@@ -119,9 +123,6 @@
       </div>
     </div>
     <lyra-loader v-if="isLoaderEnabled" class="py-5"></lyra-loader>
-    <div v-if="isNoDataAvailable">
-      <div class="py-5 text-center">No data available</div>
-    </div>
   </div>
 </template>
 
