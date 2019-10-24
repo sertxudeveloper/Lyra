@@ -10,20 +10,20 @@
 
     <div class="form-login">
       <div class="form-group">
-        <input type="email" id="inputEmail" class="form-control" name="{{config('lyra.user.email')}}" required autofocus
-               value="{{ old(config('lyra.user.email')) }}" placeholder="@lang('lyra::fields.email')">
+        <input type="email" id="inputEmail" class="form-control" name="email" required autofocus
+               value="{{ old('email') }}" placeholder="@lang('lyra::fields.email')">
         <label class="form-control-placeholder" for="inputEmail">@lang('lyra::fields.email')</label>
-        @if($errors->has(config('lyra.user.email')))
-          {{ $errors->first(config('lyra.user.email')) }}
+        @if($errors->has('email'))
+          {{ $errors->first('email') }}
         @endif
       </div>
 
       <div class="form-group">
-        <input type="password" id="inputPassword" class="form-control" name="{{config('lyra.user.password')}}" required
+        <input type="password" id="inputPassword" class="form-control" name="password" required
                placeholder="@lang('lyra::fields.password')">
         <label class="form-control-placeholder" for="inputPassword">@lang('lyra::fields.password')</label>
-        @if($errors->has(config('lyra.user.password')))
-          {{ $errors->first(config('lyra.user.password')) }}
+        @if($errors->has('password'))
+          {{ $errors->first('password') }}
         @endif
       </div>
     </div>

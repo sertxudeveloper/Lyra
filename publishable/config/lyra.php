@@ -40,19 +40,6 @@ return [
 
   /*
   |--------------------------------------------------------------------------
-  | User login
-  | You should specify the 'name', 'email' and 'password' database columns
-  | in order to be able to log in with your account.
-  |--------------------------------------------------------------------------
-  */
-  "user" => [
-    "name" => "name",
-    "email" => "email",
-    "password" => "password"
-  ],
-
-  /*
-  |--------------------------------------------------------------------------
   | The translator functionality works with the package sertxudeveloper/translatable.
   | You're able to enable or disable this functionality depending on the project requirements.
   | If you enable it, you should set the default locale and the available locales using the ISO 639-1 format.
