@@ -2,6 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use Illuminate\Support\Str;
+
 class Field {
 
   protected $component;
@@ -21,7 +23,7 @@ class Field {
     $class->data = collect([]);
 
     if (!$column) {
-      $column = strtolower($name);
+      $column = Str::snake($name);
     } else {
       if (is_callable($column)) {
         $class->callback = $column;
