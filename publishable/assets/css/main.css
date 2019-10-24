@@ -12030,8 +12030,18 @@ body div > .container-fluid main footer a:focus {
 }
 
 .field-row {
-  min-height: 60px;
+  min-height: 70px;
   border-bottom: 1px solid #dee2e6;
+}
+
+.field-row ~ .header-field {
+  border: 0 !important;
+}
+
+.header-field {
+  font-weight: bolder !important;
+  background-color: #eceff1;
+  border: 0 !important;
 }
 
 .field-row:last-child {
