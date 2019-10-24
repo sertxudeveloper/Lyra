@@ -17,7 +17,7 @@ return [
   | Path to the Lyra Assets
   |--------------------------------------------------------------------------
   */
-  'assets_path' => '/vendor/sertxudeveloper/lyra/assets',
+  "assets_path" => "/vendor/sertxudeveloper/lyra/assets",
 
   /*
   |--------------------------------------------------------------------------
@@ -28,15 +28,6 @@ return [
     "title" => "Lyra Panel",
     "description" => "Bootstrap your app and turn ideas into reality"
   ],
-
-  /*
-  |--------------------------------------------------------------------------
-  | User avatar system
-  | Here you can specify the name of the database column where it's saved the user's avatar image
-  | If there's not any avatar column, you should set it to 'false' in order to use Gravatar API.
-  |--------------------------------------------------------------------------
-  */
-  "avatar" => false,
 
   /*
   |--------------------------------------------------------------------------
@@ -70,7 +61,16 @@ return [
   | Supported: "basic", "lyra"
   |--------------------------------------------------------------------------
   */
-  'authenticator' => 'basic',
+  "authenticator" => "basic",
+
+  /*
+  |--------------------------------------------------------------------------
+  | User avatar system
+  | Here you can specify the name of the database column where it's saved the user's avatar image
+  | If there's not any avatar column, you should set it to 'false' in order to use Gravatar API.
+  |--------------------------------------------------------------------------
+  */
+  "avatar" => false,
 
   /*
   |--------------------------------------------------------------------------
@@ -79,8 +79,8 @@ return [
   | It only works with the basic authenticator
   |--------------------------------------------------------------------------
    */
-  'authorized_users' => [
-    'sergioperis2@gmail.com',
+  "authorized_users" => [
+    "sergioperis2@gmail.com",
   ],
 
   /*
@@ -88,7 +88,7 @@ return [
   | Enable or disable the notificator system
   |--------------------------------------------------------------------------
    */
-  'notificator' => false,
+  "notificator" => false,
 
   /*
   |--------------------------------------------------------------------------
