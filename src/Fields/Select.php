@@ -2,12 +2,14 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use Illuminate\Support\Arr;
+
 class Select extends Field {
 
   protected $component = "select-field";
 
   public function options(array $options) {
-    if (!$this->isSequential($options)) {
+    if (Arr::isAssoc($options)) {
       $options = $this->optionsAssoc($options);
     } else {
       $options = $this->optionsSeque($options);
@@ -31,10 +33,6 @@ class Select extends Field {
     })->values()->toArray();
 
     return $options;
-  }
-
-  private function isSequential(array $array) {
-    return array_keys($array) === range(0, count($array) - 1);
   }
 
   protected function retrieveValue($model) {
