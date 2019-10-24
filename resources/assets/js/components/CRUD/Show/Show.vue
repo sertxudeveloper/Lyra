@@ -33,23 +33,34 @@
       </div>
     </div>
 
-    <div class="align-items-baseline d-flex justify-content-between" v-if="resource.labels.plural !== null">
-      <div class="panel box-dark-shadow px-4 py-2 w-100">
-        <div v-for="field in resource.collection.data[0]" class="row field-row py-2 align-items-center"
-             v-if="!isHasField(field.component)">
-          <div class="col-3 mb-1 mb-lg-0 text-muted">
-            <span>{{ field.name }} <i class="fas fa-language" v-if="field.translatable"></i></span><br>
-            <small>{{ field.description }}</small>
-          </div>
-          <div class="col-12 col-md-12 col-lg-9 col-xl-6">
-            <component :is="`${field.component}-readable`" :field="field"></component>
-          </div>
+    <div class="align-items-baseline d-flex justify-content-between">
+      <div class="panel box-dark-shadow col-12 py-2 w-100">
+        <div v-for="field in resource.collection.data[0]" v-if="!isRelationshipField(field.component)"
+             class="row field-row py-2 align-items-center"
+             :class="[!isHeaderField(field.component) ? 'mx-0' : 'header-field']">
+
+          <template v-if="!isHeaderField(field.component)">
+            <div class="col-3 mb-1 mb-lg-0 text-muted">
+              <span>{{ field.name }} <i class="fas fa-language" v-if="field.translatable"></i></span><br>
+              <small>{{ field.description }}</small>
+            </div>
+            <div class="col-12 col-md-12 col-lg-9 col-xl-7">
+              <component :is="`${field.component}-readable`" :field="field"></component>
+            </div>
+          </template>
+
+          <template v-else>
+            <div class="col-12">
+              <div v-html="field.value"></div>
+            </div>
+          </template>
+
         </div>
       </div>
     </div>
 
-    <component v-for="field in resource.collection.data[0]" :is="field.component" :key="field.path"
-               v-if="isHasField(field.component)" :resource.sync="field.value" :path="field.path"
+    <component v-for="field in resource.collection.data[0]" v-if="isRelationshipField(field.component)"
+               :is="field.component" :key="field.path" :resource.sync="field.value" :path="field.path"
                :foreign_column="field.foreign_column"></component>
   </div>
 </template>
@@ -69,8 +80,11 @@
         this.$root.enableLoader();
         this.$http.get(this.$route.fullPath).then((response) => this.resource = response.data);
       },
-      isHasField: function (component) {
+      isRelationshipField: function (component) {
         return (component === 'has-many-field' || component === 'belongs-to-many-inverse-field')
+      },
+      isHeaderField: function (component) {
+        return component === 'header-field';
       },
       removeItem: function (collection) {
         this.$http.delete(`${this.getRoute()}`).then(response => {
@@ -122,6 +136,9 @@
     components: {HasManyField, BelongsToManyInverseField},
     beforeMount: function () {
       this.getResource();
+    },
+    updated() {
+      $('.header-field').prev().addClass("border-0");
     }
   }
 </script>
