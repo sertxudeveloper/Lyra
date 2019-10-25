@@ -34,10 +34,11 @@ class File extends Field {
     return $this;
   }
 
-  public function get() {
+  public function getValue($model, $type) {
     if (!$this->data->get('disk')) $this->data->put('disk', $this->defaultDisk);
     $this->data->put('storage_path', Storage::disk($this->data->get('disk'))->url(null));
-    return $this->data->toArray();
+
+    return parent::getValue($model, $type);
   }
 
   protected function retrieveValue($model) {
