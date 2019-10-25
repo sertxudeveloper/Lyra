@@ -26,7 +26,7 @@ abstract class Field {
     } else {
       if (is_callable($column)) {
         $class->callback = $column;
-        $column = strtolower($name);
+        $column = Str::snake($name);
         $class->hideOnCreate = true;
         $class->hideOnEdit = true;
       }
