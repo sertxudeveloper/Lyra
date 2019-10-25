@@ -48,7 +48,7 @@ class ResourceMakeCommand extends GeneratorCommand {
    * @return string
    */
   protected function getDefaultNamespace($rootNamespace) {
-    return $rootNamespace.'\Http\Lyra';
+    return $rootNamespace.'\Lyra';
   }
 
   /**
