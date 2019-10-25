@@ -9,11 +9,5 @@
 </script>
 
 <style scoped>
-  .fa-times-circle {
-    color: #bd2130;
-  }
 
-  .fa-check-circle {
-    color: #218838;
-  }
 </style>
