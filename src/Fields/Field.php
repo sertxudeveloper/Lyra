@@ -4,7 +4,7 @@ namespace SertxuDeveloper\Lyra\Fields;
 
 use Illuminate\Support\Str;
 
-class Field {
+abstract class Field {
 
   protected $component;
 
@@ -14,11 +14,10 @@ class Field {
   protected $hideOnShow = false;
   protected $hideOnCreate = false;
   protected $hideOnEdit = false;
-  protected $value = null;
 
   protected $data = null;
 
-  public static function make($name, $column = null) {
+  public static function make(string $name, $column = null) {
     $class = new static();
     $class->data = collect([]);
 
@@ -39,7 +38,7 @@ class Field {
     return $class;
   }
 
-  public function description($text = null) {
+  public function description(string $text) {
     $this->data->put('description', $text);
     return $this;
   }
@@ -54,24 +53,28 @@ class Field {
     return $this;
   }
 
-  public function hideOnIndex($hide = true) {
+  public function hideOnIndex(bool $hide = true) {
     $this->hideOnIndex = $hide;
     return $this;
   }
 
-  public function hideOnShow($hide = true) {
+  public function hideOnShow(bool $hide = true) {
     $this->hideOnShow = $hide;
     return $this;
   }
 
-  public function hideOnCreate($hide = true) {
+  public function hideOnCreate(bool $hide = true) {
     $this->hideOnCreate = $hide;
     return $this;
   }
 
-  public function hideOnEdit($hide = true) {
+  public function hideOnEdit(bool $hide = true) {
     $this->hideOnEdit = $hide;
     return $this;
+  }
+
+  public function saveValue(array $field, $model) {
+    $model[$this->data->get('column')] = $field['value'];
   }
 
   public function getPermissions() {
@@ -83,67 +86,45 @@ class Field {
     ];
   }
 
-  public function getValue($model, $type, $resource) {
+  public function getValue($model, $type) {
+    $value = null;
+
     if (is_callable($this->callback)) {
       $this->callback = $this->callback->bindTo($model);
-      $this->data->put('value', call_user_func($this->callback));
+      $value = call_user_func($this->callback);
     } else {
       switch ($type) {
         case 'index':
-          $value = $this->getValueIndex($model, $resource);
-          $this->data->put('value', $value);
+          $value = $this->getValueShow($model);
           break;
 
         case 'show':
-          $value = $this->getValueShow($model, $resource);
-          $this->data->put('value', $value);
+          $value = $this->getValueShow($model);
           break;
 
         case 'edit':
-          $value = $this->getValueEdit($model, $resource);
-          $this->data->put('value', $value);
+          $value = $this->getValueEdit($model);
           break;
 
         case 'create':
-          $value = $this->getValueCreate($model, $resource);
-          $this->data->put('value', $value);
-          break;
-
-        default:
-          $this->data->put('value', null);
+          $value = $this->getValueEdit($model);
           break;
       }
     }
 
-    return $this->get();
+    $this->data->put('value', $value);
+
+    return $this->data->toArray();
   }
 
-  protected function getValueIndex($model, $resource) {
-    $this->setPrimary($resource, $model);
+  protected function getValueShow($model) {
     if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model);
     return $this->retrieveValue($model);
   }
 
-  protected function getValueShow($model, $resource) {
-    $this->setPrimary($resource, $model);
+  protected function getValueEdit($model) {
     if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model);
     return $this->retrieveValue($model);
-  }
-
-  protected function getValueEdit($model, $resource) {
-    $this->setPrimary($resource, $model);
-    if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model);
-    return $this->retrieveValue($model);
-  }
-
-  protected function getValueCreate($model, $resource) {
-    $this->setPrimary($resource, $model);
-    if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model);
-    return $this->retrieveValue($model);
-  }
-
-  protected function retrieveValue($model) {
-    return isset($model[$this->data->get('column')]) ? $model[$this->data->get('column')] : null;
   }
 
   protected function getTranslatedValue($model) {
@@ -153,25 +134,8 @@ class Field {
     return $this->retrieveValue($model);
   }
 
-  protected function setPrimary($resource, $model) {
-    if (method_exists($model, 'trashed')) $this->data->put('soft_deleted', $model->trashed());
-    $this->data->put('primary', $this->data->get('column') === $resource::getPrimary());
-  }
-
-  public function isPrimary($resource) {
-    return $this->data->get('column') === $resource::getPrimary();
-  }
-
-  public function isTranslatable() {
-    return $this->data->get('translatable');
-  }
-
-  public function get() {
-    return $this->data->toArray();
-  }
-
-  public function saveValue($field, $model) {
-    $model[$this->data->get('column')] = $field['value'];
+  protected function retrieveValue($model) {
+    return isset($model[$this->data->get('column')]) ? $model[$this->data->get('column')] : null;
   }
 
 }
