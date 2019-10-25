@@ -2,9 +2,9 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-class Header {
+class Heading {
 
-  protected $component = 'header-field';
+  protected $component = 'heading-field';
 
   protected $callback = null;
 
@@ -43,6 +43,14 @@ class Header {
     return $this;
   }
 
+  public function isTranslatable() {
+    return false;
+  }
+
+  public function saveValue(){
+    return null;
+  }
+
   public function getPermissions() {
     return [
       "hideOnIndex" => $this->hideOnIndex,
@@ -52,12 +60,7 @@ class Header {
     ];
   }
 
-  public function get() {
+  public function getValue($model, $type) {
     return $this->data->toArray();
-  }
-
-
-  public function getValue($model, $type, $resource) {
-    return $this->get();
   }
 }
