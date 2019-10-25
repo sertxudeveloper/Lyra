@@ -15,7 +15,7 @@ class EditController extends DatatypesController {
 
     $resourcesNamespace = Lyra::getResources()[$resource];
     $model = $resourcesNamespace::$model;
-    $element = $model::where($resourcesNamespace::getPrimary(), $id)->get();
+    $element = $model::find($id)->get();
     if (!Arr::first($element)) return abort(404, "No query results for model [$model]");
     $resourceCollection = new $resourcesNamespace($element);
     return $resourceCollection->getCollection($request, 'edit');
@@ -26,7 +26,7 @@ class EditController extends DatatypesController {
     if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('create_' . $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
-    $resource = $resourcesNamespace::$model::where($resourcesNamespace::getPrimary(), $id)->first();
+    $resource = $resourcesNamespace::$model::find($id)->first();
 
     $collection = $request->post('collection');
     $collection = json_decode($collection, true);
@@ -40,7 +40,7 @@ class EditController extends DatatypesController {
     })->values();
 
     $fields->each(function ($field, $key) use ($values, $resource) {
-      if ($this->isTranslatorUsable() && $field->isTranslatable()) {
+      if ($this->isTranslatorUsable() && $field->data->get('translatable')) {
         $this->updateTranslation($values, $resource);
       } else {
         $field->saveValue($values[$key], $resource);

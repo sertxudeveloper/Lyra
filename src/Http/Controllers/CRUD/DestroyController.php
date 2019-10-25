@@ -29,7 +29,7 @@ class DestroyController extends DatatypesController {
 
     /** Get the first model instance with the provided $id */
     $model = $resourcesNamespace::$model;
-    $element = $model::where($resourcesNamespace::getPrimary(), $id)->first();
+    $element = $model::find($id)->first();
 
     /** If no model where found, return a HTTP 404 code error */
     if (!$element) return abort(404);
@@ -60,7 +60,7 @@ class DestroyController extends DatatypesController {
 
     $resourcesNamespace = Lyra::getResources()[$resource];
     $model = $resourcesNamespace::$model;
-    $element = $model::where($resourcesNamespace::getPrimary(), $id)->onlyTrashed()->first();
+    $element = $model::find($id)->onlyTrashed()->first();
     if (!$element) return abort(404);
     $element->restore();
     return null;
@@ -82,7 +82,7 @@ class DestroyController extends DatatypesController {
 
     $resourcesNamespace = Lyra::getResources()[$resource];
     $model = $resourcesNamespace::$model;
-    $element = $model::where($resourcesNamespace::getPrimary(), $id)->first();
+    $element = $model::find($id)->first();
     if (!$element) return abort(404);
     if (config('lyra.translator.enabled') && $resourcesNamespace::isTranslatable()) {
       $this->removeTranslations($element);

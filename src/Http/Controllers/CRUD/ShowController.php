@@ -47,9 +47,9 @@ class ShowController extends DatatypesController {
     $model = $resourcesNamespace::$model;
 
     if (method_exists($model, 'trashed')) {
-      $element = $model::where($resourcesNamespace::getPrimary(), $id)->withTrashed()->get();
+      $element = $model::find($id)->withTrashed()->get();
     } else {
-      $element = $model::where($resourcesNamespace::getPrimary(), $id)->get();
+      $element = $model::find($id)->get();
     }
 
     if (!Arr::first($element)) return abort(404, "No query results for model [$model]");

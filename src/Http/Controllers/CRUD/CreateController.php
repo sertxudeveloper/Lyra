@@ -58,7 +58,6 @@ class CreateController extends DatatypesController {
     /** Filter the fields which should not be included in the database because were hidden or is the primary key */
     $fields = $fields->filter(function ($field) use ($resourcesNamespace) {
       $permission = $field->getPermissions();
-      if ($field->isPrimary($resourcesNamespace)) return false;
       return !$permission['hideOnEdit'];
     })->values();
 
