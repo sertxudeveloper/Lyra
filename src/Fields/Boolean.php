@@ -10,7 +10,7 @@ class Boolean extends Field {
   protected $falseValue;
   protected $checked = false;
 
-  public function setValues($true, $false) {
+  public function values($true, $false) {
     $this->trueValue = $true;
     $this->falseValue = $false;
     return $this;
