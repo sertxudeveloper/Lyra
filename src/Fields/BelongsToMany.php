@@ -7,7 +7,38 @@ class BelongsToMany extends Relation {
   protected $component = "belongs-to-many-field";
   protected $hideOnIndex = true;
 
-  protected function getValueIndex($model, $resource) {
+  public function getValue($model, $type) {
+    $value = null;
+
+    if (is_callable($this->callback)) {
+      $this->callback = $this->callback->bindTo($model);
+      $value = call_user_func($this->callback);
+    } else {
+      switch ($type) {
+        case 'index':
+          $value = $this->getValueShow($model);
+          break;
+
+        case 'show':
+          $value = $this->getValueShow($model);
+          break;
+
+        case 'edit':
+          $value = $this->getValueEdit($model);
+          break;
+
+        case 'create':
+          $value = $this->getValueCreate($model);
+          break;
+      }
+    }
+
+    $this->data->put('value', $value);
+
+    return $this->data->toArray();
+  }
+
+  protected function getValueShow($model) {
     $query = $model->{$this->data->get('column')}();
     $field = $this;
     if (!$this->data->get('display_column')) $this->data->put('display_column', $query->getParentKeyName());
@@ -17,11 +48,7 @@ class BelongsToMany extends Relation {
     });
   }
 
-  protected function getValueShow($model, $resource) {
-    return $this->getValueIndex($model, $resource);
-  }
-
-  protected function getValueEdit($model, $resource) {
+  protected function getValueEdit($model) {
     $query = $model->{$this->data->get('column')}();
     $field = $this;
     if (!$this->data->get('display_column')) $this->data->put('display_column', $query->getParentKeyName());
@@ -39,7 +66,7 @@ class BelongsToMany extends Relation {
     return $value;
   }
 
-  protected function getValueCreate($model, $resource) {
+  protected function getValueCreate($model) {
     $query = $model->{$this->data->get('column')}();
     $field = $this;
 
