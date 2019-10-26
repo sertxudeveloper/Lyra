@@ -10,7 +10,7 @@ class Heading {
 
   protected $hideOnIndex = true;
   protected $hideOnShow = false;
-  protected $hideOnCreate = true;
+  protected $hideOnCreate = false;
   protected $hideOnEdit = false;
 
   protected $data = null;
