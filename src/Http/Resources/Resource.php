@@ -9,21 +9,16 @@ use Illuminate\Support\Str;
 
 abstract class Resource extends ResourceCollection {
 
-  protected $type;
+  private $type;
   public static $model;
-  public static $search;
-  public static $primary;
+  public static $search = [];
   public $singular;
   public $plural;
   public static $perPageOptions = [15, 50, 100];
 
-  protected $response = [];
+  private $response = [];
 
   public abstract function fields();
-
-  public static function getPrimary() {
-    return (new static::$model)->getKeyName();
-  }
 
   public static function getFields($resource) {
     return collect((new static($resource))->fields());
@@ -43,9 +38,12 @@ abstract class Resource extends ResourceCollection {
     $plural = ($this->plural) ? $this->plural : Str::plural(class_basename($this));
 
     $this->response['labels'] = ["singular" => $singular, "plural" => $plural];
-    if (config('lyra.translator.enabled')) $this->response['languages'] = $this->getAvailableLanguages();
     $this->response['collection'] = $this->toArray($request);
     $this->response['perPageOptions'] = $this::$perPageOptions;
+
+    if (config('lyra.translator.enabled') && $this->isTranslatable()) {
+      $this->response['languages'] = $this->getAvailableLanguages();
+    }
 
     return $this->response;
   }
@@ -55,18 +53,19 @@ abstract class Resource extends ResourceCollection {
     $this->collection = ($this->type !== 'create') ? $this->collection : collect([new static::$model]);
 
     if (!Arr::first($resource) || $this->type !== 'index') $resource = [];
-    $resource = (object)$resource;
+    $resource = (object) $resource;
 
-    $resource->data = $this->collection->map(function ($item) use ($request) {
+    $resource->data = $this->collection->map(function ($model) use ($request) {
       $fields = [];
 
       foreach ($this->fields() as $field) {
         $permission = $field->getPermissions();
         if ($permission['hideOn' . ucfirst($this->type)]) continue;
 
-        $field = $field->getValue($item, $this->type, get_class($this));
+        $field = $field->getValue($model, $this->type);
         $fields[] = $field;
       }
+
       return $fields;
     });
 
@@ -84,6 +83,6 @@ abstract class Resource extends ResourceCollection {
   }
 
   public static function isTranslatable() {
-    return in_array('App\Traits\Common\Translatable', class_uses(static::$model));
+    return in_array('SertxuDeveloper\Translatable\Traits\HasTranslations', class_uses(static::$model));
   }
 }
