@@ -12,25 +12,6 @@
                   v-for="(language, key) in resource.languages">{{language.toUpperCase()}}
           </button>
         </div>
-        <a href="#" v-on:click="recoverItem(resource.collection.data[0])"
-           v-if="getPrimaryField(resource.collection.data[0]).soft_deleted"
-           class="bg-white box-dark-shadow btn btn-light text-body" title="Recover">
-          <i class="fas fa-undo"></i>
-        </a>
-        <a href="#" v-on:click="removeItem(resource.collection.data[0])" v-else
-           class="bg-white box-dark-shadow btn btn-light text-body" title="Delete">
-          <i class="fas fa-trash-alt"></i>
-        </a>
-        <a href="#" v-on:click="forceRemoveItem(resource.collection.data[0])" v-if="resource.collection.hasSoftDeletes"
-           class="bg-white box-dark-shadow btn btn-light text-body" title="Force Delete">
-          <i class="fas fa-trash"></i>
-        </a>
-        <router-link
-          :to="{ name: 'edit', params: { resourceName: getResourceName(), resourceId: getPrimaryField(resource.collection.data[0]).value }, query: { lang: $route.query.lang }}"
-          v-if="!getPrimaryField(resource.collection.data[0]).soft_deleted"
-          class="btn btn-primary text-white" title="Edit">
-          <i class="fas fa-pencil-alt"></i>
-        </router-link>
       </div>
     </div>
 
