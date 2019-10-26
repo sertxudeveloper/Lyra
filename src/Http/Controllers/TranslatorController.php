@@ -33,7 +33,8 @@ class TranslatorController extends Controller {
       return [$field['column'] => $field['value']];
     })->toArray();
 
-    $translation = DB::table($resource->getTable() . '_translations')
+
+    $translation = DB::table($resource->getTable() . config('lyra.translator.table_suffix'))
       ->where([['locale', request()->get('lang')], ['id', $resource[$resource->getKeyName()]]])->first();
 
     if ($translation) {
@@ -41,9 +42,11 @@ class TranslatorController extends Controller {
       $data = ['updated_at' => new Carbon()];
       $data = array_merge($data, $fields);
 
-      DB::table($resource->getTable() . '_translations')
-        ->where([['locale', request()->get('lang')], ['id', $resource[$resource->getKeyName()]]])
-        ->update($data);
+      DB::table($resource->getTable() . config('lyra.translator.table_suffix'))
+        ->where([
+          [config('lyra.translator.locale_column'), request()->get('lang')],
+          ['id', $resource[$resource->getKeyName()]]
+        ])->update($data);
     } else {
 
       $data = [

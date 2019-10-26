@@ -42,7 +42,12 @@ return [
   "translator" => [
     "enabled" => true,
     "default_locale" => "es",
-    "available_locales" => ["en", "it"]
+    "available_locales" => ["en", "it"],
+
+    // No modification needed if you're using sertxudeveloper/laravel-translatable
+    "table_suffix" => "_translations",
+    "locale_column" => "locale",
+
   ],
 
   /*
