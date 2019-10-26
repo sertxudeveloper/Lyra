@@ -2,7 +2,6 @@
 
 namespace SertxuDeveloper\Lyra\Http\Controllers\CRUD;
 
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use SertxuDeveloper\Lyra\Http\Controllers\DatatypesController;
 use SertxuDeveloper\Lyra\Lyra;
@@ -15,15 +14,17 @@ class CreateController extends DatatypesController {
    * @param Request $request
    * @param string $resource Resource slug
    *
-   * @return HttpResponseException | array
+   * @return array
    */
   public function create(Request $request, string $resource) {
     /** Check if the user has permission to create the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('create_' . $resource)) abort(403);
+    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write_' . $resource)) abort(403);
 
-    /** Get the Lyra resource from the global array and create a new model instance in the new Lyra resource instance*/
+    /** Get the Lyra resource from the global array */
     $resourcesNamespace = Lyra::getResources()[$resource];
     $model = $resourcesNamespace::$model;
+
+    /** Create a new model instance in the new Lyra resource instance */
     $resourceCollection = new $resourcesNamespace(new $model);
 
     /** Return the Lyra resource collection with type 'create' as an array */
@@ -36,11 +37,11 @@ class CreateController extends DatatypesController {
    * @param Request $request
    * @param string $resource Resource slug
    *
-   * @return HttpResponseException | null
+   * @return null
    */
   public function store(Request $request, string $resource) {
     /** Check if the user has permission to create the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('create_' . $resource)) abort(403);
+    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write_' . $resource)) abort(403);
 
     /** Get the Lyra resource from the global array and create a new model instance */
     $resourcesNamespace = Lyra::getResources()[$resource];
@@ -56,9 +57,9 @@ class CreateController extends DatatypesController {
     $fields = $resourcesNamespace::getFields($resource);
 
     /** Filter the fields which should not be included in the database because were hidden or is the primary key */
-    $fields = $fields->filter(function ($field) use ($resourcesNamespace) {
+    $fields = $fields->filter(function ($field) {
       $permission = $field->getPermissions();
-      return !$permission['hideOnEdit'];
+      return !$permission['hideOnCreate'];
     })->values();
 
     /** Process first the common fields with a column in the database */

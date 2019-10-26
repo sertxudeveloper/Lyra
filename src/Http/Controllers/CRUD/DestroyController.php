@@ -28,19 +28,18 @@ class DestroyController extends DatatypesController {
     $resourcesNamespace = Lyra::getResources()[$resource];
 
     /** Get the first model instance with the provided $id */
-    $model = $resourcesNamespace::$model;
-    $element = $model::find($id)->first();
+    $model = $resourcesNamespace::$model::find($id);
 
     /** If no model where found, return a HTTP 404 code error */
-    if (!$element) return abort(404);
+    if (!$model) return abort(404);
 
     if ($this->isTranslatorUsable()) {
-      $this->removeTranslation($request->get('lang'), $element);
+      $this->removeTranslation($request->get('lang'), $model);
     } else {
       if ($resourcesNamespace::isTranslatable() && !$resourcesNamespace::hasSoftDeletes()) {
-        $this->removeTranslations($element);
+        $this->removeTranslations($model);
       }
-      $element->delete();
+      $model->delete();
     }
     return null;
   }
@@ -59,10 +58,9 @@ class DestroyController extends DatatypesController {
     if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('delete_' . $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
-    $model = $resourcesNamespace::$model;
-    $element = $model::find($id)->onlyTrashed()->first();
-    if (!$element) return abort(404);
-    $element->restore();
+    $model = $resourcesNamespace::$model::onlyTrashed()->find($id);
+    if (!$model) return abort(404);
+    $model->restore();
     return null;
   }
 
@@ -81,13 +79,12 @@ class DestroyController extends DatatypesController {
     if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('delete_' . $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
-    $model = $resourcesNamespace::$model;
-    $element = $model::find($id)->first();
-    if (!$element) return abort(404);
+    $model = $resourcesNamespace::$model::find($id);
+    if (!$model) return abort(404);
     if (config('lyra.translator.enabled') && $resourcesNamespace::isTranslatable()) {
-      $this->removeTranslations($element);
+      $this->removeTranslations($model);
     }
-    $element->forceDelete();
+    $model->forceDelete();
     return null;
   }
 }

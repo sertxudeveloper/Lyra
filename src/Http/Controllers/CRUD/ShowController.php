@@ -44,16 +44,16 @@ class ShowController extends DatatypesController {
     if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('read_' . $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
-    $model = $resourcesNamespace::$model;
+    $modelClass = $resourcesNamespace::$model;
 
-    if (method_exists($model, 'trashed')) {
-      $element = $model::find($id)->withTrashed()->get();
+    if (method_exists($modelClass, 'trashed')) {
+      $model = $modelClass::withTrashed()->find($id);
     } else {
-      $element = $model::find($id)->get();
+      $model = $modelClass::find($id);
     }
 
-    if (!Arr::first($element)) return abort(404, "No query results for model [$model]");
-    $resourceCollection = new $resourcesNamespace($element);
+    if (!Arr::first($model)) return abort(404, "No query results for model [$modelClass]");
+    $resourceCollection = new $resourcesNamespace(collect([$model]));
     return $resourceCollection->getCollection($request, 'show');
   }
 }
