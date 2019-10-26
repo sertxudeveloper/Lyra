@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 class Select extends Field {
 
   protected $component = "select-field";
+  private $defaultValue;
 
   public function options(array $options) {
     if (Arr::isAssoc($options)) {
@@ -16,6 +17,11 @@ class Select extends Field {
     }
 
     $this->data->put("options", $options);
+    return $this;
+  }
+
+  public function default($value) {
+    $this->defaultValue = $value;
     return $this;
   }
 
@@ -35,13 +41,35 @@ class Select extends Field {
     return $options;
   }
 
-  protected function retrieveValue($model) {
+  protected function getValueShow($model) {
+    if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model, 'value');
+    return $this->retrieveValue($model, 'value');
+  }
+
+  protected function getValueEdit($model) {
+    if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model, 'key');
+    return $this->retrieveValue($model, 'key');
+  }
+
+  protected function getTranslatedValue($model, $key = 'value') {
+    if (request()->get('lang') && request()->get('lang') !== config('lyra.translator.default_locale')) {
+      $value = $model->getTranslated($this->data->get('column'), request()->get('lang'));
+      if ($value) {
+        $index = array_search($value, array_column($this->data->get('options'), 'key'));
+        if ($index === false) return abort(500, "Value {$model[$this->data->get('column')]} not found in the field options");
+        return $this->data->get('options')[$index][$key];
+      }
+    }
+    return $this->retrieveValue($model, $key);
+  }
+
+  protected function retrieveValue($model, $key = 'value') {
     if (isset($model[$this->data->get('column')])) {
       $index = array_search($model[$this->data->get('column')], array_column($this->data->get('options'), 'key'));
       if ($index === false) return abort(500, "Value {$model[$this->data->get('column')]} not found in the field options");
-      return $this->data->get('options')[$index]['value'];
+      return $this->data->get('options')[$index][$key];
     }
 
-    return null;
+    return $this->defaultValue ?: null;
   }
 }
