@@ -43,7 +43,7 @@
 
     </div>
 
-    <div class="px-4 py-3 text-right">
+    <div class="py-3 text-right">
       <div>
         <button class="btn btn-primary" @click="create">Create {{ resource.labels.singular.toLowerCase() }}</button>
       </div>
