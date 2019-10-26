@@ -53,6 +53,10 @@ abstract class Field {
     return $this;
   }
 
+  public function isTranslatable() {
+    return (bool) $this->data->get('translatable');
+  }
+
   public function hideOnIndex(bool $hide = true) {
     $this->hideOnIndex = $hide;
     return $this;
