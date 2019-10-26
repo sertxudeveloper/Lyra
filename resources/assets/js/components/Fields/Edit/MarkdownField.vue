@@ -19,7 +19,7 @@
       this.easymde = new EasyMDE({
         element: $(this.$refs.markdown)[0],
         forceSync: true,
-        autofocus: true,
+        autofocus: false,
         spellChecker: false,
         hideIcons: ["side-by-side", "fullscreen"],
         showIcons: ["strikethrough", "code", "table", "horizontal-rule", "undo", "redo"],
