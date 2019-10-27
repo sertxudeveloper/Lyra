@@ -15,7 +15,7 @@
             <button type="button" class="btn btn-outline-danger mx-3" v-if="selected.length > 0">
               <i class="fas fa-trash-alt"></i>
             </button>
-            <form v-on:change="formOnChange()">
+            <form v-on:change="formOnChange()" class="filter-form">
               <div class="dropdown h-100">
                 <button class="btn btn-outline-dark dropdown-toggle py-1 h-100" type="button" id="dropdownFilter"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
