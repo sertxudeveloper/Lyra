@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="align-items-baseline d-flex justify-content-between">
+    <form class="align-items-baseline d-flex justify-content-between" id="editForm">
 
       <div class="panel box-dark-shadow col-12 py-2 w-100">
         <div v-for="field in resource.collection.data[0]" class="row field-row py-2 align-items-center"
@@ -40,7 +40,7 @@
         </div>
       </div>
 
-    </div>
+    </form>
 
     <div class="py-3 text-right">
       <div>
@@ -68,6 +68,9 @@
         return component === 'heading-field';
       },
       edit: function () {
+        const isValid = $('#editForm')[0].reportValidity();
+        if (!isValid) return false;
+
         this.formData.append('collection', JSON.stringify(this.resource.collection.data[0]));
         this.$http.post(this.$route.fullPath, this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(response => {
           if (response.status === 200) {
