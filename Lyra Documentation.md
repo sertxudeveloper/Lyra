@@ -263,7 +263,7 @@ Text::make('Title'),
 Slug::make('Slug')->sluglify('title'),
 ```
 
-The slug will be automatically created while you're typing in the origin field, in this case the "Title" field. This will only occour if there wasn't any previous value in the slug field at the moment of accessing the form.
+The slug will be automatically created while you're typing in the origin field, in this case the "Text" field. This will only occour if there wasn't any previous value in the slug field at the moment of accessing the form.
 
 ### Boolean Field
 This field is used to represent a boolean value, it shows a :heavy_check_mark: when the value is true, and a :x: if the value is false.
