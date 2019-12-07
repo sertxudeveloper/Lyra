@@ -1,5 +1,5 @@
 # Lyra Documentation
-Lyra is an administration dashboard for Laravel applications. With Lyra you'll be able to administer your underlying database records using Eloquent, you can acomplish it defining a Lyra "resource" that corresponds to each Eloquent model in your application.
+Lyra is an administration dashboard for Laravel applications. With Lyra you'll be able to administer your underlying database records using Eloquent, you can accomplish it defining a Lyra "resource" that corresponds to each Eloquent model in your application.
 
 # Installation
 ## Requirements
@@ -24,7 +24,7 @@ Finally, you should execute the Lyra installation manager, the following command
 php artisan lyra:install
 ```
 
-After running this command, verify that the `config/lyra.php` and the public assets folder `public/vendor/sertxudeveloper/lyra` were added to your application. If it wasn't you should add it manually.
+After running this command, verify that the `config/lyra.php` and the public assets folder `public/vendor/sertxudeveloper/lyra` were added to your application if they weren't you should add it manually.
 
 ```bash
 php artisan vendor:publish --tag lyra-assets
@@ -34,15 +34,15 @@ php artisan vendor:publish --tag lyra-config
 
 By default Lyra will install in its simplest way, if you want to change its working modes please visit the [working modes](#working-modes) section.
 
-To access to the Lyra dashboard open your prefered browser and navigate to the `/lyra` path in your application. Keep in mind that this route can be modified in the Lyra configuration file.
+To access the Lyra dashboard open your preferred browser and navigate to the `/lyra` path in your application. Keep in mind that this route can be modified in the Lyra configuration file.
 
 ## Working Modes
 Lyra provides two different working modes.
 
 ### Basic
-The `basic` mode is the default one, it provides full access to all the users using the built-in Laravel authenticator. In order to limit the access to only a few users, you should edit the Lyra configuration file.
+The `basic` mode is the default one, it provides full access to all the users using the built-in Laravel authenticator. To limit the access to only a few users, you should edit the Lyra configuration file.
 
-In this file you will find an option to select the mode called `authenticator`, make sure is setted to `basic`. Below that option is the `authorized_users` array, in this array you should add the users you want to let to access Lyra. Keep in mind that in this mode there's no roles, so all the users will have access to all the resources.
+In that file, you will find an option to select the mode called  `authenticator`, make sure it is set to `basic`. Below that option is the `authorized_users` array, in this array you should add the users you want to let to access Lyra. Keep in mind that in this mode there are no roles, so all the users will have access to all the resources.
 
 ```php
  "authorized_users" => [
@@ -51,9 +51,9 @@ In this file you will find an option to select the mode called `authenticator`, 
 ```
 
 ### Lyra
-The `lyra` mode is the most complete one, it provide a role-based access control and a notificatior system built-in. Using this mode the `authorized_users` array will be ignored.
+The `lyra` mode is the most complete one, it provides role-based access control and a notification system built-in. Using this mode the `authorized_users` array will be ignored.
 
-In addition, this mode adds a new authenticator system, so you should create all the users you want to access Lyra.
+Also, this mode adds a new authenticator system, so you should create all the users you want to access Lyra.
 
 #### Create new users
 To create new Lyra users you can use the following command:
@@ -64,14 +64,14 @@ php artisan lyra:user mail@example.com
 
 This command will ask you for entering the name of the user, the password and the password confirmation.
 
-The created user will only be able to access Lyra, but it won't be able to perform any action with the existing resources. We encorauge disabling the `use_permissions` parameter while configuring the Lyra users and permissions, once you've done activate it again to use permissions you just configured.
+The created user will only be able to access Lyra, but it won't be able to perform any action with the existing resources. We encourage disabling the `use_permissions` parameter while configuring the Lyra users and permissions, once you've done activate it again to use permissions you just configured.
 
 ## Upgrade Guide
 Lyra uses [Semantic Versioning](https://semver.org) to provide a version number.
 The version number `MAJOR.MINOR.PATCH` will increment:
-1. `MAJOR` version when Lyra has changed its core and make it incompatible with user created Resources or Vue components.
-2. `MINOR` version when Lyra has new components, added new functionality in a backwards-compatible manner or changes in the current available themes.
-3. `PATCH` version when Lyra has backwards-compatible bug fixes, typo errors.
+1. `MAJOR` version when Lyra has changed its core and make it incompatible with user-created Resources or Vue components.
+2. `MINOR` version when Lyra has new components, new functionality in a backward-compatible manner or changes in the currently available themes.
+3. `PATCH` version when Lyra has backward-compatible bug fixes, typo errors.
 
 Minor and patch releases should **never** contain breaking changes.
 
@@ -80,8 +80,6 @@ When a new version requires some user interactions or modifications in its code 
 To update your current installation, you should increment your Lyra version number in your `composer.json` and run `composer update` followed by `php artisan lyra:update` to update the public assets.
 
 ## Support Policy
-Once a new `MINOR` release is published, the latest release will receive a bug and security fixes until date.
-
 | Version | Release | Bug Fixes Until | Security Fixes Until |
 | --- | --- | --- | --- |
 | 1.0 | 13/03/2020 | TBA | TBA |
@@ -89,9 +87,9 @@ Once a new `MINOR` release is published, the latest release will receive a bug a
 # Contribution Guide
 ## Bug Reports
 All the bug reports are welcome and you can create an issue in the [Lyra GitHub repository](https://github.com/sertxudeveloper/Lyra/issues).
-If you decide to create a new issue to report a bug, we strongly recomment you to add a description of the issue, add as much relevant information as posible and a code sample to be able to replicate the bug and solve the problem with in a new release.
+If you decide to create a new issue to report a bug, we strongly recommend you to add a description of the issue, add as much relevant information as possible and a code sample to be able to replicate the bug and solve the problem within a new release.
 
-All the bug fixes should be sent to the latest release branch. For example, if you want to send a bug fix to the latest release `v1.5.9`, you should send it to the `1.5` branch.
+All the bug fixes should be sent to the latest release branch. For example, if you want to send a bug fix to the latest release `v1.5.9`, you should send it to the `1.x` branch.
 
 The `master` branch should only receive bug fixes if the bug is only in that branch.
 
@@ -110,7 +108,7 @@ By default, Lyra resources are stored in the `app/Lyra` directory of your applic
 php artisan lyra:resource Post
 ```
 
-The most basic and fundamental property of a resource is its `model` property. This property tells Lyra which Eloquent model the resource corresponds to:
+The most fundamental property of a resource is its `model` property. This property tells Lyra which Eloquent model the resource corresponds to:
 
 ```php
 /**
@@ -124,7 +122,7 @@ public static $model = Post::class;
 Freshly created Lyra resources only contain an `Id` field definition. Don't worry, we'll add more fields to our resource soon.
 
 ## Registering Resources
-Once you've created a new Lyra resource, you should add it to the menu cofiguration in your `config/lyra.php` configuration file in order to register it automatically.
+Once you've created a new Lyra resource, you should add it to the menu configuration in your `config/lyra.php` configuration file to register it automatically.
 
 Inside this file you need to find the `menu` array key, here is an example about how you should register the new Lyra resource:
 
@@ -143,7 +141,7 @@ Inside this file you need to find the `menu` array key, here is an example about
 The order of appearing in the `menu` array will determinate the order in the menu inside Lyra. To learn more about it please read the [menu configuration](#menu-configuration).
 
 ## Pagination
-By default Lyra will show a "links" style pagination in all the resources. Currently this feature is not customizable, but if you're interested in customize it please open an issue in the [Lyra GitHub repository](https://github.com/sertxudeveloper/Lyra/issues) to let us know you want this feature.
+By default, Lyra will show a "links" style pagination in all the resources. Currently, this feature is not customizable, but if you're interested in customizing it please open an issue in the [Lyra GitHub repository](https://github.com/sertxudeveloper/Lyra/issues) to let us know you want this feature.
 
 ## Customizing Pagination
 If you'd like to customize the amounts shown on each Lyra resource's "per page" filter menu, you can do so by customizing its `perPageOptions` property inside the desired resource:
@@ -157,11 +155,14 @@ If you'd like to customize the amounts shown on each Lyra resource's "per page" 
 public static $perPageOptions = [50, 100, 150];
 ```
 
+## Preventing conflicts
+Each time the user updates a model, the value of the column `update_at` will be checked before updating the records. If the `update_at` column does not have the same value as before, the back-end will result in error 409. 
+
 # Fields
 ## Defining fields
 Each Lyra resource contains a `fields` method. This method returns an array of fields, which generally extend the `SertxuDeveloper\Lyra\Fields\Field` class. Lyra itself includes fields for text inputs, booleans, dates, file uploads, Markdown, and more.
 
-To add a field to a resource, we can simply add it to the resource's `fields` method. The fields should be created using their static `make` method. This method accepts several arguments; however, you usually only need to pass the "human readable" name of the field. Lyra will automatically "snake case" this string to determine the underlying database column:
+To add a field to a resource, we can simply add it to the resource's `fields` method. The fields should be created using their static `make` method. This method accepts several arguments; however, you usually only need to pass the "human-readable" name of the field. Lyra will automatically "snake case" this string to determine the underlying database column:
 
 ```php
 use SertxuDeveloper\Lyra\Fields\Id;
@@ -197,46 +198,46 @@ You can hide each field using the following methods:
  - `hideOnCreate`
  - `hideOnEdit`
 
-You may chain any of these methods onto your field's definition in order to instruct Lyra where the field should be displayed:
+You may chain any of these methods onto your field's definition to instruct Lyra where the field should be displayed:
 
 ```php
 Text::make('Name')->hideOnIndex()
 ```
 
-In addition if you want to invert the method and show a field hidded by default you should pass a false boolean to the method.
+Besides if you want to invert the method and show a field hidden by default you should pass a false boolean to the method.
 
 ```php
 Id::make('Id')->hideOnCreate(false)
 ```
 
 ## Sortable Fields
-If you want to be able to sort by a field in the index view, you may use the `sortable` method in order to enable this functionality.
+If you want to be able to sort by a field in the index view, you may use the `sortable` method to enable this functionality.
 
 ```php
 Id::make('Id')->sortable()
 ```
 
 ## Field Types
-Lyra has built-in the mostly used field types.
+Lyra has built-in the most used field types.
 
 ### Text Field
-The text field is the simples editable field, it will show a text input.
+The text field is the simplest editable field, it will show a text input.
 
 #### Length limit
-With the method ``size`` we can add a length limitator, the first parameter its required and it should be an int to specify the maximum length, the second parameter is optional and it will determine the type of the limitator.
+With the method `size` we can add a length limitation, the first parameter it's required and it should be an int to specify the maximum length, the second parameter is optional and it will determine the type of the limitation.
 
-There are available two types of limitator, the hard limit and the soft limit.
+There are available two types of limitations, the hard limit, and the soft limit.
 
 ##### Soft limit
-This mode shows a character count followed by the maximum length setted.
-Once the limit is reached the user will be able to continue writing, it works only as an orientative length limit.
+This option shows a character count followed by the maximum length set.
+Once the limit is reached the user will be able to continue writing, it works only as an orientation length limit.
 
 ```php
 Text::make('Name')->size(25)
 ```
 
 ##### Hard limit
-This options shows a character count followed by the maximum length setted. Once the limit is reached the user won't be able to continue writing. Keep in mind this limit is client-side only.
+This option shows a character count followed by the maximum length set. Once the limit is reached the user won't be able to continue writing. Keep in mind this limit is client-side only.
 
 ```php
 Text::make('Name')->size(25, true)
@@ -263,7 +264,7 @@ Text::make('Title'),
 Slug::make('Slug')->sluglify('title'),
 ```
 
-The slug will be automatically created while you're typing in the origin field, in this case the "Text" field. This will only occour if there wasn't any previous value in the slug field at the moment of accessing the form.
+The slug will be automatically created while you're typing in the origin field, in this case, the "Text" field. This will only occur if there wasn't any previous value in the slug field at the moment of accessing the form.
 
 ### Boolean Field
 This field is used to represent a boolean value, it shows a :heavy_check_mark: when the value is true, and a :x: if the value is false.
@@ -272,7 +273,7 @@ This field is used to represent a boolean value, it shows a :heavy_check_mark: w
 Boolean:make('Active')
 ```
 
-You can set the `true` and `false` values if, for example, you have an enum field in your database, in order to do that you should use the `values` method. This method requires two parameters, the first one will be the `true` value and the second one will be the `false` value.
+You can set the `true` and `false` values if, for example, you have an enum field in your database, to do that you should use the `values` method. This method requires two parameters, the first one will be the `true` value and the second one will be the `false` value.
 
 ```php
 Boolean:make('Status')->values('ACTIVE', 'FALSE')
@@ -303,7 +304,7 @@ Select::make('Status')->options([
 ])
 ```
 
-In order to set a default value you should use the `default` method.
+To set a default value you should use the `default` method.
 
 ```php
 Select::make('Status')->options([
@@ -336,7 +337,7 @@ Radio::make('Status')->options([
 ])
 ```
 
-In order to set a default value you should use the `default` method.
+To set a default value you should use the `default` method.
 
 ```php
 Radio::make('Status')->options([
@@ -366,11 +367,44 @@ You can also display HTML code in the field, it will render the content.
 Heading::make('Extra data - <span style="color:red">Important</span>')
 ```
 
+### Code field
+This field will display a [CodeMirror](https://codemirror.net/) editor. This field supports multiple languages, to specify one language you should use the `mode` method.
+
+The available modes are:
+  - [clike](https://codemirror.net/mode/clike/)
+  - [htmlmixed](https://codemirror.net/mode/htmlmixed/)
+  - [javascript](https://codemirror.net/mode/javascript/)
+  - [sql](https://codemirror.net/mode/sql/)
+  - [shell](https://codemirror.net/mode/shell/)
+  - [powershell](https://codemirror.net/mode/powershell/)
+  - [css](https://codemirror.net/mode/css/)
+  - [dockerfile](https://codemirror.net/mode/dockerfile/)
+  - [go](https://codemirror.net/mode/go/)
+  - [http](https://codemirror.net/mode/http/)
+  - [markdown](https://codemirror.net/mode/markdown/)
+  - [php](https://codemirror.net/mode/php/)
+  - [python](https://codemirror.net/mode/python/)
+  - [sass](https://codemirror.net/mode/sass/)
+  - [scheme](https://codemirror.net/mode/scheme/)
+  - [diff](https://codemirror.net/mode/diff/)
+  - [vue](https://codemirror.net/mode/vue/)
+  - [xml](https://codemirror.net/mode/xml/)
+  - [yaml](https://codemirror.net/mode/yaml/)
+
+```php
+Code::make('text')->mode('htmlmixed')
+```
+
+If you want to use JSON in this field, you should use the `json` method.
+
+```php
+Code::make('text')->json()
+```
+
 # Advanced Configurations
 
-
 ## Menu configuration
-You should create an element inside the `menu` array in the Lyra configuration file in order to be able to use the resource you've created.
+You should create an element inside the `menu` array in the Lyra configuration file to be able to use the resource you've created.
 
 All the elements in the menu should contain the keys `name`, `key`, `icon`, `resource`.
 
@@ -386,7 +420,7 @@ All the elements in the menu should contain the keys `name`, `key`, `icon`, `res
   ]
 ```
 
-Also, Lyra has two elements preconfigured in the `menu` array, the Dashboard and the Media Manager, that's because these elements works directly with the frond-end, you can see these two doesn't have the `resource` key in the array.
+Also, Lyra has two elements preconfigured in the `menu` array, the Dashboard and the Media Manager, that's because these elements work directly with the front-end, you can see these two doesn't have the `resource` key in the array.
 
 
 ```php
@@ -447,10 +481,10 @@ You can have all the nested levels you want, but keep in mind the front-end is n
 
 # API Documentation
 #### (need update before release)
-In this section of the documentation we're going to see how works and how to create some of the structures of Lyra.
+In this section of the documentation, we're going to see how works and how to create some of the structures of Lyra.
 
 ## Fields
-All the fields, except the Heading, extends the `SertxuDeveloper\Lyra\Fields\Field` abstract class, this class contains all the common methods and properties that all the fields needs to work.
+All the fields, except the Heading, extends the `SertxuDeveloper\Lyra\Fields\Field` abstract class, this class contains all the common methods and properties that all the fields need to work.
 
 ### Properties
 These are the properties of the fields:
@@ -487,7 +521,7 @@ These are the methods of the fields:
 | public | [retrieveValue](#public-retrievevalue) | mixed | Default method to obtain the data from the model column, or a null if it not exists. |
 
 #### public static make
-Method to initialize the field, all the field should start with a static call to these method.
+Method to initialize the field, all the fields should start with a static call to this method.
 
 ```php
 make(string $name, mixed $column = null)
@@ -587,7 +621,7 @@ getPermissions()
 array
 
 #### public getValue
-Sets the data value and return all the data array filled. The type indicates if it was acceces via index, show, create or edit.
+Sets the data value and returns all the data array filled. The type indicates if it was accessed via index, show, create or edit.
 
 ```php
 getValue(mixed $model, string $type)
@@ -597,7 +631,7 @@ getValue(mixed $model, string $type)
 array
 
 #### public getValueShow
-Returns the model value when the user has access the index and show views.
+Returns the model value when the user has accessed the index and show views.
 
 ```php
 getValueShow(mixed $model)
@@ -617,7 +651,7 @@ getValueEdit(mixed $model)
 mixed
 
 #### public getTranslatedValue
-Returns the translated model value when the user has requested other language.
+Returns the translated model value when the user has requested another language.
 
 ```php
 getValueEdit(mixed $model)
@@ -627,7 +661,7 @@ getValueEdit(mixed $model)
 mixed
 
 #### public retrieveValue
-Default method to obtain the data from the model column, or a null if it not exists.
+The default method to obtain the data from the model column, or a null if it not exists.
 
 ```php
 retrieveValue(mixed $model)
@@ -637,10 +671,10 @@ retrieveValue(mixed $model)
 mixed
 
 ## Resource
-All the resources extends the `SertxuDeveloper\Lyra\Http\Resources\Resource` abstract class, this class contains all the common methods and properties that all the resources needs to work.
+All the resources extend the `SertxuDeveloper\Lyra\Http\Resources\Resource` abstract class, this class contains all the common methods and properties that all the resources need to work.
 
 ### Properties
-These are the properties of the resouces:
+These are the properties of the resources:
 
 | Type | Name | Default value | Description |
 | --- | --- | --- | --- |
@@ -666,7 +700,7 @@ These are the methods of the resources:
 | public static | [isTranslatable](#public-static-istranslatable) | bool | Check if the model has HasTranslations class |
 
 #### public abstract fields
-Contains an array with the fields declarations.
+It contains an array with field declarations.
 
 ```php
 fields()
