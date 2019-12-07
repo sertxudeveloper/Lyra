@@ -72,6 +72,7 @@
         if (!isValid) return false;
 
         this.formData.append('collection', JSON.stringify(this.resource.collection.data[0]));
+        this.formData.append('preventConflict', this.resource.collection.preventConflict);
         this.$http.post(this.$route.fullPath, this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} edited successfully`);

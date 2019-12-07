@@ -69,6 +69,8 @@ abstract class Resource extends ResourceCollection {
       return $fields;
     });
 
+    if ($this->type === 'edit') $resource->preventConflict = $this->collection[0][static::$model::UPDATED_AT];
+
     $resource->hasSoftDeletes = $this->hasSoftDeletes();
 
     $resource = collect($resource)->filter(function ($item, $key) {
