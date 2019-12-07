@@ -24,7 +24,7 @@ abstract class Field {
     if (!$column) {
       $column = Str::snake($name);
     } else {
-      if (is_callable($column)) {
+      if (is_callable($column) && gettype($column) === 'object') {
         $class->callback = $column;
         $column = Str::snake($name);
         $class->hideOnCreate = true;
