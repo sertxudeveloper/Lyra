@@ -1,18 +1,18 @@
-.CodeMirror,
-.CodeMirror-scroll {
+.markdown-body .CodeMirror,
+.markdown-body .CodeMirror-scroll {
   max-height: calc(90vh - 65px);
 }
 
-.editor-preview,
-.editor-preview-side {
+.markdown-body .editor-preview,
+.markdown-body .editor-preview-side {
   background: #fff!important;
 }
 
-.CodeMirror {
+.markdown-body .CodeMirror {
   color: #24292e!important;
 }
 
-.CodeMirror-sizer {
+.markdown-body .CodeMirror-sizer {
   margin-bottom: 0!important;
 }
 
