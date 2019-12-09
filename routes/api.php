@@ -5,6 +5,7 @@ use SertxuDeveloper\Lyra\Http\Controllers\CRUD\DestroyController;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\EditController;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\ShowController;
 use SertxuDeveloper\Lyra\Http\Controllers\MediaManagerController;
+use SertxuDeveloper\Lyra\Http\Controllers\SearchController;
 
 Route::group(['middleware' => ['web', 'lyra-api']], function () {
 
@@ -18,6 +19,9 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
     Route::post('media/move', [MediaManagerController::class, 'move']);
     Route::post('media/copy', [MediaManagerController::class ,'copy']);
     Route::post('media/delete', [MediaManagerController::class, 'delete']);
+
+    /** Global search routes */
+    Route::get('search', [SearchController::class, 'search']);
 
     /** Dynamic Resource routes */
 

@@ -63,4 +63,12 @@ class Heading {
   public function getValue($model, $type) {
     return $this->data->toArray();
   }
+
+  public function isPrimary() {
+    return false;
+  }
+
+  public function getColumnName() {
+    return null;
+  }
 }

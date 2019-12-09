@@ -27,14 +27,7 @@
 
     <div class="col d-flex px-0 px-md-3 shadow w-100 navbar-top">
 
-      <form class="col form-inline h-100 pl-0 pl-sm-3 pr-0">
-        <div class="align-items-center d-flex form-group h-100 m-0 w-100">
-          <i class="d-none d-sm-block fa-search fas"></i>
-          <input type="text" id="search" class="form-control h-100 m-0" name="search" autofocus
-                 placeholder="Search models, actions or help">
-
-        </div>
-      </form>
+      <global-search></global-search>
 
       <div class="align-items-center d-flex h-100 right-menu">
         <div class="d-flex h-100 menu-icons px-0">

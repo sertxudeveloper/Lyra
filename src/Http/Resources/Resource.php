@@ -12,6 +12,9 @@ abstract class Resource extends ResourceCollection {
   private $type;
   public static $model;
   public static $search = [];
+  public static $title = '';
+  public static $subtitle = '';
+  public static $limitResults;
   public $singular;
   public $plural;
   public static $perPageOptions = [15, 50, 100];
@@ -24,6 +27,13 @@ abstract class Resource extends ResourceCollection {
     return collect((new static($resource))->fields());
   }
 
+  public function getLabels() {
+    $singular = ($this->singular) ? $this->singular : Str::singular(class_basename($this));
+    $plural = ($this->plural) ? $this->plural : Str::plural(class_basename($this));
+
+    return ['singular' => $singular, 'plural' => $plural];
+  }
+
   protected function getAvailableLanguages() {
     $available_locales = config('lyra.translator.available_locales');
     $default_locale = config('lyra.translator.default_locale');
@@ -34,10 +44,8 @@ abstract class Resource extends ResourceCollection {
   public function getCollection(Request $request, string $type) {
     $this->type = $type;
 
-    $singular = ($this->singular) ? $this->singular : Str::singular(class_basename($this));
-    $plural = ($this->plural) ? $this->plural : Str::plural(class_basename($this));
-
-    $this->response['labels'] = ["singular" => $singular, "plural" => $plural];
+    $labels = $this->getLabels();
+    $this->response['labels'] = $labels;
     $this->response['collection'] = $this->toArray($request);
     $this->response['perPageOptions'] = $this::$perPageOptions;
 
@@ -53,17 +61,31 @@ abstract class Resource extends ResourceCollection {
     $this->collection = ($this->type !== 'create') ? $this->collection : collect([new static::$model]);
 
     if (!Arr::first($resource) || $this->type !== 'index') $resource = [];
-    $resource = (object) $resource;
+    $resource = (object)$resource;
 
     $resource->data = $this->collection->map(function ($model) use ($request) {
       $fields = [];
 
       foreach ($this->fields() as $field) {
-        $permission = $field->getPermissions();
-        if ($permission['hideOn' . ucfirst($this->type)]) continue;
 
-        $field = $field->getValue($model, $this->type);
-        $fields[] = $field;
+        if ($this->type === 'search') {
+          if ($field->isPrimary()) {
+            $fields['primary'] = $field->getValue($model, 'index')['value'];
+          } else {
+            if ($field->getColumnName() === static::$title) {
+              $fields['title'] = $field->getValue($model, 'index')['value'];
+            } else if ($field->getColumnName() === static::$subtitle) {
+              $fields['subtitle'] = $field->getValue($model, 'index')['value'];
+            } else {
+              continue;
+            }
+          }
+        } else {
+          $permission = $field->getPermissions();
+          if ($permission['hideOn' . ucfirst($this->type)]) continue;
+          $fields[] = $field->getValue($model, $this->type);
+        }
+
       }
 
       return $fields;
@@ -74,7 +96,7 @@ abstract class Resource extends ResourceCollection {
     $resource->hasSoftDeletes = $this->hasSoftDeletes();
 
     $resource = collect($resource)->filter(function ($item, $key) {
-      return !preg_match('/^[0-9]$/', $key);
+      return !preg_match('/^[0-9]+$/', $key);
     })->toArray();
 
     return $resource;
@@ -86,5 +108,17 @@ abstract class Resource extends ResourceCollection {
 
   public static function isTranslatable() {
     return in_array('SertxuDeveloper\Translatable\Traits\HasTranslations', class_uses(static::$model));
+  }
+
+  static public function search($term) {
+    if (!count(static::$search)) return [];
+
+    $query = static::$model::query();
+
+    foreach (static::$search as $key) {
+      $query->orWhere($key, 'LIKE', "%{$term}%");
+    }
+
+    return $query->get();
   }
 }

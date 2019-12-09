@@ -84,9 +84,12 @@ const router = new VueRouter({
   ]
 });
 
+import GlobalSearch from './components/GlobalSearch';
+
 new Vue({
   el: '#lyra',
   router,
+  components: {GlobalSearch},
   data: {
     loader: false
   },

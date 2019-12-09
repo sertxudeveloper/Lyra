@@ -142,4 +142,12 @@ abstract class Field {
     return isset($model[$this->data->get('column')]) ? $model[$this->data->get('column')] : null;
   }
 
+  public function getColumnName() {
+    return $this->data->get('column');
+  }
+
+  public function isPrimary() {
+    return !!$this->data->get('primary');
+  }
+
 }
