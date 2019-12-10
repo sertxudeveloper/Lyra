@@ -10,23 +10,43 @@ class SearchController extends Controller {
   public function search(Request $request) {
     /** Get the Lyra resource from the global array */
     $resources = Lyra::getResources();
+    $response = collect();
+    $query = $request->query('q');
 
-    $response = [];
-    foreach ($resources as $key => $resource) {
-      $model = $resource::$model;
-      $results = $resource::search($request->query('q'));
+    if (preg_match('/^resource:[\w]+ [\s\S]*/', $query)) {
+      $resourceName = explode('resource:', $query)[1];
+      $resourceName = explode(' ', $resourceName)[0];
+      $resource = $resources[$resourceName];
 
-      if (count($results)) {
-        $response[] = [
-          "name" => (new $resource(new $model))->getLabels()['plural'],
-          "key" => $key,
-          "results" => collect((new $resource($results))->getCollection($request, 'search')['collection']['data'])
-            ->take($resource::$limitResults)->toArray(),
-        ];
+      $query = explode(' ', $query);
+      array_shift($query);
+      $query = implode(' ', $query);
+
+      $response->push($this->searchResource($resource, $query, $resourceName));
+    } else {
+
+      foreach ($resources as $key => $resource) {
+        $response->push($this->searchResource($resource, $query, $key));
       }
     }
 
-    return $response;
+    return $response->filter()->values();
+  }
+
+  private function searchResource($resource, $query, $key) {
+    $model = $resource::$model;
+    $results = $resource::search($query);
+
+    if (count($results)) {
+      return [
+        "name" => (new $resource(new $model))->getLabels()['plural'],
+        "key" => $key,
+        "results" => collect((new $resource($results))->getCollection(request(), 'search')['collection']['data'])
+          ->take($resource::$limitResults)->toArray(),
+      ];
+    }
+
+    return null;
   }
 
 }

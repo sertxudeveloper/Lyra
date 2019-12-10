@@ -16,4 +16,4 @@ mix.sass('resources/assets/sass/login.scss', 'publishable/assets/css')
   .sass('resources/assets/sass/theme/default.scss', 'publishable/assets/css')
   .sass('resources/assets/sass/theme/dark.scss', 'publishable/assets/css')
   .sass('resources/assets/sass/theme/light.scss', 'publishable/assets/css')
-	.js('resources/assets/js/app.js', 'publishable/assets/js');
+  .js('resources/assets/js/app.js', 'publishable/assets/js');

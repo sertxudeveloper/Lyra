@@ -10,20 +10,26 @@
             aria-expanded="false" class="d-none"></button>
 
     <div class="dropdown-menu rounded-0 p-0" aria-labelledby="dropdownMenuSearch">
-      <div class="bg-light shadow search-results" v-show="searchResults">
-        <div v-for="resource in searchResults">
-          <div class="px-3 py-1 group-title">{{ resource.name.toUpperCase() }} - {{ resource.results.length }} found</div>
-          <div>
-            <router-link v-for="result in resource.results" class="result-element" :key="resource.key + '-' + result.primary"
-                         :to="{name: 'show', params: {resourceName: resource.key, resourceId: result.primary}}"
-                          @click.native="closeResults">
-              <div class="px-3 py-2 d-flex flex-column">
-                <span>{{ result.title }}</span>
-                <small v-show="result.subtitle">{{ result.subtitle }}</small>
-              </div>
-            </router-link>
-          </div>
+      <div class="bg-light shadow search-results">
+        <div v-if="!searchResults.length" class="align-items-center d-flex h-100 justify-content-center">
+          <span>{{search}} not found</span>
         </div>
+        <template v-else>
+          <div v-for="resource in searchResults">
+            <div class="px-3 py-1 group-title">{{ resource.name.toUpperCase() }} - {{ resource.results.length }} found
+            </div>
+            <div>
+              <router-link v-for="result in resource.results" class="result-element"
+                           :key="resource.key + '-' + result.primary" @click.native="closeResults"
+                           :to="{name: 'show', params: {resourceName: resource.key, resourceId: result.primary}}">
+                <div class="px-3 py-2 d-flex flex-column">
+                  <span>{{ result.title }}</span>
+                  <small v-show="result.subtitle">{{ result.subtitle }}</small>
+                </div>
+              </router-link>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -34,7 +40,7 @@
     data: function () {
       return {
         search: null,
-        searchResults: null,
+        searchResults: [],
         isTyping: null
       }
     },
@@ -43,10 +49,10 @@
         this.search = null;
       },
       clearSearchResults: function () {
-        this.searchResults = null;
+        this.searchResults = [];
       },
       openResults: function () {
-        if(this.search) $('#dropdownMenuSearch').dropdown('show');
+        if (this.search) $('#dropdownMenuSearch').dropdown('show');
       },
       closeResults: function () {
         $('#dropdownMenuSearch').dropdown('hide');
@@ -55,6 +61,8 @@
     watch: {
       search: function () {
         clearTimeout(this.isTyping);
+
+        if (!this.searchResults.length) this.closeResults();
 
         this.isTyping = setTimeout(() => {
           if (!this.search || this.search.trim().length === 0) {
@@ -87,8 +95,8 @@
   }
 
   .result-element {
-    outline: none!important;
-    text-decoration: none!important;
+    outline: none !important;
+    text-decoration: none !important;
     color: #000;
   }
 
