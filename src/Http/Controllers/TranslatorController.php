@@ -26,13 +26,8 @@ class TranslatorController extends Controller {
       request()->get('lang') !== config('lyra.translator.default_locale');
   }
 
-  public static function updateTranslation($values, $resource) {
-    $fields = $values->filter(function ($value) {
-      return isset($value['translatable']);
-    })->mapWithKeys(function ($field) {
-      return [$field['column'] => $field['value']];
-    })->toArray();
-
+  public static function updateTranslation($field, $resource) {
+    $fields = [$field['column'] => $field['value']];
 
     $translation = DB::table($resource->getTable() . config('lyra.translator.table_suffix'))
       ->where([['locale', request()->get('lang')], ['id', $resource[$resource->getKeyName()]]])->first();

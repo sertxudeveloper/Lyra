@@ -36,7 +36,8 @@
 
     <div class="align-items-baseline d-flex justify-content-between">
       <div class="panel box-dark-shadow col-12 py-2 w-100">
-        <div v-for="field in resource.collection.data[0]" v-if="!isRelationshipField(field.component)"
+        <div v-for="field in resource.collection.data[0]"
+             v-if="!isRelationshipField(field.component) && field.component !== 'morph-one-to-one-field'"
              class="row field-row py-2 align-items-center"
              :class="[!isHeadingField(field.component) ? 'mx-0' : 'heading-field']">
 
@@ -57,6 +58,10 @@
           </template>
 
         </div>
+
+        <component v-for="field in resource.collection.data[0]"
+                   v-if="field.component === 'morph-one-to-one-field' && !isRelationshipField(field.component)"
+                   :is="field.component" :key="field.column" :resource.sync="field.value"></component>
       </div>
     </div>
 
@@ -69,6 +74,7 @@
 <script>
   import HasManyField from '../../Fields/Show/HasManyField'
   import BelongsToManyInverseField from '../../Fields/Show/BelongsToManyInverseField'
+  import MorphOneToOneField from '../../Fields/Show/MorphOneToOneField'
 
   export default {
     data() {
@@ -134,7 +140,7 @@
         }
       }
     },
-    components: {HasManyField, BelongsToManyInverseField},
+    components: {HasManyField, BelongsToManyInverseField, MorphOneToOneField},
     beforeMount: function () {
       this.getResource();
     },

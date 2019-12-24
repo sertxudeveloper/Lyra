@@ -76,7 +76,7 @@ class EditController extends DatatypesController {
     /** Process first the common fields with a column in the database */
     $fields->each(function ($field, $key) use ($values, $resource) {
       if (TranslatorController::isTranslatorUsable() && $field->isTranslatable()) {
-        TranslatorController::updateTranslation($values, $resource);
+        TranslatorController::updateTranslation($values[$key], $resource);
       } else {
         if (method_exists($field, 'saveValue')) $field->saveValue($values[$key], $resource);
       }
