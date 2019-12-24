@@ -104,6 +104,7 @@ class LyraServiceProvider extends ServiceProvider {
     $this->commands([
       Commands\InstallCommand::class,
       Commands\ResourceMakeCommand::class,
+      Commands\UserMakeCommand::class,
     ]);
   }
 
