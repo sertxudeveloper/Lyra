@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePermissionsTable extends Migration {
+class CreateLyraPermissionsTable extends Migration {
 
   /**
    * Run the migration.
@@ -13,12 +13,13 @@ class CreatePermissionsTable extends Migration {
    */
   public function up() {
     Schema::create('lyra_permissions', function (Blueprint $table) {
-      $table->increments('id');
-      $table->string('key', 50)->unique();
-      $table->string('table_name', 50)->nullable();
-      $table->datetime('created_at')->nullable();
-      $table->datetime('updated_at')->nullable();
-      $table->datetime('deleted_at')->nullable();
+      $table->integer('id');
+      $table->integer('role_id');
+      $table->string('resource_key', 50);
+      $table->string('action', 50);
+      $table->timestamps();
+
+      $table->primary(['id', 'role_id']);
     });
   }
 

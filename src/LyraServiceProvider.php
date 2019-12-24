@@ -85,10 +85,7 @@ class LyraServiceProvider extends ServiceProvider {
         "${packagePath}/publishable/config/lyra.php" => config_path('lyra.php')
       ],
       'lyra-migrations' => [
-        "${packagePath}/publishable/database/migrations/" => database_path('migrations'),
-      ],
-      'lyra-seeds' => [
-        "${packagePath}/publishable/database/seeds/" => database_path('seeds'),
+        "${packagePath}/publishable/database/migrations/" => database_path('migrations/lyra'),
       ],
       'lyra-demo_content' => [
         "${packagePath}/publishable/demo_content/" => storage_path('app/public'),
