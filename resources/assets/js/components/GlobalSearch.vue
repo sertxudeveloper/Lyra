@@ -50,6 +50,7 @@
       },
       clearSearchResults: function () {
         this.searchResults = [];
+        this.closeResults();
       },
       openResults: function () {
         if (this.search) $('#dropdownMenuSearch').dropdown('show');
