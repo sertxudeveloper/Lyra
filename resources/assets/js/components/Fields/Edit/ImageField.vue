@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <button class="btn btn-outline-primary" @click="openFileDialog(field.column)">Add New File</button>
+      <button class="btn btn-outline-primary" @click.prevent="openFileDialog(field.column)">Add New File</button>
       <input type="file" :id="field.column" class="d-none" @change="addNewFile($event)" multiple accept="image/*">
 
     </template>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-outline-primary" @click="openFileDialog(field.column)">Replace File</button>
+      <button class="btn btn-outline-primary" @click.prevent="openFileDialog(field.column)">Replace File</button>
       <input type="file" :id="field.column" class="d-none" @change="updateFile($event)" accept="image/*">
     </template>
   </div>
