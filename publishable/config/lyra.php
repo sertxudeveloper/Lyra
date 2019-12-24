@@ -47,7 +47,6 @@ return [
     // No modification needed if you're using sertxudeveloper/laravel-translatable
     "table_suffix" => "_translations",
     "locale_column" => "locale",
-
   ],
 
   /*
@@ -70,15 +69,6 @@ return [
 
   /*
   |--------------------------------------------------------------------------
-  | User avatar system
-  | Here you can specify the name of the database column where it's saved the user's avatar image
-  | If there's not any avatar column, you should set it to 'false' in order to use Gravatar API.
-  |--------------------------------------------------------------------------
-  */
-  "avatar" => false,
-
-  /*
-  |--------------------------------------------------------------------------
   | Users authorized to log in
   |
   | It only works with the basic authenticator
@@ -87,6 +77,15 @@ return [
   "authorized_users" => [
     "sergioperis2@gmail.com",
   ],
+
+  /*
+  |--------------------------------------------------------------------------
+  | User avatar system
+  | Here you can specify the name of the database column where it's saved the user's avatar image
+  | If there's not any avatar column, you should set it to 'false' in order to use Gravatar API.
+  |--------------------------------------------------------------------------
+  */
+  "avatar" => false,
 
   /*
   |--------------------------------------------------------------------------
