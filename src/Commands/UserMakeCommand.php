@@ -3,7 +3,10 @@
 namespace SertxuDeveloper\Lyra\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use SertxuDeveloper\Lyra\Models\Role;
+use SertxuDeveloper\Lyra\Models\User;
 
 class UserMakeCommand extends Command {
 
@@ -27,12 +30,21 @@ class UserMakeCommand extends Command {
     $password = $this->askPassword();
     $passwordConfirmation = $this->askPasswordConfirmation();
 
+    $role_id = $this->askRole();
+
     if ($password !== $passwordConfirmation) {
       $this->error('The passwords inserted do not coincidence, aborting...');
       exit(1);
     }
 
-    dd($name, $email, $password);
+    $user = new User();
+    $user->name = $name;
+    $user->email = $email;
+    $user->password = Hash::make($password);
+    $user->role_id = $role_id;
+
+    $user->save();
+    $this->info('User saved successfully!');
   }
 
   private function validateEmail($email) {
@@ -70,6 +82,15 @@ class UserMakeCommand extends Command {
     $password = $this->secret('Insert the password confirmation of the new user');
     if (!$this->validatePassword($password)) return $this->askPasswordConfirmation();
     return $password;
+  }
+
+  private function askRole() {
+    $roles = Role::all();
+
+    $role_choice = $this->choice('Select a role for the new user:', $roles->pluck('name')->toArray());
+    return $roles->search(function ($item, $key) use ($role_choice) {
+      return $item['name'] === $role_choice;
+    });
   }
 
 }
