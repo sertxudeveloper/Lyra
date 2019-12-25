@@ -71,6 +71,7 @@ const router = new VueRouter({
     // Default pages
     {path: '/', name: 'lyra', component: Dashboard},
     {path: '/media', name: 'media', component: MediaManager},
+    {path: '/profile', name: 'profile', component: Edit},
 
     // HTTP Errors
     {path: '/404', name: '404', component: HTTP_404},
@@ -116,7 +117,7 @@ new Vue({
     }, (error) => {
       if (error.response.data.message) toastr.error(error.response.data.message);
       if (error.response.status === 403) {
-        location.reload();
+        router.push('/403');
       } else if (error.response.status === 404) {
         router.push('/404');
       }
