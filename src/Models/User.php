@@ -19,11 +19,8 @@ class User extends Authenticable {
    * @return bool
    */
   public function hasPermission($action, $resource): bool {
-    if ($resource === 'lyra') return true;
-//    if ($resource === 'posts') return true;
-//    dd($resource, $action);
-    return false;
-//    return $this->role->permissions->contains("key", $permission);
+    if ($resource === 'lyra' || $resource === 'profile') return true;
+    return $this->role->permissions()->where(['resource_key' => $resource, 'action' => $action])->exists();
   }
 
   /**

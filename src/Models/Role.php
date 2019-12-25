@@ -13,10 +13,10 @@ class Role extends Model {
 
   /**
    * Get the permissions of the role
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+   * @return \Illuminate\Database\Eloquent\Relations\hasMany
    */
   public function permissions() {
-    return $this->belongsToMany(Permission::class, 'lyra_permission_role');
+    return $this->hasMany(Permission::class);
   }
 
   public function users() {

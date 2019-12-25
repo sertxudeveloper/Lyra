@@ -19,7 +19,7 @@ class CreateLyraPermissionsTable extends Migration {
       $table->string('action', 50);
       $table->timestamps();
 
-      $table->primary(['id', 'role_id']);
+      $table->primary(['role_id', 'resource_key', 'action']);
     });
   }
 
