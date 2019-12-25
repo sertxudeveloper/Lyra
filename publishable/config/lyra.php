@@ -40,7 +40,7 @@ return [
   |--------------------------------------------------------------------------
    */
   "translator" => [
-    "enabled" => true,
+    "enabled" => false,
     "default_locale" => "es",
     "available_locales" => ["en", "it"],
 
@@ -93,6 +93,8 @@ return [
   |--------------------------------------------------------------------------
    */
   "notificator" => false,
+
+  "profile_resource" => SertxuDeveloper\Lyra\Http\Resources\Profile::class,
 
   /*
   |--------------------------------------------------------------------------

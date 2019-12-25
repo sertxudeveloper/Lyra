@@ -17,6 +17,7 @@
     </div>
   </a>
   <div class="dropdown-menu dropdown-menu-right mr-2" aria-labelledby="navbarMenuUser">
-    <a class="dropdown-item" href="{{ lyra_route('logout') }}">Cerrar sesión</a>
+    <router-link class="dropdown-item" :to="{ name: 'profile', query: { lang: $route.query.lang }}">Profile</router-link>
+    <a class="dropdown-item" href="{{ lyra_route('logout') }}">Logout</a>
   </div>
 </div>
