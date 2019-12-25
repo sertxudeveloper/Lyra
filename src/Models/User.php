@@ -14,11 +14,16 @@ class User extends Authenticable {
   /**
    * Check if the user has the requested permission
    *
-   * @param $permission string Key of the requested permission
+   * @param $action
+   * @param $resource
    * @return bool
    */
-  public function hasPermission($permission): bool {
-    return $this->role->permissions->contains("key", $permission);
+  public function hasPermission($action, $resource): bool {
+    if ($resource === 'lyra') return true;
+//    if ($resource === 'posts') return true;
+//    dd($resource, $action);
+    return false;
+//    return $this->role->permissions->contains("key", $permission);
   }
 
   /**

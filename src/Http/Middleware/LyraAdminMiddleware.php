@@ -3,7 +3,7 @@
 namespace SertxuDeveloper\Lyra\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use SertxuDeveloper\Lyra\Lyra;
 
 /**
@@ -16,19 +16,13 @@ class LyraAdminMiddleware {
   /**
    * Handle an incoming request.
    *
-   * @param Illuminate\Http\Request $request
+   * @param Request $request
    * @param Closure $next
    *
    * @return mixed
    */
-  public function handle($request, Closure $next) {
-    if (Lyra::auth()->check()) {
-      if (config('lyra.authenticator') == 'basic') {
-        return $next($request);
-      }
-
-      return (Lyra::auth()->user()->hasPermission('read_lyra')) ? $next($request) : redirect('/');
-    }
+  public function handle(Request $request, Closure $next) {
+    if (Lyra::auth()->check()) return $next($request);
 
     return redirect()->route(config('lyra.routes.web.name') . 'login');
   }

@@ -7,14 +7,9 @@ use Illuminate\Http\Testing\File;
 use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use SertxuDeveloper\Lyra\Lyra;
 
 class MediaManagerController extends Controller {
-
-//  public function index(Request $request) {
-//    $disk = $request->has('disk') ? $request->get('disk') : config('filesystems.default');
-//
-//    dd(Storage::disk($disk)->allDirectories()[0]);
-//  }
 
   public function disks(Request $request) {
     $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');

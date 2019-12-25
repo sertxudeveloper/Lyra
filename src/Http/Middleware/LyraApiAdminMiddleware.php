@@ -3,7 +3,7 @@
 namespace SertxuDeveloper\Lyra\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use SertxuDeveloper\Lyra\Lyra;
 
 /**
@@ -16,12 +16,12 @@ class LyraApiAdminMiddleware {
   /**
    * Handle an incoming request.
    *
-   * @param Illuminate\Http\Request $request
+   * @param Request $request
    * @param Closure $next
    *
    * @return mixed
    */
-  public function handle($request, Closure $next) {
+  public function handle(Request $request, Closure $next) {
     if (Lyra::auth()->check()) return $next($request);
 
     return abort(403);

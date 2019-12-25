@@ -33,10 +33,11 @@ class MenuController extends Controller {
         $menu->push($item);
         return true;
       } else {
-        $menu->push($item);
-        return $this->can($item);
+        if ($this->can($item)) $menu->push($item);
+        return true;
       }
     });
+
     return $menu;
   }
 
@@ -46,15 +47,8 @@ class MenuController extends Controller {
    * @return bool
    */
   private function can(array $item): bool {
-//    $regex = str_replace('/', '\/', preg_quote(route(config('lyra.routes.web.name') . 'dashboard')));
-//    $slug = preg_replace('/' . $regex . '/', '', $this->link($item, true));
-//    $slug = str_replace('/', '', $slug);
-//
-//    $slug = ($slug == "") ? 'lyra' : $slug;
-
-//    return auth()->user()->hasPermission('read_' . $slug);
-    if (config('lyra.authenticator') == 'basic') return true;
-    return Lyra::auth()->user()->hasPermission('read_' . $item['key']);
+    if (config('lyra.authenticator') === 'basic') return true;
+    return Lyra::auth()->user()->hasPermission('read', $item['key']);
   }
 
   /**
