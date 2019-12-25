@@ -87,10 +87,12 @@ class UserMakeCommand extends Command {
   private function askRole() {
     $roles = Role::all();
 
-    $role_choice = $this->choice('Select a role for the new user:', $roles->pluck('name')->toArray());
-    return $roles->search(function ($item, $key) use ($role_choice) {
-      return $item['name'] === $role_choice;
+    $choice = $this->choice('Select a role for the new user', $roles->pluck('name')->toArray());
+    $key = $roles->search(function ($item, $key) use ($choice) {
+      return $item['name'] === $choice;
     });
+
+    return $roles[$key]->id;
   }
 
 }
