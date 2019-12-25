@@ -20,7 +20,7 @@ class CreateLyraUsersTable extends Migration {
       $table->string('email')->unique();
       $table->timestamp('email_verified_at')->nullable();
       $table->string('password');
-      $table->enum('preferred_theme', ['default', 'light', 'dark']);
+      $table->enum('preferred_theme', ['default', 'light', 'dark'])->default('default');
       $table->rememberToken();
       $table->timestamps();
     });
