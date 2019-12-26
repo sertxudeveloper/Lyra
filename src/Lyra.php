@@ -19,6 +19,7 @@ class Lyra {
   protected $version;
   protected $filesystem;
   static protected $resources = [];
+  static protected $observables;
 
   /**
    * Lyra constructor.
@@ -108,5 +109,13 @@ class Lyra {
 
   static public function getResources() {
     return self::$resources;
+  }
+
+  static public function observables($observables) {
+    self::$observables = $observables;
+  }
+
+  static public function runObservables() {
+    if (self::$observables) call_user_func(self::$observables);
   }
 }
