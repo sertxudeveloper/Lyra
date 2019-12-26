@@ -15,15 +15,6 @@ use SertxuDeveloper\Lyra\Policy\MenuItemsPolicy;
 class LyraServiceProvider extends ServiceProvider {
 
   /**
-   * The policy mappings for the application.
-   *
-   * @var array
-   */
-  protected $policies = [
-    MenuItem::class => MenuItemsPolicy::class,
-  ];
-
-  /**
    * Bootstrap services.
    *
    * @param \Illuminate\Routing\Router $router
