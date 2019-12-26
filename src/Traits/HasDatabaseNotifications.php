@@ -5,6 +5,7 @@ namespace SertxuDeveloper\Lyra\Traits;
 use SertxuDeveloper\Lyra\Models\Notification;
 
 trait HasDatabaseNotifications {
+
   /**
    * Get the entity's notifications.
    *
