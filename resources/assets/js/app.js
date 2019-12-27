@@ -11,8 +11,6 @@ Popper.Defaults.modifiers.computeStyle.gpuAcceleration = !(window.devicePixelRat
 
 window.toastr = require('toastr');
 toastr.options.positionClass = "toast-bottom-right";
-// toastr.options.timeOut = 0;
-// toastr.success('Have fun storming the castle!', 'Miracle Max Says');
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -21,8 +19,6 @@ import VueAxios from 'vue-axios'
 import {loadProgressBar} from 'axios-progress-bar'
 
 axios.defaults.baseURL = '/lyra-api';
-// axios.defaults.headers.common['X-C/*SRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
-// axios.defaults.headers.common['X-Re*/quested-With'] = 'XMLHttpRequest';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
@@ -87,20 +83,21 @@ const router = new VueRouter({
 });
 
 import GlobalSearch from './components/GlobalSearch';
+import Notifications from './components/Notifications';
 
 new Vue({
   el: '#lyra',
   router,
-  components: {GlobalSearch},
+  components: {GlobalSearch, Notifications},
   data: {
     loader: false
   },
   methods: {
     enableLoader: function () {
-      this.loader = true
+      this.loader = true;
     },
     disableLoader: function () {
-      this.loader = false
+      this.loader = false;
     }
   },
   created() {
@@ -128,7 +125,7 @@ new Vue({
     });
   },
   mounted() {
-    $('.router-link-active').parents('ul.list-unstyled').addClass('show')
+    $('.router-link-active').parents('ul.list-unstyled').addClass('show');
   }
 });
 

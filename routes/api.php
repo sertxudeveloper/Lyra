@@ -5,6 +5,7 @@ use SertxuDeveloper\Lyra\Http\Controllers\CRUD\DestroyController;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\EditController;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\ShowController;
 use SertxuDeveloper\Lyra\Http\Controllers\MediaManagerController;
+use SertxuDeveloper\Lyra\Http\Controllers\NotificationsController;
 use SertxuDeveloper\Lyra\Http\Controllers\ProfileController;
 use SertxuDeveloper\Lyra\Http\Controllers\SearchController;
 
@@ -26,6 +27,9 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
 
     Route::get('profile', [ProfileController::class, 'edit']);
     Route::post('profile', [ProfileController::class, 'update']);
+
+    Route::get('notifications', [NotificationsController::class, 'index']);
+    Route::get('notifications/{id}', [NotificationsController::class, 'read']);
 
     /** Dynamic Resource routes */
 

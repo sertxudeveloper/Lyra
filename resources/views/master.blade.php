@@ -33,7 +33,7 @@
         <div class="d-flex h-100 menu-icons px-0">
           @include('lyra::common.navbar.help')
           @if(config('lyra.notificator'))
-            @include('lyra::common.navbar.notifications')
+            <notifications></notifications>
           @endif
         </div>
 
