@@ -36,7 +36,7 @@
 
       <context-menu-elements :element="contextElement" :folder-tree="folderTree"
                              @reload-viewer="loadViewer"></context-menu-elements>
-      <context-menu-generic></context-menu-generic>
+      <context-menu-generic @reload-viewer="loadViewer"></context-menu-generic>
 
     </template>
   </div>

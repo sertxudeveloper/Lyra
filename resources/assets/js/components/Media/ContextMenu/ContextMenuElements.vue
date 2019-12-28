@@ -80,14 +80,24 @@
           inputValue: extension,
           inputPlaceholder: 'Enter the new filename',
           showCancelButton: true,
-          confirmButtonText: 'Save'
+          confirmButtonText: 'Save',
+          onOpen: function () {
+            let input = Swal.getInput();
+            input.setSelectionRange(0, 0);
+          }
         }).then(data => {
           if (data.value) {
             this.$http.post(`${this.$route.path}/rename`, {
               element: this.element,
               newName: data.value,
               disk: this.$route.query.disk
-            }).then((response) => console.log(response));
+            }).then((response) => {
+              if (response.status === 200) {
+                let type = (this.element.mime === 'directory') ? 'folder' : 'file';
+                toastr.success(`The ${type} "${this.element.name}" has been renamed to "${data.value}".`);
+                this.$emit('reload-viewer');
+              }
+            });
           }
         });
       },
@@ -116,7 +126,8 @@
           text: "You won't be able to revert this!",
           type: 'warning',
           showCancelButton: true,
-          confirmButtonText: 'Yes, delete it!'
+          confirmButtonText: 'Yes, delete it!',
+          reverseButtons: true
         }).then((result) => {
           if (result.value) {
             this.$http.post(`${this.$route.path}/delete`, {
@@ -124,13 +135,9 @@
               disk: this.$route.query.disk
             }).then(response => {
               if (response.status === 200) {
-                Swal.fire(
-                  'Deleted!',
-                  `The file "${this.element.name}" has been deleted.`,
-                  'success'
-                ).then(() => {
-                  this.$emit('reload-viewer');
-                })
+                let type = (this.element.mime === 'directory') ? 'folder' : 'file';
+                toastr.success(`The ${type} "${this.element.name}" has been deleted.`);
+                this.$emit('reload-viewer');
               }
             });
           }

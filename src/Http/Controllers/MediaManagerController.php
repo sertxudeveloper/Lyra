@@ -80,7 +80,66 @@ class MediaManagerController extends Controller {
     $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
     $element = $request->get('element');
 
-    Storage::disk($selectedDisk)->delete($element['path']);
+    if ($element['mime'] === 'directory') {
+      Storage::disk($selectedDisk)->deleteDirectory($element['path']);
+    } else {
+      Storage::disk($selectedDisk)->delete($element['path']);
+    }
+  }
+
+  public function newFolder(Request $request) {
+    $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
+    $path = $request->get('path');
+    $name = $request->get('name');
+    Storage::disk($selectedDisk)->makeDirectory("$path/$name");
+  }
+
+  public function upload(Request $request) {
+    $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
+    $path = $request->get('path');
+
+    /** Get the file keys as "file-1", "file-2", "file-X" */
+    $fileKeys = $this->getFileKeys('file');
+
+    /** Iterate the file keys getted above */
+    foreach ($fileKeys as $fileKey) {
+      $this->uploadFile($request, $selectedDisk, $path, $fileKey);
+    }
+  }
+
+  public function uploadFolder(Request $request) {
+    $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
+    $basePath = $request->get('path');
+
+    /** Get the file keys as "file-1", "file-2", "file-X" */
+    $fileKeys = $this->getFileKeys('file');
+
+    /** Iterate the file keys getted above */
+    foreach ($fileKeys as $fileKey) {
+      $id = explode('-', $fileKey)[1];
+      $relativePath = $request->get("folder-$id");
+      $path = "$basePath/$relativePath";
+      $this->uploadFile($request, $selectedDisk, $path, $fileKey);
+    }
+  }
+
+  private function getFileKeys($needle) {
+    return collect(request()->files->keys())->filter(function ($value) use ($needle) {
+      $explode = explode('-', $value);
+      array_pop($explode);
+      return implode('-', $explode) === $needle;
+    });
+  }
+
+  private function uploadFile(Request $request, $disk, $path, $file) {
+    /** Check if the file should maintain the original name */
+    if (config('lyra.media_manager.keep_original_name')) {
+      /** Save the file with the original name and get the path */
+      $request->file($file)->storeAs($path, $request->file($file)->getClientOriginalName(), $disk);
+    } else {
+      /** Save the file with a new name and get the path */
+      $request->file($file)->store($path, $disk);
+    }
   }
 
   private function getFoldersInPath($selectedDisk, $selectedPath) {

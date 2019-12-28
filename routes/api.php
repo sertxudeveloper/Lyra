@@ -21,6 +21,9 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
     Route::post('media/move', [MediaManagerController::class, 'move']);
     Route::post('media/copy', [MediaManagerController::class ,'copy']);
     Route::post('media/delete', [MediaManagerController::class, 'delete']);
+    Route::post('media/newFolder', [MediaManagerController::class, 'newFolder']);
+    Route::post('media/upload', [MediaManagerController::class, 'upload']);
+    Route::post('media/uploadFolder', [MediaManagerController::class, 'uploadFolder']);
 
     /** Global search routes */
     Route::get('search', [SearchController::class, 'search']);

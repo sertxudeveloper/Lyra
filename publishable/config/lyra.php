@@ -96,6 +96,10 @@ return [
 
   "profile_resource" => SertxuDeveloper\Lyra\Http\Resources\Profile::class,
 
+  "media_manager" => [
+    "keep_original_name" => false,
+  ],
+
   /*
   |--------------------------------------------------------------------------
   | Lyra menu
