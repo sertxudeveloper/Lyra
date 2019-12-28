@@ -18,7 +18,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import {loadProgressBar} from 'axios-progress-bar'
 
-axios.defaults.baseURL = '/lyra-api';
+axios.defaults.baseURL = '/' + $('meta[name=lyra-api-route]').attr("content");
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);

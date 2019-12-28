@@ -4,6 +4,7 @@
   <title>@yield('page_title', config('lyra.admin.title') . " - " . config('lyra.admin.description'))</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}"/>
+  <meta name="lyra-api-route" content="{{ config('lyra.routes.api.prefix') }}">
 
   <link rel="stylesheet" href="{{ lyra_asset('css/main.css') }}">
   <link rel="stylesheet" href="{{ Lyra::getPreferredTheme() }}">
