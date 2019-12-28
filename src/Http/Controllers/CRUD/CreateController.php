@@ -18,7 +18,7 @@ class CreateController extends DatatypesController {
    */
   public function create(Request $request, string $resource) {
     /** Check if the user has permission to create the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write_' . $resource)) abort(403);
+    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write', $resource)) abort(403);
 
     /** Get the Lyra resource from the global array */
     $resourcesNamespace = Lyra::getResources()[$resource];
@@ -41,7 +41,7 @@ class CreateController extends DatatypesController {
    */
   public function store(Request $request, string $resource) {
     /** Check if the user has permission to create the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write_' . $resource)) abort(403);
+    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write', $resource)) abort(403);
 
     /** Get the Lyra resource from the global array and create a new model instance */
     $resourcesNamespace = Lyra::getResources()[$resource];
@@ -62,18 +62,29 @@ class CreateController extends DatatypesController {
       return !$permission['hideOnCreate'];
     })->values();
 
+    $errors = new \Illuminate\Support\MessageBag;
+
     /** Process first the common fields with a column in the database */
-    $fields->each(function ($field, $key) use ($values, $resource) {
+    $fields->each(function ($field, $key) use ($values, $resource, &$errors) {
+      if (method_exists($field, 'validate')) {
+        $validation = $field->validate($values[$key]['value'], $resource);
+        if ($validation->fails()) $errors->merge($validation->errors()->toArray());
+      }
+
       if (method_exists($field, 'saveValue')) $field->saveValue($values[$key], $resource);
     });
 
-    /** Save the model to get the $id */
-    $resource->saveOrFail();
+    if ($errors->isEmpty()) {
+      /** Save the model to get the $id */
+      $resource->saveOrFail();
 
-    /** Process the relationships fields and create it with the key $id obtained previously */
-    $fields->each(function ($field, $key) use ($values, $resource) {
-      if (method_exists($field, 'syncRelationship')) $field->syncRelationship($values[$key], $resource);
-    });
+      /** Process the relationships fields and create it with the key $id obtained previously */
+      $fields->each(function ($field, $key) use ($values, $resource) {
+        if (method_exists($field, 'syncRelationship')) $field->syncRelationship($values[$key], $resource);
+      });
+    } else {
+      abort(400, $errors->toJson());
+    }
 
     return null;
   }

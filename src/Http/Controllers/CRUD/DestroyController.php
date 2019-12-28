@@ -22,7 +22,7 @@ class DestroyController extends DatatypesController {
    */
   public function delete(Request $request, string $resource, string $id) {
     /** Check if the user has permission to delete the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('delete_' . $resource)) abort(403);
+    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('delete', $resource)) abort(403);
 
     /** Get the Lyra resource from the global array */
     $resourcesNamespace = Lyra::getResources()[$resource];
@@ -55,7 +55,7 @@ class DestroyController extends DatatypesController {
    */
   public function restore(Request $request, string $resource, string $id) {
     /** Check if the user has permission to delete (recover) the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('delete_' . $resource)) abort(403);
+    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('delete', $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
     $model = $resourcesNamespace::$model::onlyTrashed()->find($id);
@@ -76,7 +76,7 @@ class DestroyController extends DatatypesController {
    */
   public function forceDelete(Request $request, string $resource, string $id) {
     /** Check if the user has permission to delete the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('delete_' . $resource)) abort(403);
+    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('delete', $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
     $model = $resourcesNamespace::$model::find($id);

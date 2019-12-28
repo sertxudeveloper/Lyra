@@ -2,6 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 abstract class Field {
@@ -16,6 +17,7 @@ abstract class Field {
   protected $hideOnEdit = false;
 
   protected $data = null;
+  protected $rules = [];
 
   public static function make(string $name, $column = null) {
     $class = new static();
@@ -54,7 +56,7 @@ abstract class Field {
   }
 
   public function isTranslatable() {
-    return (bool) $this->data->get('translatable');
+    return (bool)$this->data->get('translatable');
   }
 
   public function hideOnIndex(bool $hide = true) {
@@ -79,6 +81,19 @@ abstract class Field {
 
   public function saveValue(array $field, $model) {
     $model[$this->data->get('column')] = $field['value'];
+  }
+
+  public function rules(...$rules) {
+    $this->rules = $rules;
+    return $this;
+  }
+
+  public function validate($value, $resource) {
+    preg_match('/{{(\w+)}}/', json_encode($this->rules), $matches);
+    if (!empty($matches)) $rules = str_replace('{{id}}', $resource[$matches[1]], $this->rules);
+    return Validator::make([$this->data->get('column') => $value], [
+      $this->data->get('column') => isset($rules) ? $rules : $this->rules,
+    ]);
   }
 
   public function getPermissions() {

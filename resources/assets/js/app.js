@@ -113,6 +113,7 @@ new Vue({
       this.disableLoader();
       return response;
     }, (error) => {
+      if (error.response.status === 400) return Promise.reject(error.response);
       if (error.response.data.message) toastr.error(error.response.data.message);
       if (error.response.status === 403) {
         router.push('/403');

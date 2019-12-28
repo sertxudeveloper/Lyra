@@ -76,12 +76,22 @@
       create: function () {
         const isValid = $('#createForm')[0].reportValidity();
         if (!isValid) return false;
+        $('.invalid-feedback.d-block.text-left').remove();
 
         this.formData.append('collection', JSON.stringify(this.resource.collection.data[0]));
         this.$http.post(this.$route.fullPath, this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} created successfully`);
             return this.$router.back()
+          }
+        }).catch((error) => {
+          if (error.status === 400) {
+            let errors = JSON.parse(error.data.message);
+            this.resource.collection.data[0].forEach(field => {
+              if (errors[field['column']]) {
+                $(`#${field['column']}`).after(`<div class="invalid-feedback d-block text-left">${errors[field['column']]}</div>`);
+              }
+            })
           }
         })
       },
