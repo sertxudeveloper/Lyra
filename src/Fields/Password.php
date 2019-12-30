@@ -2,6 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use Illuminate\Support\Facades\Hash;
+
 class Password extends Field {
 
   protected $component = "password-field";
@@ -16,6 +18,6 @@ class Password extends Field {
   }
 
   public function saveValue($field, $model) {
-    if ($field['value']) $model[$this->data->get('column')] = $field['value'];
+    if ($field['value']) $model[$this->data->get('column')] = Hash::make($field['value']);
   }
 }
