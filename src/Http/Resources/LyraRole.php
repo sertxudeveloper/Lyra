@@ -2,31 +2,28 @@
 
 namespace SertxuDeveloper\Lyra\Http\Resources;
 
+use SertxuDeveloper\Lyra\Fields\HasMany;
+use SertxuDeveloper\Lyra\Models\Role as Model;
 use SertxuDeveloper\Lyra\Fields\Id;
 use SertxuDeveloper\Lyra\Fields\Text;
-use SertxuDeveloper\Lyra\Fields\HasMany;
-use SertxuDeveloper\Lyra\Models\Role;
-use SertxuDeveloper\Lyra\Models\User;
 
-class LyraRole extends Resource {
-
-  public static $model = Role::class;
-  public static $search = ["id", "key", 'display_name'];
-
-  public $labels = [
-    "singular" => "Role",
-    "plural" => "Roles"
-  ];
+class LyraRole extends Resource
+{
+  public static $model = Model::class;
+  public static $search = ["id"];
+  public $singular = "User";
+  public $plural = "Users";
 
   public function fields() {
 
     return [
-      Id::make('Id', 'id')->description('Campo autoincrementable')->primary(),
-      Text::make('Key', 'name')->size(50)->sortable(),
-      Text::make('Display Name', 'display_name')->size(50)->sortable(),
-//      HasMany::make('Users', 'id')->setResource(LyraUser::class)->hideOnIndex(),
-//      BelongsTo::make('Role', 'role_id')->setForeign('id', 'display_name', Role::class)->get(),
+      Id::make('Id'),
+      Text::make('Name')->rules('required'),
+      Text::make('Users count', function () {
+        return $this->users()->count();
+      })->hideOnShow(),
       HasMany::make('Users')->setResource(LyraUser::class)
     ];
   }
+
 }
