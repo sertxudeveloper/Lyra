@@ -4,6 +4,7 @@ use SertxuDeveloper\Lyra\Http\Controllers\CRUD\CreateController;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\DestroyController;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\EditController;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\ShowController;
+use SertxuDeveloper\Lyra\Http\Controllers\DashboardController;
 use SertxuDeveloper\Lyra\Http\Controllers\MediaManagerController;
 use SertxuDeveloper\Lyra\Http\Controllers\NotificationsController;
 use SertxuDeveloper\Lyra\Http\Controllers\ProfileController;
@@ -12,6 +13,9 @@ use SertxuDeveloper\Lyra\Http\Controllers\SearchController;
 Route::group(['middleware' => ['web', 'lyra-api']], function () {
 
   Route::prefix(config('lyra.routes.api.prefix'))->name(config('lyra.routes.api.name'))->group(function () {
+
+    /** Dashboard routes */
+    Route::get('/', [DashboardController::class, 'index']);
 
     /** Media Manager routes */
     Route::get('media/disks', [MediaManagerController::class, 'disks']);

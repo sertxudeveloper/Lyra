@@ -96,6 +96,8 @@ return [
 
   "profile_resource" => SertxuDeveloper\Lyra\Http\Resources\Profile::class,
 
+  "dashboard" => null, // Add your Dashboard resource class
+
   "media_manager" => [
     "keep_original_name" => false,
   ],
