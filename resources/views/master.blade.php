@@ -12,14 +12,10 @@
 
 <body>
 <div id="lyra">
-  {{--  {{ dd(auth()->user()->notify(new \App\Notifications\LyraVersion())) }}--}}
-  {{--{{ dd(auth()->user()->notifications) }}--}}
   <nav class="navbar fixed-top flex-md-nowrap p-0">
-    {{--<a class="navbar-brand col-sm-3 col-md-3 col-lg-2 mr-0" href="{{ lyra_route('dashboard') }}">--}}
     <a class="col-lg-2 col-md-3 col-sm-3 d-none d-sm-block mr-0 navbar-brand" href="{{ lyra_route('dashboard') }}">
       <img src="{{ lyra_asset('images/lyra-logo.png') }}" alt="Logo Lyra" class="h-100">
     </a>
-    {{--</a>--}}
 
     <div style="flex: 0 0 60px;overflow: hidden;" class="p-2 d-flex d-sm-none">
       <img src="http://lyrawebsite.local/vendor/sertxudeveloper/lyra/assets/images/lyra-logo.png"
@@ -32,7 +28,6 @@
 
       <div class="align-items-center d-flex h-100 right-menu">
         <div class="d-flex h-100 menu-icons px-0">
-          @include('lyra::common.navbar.help')
           @if(config('lyra.notificator'))
             <notifications></notifications>
           @endif
@@ -50,15 +45,10 @@
       <nav class="col-1 col-sm-3 col-md-3 col-lg-2 d-block sidebar">
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
-
-            {{--@php dd(Lyra::getMenuItems()); @endphp--}}
-
             @foreach(Lyra::getMenuItems() as $item)
               @include('lyra::common.sidebar.item')
             @endforeach
-
           </ul>
-
         </div>
       </nav>
 
