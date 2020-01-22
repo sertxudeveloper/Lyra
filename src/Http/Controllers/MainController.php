@@ -17,19 +17,4 @@ class MainController extends Controller {
     return view('lyra::index');
   }
 
-  /**
-   * Return the Lyra terms and conditions
-   * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-   */
-  public function showTerms() {
-    return view('lyra::terms');
-  }
-
-  /**
-   * Return the Lyra privacy policy
-   * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-   */
-  public function showPrivacy() {
-    return view('lyra::privacy');
-  }
 }

@@ -11,9 +11,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('showLoginForm');
     Route::post('login', [AuthController::class, 'login'])->name('login');
 
-    Route::get('terms', [MainController::class, 'showTerms'])->name('terms');
-    Route::get('privacy', [MainController::class, 'showPrivacy'])->name('privacy');
-
     Route::group(['middleware' => 'lyra'], function () {
       Route::get('/', [MainController::class, 'index'])->name('dashboard');
       Route::get('/404', function (){ return redirect(route('lyra.dashboard')); });

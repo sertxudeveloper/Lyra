@@ -38,14 +38,9 @@
     </div>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">@lang('lyra::auth.login')</button>
-    {{--<p class="mt-5 mb-3 text-muted">--}}
-    {{--{!! trans('lyra::theme.footer_copyright') !!} - {{ trans('lyra::theme.version') }} {{ Lyra::getVersion() }}--}}
-    {{--</p>--}}
-
-    <div class="mt-5 mx-auto text-center">
-      <a href="{{ route('lyra.terms') }}">@lang('lyra::theme.terms_use')</a> -
-      <a href="{{ route('lyra.privacy') }}">@lang('lyra::theme.privacy_policy')</a>
-    </div>
+    <p class="mt-5 mb-3 text-muted">
+    {!! trans('lyra::theme.footer_copyright') !!} - {{ trans('lyra::theme.version') }} {{ Lyra::getVersion() }}
+    </p>
 
   </form>
 @endsection
