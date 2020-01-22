@@ -1,5 +1,5 @@
 <template>
-  <div :class="card.class">
+  <div :class="card.class" class="px-2">
     <div class="card">
       <div class="card-body p-3">
         <h5 data-v-1dc58a65="" class="card-title mb-2 text-center">{{ card.title }}</h5>

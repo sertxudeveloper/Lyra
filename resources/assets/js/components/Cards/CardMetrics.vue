@@ -1,5 +1,5 @@
 <template>
-  <div :class="card.class">
+  <div :class="card.class" class="px-2">
     <div class="card">
       <div class="card-body p-3">
         <div class="row align-items-center">
