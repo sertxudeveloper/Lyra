@@ -75,7 +75,7 @@ return [
   |--------------------------------------------------------------------------
    */
   "authorized_users" => [
-    "sergioperis2@gmail.com",
+    "lyra@sertxu.dev"
   ],
 
   /*
@@ -94,7 +94,7 @@ return [
    */
   "notificator" => false,
 
-  "profile_resource" => SertxuDeveloper\Lyra\Http\Resources\Profile::class,
+  "profile_resource" => \SertxuDeveloper\Lyra\Http\Resources\LaravelProfile::class,
 
   "dashboard" => null, // Add your Dashboard resource class
 
