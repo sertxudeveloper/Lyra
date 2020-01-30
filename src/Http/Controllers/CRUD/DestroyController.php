@@ -5,6 +5,7 @@ namespace SertxuDeveloper\Lyra\Http\Controllers\CRUD;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use SertxuDeveloper\Lyra\Http\Controllers\DatatypesController;
+use SertxuDeveloper\Lyra\Http\Controllers\TranslatorController;
 use SertxuDeveloper\Lyra\Lyra;
 
 class DestroyController extends DatatypesController {
@@ -33,11 +34,11 @@ class DestroyController extends DatatypesController {
     /** If no model where found, return a HTTP 404 code error */
     if (!$model) return abort(404);
 
-    if ($this->isTranslatorUsable()) {
-      $this->removeTranslation($request->get('lang'), $model);
+    if (TranslatorController::isTranslatorUsable()) {
+      TranslatorController::removeTranslation($request->get('lang'), $model);
     } else {
       if ($resourcesNamespace::isTranslatable() && !$resourcesNamespace::hasSoftDeletes()) {
-        $this->removeTranslations($model);
+        TranslatorController::removeTranslations($model);
       }
       $model->delete();
     }

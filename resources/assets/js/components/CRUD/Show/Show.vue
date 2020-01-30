@@ -94,7 +94,7 @@
         return component === 'heading-field';
       },
       removeItem: function (collection) {
-        this.$http.delete(`${this.getRoute()}`).then(response => {
+        this.$http.post(`${this.getRoute()}/delete`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
             this.$router.go()
@@ -102,7 +102,7 @@
         })
       },
       forceRemoveItem: function (collection) {
-        this.$http.post(`${this.getRoute()}/forceRemove`).then(response => {
+        this.$http.post(`${this.getRoute()}/forceDelete`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
             this.$router.go()

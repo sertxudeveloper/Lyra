@@ -158,7 +158,7 @@
         this.selected.forEach(collection => this.removeItem(collection))
       },
       removeItem: function (collection) {
-        this.$http.delete(`${this.getRoute()}/${this.getPrimaryField(collection).value}`).then(response => {
+        this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/delete`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
             this.$emit('clear-resource');
