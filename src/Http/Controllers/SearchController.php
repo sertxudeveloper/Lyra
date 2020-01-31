@@ -37,7 +37,7 @@ class SearchController extends Controller {
     $model = $resource::$model;
     $results = $resource::search($query);
 
-    if (count($results)) {
+    if (count($results) && $resource::$title) {
       return [
         "name" => (new $resource(new $model))->getLabels()['plural'],
         "key" => $key,
