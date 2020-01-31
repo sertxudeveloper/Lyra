@@ -1,7 +1,7 @@
   <template>
   <div class="text-right">
     <input type="text" v-model="field.value" :title="field.name" class="form-control" :id="field.column"
-           :maxlength="(field.size && field.size.hardMode) ?field.size.number : false">
+           :maxlength="(field.size && field.size.hardMode) ? field.size.number : false">
     <small v-if="field.size" class="font-weight-bold text-muted">
       <span :class="classLength">{{ length }}</span> / {{ field.size.number }}
     </small>

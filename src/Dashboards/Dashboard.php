@@ -7,14 +7,13 @@ class Dashboard {
   protected function dashboard() {
     return [
       [
-        
+        // First row
       ],
       [
-        
+        // Second row
       ],
     ];
   }
-
 
   public function toArray() {
     $dashboard = [];
