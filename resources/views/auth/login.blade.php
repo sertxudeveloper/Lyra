@@ -38,9 +38,10 @@
     </div>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">@lang('lyra::auth.login')</button>
-    <p class="mt-5 mb-3 text-muted">
-    {!! trans('lyra::theme.footer_copyright') !!} - {{ trans('lyra::theme.version') }} {{ Lyra::getVersion() }}
-    </p>
+
+    <div class="mt-5 mx-auto text-center">
+      {!! trans('lyra::theme.footer_copyright', ['year' => date("Y")]) !!}
+    </div>
 
   </form>
 @endsection
