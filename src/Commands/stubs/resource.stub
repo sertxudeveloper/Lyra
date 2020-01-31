@@ -8,13 +8,24 @@ use SertxuDeveloper\Lyra\Http\Resources\Resource;
 
 class DummyClass extends Resource
 {
+
+  /**
+   * The resource Eloquent model
+   *
+   * @var string
+   */
   public static $model = Model::class;
   public static $search = ["id"];
 
+  /**
+   * The fields' resource definition
+   *
+   * @return array
+   */
   public function fields() {
 
     return [
-      Id::make('Id'),
+      Id::make('Id')->sortable(),
     ];
   }
 
