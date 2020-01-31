@@ -3,7 +3,6 @@
 namespace SertxuDeveloper\Lyra\Commands;
 
 use Illuminate\Console\Command;
-use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\Models\Permission;
 use SertxuDeveloper\Lyra\Models\Role;
 
@@ -65,13 +64,13 @@ class PermissionsMakeCommand extends Command {
 
       return $roles[$key]->id;
     } else {
-      $role_id = $this->argument('role');
-      $role = Role::find($role_id);
+      $role_name = $this->argument('role');
+      $role = Role::where('name', $role_name)->first();
       if (!$role) {
         $this->error('Role not found!');
         exit(1);
       }
-      return $role_id;
+      return $role->id;
     }
   }
 
