@@ -1,0 +1,37 @@
+<?php
+
+namespace DummyNamespace;
+
+use SertxuDeveloper\Lyra\Dashboards\Cards\OrderedList;
+
+class DummyClass extends OrderedList {
+
+  protected $title = "Ordered list card";
+  protected $suffix = "views";
+
+  protected function value() {
+    return [
+      [
+        "name" => "This is a test for Element 1",
+        "link" => "posts/1",
+        "value" => "391",
+      ],
+      [
+        "name" => "This is a test for Element 2",
+        "link" => "posts/2",
+        "value" => "341",
+      ],
+      [
+        "name" => "This is a test for Element 3",
+        "link" => "posts/3",
+        "value" => "221",
+      ],
+      [
+        "name" => "This is a test for Element 4",
+        "link" => "posts/4",
+        "value" => "151",
+      ],
+    ];
+  }
+
+}

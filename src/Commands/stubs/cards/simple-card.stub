@@ -1,0 +1,16 @@
+<?php
+
+namespace DummyNamespace;
+
+use SertxuDeveloper\Lyra\Dashboards\Cards\Card;
+
+class DummyClass extends Card {
+
+  protected $title = "Simple card";
+  protected $icon = "fas fa-question";
+
+  protected function value() {
+    return 12345;
+  }
+
+}

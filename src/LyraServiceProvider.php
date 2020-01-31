@@ -93,11 +93,13 @@ class LyraServiceProvider extends ServiceProvider {
    */
   private function registerCommands() {
     $this->commands([
+      Commands\CardMakeCommand::class,
+      Commands\DashboardMakeCommand::class,
       Commands\InstallCommand::class,
-      Commands\ResourceMakeCommand::class,
-      Commands\UserMakeCommand::class,
-      Commands\RoleMakeCommand::class,
       Commands\PermissionsMakeCommand::class,
+      Commands\ResourceMakeCommand::class,
+      Commands\RoleMakeCommand::class,
+      Commands\UserMakeCommand::class,
     ]);
   }
 

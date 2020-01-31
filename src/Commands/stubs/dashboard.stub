@@ -1,0 +1,20 @@
+<?php
+
+namespace DummyNamespace;
+
+use SertxuDeveloper\Lyra\Dashboards\Dashboard as BaseDashboard;
+
+class DummyClass extends BaseDashboard {
+
+  protected function dashboard() {
+    return [
+      [
+        // First row
+      ],
+      [
+        // Second row
+      ],
+    ];
+  }
+
+}

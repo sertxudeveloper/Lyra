@@ -1,0 +1,20 @@
+<?php
+
+namespace DummyNamespace;
+
+use SertxuDeveloper\Lyra\Dashboards\Cards\Metrics;
+
+class DummyClass extends Metrics {
+
+  protected $title = "Metrics card";
+  protected $icon = "fas fa-question";
+
+  protected function value() {
+    return 120;
+  }
+
+  protected function difference() {
+    return -20;
+  }
+
+}
