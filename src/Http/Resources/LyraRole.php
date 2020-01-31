@@ -10,14 +10,16 @@ use SertxuDeveloper\Lyra\Fields\Text;
 class LyraRole extends Resource
 {
   public static $model = Model::class;
-  public static $search = ["id"];
+  public static $search = ["id", "name"];
+  public static $title = 'name';
+  public static $subtitle = 'email';
   public $singular = "User";
   public $plural = "Users";
 
   public function fields() {
 
     return [
-      Id::make('Id'),
+      Id::make('Id')->sortable(),
       Text::make('Name')->rules('required'),
       Text::make('Users count', function () {
         return $this->users()->count();
