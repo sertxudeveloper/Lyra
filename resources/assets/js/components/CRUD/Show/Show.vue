@@ -12,9 +12,9 @@
                   v-for="(language, key) in resource.languages">{{language.toUpperCase()}}
           </button>
         </div>
-        <a href="#" v-on:click="recoverItem(resource.collection.data[0])"
-           v-if="getPrimaryField(resource.collection.data[0]).soft_deleted"
-           class="bg-white box-dark-shadow btn btn-light text-body" title="Recover">
+        <a href="#" v-on:click="restoreItem(resource.collection.data[0])"
+           v-if="getPrimaryField(resource.collection.data[0]).trashed"
+           class="bg-white box-dark-shadow btn btn-light text-body" title="Restore">
           <i class="fas fa-undo"></i>
         </a>
         <a href="#" v-on:click="removeItem(resource.collection.data[0])" v-else
@@ -27,7 +27,7 @@
         </a>
         <router-link
           :to="{ name: 'edit', params: { resourceName: getResourceName(), resourceId: getPrimaryField(resource.collection.data[0]).value }, query: { lang: $route.query.lang }}"
-          v-if="!getPrimaryField(resource.collection.data[0]).soft_deleted"
+          v-if="!getPrimaryField(resource.collection.data[0]).trashed"
           class="btn btn-primary text-white" title="Edit">
           <i class="fas fa-pencil-alt"></i>
         </router-link>
@@ -109,10 +109,10 @@
           }
         })
       },
-      recoverItem: function (collection) {
-        this.$http.post(`${this.getRoute()}/recover`).then(response => {
+      restoreItem: function (collection) {
+        this.$http.post(`${this.getRoute()}/restore`).then(response => {
           if (response.status === 200) {
-            toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} recovered successfully`);
+            toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} restored successfully`);
             this.$router.go()
           }
         })

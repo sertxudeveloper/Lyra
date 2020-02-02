@@ -87,20 +87,24 @@
                 class="btn btn-link text-body" title="Show">
                 <i class="fas fa-eye"></i>
               </router-link>
-              <router-link
-                :to="{ name: 'edit', params: { resourceName: getResourceName(), resourceId: getPrimaryField(collection).value }, query: { lang: $route.query.lang }}"
-                v-if="!getPrimaryField(collection).soft_deleted"
-                class="btn btn-link text-body" title="Edit">
-                <i class="fas fa-pencil-alt"></i>
-              </router-link>
-              <a v-else class="btn btn-link text-body" style="width:42px;">&nbsp;</a>
-              <a href="#" v-on:click="recoverItem(collection)" v-if="getPrimaryField(collection).soft_deleted"
-                 class="btn btn-link text-body" title="Recover">
-                <i class="fas fa-undo"></i>
-              </a>
-              <a href="#" v-on:click="removeItem(collection)" v-else class="btn btn-link text-body" title="Delete">
-                <i class="fas fa-trash-alt"></i>
-              </a>
+              <template v-if="!getPrimaryField(collection).trashed">
+                <router-link
+                  :to="{ name: 'edit', params: { resourceName: getResourceName(), resourceId: getPrimaryField(collection).value }, query: { lang: $route.query.lang }}"
+                  class="btn btn-link text-body" title="Edit">
+                  <i class="fas fa-pencil-alt"></i>
+                </router-link>
+                <a href="#" v-on:click="removeItem(collection)" class="btn btn-link text-body" title="Delete">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </template>
+              <template v-else>
+                <a href="#" v-on:click="restoreItem(collection)" class="btn btn-link text-body" title="Restore">
+                  <i class="fas fa-undo"></i>
+                </a>
+                <a href="#" v-on:click="forceRemoveItem(collection)" class="btn btn-link text-body" title="Force Delete">
+                  <i class="fas fa-trash"></i>
+                </a>
+              </template>
             </td>
           </tr>
           </tbody>
@@ -166,12 +170,20 @@
           }
         })
       },
-      recoverItem: function (collection) {
-        this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/recover`).then(response => {
+      restoreItem: function (collection) {
+        this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/restore`).then(response => {
           if (response.status === 200) {
-            toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} recovered successfully`);
+            toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} restored successfully`);
             this.$emit('clear-resource');
             this.$emit('get-resource');
+          }
+        })
+      },
+      forceRemoveItem: function (collection) {
+        this.$http.post(`${this.getRoute()}/forceDelete`).then(response => {
+          if (response.status === 200) {
+            toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
+            this.$router.go()
           }
         })
       },
