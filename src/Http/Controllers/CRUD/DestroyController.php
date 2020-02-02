@@ -80,7 +80,7 @@ class DestroyController extends DatatypesController {
     if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('delete', $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
-    $model = $resourcesNamespace::$model::find($id);
+    $model = $resourcesNamespace::$model::withTrashed()->find($id);
     if (!$model) return abort(404);
     if (config('lyra.translator.enabled') && $resourcesNamespace::isTranslatable()) {
       $this->removeTranslations($model);
