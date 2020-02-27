@@ -12,7 +12,7 @@
         </div>
         <div class="pr-3">
           <div class="d-flex">
-            <button type="button" class="btn btn-outline-danger mx-3" v-if="selected.length > 0">
+            <button type="button" class="btn btn-outline-danger mx-3" v-if="selected.length > 0" @click="removeSelectedItems">
               <i class="fas fa-trash-alt"></i>
             </button>
             <form v-on:change="formOnChange()" class="filter-form">
