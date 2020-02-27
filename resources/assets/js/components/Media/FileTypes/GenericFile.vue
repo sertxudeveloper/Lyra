@@ -1,10 +1,10 @@
 <template>
-  <div class="card">
-    <div class="row no-gutters" style="height: 70px;width: 200px;pointer-events: none;">
+  <div class="card card-audio-file">
+    <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
-        <i class="fas fa-file" style="font-size: 40px;"></i>
+        <i class="fas fa-file"></i>
       </div>
-      <div class="pr-2" style="width:130px;">
+      <div class="body pr-2">
         <div class="card-body h-100 px-0 py-2">
           <p class="card-text element-name my-1">{{element.name}}</p>
           <p class="card-text d-flex flex-column">
@@ -40,5 +40,17 @@
 </script>
 
 <style scoped>
+  .card-audio-file .row {
+    height: 70px;
+    width: 200px;
+    pointer-events: none;
+  }
 
+  .card-audio-file i {
+    font-size: 40px;
+  }
+
+  .card-audio-file .body {
+    width: 130px;
+  }
 </style>

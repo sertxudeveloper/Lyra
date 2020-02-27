@@ -1,10 +1,10 @@
 <template>
-  <div class="card" @dblclick="openPreview">
-    <div class="row no-gutters" style="height: 70px;width: 200px;pointer-events: none;">
+  <div class="card card-video-file" @dblclick="openPreview">
+    <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
-        <i class="fas fa-film" style="font-size: 40px;"></i>
+        <i class="fas fa-film"></i>
       </div>
-      <div class="pr-2" style="width:130px;">
+      <div class="body pr-2">
         <div class="card-body h-100 px-0 py-2">
           <p class="card-text element-name my-1">{{element.name}}</p>
           <p class="card-text d-flex flex-column">
@@ -43,5 +43,17 @@
 </script>
 
 <style scoped>
+  .card-video-file .row {
+    height: 70px;
+    width: 200px;
+    pointer-events: none;
+  }
 
+  .card-video-file i {
+    font-size: 40px;
+  }
+
+  .card-video-file .body {
+    width: 130px;
+  }
 </style>

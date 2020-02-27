@@ -1,10 +1,10 @@
 <template>
-  <div class="card" @dblclick="$parent.$emit('change-path', element.path)">
-    <div class="row no-gutters" style="height: 70px;width: 200px;pointer-events: none;">
+  <div class="card card-directory" @dblclick="$parent.$emit('change-path', element.path)">
+    <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
-        <i class="fas fa-folder" style="font-size: 40px;"></i>
+        <i class="fas fa-folder"></i>
       </div>
-      <div class="pr-2" style="width:130px;">
+      <div class="body pr-2">
         <div class="card-body h-100 px-0 py-2">
           <p class="card-text element-name my-1">{{element.name}}</p>
           <p class="card-text d-flex flex-column">
@@ -23,5 +23,17 @@
 </script>
 
 <style scoped>
+  .card-directory .row {
+    height: 70px;
+    width: 200px;
+    pointer-events: none;
+  }
 
+  .card-directory i {
+    font-size: 40px;
+  }
+
+  .card-directory .body {
+    width: 130px;
+  }
 </style>

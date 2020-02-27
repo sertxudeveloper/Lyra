@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade bd-example-modal-xl preview-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade preview-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
