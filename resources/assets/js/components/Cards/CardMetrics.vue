@@ -8,11 +8,13 @@
               <i :class="card.icon"></i>
             </span>
           </div>
-          <div class="col-auto">
-            <h6 class="card-title text-uppercase text-muted mb-2">{{ card.title }}</h6>
+          <div class="col-9">
+            <div class="align-items-baseline d-flex flex-row justify-content-between w-100">
+              <h6 class="card-title text-uppercase text-muted mb-2">{{ card.title }}</h6>
+              <small>{{ card.subtitle }}</small>
+            </div>
             <div class="align-items-baseline d-flex">
-              <span data-v-f7d48b7c="" class="h4 mb-0">{{ card.value }}</span>
-              <!--<span data-v-f7d48b7c="" class="mb-0 ml-1 small text-muted">({{ card.secondary_value }})</span>-->
+              <span class="h4 mb-0">{{ card.value }}</span>
               <span class="card-value-percentage mb-0 ml-3" :class="classObject(card.difference)">
                 {{card.difference}}%
               </span>

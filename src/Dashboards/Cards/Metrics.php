@@ -5,6 +5,7 @@ namespace SertxuDeveloper\Lyra\Dashboards\Cards;
 abstract class Metrics extends Card {
 
   protected $component = "card-metrics";
+  protected $subtitle = "";
 
   protected function difference() {
 
@@ -13,6 +14,7 @@ abstract class Metrics extends Card {
   public function get() {
     return [
       "title" => $this->title,
+      "subtitle" => $this->subtitle,
       "value" => $this->value(),
       "difference" => $this->difference(),
       "icon" => $this->icon,
