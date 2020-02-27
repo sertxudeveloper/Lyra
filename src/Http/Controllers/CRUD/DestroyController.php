@@ -40,8 +40,20 @@ class DestroyController extends DatatypesController {
       if ($resourcesNamespace::isTranslatable() && !$resourcesNamespace::hasSoftDeletes()) {
         TranslatorController::removeTranslations($model);
       }
+
+      $fields = $resourcesNamespace::getFields($model);
+
+      if (!$resourcesNamespace::hasSoftDeletes()) {
+        $fields->each(function ($field, $key) use ($model) {
+          if (method_exists($field, 'delete')) {
+            $field->delete($model);
+          }
+        });
+      }
+
       $model->delete();
     }
+
     return null;
   }
 

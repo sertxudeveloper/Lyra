@@ -34,6 +34,14 @@ class File extends Field {
     return $this;
   }
 
+  public function delete($model) {
+    if ($this->data->get('prunable')) {
+      $file = $model[$this->data->get('column')];
+      if (!$this->data->get('disk')) $this->data->put('disk', $this->defaultDisk);
+      Storage::disk($this->data->get('disk'))->delete($file);
+    }
+  }
+
   public function getValue($model, $type) {
     if (!$this->data->get('disk')) $this->data->put('disk', $this->defaultDisk);
     $this->data->put('storage_path', Storage::disk($this->data->get('disk'))->url(null));
