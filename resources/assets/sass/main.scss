@@ -374,6 +374,10 @@ body div {
   font-weight: bold;
 }
 
+#notifyDropdown ~ .dropdown-menu {
+  min-width: 350px;
+}
+
 .filter-form {
   height: 38px;
 }
