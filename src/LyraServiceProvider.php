@@ -9,8 +9,6 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use SertxuDeveloper\Lyra\Http\Middleware\LyraAdminMiddleware;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
 use SertxuDeveloper\Lyra\Http\Middleware\LyraApiAdminMiddleware;
-use SertxuDeveloper\Lyra\Models\MenuItem;
-use SertxuDeveloper\Lyra\Policy\MenuItemsPolicy;
 
 class LyraServiceProvider extends ServiceProvider {
 
