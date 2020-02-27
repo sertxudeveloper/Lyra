@@ -1,24 +1,7 @@
 <template>
-
-  <div class="modal fade bd-example-modal-xl folder-tree-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade folder-tree-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-sm">
       <div class="modal-content">
-
-
-        <!--<div class="modal-header">
-          <div class="row">
-            <h5 class="modal-title">Move to</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="row">
-            <div class="d-flex justify-content-between align-items-center" v-if="showParentFolderLink && parentName">
-              <span @click="openParentFolder"><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;{{parentName}}</span>
-            </div>
-          </div>
-        </div>-->
-
 
         <div class="modal-header pb-2">
           <div class="m-auto row w-100">
@@ -28,41 +11,41 @@
                 <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="col-12 p-0">
-              <div class="d-flex justify-content-between align-items-center" v-if="showParentFolderLink && parentName">
-                <span @click="openParentFolder">
-                  <i class="fas fa-arrow-left"></i>&nbsp;&nbsp;{{parentName}}
-                </span>
+              <div class="d-flex align-items-center" v-if="showParentFolderLink && parentName">
+                <button @click="openParentFolder" class="btn btn-outline-secondary btn-sm">
+                  <i class="fas fa-arrow-left"></i>
+                </button>
+                <span class="ml-2">{{parentName}}</span>
               </div>
             </div>
           </div>
         </div>
 
-
         <div class="modal-body p-0" v-if="folderTree && displayTree">
-
           <ul class="list-group">
             <li
               class="align-items-center border-0 d-flex justify-content-between list-group-item list-group-item-action m-0 p-0"
               v-for="folder in displayTree"
               :class="isSelected(folder)" :title="folder.name">
               <span class="h-100 px-3 py-2 w-100 cursor-pointer" @click="setFolder(folder)">{{folder.name}}</span>
-              <button class="btn btn-sm btn-outline-dark show-on-hover mr-2" @click="openFolder(folder)">
+              <button class="btn btn-sm btn-outline-dark show-on-hover mr-2" @click="openFolder(folder)"
+                      v-if="folder.name !== '/' && folder.name !== '.'">
                 <i class="fas fa-arrow-right"></i>
               </button>
             </li>
 
-            <li class="align-items-center border-0 d-flex justify-content-between list-group-item list-group-item-action m-0 p-0 disabled"
-                :title="fileTooltipTitle(file)" v-for="file in displayFiles">
+            <li
+              class="align-items-center border-0 d-flex justify-content-between list-group-item list-group-item-action m-0 p-0 disabled"
+              :title="fileTooltipTitle(file)" v-for="file in displayFiles">
               <span class="h-100 px-3 py-2 w-100">{{file.name}}</span>
             </li>
           </ul>
-
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" :disabled="!selectedFolder" @click="submitAction">{{action}}</button>
+          <button type="button" class="btn btn-primary" :disabled="!selectedFolder" @click="submitAction">{{action}}
+          </button>
         </div>
-
       </div>
     </div>
   </div>
@@ -83,6 +66,7 @@
     mounted() {
       this.displayTree = this.folderTree.children;
       this.displayFiles = this.folderTree.files;
+      this.displayTree.unshift({"name": "/", "path": "/", "children": [], "files": []});
       $(this.$el).appendTo('body').modal('show');
       $(this.$el).on('hidden.bs.modal', e => {
         this.$parent.showFolderTreeModal = false;
@@ -96,6 +80,7 @@
       openFolder: function (folder) {
         this.parentName = folder.name;
         this.displayTree = folder.children;
+        this.displayTree.unshift({"name": ".", "path": folder.path, "children": [], "files": []});
         this.displayFiles = folder.files;
       },
       openParentFolder: function () {
@@ -138,7 +123,7 @@
 
 <style scoped>
   .folder-tree-modal {
-    display: flex!important;
+    display: flex !important;
     justify-content: center;
     flex-direction: column;
   }
