@@ -2,12 +2,12 @@
   <div class="col form-inline h-100 pl-0 pl-sm-3 pr-0 dropdown" id="searchResults">
     <div class="align-items-center d-flex form-group h-100 m-0 w-100">
       <i class="d-none d-sm-block fa-search fas"></i>
-      <input type="text" id="search" class="form-control h-100 m-0" name="search" v-model="search"
-             @focus="openResults" autofocus placeholder="Search models, actions or help">
+      <input type="text" id="search" class="form-control h-100 m-0" name="search" autofocus
+             placeholder="Search models, actions or help" ref="search" v-model="search" @focus="openResults">
     </div>
 
-    <button id="dropdownMenuSearch" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false" class="d-none"></button>
+    <button id="dropdownMenuSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            class="d-none"></button>
 
     <div class="dropdown-menu rounded-0 p-0" aria-labelledby="dropdownMenuSearch">
       <div class="bg-light shadow search-results">
@@ -78,6 +78,14 @@
         }, 500);
       }
     },
+    mounted() {
+      window.addEventListener("keydown", e => {
+        if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+          e.preventDefault();
+          this.$refs.search.focus();
+        }
+      })
+    }
   }
 </script>
 
