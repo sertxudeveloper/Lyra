@@ -42,15 +42,16 @@
         </div>
 
         <component v-for="field in resource.collection.data[0]" v-if="field.component === 'morph-one-to-one-field'"
-                   :is="`${field.component}-editable`" :key="field.column" :field="field" :formData="formData"></component>
-
+                   :is="`${field.component}-editable`" :key="field.column" :field="field"
+                   :formData="formData"></component>
       </div>
-
     </form>
 
     <div class="py-3 text-right">
       <div>
-        <button class="btn btn-primary" @click="create">Create {{ resource.labels.singular.toLowerCase() }}</button>
+        <button class="btn btn-primary" @click="create" type="submit">
+          Create {{ resource.labels.singular.toLowerCase() }}
+        </button>
       </div>
     </div>
 

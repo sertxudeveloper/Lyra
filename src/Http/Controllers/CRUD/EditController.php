@@ -53,7 +53,7 @@ class EditController extends DatatypesController {
 
     /** Get the Lyra resource from the global array and create a new model instance */
     $resourcesNamespace = Lyra::getResources()[$resource];
-    $resource = $resourcesNamespace::$model::find($id);
+    $model = $resourcesNamespace::$model::find($id);
 
     /** Get the data from the request and prepare it to be processed */
     $collection = $request->post('collection');
@@ -62,10 +62,10 @@ class EditController extends DatatypesController {
 
     /** Check if the model has been modified while editing */
     $preventConflict = $request->post('preventConflict');
-    if ($preventConflict !== $resource[$resource::UPDATED_AT]->toJSON()) abort(409);
+    if ($preventConflict !== $model[$model::UPDATED_AT]->toJSON()) abort(409);
 
     /** Get the Lyra resource fields to be able to call the method 'saveValue' and 'syncRelationship' at each field */
-    $fields = $resourcesNamespace::getFields($resource);
+    $fields = $resourcesNamespace::getFields($model);
 
     /** Filter the fields which should not be included in the database because were hidden or is the primary key */
     $fields = $fields->filter(function ($field) {
@@ -76,26 +76,26 @@ class EditController extends DatatypesController {
     $errors = new \Illuminate\Support\MessageBag;
 
     /** Process first the common fields with a column in the database */
-    $fields->each(function ($field, $key) use ($values, $resource, &$errors) {
+    $fields->each(function ($field, $key) use ($values, $model, &$errors) {
       if (method_exists($field, 'validate')) {
-        $validation = $field->validate($values[$key]['value'], $resource);
+        $validation = $field->validate($values[$key]['value'], $model);
         if ($validation->fails()) $errors->merge($validation->errors()->toArray());
       }
 
       if (TranslatorController::isTranslatorUsable() && $field->isTranslatable()) {
-        TranslatorController::updateTranslation($values[$key], $resource);
+        TranslatorController::updateTranslation($values[$key], $model);
       } else {
-        if (method_exists($field, 'saveValue')) $field->saveValue($values[$key], $resource);
+        if (method_exists($field, 'saveValue')) $field->saveValue($values[$key], $model);
       }
     });
 
     if ($errors->isEmpty()) {
       /** Save the model to get the $id */
-      $resource->saveOrFail();
+      $model->saveOrFail();
 
       /** Process the relationships fields and create it with the key $id obtained previously */
-      $fields->each(function ($field, $key) use ($values, $resource) {
-        if (method_exists($field, 'syncRelationship')) $field->syncRelationship($values[$key], $resource);
+      $fields->each(function ($field, $key) use ($values, $model) {
+        if (method_exists($field, 'syncRelationship')) $field->syncRelationship($values[$key], $model);
       });
     } else {
       abort(400, $errors->toJson());

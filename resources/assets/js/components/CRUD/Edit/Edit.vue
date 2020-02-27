@@ -8,6 +8,7 @@
       <div class="mb-2 text-right">
         <div class="btn-group" role="group" aria-label="Languages available">
           <button type="button" class="btn" :class="languagesClass(language, key)"
+                  data-toggle="tooltip" data-placement="top"
                   @click="changeLanguage(language)"
                   v-for="(language, key) in resource.languages">{{language.toUpperCase()}}
           </button>
@@ -16,11 +17,10 @@
     </div>
 
     <form class="align-items-baseline d-flex justify-content-between" id="editForm">
-
       <div class="panel box-dark-shadow col-12 py-2 w-100">
         <div v-for="field in resource.collection.data[0]" class="row field-row py-2 align-items-center"
              :class="[!isHeadingField(field.component) ? 'mx-0' : 'heading-field']"
-              v-if="field.component !== 'morph-one-to-one-field'">
+             v-if="field.component !== 'morph-one-to-one-field'">
 
           <template v-if="!isHeadingField(field.component)">
             <div class="col-3 mb-1 mb-lg-0 text-muted">
@@ -41,10 +41,10 @@
         </div>
 
         <component v-for="field in resource.collection.data[0]" v-if="field.component === 'morph-one-to-one-field'"
-                   :is="`${field.component}-editable`" :key="field.column" :field="field" :formData="formData"></component>
+                   :is="`${field.component}-editable`" :key="field.column" :field="field"
+                   :formData="formData"></component>
 
       </div>
-
     </form>
 
     <div class="py-3 text-right">

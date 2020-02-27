@@ -159,7 +159,8 @@
         this.$emit('get-resource');
       },
       removeSelectedItems: function () {
-        this.selected.forEach(collection => this.removeItem(collection))
+        this.selected.forEach(collection => this.removeItem(collection));
+        this.selected = [];
       },
       removeItem: function (collection) {
         this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/delete`).then(response => {

@@ -13,8 +13,8 @@ class LyraRole extends Resource
   public static $search = ["id", "name"];
   public static $title = 'name';
   public static $subtitle = 'email';
-  public $singular = "User";
-  public $plural = "Users";
+  public $singular = "Role";
+  public $plural = "Roles";
 
   public function fields() {
 
