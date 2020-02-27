@@ -24,6 +24,6 @@ class LyraApiAdminMiddleware {
   public function handle(Request $request, Closure $next) {
     if (Lyra::auth()->check()) return $next($request);
 
-    return abort(403);
+    return abort(401);
   }
 }
