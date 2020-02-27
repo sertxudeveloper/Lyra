@@ -28,6 +28,7 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
     Route::post('media/newFolder', [MediaManagerController::class, 'newFolder']);
     Route::post('media/upload', [MediaManagerController::class, 'upload']);
     Route::post('media/uploadFolder', [MediaManagerController::class, 'uploadFolder']);
+    Route::post('media/download', [MediaManagerController::class, 'download']);
 
     /** Global search routes */
     Route::get('search', [SearchController::class, 'search']);

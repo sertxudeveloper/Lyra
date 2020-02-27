@@ -63,13 +63,19 @@
         this.showDetailsModal = true
       },
       download: function () {
-        const link = document.createElement('a');
-        link.setAttribute('href', this.element.storage_path);
-        link.setAttribute('download', this.element.name);
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        this.$http.post(`${this.$route.path}/download`, {
+          element: this.element,
+          disk: this.$route.query.disk
+        }, {responseType: 'blob'}).then((response) => {
+          const fileURL = URL.createObjectURL(response.data);
+          let link = document.createElement('a');
+          link.setAttribute('href', fileURL);
+          link.setAttribute('download', this.element.name);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(fileURL);
+        });
       },
       rename: function () {
         let extension = this.element.name.slice((this.element.name.lastIndexOf(".") - 1 >>> 0) + 2);
@@ -127,6 +133,8 @@
           type: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Yes, delete it!',
+          confirmButtonColor: '#d61c04',
+          focusCancel: true,
           reverseButtons: true
         }).then((result) => {
           if (result.value) {

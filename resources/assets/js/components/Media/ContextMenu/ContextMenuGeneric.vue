@@ -32,8 +32,8 @@
         }).then(data => {
           if (data.value) {
             this.$http.post(`${this.$route.path}/newFolder`, {
-              path: this.$route.query.path,
-              disk: this.$route.query.disk,
+              path: this.$route.query.path ? this.$route.query.path : null,
+              disk: this.$route.query.disk ? this.$route.query.disk : false,
               name: data.value
             }).then((response) => this.$emit('reload-viewer'));
           }
@@ -52,8 +52,8 @@
           formData.append(`file-${key}`, file);
         });
 
-        formData.append('path', this.$route.query.path);
-        formData.append('disk', this.$route.query.disk);
+        formData.append('path', this.$route.query.path ? this.$route.query.path : '/');
+        formData.append('disk', this.$route.query.disk ? this.$route.query.disk : false);
 
         this.$http.post(`${this.$route.path}/upload`, formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(response => {
           if (response.status === 200) {
@@ -72,8 +72,8 @@
           formData.append(`file-${key}`, file);
         });
 
-        formData.append('path', this.$route.query.path);
-        formData.append('disk', this.$route.query.disk);
+        formData.append('path', this.$route.query.path ? this.$route.query.path : null);
+        formData.append('disk', this.$route.query.disk ? this.$route.query.disk : false);
 
         this.$http.post(`${this.$route.path}/uploadFolder`, formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(response => {
           if (response.status === 200) {

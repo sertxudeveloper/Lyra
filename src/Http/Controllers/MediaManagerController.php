@@ -118,9 +118,16 @@ class MediaManagerController extends Controller {
     foreach ($fileKeys as $fileKey) {
       $id = explode('-', $fileKey)[1];
       $relativePath = $request->get("folder-$id");
+      if ($basePath === '/') $basePath = null;
       $path = "$basePath/$relativePath";
       $this->uploadFile($request, $selectedDisk, $path, $fileKey);
     }
+  }
+
+  public function download(Request $request) {
+    $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
+
+    return Storage::disk($selectedDisk)->download($request->get('element')['path']);
   }
 
   private function getFileKeys($needle) {
