@@ -156,5 +156,7 @@
 </script>
 
 <style scoped>
-
+  #contextMenuElement .dropdown-menu {
+    width: 240px;
+  }
 </style>

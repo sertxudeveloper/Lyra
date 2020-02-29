@@ -87,5 +87,7 @@
 </script>
 
 <style scoped>
-
+ #contextMenu .dropdown-menu {
+   min-width: 240px;
+ }
 </style>
