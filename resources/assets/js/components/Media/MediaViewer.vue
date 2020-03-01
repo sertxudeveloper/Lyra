@@ -7,35 +7,44 @@
              @contextmenu.prevent="openContextElement($event, element)">
 
           <template v-if="/^image\/\w+$/.test(element.mime)">
-            <image-file :element="element"></image-file>
+            <image-file :element="element" :selectedElements="selectedElements"
+                        @select-element="selectElement(element)" @clear-selection="clearSelection"></image-file>
           </template>
 
           <template v-else-if="/^video\/\w+$/.test(element.mime)">
-            <video-file :element="element"></video-file>
+            <video-file :element="element" :selectedElements="selectedElements"
+                        @select-element="selectElement(element)" @clear-selection="clearSelection"></video-file>
           </template>
 
           <template v-else-if="/^audio\/\w+$/.test(element.mime)">
-            <audio-file :element="element"></audio-file>
+            <audio-file :element="element" :selectedElements="selectedElements"
+                        @select-element="selectElement(element)" @clear-selection="clearSelection"></audio-file>
           </template>
 
           <template v-else-if="/^directory$/.test(element.mime)">
-            <directory :element="element"></directory>
+            <directory :element="element" :selectedElements="selectedElements"
+                       @change-path="$emit('change-path', element.path)"
+                       @select-element="selectElement(element)" @clear-selection="clearSelection"></directory>
           </template>
 
           <template v-else>
-            <generic-file :element="element"></generic-file>
+            <generic-file :element="element" :selectedElements="selectedElements"
+                          @select-element="selectElement(element)" @clear-selection="clearSelection"></generic-file>
           </template>
 
         </div>
       </div>
 
-      <div class="h-100 w-100 media-backdrop" @contextmenu.prevent="openContextGeneric($event)"></div>
+      <div class="h-100 w-100 media-backdrop" @contextmenu.prevent="openContextGeneric($event)"
+           @click.exact="clearSelection"></div>
 
       <preview-modal :element="previewElement" ref="previewModal"
                      :key="previewElement.path" v-if="previewElement"></preview-modal>
 
       <context-menu-elements :element="contextElement" :folder-tree="folderTree"
                              @reload-viewer="loadViewer"></context-menu-elements>
+      <context-menu-selected :elements="selectedElements" :folder-tree="folderTree"
+                             @reload-viewer="loadViewer"></context-menu-selected>
       <context-menu-generic @reload-viewer="loadViewer"></context-menu-generic>
 
     </template>
@@ -53,12 +62,13 @@
   import DetailsModal from './Modals/DetailsModal'
 
   import ContextMenuElements from './ContextMenu/ContextMenuElements'
+  import ContextMenuSelected from './ContextMenu/ContextMenuSelected'
   import ContextMenuGeneric from './ContextMenu/ContextMenuGeneric'
 
   export default {
     components: {
       PreviewModal, DetailsModal,
-      ContextMenuElements, ContextMenuGeneric,
+      ContextMenuElements, ContextMenuGeneric, ContextMenuSelected,
       ImageFile, VideoFile, AudioFile, GenericFile, Directory
     },
     props: ['folderTree'],
@@ -68,6 +78,7 @@
         previewElement: null,
         contextElement: null,
         contextMenu: null,
+        selectedElements: [],
       }
     },
     methods: {
@@ -78,23 +89,29 @@
       },
       openContextElement: function (e, element) {
         this.removePreviousContextMenu();
+        if (this.selectedElements.length) return this.openContextSelected(e);
         this.contextMenu = $('#contextMenuElement');
         this.contextElement = element;
         this.mountContextMenu(e);
       },
       openContextGeneric: function (e) {
         this.removePreviousContextMenu();
+        if (this.selectedElements.length) return this.openContextSelected(e);
         this.contextMenu = $('#contextMenu');
         this.mountContextMenu(e);
       },
-      removePreviousContextMenu: function() {
+      openContextSelected: function (e) {
+        this.contextMenu = $('#contextMenuSelected');
+        this.mountContextMenu(e);
+      },
+      removePreviousContextMenu: function () {
         if (this.contextMenu) {
           this.contextMenu.hide();
           $(this.contextMenu).removeClass("dropup");
           this.contextMenu = null;
         }
       },
-      mountContextMenu: function(e) {
+      mountContextMenu: function (e) {
         this.contextMenu[0].style.position = 'absolute';
         this.contextMenu[0].style.left = `${e.clientX}px`;
         this.contextMenu[0].style.top = `${e.clientY}px`;
@@ -118,6 +135,17 @@
         this.$emit('reload-manager');
         this.elements = null;
         this.getElementsFolder();
+      },
+      selectElement: function (element) {
+        let index = this.selectedElements.indexOf(element);
+        if (index === -1) {
+          this.selectedElements.push(element);
+        } else {
+          this.selectedElements.splice(index, 1);
+        }
+      },
+      clearSelection: function () {
+        this.selectedElements = [];
       }
     },
     beforeMount() {
@@ -139,5 +167,7 @@
 </script>
 
 <style scoped>
-
+  .media-viewer .card.selected {
+    background-color: #81d4fa;
+  }
 </style>

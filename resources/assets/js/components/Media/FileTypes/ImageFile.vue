@@ -1,5 +1,6 @@
 <template>
-  <div class="card card-image-file" @dblclick="openPreview">
+  <div class="card card-image-file" :class="{'selected': selectClass}" @dblclick="openPreview"
+       @click.ctrl.exact="$emit('select-element', element)" @click.exact="$emit('clear-selection')">
     <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
         <div class="justify-content-around m-2 rounded" v-if="!showIcon">
@@ -21,7 +22,7 @@
 
 <script>
   export default {
-    props: ['element'],
+    props: ['element', 'selectedElements'],
     data: function () {
       return {
         showIcon: false,
@@ -50,6 +51,12 @@
         this.showIcon = true;
       }
     },
+    computed: {
+      selectClass: function () {
+        let index = this.selectedElements.indexOf(this.element);
+        return (index !== -1);
+      }
+    }
   }
 </script>
 

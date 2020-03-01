@@ -1,5 +1,6 @@
 <template>
-  <div class="card card-directory" @dblclick="$parent.$emit('change-path', element.path)">
+  <div class="card card-directory" :class="{'selected': selectClass}" @dblclick="$emit('change-path', element.path)"
+       @click.ctrl.exact="$emit('select-element', element)" @click.exact="$emit('clear-selection')">
     <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
         <i class="fas fa-folder"></i>
@@ -18,7 +19,13 @@
 
 <script>
   export default {
-    props: ['element'],
+    props: ['element', 'selectedElements'],
+    computed: {
+      selectClass: function () {
+        let index = this.selectedElements.indexOf(this.element);
+        return (index !== -1);
+      }
+    }
   }
 </script>
 

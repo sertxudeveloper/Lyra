@@ -1,5 +1,6 @@
 <template>
-  <div class="card card-audio-file" @dblclick="openPreview">
+  <div class="card card-audio-file" :class="{'selected': selectClass}" @dblclick="openPreview"
+       @click.ctrl.exact="$emit('select-element', element)" @click.exact="$emit('clear-selection')">
     <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
         <i class="fas fa-music"></i>
@@ -18,7 +19,7 @@
 
 <script>
   export default {
-    props: ['element'],
+    props: ['element', 'selectedElements'],
     methods: {
       humanFileSize: function (bytes, si) {
         const thresh = si ? 1000 : 1024;
@@ -37,6 +38,12 @@
       },
       openPreview: function () {
         this.$parent.previewElement = this.element;
+      }
+    },
+    computed: {
+      selectClass: function () {
+        let index = this.selectedElements.indexOf(this.element);
+        return (index !== -1);
       }
     }
   }
