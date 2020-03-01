@@ -5,7 +5,7 @@
         <i class="far fa-eye"></i>
         <span class="ml-3">View Details</span>
       </a>
-      <a class="dropdown-item" href="#" @click="download" v-if="element && element.mime !== 'directory'">
+      <a class="dropdown-item" href="#" @click="download">
         <i class="fas fa-download"></i>
         <span class="ml-3">Download</span>
       </a>
@@ -70,7 +70,11 @@
           const fileURL = URL.createObjectURL(response.data);
           let link = document.createElement('a');
           link.setAttribute('href', fileURL);
-          link.setAttribute('download', this.element.name);
+          if (this.element.mime === "directory") {
+            link.setAttribute('download', this.element.name + '.zip');
+          } else {
+            link.setAttribute('download', this.element.name);
+          }
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);

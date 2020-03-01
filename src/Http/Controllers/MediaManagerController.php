@@ -3,11 +3,12 @@
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use SertxuDeveloper\Lyra\Lyra;
+use Illuminate\Support\Str;
+use ZipArchive;
 
 class MediaManagerController extends Controller {
 
@@ -126,8 +127,30 @@ class MediaManagerController extends Controller {
 
   public function download(Request $request) {
     $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
+    $path = $request->get('element')['path'];
+    $directories = Storage::disk($selectedDisk)->allDirectories();
+    if (collect($directories)->contains($path)) {
+      return $this->downloadFolder($selectedDisk, $path);
+    } else {
+      return Storage::disk($selectedDisk)->download($path);
+    }
+  }
 
-    return Storage::disk($selectedDisk)->download($request->get('element')['path']);
+  private function downloadFolder($selectedDisk, $path) {
+    $temp_folder = sys_get_temp_dir();
+    $zip_file = basename($path) . '.zip';
+    $zip = new ZipArchive();
+    $zip->open("$temp_folder/$zip_file", ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+    $directories = Storage::disk($selectedDisk)->directories($path);
+    $files = Storage::disk($selectedDisk)->files($path, true);
+
+    foreach ($directories as $directory) $zip->addEmptyDir($directory);
+    foreach ($files as $file) $zip->addFromString($file, Storage::disk($selectedDisk)->get($file));
+
+    $zip->close();
+
+    return response()->download("$temp_folder/$zip_file");
   }
 
   private function getFileKeys($needle) {
