@@ -15,7 +15,8 @@
   "minimum-stability": "dev",
   "require": {
     "laravel/framework": "^6.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-zip": "*"
   },
   "autoload": {
     "psr-4": {
