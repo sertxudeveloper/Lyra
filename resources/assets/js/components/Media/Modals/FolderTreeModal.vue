@@ -66,7 +66,9 @@
     mounted() {
       this.displayTree = this.folderTree.children;
       this.displayFiles = this.folderTree.files;
-      this.displayTree.unshift({"name": "/", "path": "/", "children": [], "files": []});
+      if (this.displayTree[0].name !== '/') {
+        this.displayTree.unshift({"name": "/", "path": "/", "children": [], "files": []});
+      }
       $(this.$el).appendTo('body').modal('show');
       $(this.$el).on('hidden.bs.modal', e => {
         this.$parent.showFolderTreeModal = false;
@@ -80,7 +82,9 @@
       openFolder: function (folder) {
         this.parentName = folder.name;
         this.displayTree = folder.children;
-        this.displayTree.unshift({"name": ".", "path": folder.path, "children": [], "files": []});
+        if (this.displayTree[0].name !== '.') {
+          this.displayTree.unshift({"name": ".", "path": folder.path, "children": [], "files": []});
+        }
         this.displayFiles = folder.files;
       },
       openParentFolder: function () {
@@ -138,6 +142,7 @@
 
   .folder-tree-modal li.list-group-item {
     border-radius: 0 !important;
+    color: #000;
   }
 
   .folder-tree-modal li.list-group-item span {
@@ -148,6 +153,7 @@
 
   .folder-tree-modal li.list-group-item.disabled {
     pointer-events: all;
+    color: #8c8c8c;
   }
 
   .folder-tree-modal li.list-group-item.disabled span {
