@@ -16,7 +16,7 @@
             <div class="align-items-baseline d-flex">
               <span class="h4 mb-0">{{ card.value }}</span>
               <span class="card-value-percentage mb-0 ml-3" :class="classObject(card.difference)">
-                {{card.difference}}%
+                {{difference}}%
               </span>
             </div>
           </div>
@@ -50,6 +50,11 @@
         if (!isNaN(value)) return this.numberValue(value);
         return value;
       },
+    },
+    computed: {
+      difference: function () {
+        return (this.card.difference > 0) ? '+' + this.card.difference : this.card.difference;
+      }
     }
   }
 </script>
