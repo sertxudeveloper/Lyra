@@ -6,7 +6,7 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item px-2" v-for="(element, key) in card.value">
             <div class="d-flex w-100 justify-content-between align-items-center">
-              <router-link class="element-name" :to="element.link">{{ key + 1 }} {{ element.name }}</router-link>
+              <router-link class="element-name" :to="element.link">{{ element.name }}</router-link>
               <small class="element-value">{{ formatValue(element.value) }} {{ card.suffix }}</small>
             </div>
           </li>
