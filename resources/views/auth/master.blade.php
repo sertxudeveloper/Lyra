@@ -7,15 +7,22 @@
   <link rel="stylesheet" href="{{ lyra_asset('css/login.css') }}">
 </head>
 
-<body class="form-body" style="background-image:url({{ lyra_asset('images/background-stars.png') }})">
+<body>
 
 <div>
-  <div class="form-container">
-    @yield('content')
+  <div class="login-form">
+    <div class="header">
+      <div class="py-3">
+        <img src="{{ lyra_asset('images/lyra-logo.png') }}" alt="Logo Lyra">
+      </div>
+    </div>
+
+    <div class="content p-4">
+      @yield('content')
+    </div>
   </div>
 </div>
 
-<div class="overlay"></div>
-
 </body>
+
 </html>
