@@ -145,8 +145,15 @@ class MediaManagerController extends Controller {
     $directories = Storage::disk($selectedDisk)->directories($path);
     $files = Storage::disk($selectedDisk)->files($path, true);
 
-    foreach ($directories as $directory) $zip->addEmptyDir($directory);
-    foreach ($files as $file) $zip->addFromString($file, Storage::disk($selectedDisk)->get($file));
+    foreach ($directories as $directory) {
+      $directory = str_replace($path, basename($path), $directory);
+      $zip->addEmptyDir($directory);
+    }
+
+    foreach ($files as $file) {
+      $file_path = str_replace($path, basename($path), $file);
+      $zip->addFromString($file_path, Storage::disk($selectedDisk)->get($file));
+    }
 
     $zip->close();
 
