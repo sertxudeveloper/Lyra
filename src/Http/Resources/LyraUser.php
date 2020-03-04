@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Http\Resources;
 
 use SertxuDeveloper\Lyra\Fields\BelongsTo;
 use SertxuDeveloper\Lyra\Fields\Image;
+use SertxuDeveloper\Lyra\Fields\Select;
 use SertxuDeveloper\Lyra\Models\User as Model;
 use SertxuDeveloper\Lyra\Fields\Id;
 use SertxuDeveloper\Lyra\Fields\Password;
@@ -23,8 +24,9 @@ class LyraUser extends Resource
       Text::make('Name')->rules('required'),
       Text::make('Email')->rules('required', "unique:users,email,{{id}}"),
       Password::make('Password')->rules('nullable', 'string', 'min:8'),
-      Image::make('avatar')->prunable(),
+      Image::make('Avatar')->prunable(),
       BelongsTo::make('Role')->setDisplay('name')->setResource(LyraRole::class),
+      Select::make('Theme', 'preferred_theme')->options(['default', 'dark', 'light'])->default('default')
     ];
   }
 

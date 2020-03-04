@@ -12,7 +12,8 @@ class LaravelProfile extends Resource {
   public static $model = User::class;
   public static $search = ["id", "name", "email"];
 
-  public $labels = ["singular" => "User", "plural" => "Users"];
+  public $singular = "User";
+  public $plural = "Users";
 
   public function fields() {
 
