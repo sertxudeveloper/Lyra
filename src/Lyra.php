@@ -44,15 +44,15 @@ class Lyra {
    * @return string
    */
   public function getPreferredTheme() {
-    if (config('lyra.authenticator') == 'basic') {
+    if (config('lyra.authenticator') === 'lyra' && auth()->guard('lyra')->user()) {
+      return lyra_asset("css/" . auth()->guard('lyra')->user()->preferred_theme . ".css");
+    } else {
       if (Cookie::get('preferred_theme')) {
         return lyra_asset("css/" . Cookie::get('preferred_theme') . ".css");
       } else {
         return lyra_asset("css/default.css");
       }
     }
-
-    return lyra_asset("css/" . auth()->guard('lyra')->user()->preferred_theme . ".css");
   }
 
   /**
