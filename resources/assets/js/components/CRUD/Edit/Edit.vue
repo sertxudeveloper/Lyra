@@ -96,6 +96,8 @@
                 $(`#${field['column']}`).after(`<div class="invalid-feedback d-block text-left">${errors[field['column']]}</div>`);
               }
             })
+          } else if (error.status === 409) {
+            toastr.error(`Conflict detected, the ${this.resource.labels.singular} has been modified by another user`);
           }
         })
       },
