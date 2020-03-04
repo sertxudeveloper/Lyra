@@ -5,6 +5,21 @@
 .media-manager {
   height: calc(100vh - 32.5px - 65px);
 
+  select, select:focus {
+    background-color: var(--box_background);
+    color: var(--body_color);
+  }
+
+  .breadcrumb-item {
+    &::before, &.active {
+      color: var(--body_color);
+    }
+
+    a {
+      color: var(--mediamanager_breadcrumb);
+    }
+  }
+
   .media-viewer {
     overflow: auto;
     height: 100%;
@@ -15,6 +30,11 @@
       margin-bottom: 0.8rem;
 
       .card {
+        background-color: var(--box_background);
+
+        &.selected {
+          background-color: var(--mediamanager_selected);
+        }
 
         .card-body {
           padding-top: 0.75rem;
@@ -39,6 +59,33 @@
       left: 0;
       position: absolute;
       z-index: 0;
+    }
+  }
+}
+
+#contextMenuElement .dropdown-menu,
+#contextMenu .dropdown-menu,
+#contextMenuSelected .dropdown-menu {
+  background-color: var(--box_background);
+  min-width: 200px;
+
+  a {
+    color: var(--body_color);
+  }
+
+  .dropdown-item:hover {
+    background-color: var(--sidebar_active);
+  }
+}
+
+.folder-tree-modal {
+  li, li.disabled {
+    background-color: var(--box_background);
+    color: var(--body_color);
+
+    &.active, &:hover {
+      background-color: var(--sidebar_active);
+      color: var(--body_color);
     }
   }
 }

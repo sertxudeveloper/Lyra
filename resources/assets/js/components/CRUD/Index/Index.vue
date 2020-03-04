@@ -2,7 +2,7 @@
   <div v-if="$root.loader === false && resource !== null" class="pb-5 pt-4 px-lg-5">
     <h3 class="pb-3">{{ resource.labels.plural }}</h3>
     <div class="align-items-baseline d-flex justify-content-between" v-if="resource.labels.plural !== null">
-      <div>
+      <div class="resource-search">
         <div class="input-group mb-3 box-dark-shadow">
           <div class="input-group-prepend">
             <span class="input-group-text border-0" id="basic-addon1"><i class="fas fa-search"></i></span>

@@ -1,49 +1,45 @@
-body {
-  background-color: #eceff1;
-}
+:root {
+  --body_color: #000000;
+  --body_background: #eceff1;
+  --text_muted: #6c757d;
+  --placeholder_color: #495057;
 
-nav.navbar {
+  --navbar_profile_icon: #747474;
+  --navbar_divider: #262626;
+  --navbar_background: #ffffff;
+  --navbar_search_text: #495057;
 
-  & > .navbar-brand {
-    background-color: #262626;
-  }
+  --sidebar_background: #262626;
+  --sidebar_active_border: #006DF3;
+  --sidebar_active: #ffffff1a;
+  --sidebar_scrollbar_thumb: #4BB9EC;
+  --sidebar_scrollbar_thumb_hover: #006DF3;
+  --sidebar_text: #ffffff;
 
-}
+  --footer_text: #ffffff;
+  --footer_background: #262626;
 
-nav.sidebar {
-  background-color: var(--dark);
+  --notification_badge: #dc3545b3;
 
-  .sidebar-sticky {
+  --btn_outline_color: #262626;
+  --btn_outline_background: #fafafa;
+  --btn_outline_color_hover: #fafafa;
+  --btn_outline_background_hover: #343a40;
 
-    &::-webkit-scrollbar {
-      width: 7px;
-    }
+  --box_background: #ffffff;
+  --box_shadox: #0000001a;
 
-    &::-webkit-scrollbar-track {
-      background: #ffffff26;
-    }
+  --table_border: #343A40;
+  --field_row: #dee2e6;
 
-    &::-webkit-scrollbar-thumb {
-      background: var(--primary);
-    }
+  --button_background: #006DF3;
+  --button_background_hover: #007bff80;
+  --button_background_active: #4BB9EC;
 
-    &::-webkit-scrollbar-thumb:hover {
-      background: var(--secondary);
-    }
+  --checkbox_background: #262626;
+  --checkbox_border: #BDBDBD;
+  --checkbox_color: #ffffff;
 
-    .nav-item {
-
-      .nav-link {
-
-        &.router-link-active {
-          background-color: var(--active_dark);
-        }
-
-        span, .icon {
-          color: var(--white);
-        }
-
-      }
-    }
-  }
+  --mediamanager_selected: #81d4fa;
+  --mediamanager_breadcrumb: #006DF3;
 }

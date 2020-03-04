@@ -1,0 +1,13 @@
+#toast-container > .toast-success,
+#toast-container > .toast-info,
+#toast-container > .toast-warning,
+#toast-container > .toast-error {
+  background-image: none !important;
+  padding: 15px;
+  width: 100%;
+}
+
+#toast-container > div,
+#toast-container > div:hover {
+  box-shadow: 0 0 4px hsla(0, 0%, 0%, 0.5);
+}

@@ -9,10 +9,10 @@
     <button id="dropdownMenuSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
             class="d-none"></button>
 
-    <div class="dropdown-menu rounded-0 p-0" aria-labelledby="dropdownMenuSearch">
-      <div class="bg-light shadow search-results">
+    <div class="dropdown-menu rounded-0 p-0 border-0" aria-labelledby="dropdownMenuSearch">
+      <div class="shadow search-results">
         <div v-if="!searchResults.length" class="align-items-center d-flex h-100 justify-content-center">
-          <span>{{search}} not found</span>
+          <span class="text-muted">{{search}} not found</span>
         </div>
         <template v-else>
           <div v-for="resource in searchResults">

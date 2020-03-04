@@ -167,7 +167,5 @@
 </script>
 
 <style scoped>
-  .media-viewer .card.selected {
-    background-color: #81d4fa;
-  }
+
 </style>

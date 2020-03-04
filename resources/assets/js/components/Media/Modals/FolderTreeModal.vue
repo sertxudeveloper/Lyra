@@ -8,7 +8,7 @@
             <div class="align-items-start col-12 d-flex mb-2 p-0">
               <h5 class="modal-title">{{action}} to</h5>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close">
-                <span aria-hidden="true">&times;</span></button>
+                <span aria-hidden="true" class="text-muted">&times;</span></button>
             </div>
             <div class="col-12 p-0">
               <div class="d-flex align-items-center" v-if="showParentFolderLink && parentName">
@@ -142,7 +142,6 @@
 
   .folder-tree-modal li.list-group-item {
     border-radius: 0 !important;
-    color: #000;
   }
 
   .folder-tree-modal li.list-group-item span {
