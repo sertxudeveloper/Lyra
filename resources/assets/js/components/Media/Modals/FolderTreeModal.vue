@@ -66,7 +66,7 @@
     mounted() {
       this.displayTree = this.folderTree.children;
       this.displayFiles = this.folderTree.files;
-      if (this.displayTree[0].name !== '/') {
+      if (!this.displayTree[0] || this.displayTree[0].name !== '/') {
         this.displayTree.unshift({"name": "/", "path": "/", "children": [], "files": []});
       }
       $(this.$el).appendTo('body').modal('show');
@@ -82,7 +82,7 @@
       openFolder: function (folder) {
         this.parentName = folder.name;
         this.displayTree = folder.children;
-        if (this.displayTree[0].name !== '.') {
+        if (!this.displayTree[0] || this.displayTree[0].name !== '.') {
           this.displayTree.unshift({"name": ".", "path": folder.path, "children": [], "files": []});
         }
         this.displayFiles = folder.files;
