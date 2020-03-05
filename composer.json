@@ -28,6 +28,11 @@
       "SertxuDeveloper\\Lyra\\Tests\\": "tests/"
     }
   },
+  "scripts": {
+    "post-update-cmd": [
+      "SertxuDeveloper\\Lyra\\UpdateCommand::postPackageUpdate"
+    ]
+  },
   "extra": {
     "laravel": {
       "providers": [
