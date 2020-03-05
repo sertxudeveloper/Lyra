@@ -38,14 +38,4 @@ class UpdateCommand extends Command {
     $this->info('Successfully updated! Enjoy creating awesome things with Lyra.');
   }
 
-  /**
-   * Handle the post-update Composer event.
-   *
-   * @param  \Composer\Script\Event $event
-   * @return void
-   */
-  public static function postPackageUpdate($event) {
-    (new static())->handle();
-  }
-
 }
