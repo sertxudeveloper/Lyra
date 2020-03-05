@@ -72,7 +72,7 @@
           formData.append(`file-${key}`, file);
         });
 
-        formData.append('path', this.$route.query.path ? this.$route.query.path : null);
+        formData.append('path', this.$route.query.path ? this.$route.query.path : '/');
         formData.append('disk', this.$route.query.disk ? this.$route.query.disk : false);
 
         this.$http.post(`${this.$route.path}/uploadFolder`, formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(response => {
