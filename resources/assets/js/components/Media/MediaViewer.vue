@@ -36,7 +36,7 @@
       </div>
 
       <div class="h-100 w-100 media-backdrop" @contextmenu.prevent="openContextGeneric($event)"
-           @click.exact="clearSelection"></div>
+           @click.exact="clearSelection" @drop.prevent="uploadDroppedFile" @dragover.prevent></div>
 
       <preview-modal :element="previewElement" ref="previewModal"
                      :key="previewElement.path" v-if="previewElement"></preview-modal>
@@ -130,6 +130,39 @@
         // switch to dropup only if there is no space at the bottom AND there is space at the top,
         // or there isn't either but it would be still better fit
         if (spaceDown < 0 && (spaceUp >= 0 || spaceUp > spaceDown)) $(this.contextMenu).addClass("dropup");
+      },
+      uploadDroppedFile: function (e) {
+        let items = e.dataTransfer.items;
+        if (!items) return false;
+        ([...items]).forEach(item => {
+          let entry = item.webkitGetAsEntry();
+          if (entry) this.uploadDroppedFolder(entry);
+        });
+      },
+      uploadDroppedFolder: function (item, path = "") {
+        if (item.isFile) {
+          item.file(file => {
+            let formData = new FormData();
+
+            formData.append(`file-0`, file);
+            formData.append('path', this.$route.query.path ? this.$route.query.path + '/' + path : '/' + path);
+            formData.append('disk', this.$route.query.disk ? this.$route.query.disk : false);
+
+            this.$http.post(`${this.$route.path}/upload`, formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(response => {
+              if (response.status === 200) {
+                toastr.success(`File ${file.name} uploaded successfully`);
+                this.loadViewer();
+              }
+            })
+          });
+        } else if (item.isDirectory) {
+          let dirReader = item.createReader();
+          dirReader.readEntries(entries => {
+            ([...entries]).forEach(entry => {
+              this.uploadDroppedFolder(entry, path + item.name + "/")
+            });
+          });
+        }
       },
       loadViewer: function () {
         this.$emit('reload-manager');
