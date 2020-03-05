@@ -29,9 +29,7 @@ class LyraServiceProvider extends ServiceProvider {
 
     $this->loadTranslationsFrom(__DIR__ . '/../publishable/lang/', 'lyra');
 
-    if ($this->app->runningInConsole()) {
-      $this->registerCommands();
-    }
+    if ($this->app->runningInConsole()) $this->registerCommands();
 
     Lyra::routes();
   }
@@ -94,6 +92,7 @@ class LyraServiceProvider extends ServiceProvider {
       Commands\CardMakeCommand::class,
       Commands\DashboardMakeCommand::class,
       Commands\InstallCommand::class,
+      Commands\UpdateCommand::class,
       Commands\PermissionsMakeCommand::class,
       Commands\ResourceMakeCommand::class,
       Commands\RoleMakeCommand::class,
