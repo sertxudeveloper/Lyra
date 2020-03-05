@@ -10,13 +10,11 @@
 
       <template v-for="index in reverseKeys" v-if="currentPath.length">
         <li class="breadcrumb-item" v-if="index !== 0">
-          <a @click="breadcrumbChangePath(getBreadcrumbPath(index))" href="#">
-            {{currentPath.split('/').reverse()[index]}}
-          </a>
+          <a @click="breadcrumbChangePath(getBreadcrumbPath(index))" href="#">{{currentPath.split('/').reverse()[index]}} ({{getBreadcrumbPath(index)}})</a>
         </li>
 
         <li class="breadcrumb-item active" aria-current="page" v-else>
-          {{currentPath.split('/').reverse()[index]}}
+          <span>{{currentPath.split('/').reverse()[index]}}</span>
         </li>
 
       </template>
@@ -44,7 +42,7 @@
     },
     computed: {
       reverseKeys: function () {
-        return [...Array(this.currentPath.split('/').length).keys()].slice().reverse()
+        return [...Array(this.currentPath.split('/').slice(1).length).keys()].reverse()
       }
     },
   }

@@ -129,7 +129,8 @@ class MediaManagerController extends Controller {
     $selectedDisk = $request->has('disk') && $request->get('disk') ? $request->get('disk') : config('filesystems.default');
     $path = $request->get('element')['path'];
     $directories = Storage::disk($selectedDisk)->allDirectories();
-    if (collect($directories)->contains($path)) {
+
+    if (collect($directories)->contains(substr($path, 1))) {
       return $this->downloadFolder($selectedDisk, $path);
     } else {
       return Storage::disk($selectedDisk)->download($path);
@@ -146,12 +147,12 @@ class MediaManagerController extends Controller {
     $files = Storage::disk($selectedDisk)->files($path, true);
 
     foreach ($directories as $directory) {
-      $directory = str_replace($path, basename($path), $directory);
+      $directory = str_replace($path, basename($path), "/$directory");
       $zip->addEmptyDir($directory);
     }
 
     foreach ($files as $file) {
-      $file_path = str_replace($path, basename($path), $file);
+      $file_path = str_replace($path, basename($path), "/$file");
       $zip->addFromString($file_path, Storage::disk($selectedDisk)->get($file));
     }
 
@@ -184,7 +185,7 @@ class MediaManagerController extends Controller {
       return [
         "name" => basename($folder),
         "storage_path" => Storage::url(null),
-        "path" => $folder,
+        "path" => "/$folder",
         "mime" => "directory",
         "files_count" => count(Storage::disk($selectedDisk)->files($folder)),
         "directories_count" => count(Storage::disk($selectedDisk)->directories($folder)),
@@ -199,7 +200,7 @@ class MediaManagerController extends Controller {
       return [
         "name" => basename($file),
         "storage_path" => Storage::url($file),
-        "path" => $file,
+        "path" => "/$file",
         "mime" => MimeType::from($file),
         "size" => Storage::disk($selectedDisk)->size($file),
         "last_modified" => Storage::disk($selectedDisk)->lastModified($file),

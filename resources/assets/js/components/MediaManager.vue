@@ -54,7 +54,6 @@
         });
       },
       changePathEvent: function (path) {
-        this.currentPath = '/' + path;
         this.$router.push({query: {...this.$route.query, path}});
       },
       getFolderTree: function () {
