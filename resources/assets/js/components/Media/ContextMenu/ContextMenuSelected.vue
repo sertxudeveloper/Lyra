@@ -99,12 +99,12 @@
           if (result.value) {
             this.elements.forEach(element => {
               this.$http.post(`${this.$route.path}/delete`, {
-                element: this.element,
+                element: element,
                 disk: this.$route.query.disk
               }).then(response => {
                 if (response.status === 200) {
-                  let type = (this.element.mime === 'directory') ? 'folder' : 'file';
-                  toastr.success(`The ${type} "${this.element.name}" has been deleted.`);
+                  let type = (element.mime === 'directory') ? 'folder' : 'file';
+                  toastr.success(`The ${type} "${element.name}" has been deleted.`);
                   this.$emit('reload-viewer');
                 }
               });
