@@ -1,6 +1,8 @@
 <template>
   <div class="card card-image-file" :class="{'selected': selectClass}" @dblclick="openPreview"
-       @click.ctrl.exact="$emit('select-element', element)" @click.exact="$emit('clear-selection')">
+       @click.ctrl.exact="$emit('select-element')" @click.exact="$emit('clear-selection')"
+       @dragstart="$emit('drag-start')" @dragend="$emit('drag-end')"
+       draggable="true" @dragover.prevent >
     <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
         <div class="justify-content-around m-2 rounded" v-if="!showIcon">
@@ -53,8 +55,8 @@
     },
     computed: {
       selectClass: function () {
-        let index = this.selectedElements.indexOf(this.element);
-        return (index !== -1);
+        let fount = this.selectedElements.find(element => element.path === this.element.path);
+        return (fount);
       }
     }
   }

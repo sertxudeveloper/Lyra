@@ -8,27 +8,34 @@
 
           <template v-if="/^image\/\w+$/.test(element.mime)">
             <image-file :element="element" :selectedElements="selectedElements"
+                        @drag-start="dragStart(element)" @drag-end="dragEnd()"
                         @select-element="selectElement(element)" @clear-selection="clearSelection"></image-file>
           </template>
 
           <template v-else-if="/^video\/\w+$/.test(element.mime)">
             <video-file :element="element" :selectedElements="selectedElements"
+                        @drag-start="dragStart(element)" @drag-end="dragEnd()"
                         @select-element="selectElement(element)" @clear-selection="clearSelection"></video-file>
           </template>
 
           <template v-else-if="/^audio\/\w+$/.test(element.mime)">
             <audio-file :element="element" :selectedElements="selectedElements"
+                        @drag-start="dragStart(element)" @drag-end="dragEnd()"
                         @select-element="selectElement(element)" @clear-selection="clearSelection"></audio-file>
           </template>
 
           <template v-else-if="/^directory$/.test(element.mime)">
             <directory :element="element" :selectedElements="selectedElements"
                        @change-path="$emit('change-path', element.path)"
+                       @drag-start="dragStart(element)" @drag-end="dragEnd()"
+                       @drop-element-move="moveDraggedElements(element.path)"
+                       @drop-element-copy="copyDraggedElements(element.path)"
                        @select-element="selectElement(element)" @clear-selection="clearSelection"></directory>
           </template>
 
           <template v-else>
             <generic-file :element="element" :selectedElements="selectedElements"
+                          @drag-start="dragStart(element)" @drag-end="dragEnd()"
                           @select-element="selectElement(element)" @clear-selection="clearSelection"></generic-file>
           </template>
 
@@ -79,6 +86,7 @@
         contextElement: null,
         contextMenu: null,
         selectedElements: [],
+        draggedElements: [],
       }
     },
     methods: {
@@ -164,17 +172,52 @@
           });
         }
       },
+      dragStart: function (element) {
+        if (this.selectedElements.length) {
+          let fount = this.selectedElements.find(el => el.path === element.path);
+          if (fount) {
+            this.draggedElements.push(...this.selectedElements);
+          } else {
+            this.draggedElements.push(element);
+          }
+        } else {
+          this.draggedElements.push(element);
+        }
+      },
+      dragEnd: function () {
+        this.draggedElements = [];
+      },
+      moveDraggedElements: function (path) {
+        this.draggedElements.forEach(element => {
+          if (element.path === path) return null;
+          this.$http.post(`${this.$route.path}/move`, {
+            element: element,
+            newPath: path,
+            disk: this.$route.query.disk
+          }).then(response => this.loadViewer());
+        });
+      },
+      copyDraggedElements: function (path) {
+        this.draggedElements.forEach(element => {
+          if (element.path === path) return null;
+          this.$http.post(`${this.$route.path}/copy`, {
+            element: element,
+            newPath: path,
+            disk: this.$route.query.disk
+          }).then(response => this.loadViewer());
+        });
+      },
       loadViewer: function () {
         this.$emit('reload-manager');
         this.elements = null;
         this.getElementsFolder();
       },
       selectElement: function (element) {
-        let index = this.selectedElements.indexOf(element);
-        if (index === -1) {
+        let fount = this.selectedElements.find(el => el.path === element.path);
+        if (!fount) {
           this.selectedElements.push(element);
         } else {
-          this.selectedElements.splice(index, 1);
+          this.selectedElements.splice(this.selectedElements.indexOf(fount), 1);
         }
       },
       clearSelection: function () {

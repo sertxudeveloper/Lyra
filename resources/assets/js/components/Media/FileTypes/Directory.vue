@@ -1,6 +1,9 @@
 <template>
-  <div class="card card-directory" :class="{'selected': selectClass}" @dblclick="$emit('change-path', element.path)"
-       @click.ctrl.exact="$emit('select-element', element)" @click.exact="$emit('clear-selection')">
+  <div class="card card-directory" :class="{'selected': selectClass}" @dblclick="$emit('change-path')"
+       @click.ctrl.exact="$emit('select-element')" @click.exact="$emit('clear-selection')"
+       @drop.ctrl.exact="$emit('drop-element-copy')" @drop.exact="$emit('drop-element-move')"
+       @dragstart="$emit('drag-start')" @dragend="$emit('drag-end')"
+       @dragover.prevent draggable="true">
     <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
         <i class="fas fa-folder"></i>
@@ -22,8 +25,8 @@
     props: ['element', 'selectedElements'],
     computed: {
       selectClass: function () {
-        let index = this.selectedElements.indexOf(this.element);
-        return (index !== -1);
+        let fount = this.selectedElements.find(element => element.path === this.element.path);
+        return (fount);
       }
     }
   }

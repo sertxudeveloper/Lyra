@@ -1,6 +1,7 @@
 <template>
   <div class="card card-audio-file" :class="{'selected': selectClass}" @dblclick="openPreview"
-       @click.ctrl.exact="$emit('select-element', element)" @click.exact="$emit('clear-selection')">
+       @click.ctrl.exact="$emit('select-element')" @click.exact="$emit('clear-selection')"
+       draggable="true" @dragover.prevent @dragstart="$emit('drag-start')" @dragend="$emit('drag-end')">
     <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
         <i class="fas fa-music"></i>
@@ -42,8 +43,8 @@
     },
     computed: {
       selectClass: function () {
-        let index = this.selectedElements.indexOf(this.element);
-        return (index !== -1);
+        let fount = this.selectedElements.find(element => element.path === this.element.path);
+        return (fount);
       }
     }
   }

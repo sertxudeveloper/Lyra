@@ -4,7 +4,9 @@
     <template v-else>
       <div class="border-bottom justify-content-between m-0 py-2 row">
         <div class="col-8">
-          <Breadcrumb :key="$route.fullPath" @change-path="changePathEvent"></Breadcrumb>
+          <Breadcrumb :key="$route.fullPath" @change-path="changePathEvent"
+                      @drop-element-move="moveDraggedElements"
+                      @drop-element-copy="copyDraggedElements"></Breadcrumb>
         </div>
         <div class="col-4 align-self-center">
           <div class="form-group row m-0">
@@ -18,11 +20,8 @@
         </div>
       </div>
       <div class="row m-0" style="height: calc(100% - 64px);">
-        <!--      <div class="col-2 border-right" style="overflow-y: auto;height: 100%;">-->
-        <!--        <FolderTree :key="selectedDisk" @change-path="changePathEvent"></FolderTree>-->
-        <!--      </div>-->
         <div class="col-12 media-viewer pl-3 px-0">
-          <MediaViewer :key="$route.fullPath" :folder-tree="folderTree"
+          <MediaViewer :key="$route.fullPath" :folder-tree="folderTree" ref="media_viewer"
                        @change-path="changePathEvent" @reload-manager="reloadManager"></MediaViewer>
         </div>
       </div>
@@ -64,7 +63,13 @@
       reloadManager: function () {
         this.folderTree = null;
         this.getFolderTree();
-      }
+      },
+      moveDraggedElements: function (path) {
+        this.$refs.media_viewer.moveDraggedElements(path);
+      },
+      copyDraggedElements: function (path) {
+        this.$refs.media_viewer.copyDraggedElements(path);
+      },
     },
     watch: {
       '$route': function (to, from) {
