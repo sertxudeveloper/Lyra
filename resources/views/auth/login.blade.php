@@ -27,7 +27,7 @@
     </div>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-block btn-primary mx-auto w-75">Submit</button>
+      <button type="submit" class="btn btn-block btn-primary mx-auto w-75">Login</button>
     </div>
 
   </form>

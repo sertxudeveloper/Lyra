@@ -27,14 +27,10 @@ class UpdateCommand extends Command {
    * @return void
    */
   public function handle() {
-    $this->info("Welcome to the Lyra package update. Let's start!");
-
-    $this->info("First we're going to publish the assets files");
+    $this->info("Welcome to the Lyra package updater.");
     $this->call("vendor:publish", ["--provider" => LyraServiceProvider::class, "--tag" => "lyra-assets", "--force" => true]);
-
     $this->info("After that, we're going to publish the database files");
     $this->call("vendor:publish", ["--provider" => LyraServiceProvider::class, "--tag" => "lyra-migrations", "--force" => true]);
-
     $this->info('Successfully updated! Enjoy creating awesome things with Lyra.');
   }
 
