@@ -70,7 +70,7 @@ class AuthController extends Controller {
 
     if (config('lyra.authenticator') === 'basic') {
       $authorized = array_search($request->get($this->username()), config('lyra.authorized_users'));
-      if ($authorized === false) return abort(403);
+      if ($authorized === false) return $this->sendFailedLoginResponse($request);
     }
 
     if ($this->attemptLogin($request)) {
