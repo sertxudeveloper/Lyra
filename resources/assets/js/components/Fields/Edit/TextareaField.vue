@@ -33,5 +33,7 @@
 </script>
 
 <style scoped>
-
+  textarea {
+    min-height: 100px;
+  }
 </style>
