@@ -10,6 +10,7 @@ class Relation extends Field {
     $this->data->put('resource', $resource);
     $resources = Lyra::getResources();
     $this->data->put('path', array_search($resource, $resources));
+    $this->data->put('display_column', $resource::$title ?? 'id');
     return $this;
   }
 

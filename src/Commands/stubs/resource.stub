@@ -17,6 +17,8 @@ class DummyClass extends Resource
   public static $model = Model::class;
   public static $search = ["id"];
 
+  public static $title = 'name';
+
   /**
    * The fields' resource definition
    *
