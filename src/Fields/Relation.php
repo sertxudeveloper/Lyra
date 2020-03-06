@@ -4,7 +4,7 @@ namespace SertxuDeveloper\Lyra\Fields;
 
 use SertxuDeveloper\Lyra\Lyra;
 
-class Relation extends Field {
+abstract class Relation extends Field {
 
   public function setResource($resource) {
     $this->data->put('resource', $resource);
