@@ -66,6 +66,8 @@ class ResourceMakeCommand extends GeneratorCommand {
 
     if ($this->option('model')) {
       $replace = $this->buildModelReplacements($replace);
+    } else {
+      array_merge($replace, ['DummyFullModelClass' => "App\\$name"]);
     }
 
     $replace["use {$controllerNamespace}\Controller;\n"] = '';
@@ -89,7 +91,6 @@ class ResourceMakeCommand extends GeneratorCommand {
     }
     return array_merge($replace, [
       'DummyFullModelClass' => $modelClass,
-//      'DummyModelClass' => class_basename($modelClass),
     ]);
   }
 
