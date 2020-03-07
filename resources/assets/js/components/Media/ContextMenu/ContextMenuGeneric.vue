@@ -7,7 +7,8 @@
       <a class="dropdown-item" href="#" @click="uploadFolders"><i class="far fa-folder"></i><span class="ml-3">Upload Folders</span></a>
     </div>
     <input type="file" ref="uploadFiles" class="d-none" @change="handleFileUpload" multiple/>
-    <input type="file" ref="uploadFolders" webkitdirectory directory class="d-none" @change="handleFolderUpload" multiple/>
+    <input type="file" ref="uploadFolders" class="d-none" @change="handleFolderUpload" multiple
+           webkitdirectory mozdirectory msdirectory odirectory directory/>
   </div>
 </template>
 
