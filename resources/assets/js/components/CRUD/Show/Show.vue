@@ -73,7 +73,7 @@
 
 <script>
   import HasManyField from '../../Fields/Show/HasManyField'
-  import BelongsToManyInverseField from '../../Fields/Show/BelongsToManyInverseField'
+  import BelongsToManyInverseField from '../../Fields/Show/BelongsToManyTableField'
   import MorphOneToOneField from '../../Fields/Show/MorphOneToOneField'
 
   export default {
