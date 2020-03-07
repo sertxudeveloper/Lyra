@@ -2,7 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-class Datetime extends Field {
+class DateTime extends Field {
 
   protected $component = "datetime-field";
 
