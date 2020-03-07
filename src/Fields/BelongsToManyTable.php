@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 use SertxuDeveloper\Lyra\Http\Controllers\DatatypesController;
 use SertxuDeveloper\Lyra\Lyra;
 
-class BelongsToManyInverse extends Relation {
+class BelongsToManyTable extends Relation {
 
-  protected $component = "belongs-to-many-inverse-field";
+  protected $component = "belongs-to-many-table-field";
 
   protected $hideOnIndex = true;
   protected $hideOnCreate = true;
