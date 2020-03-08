@@ -38,7 +38,7 @@ div#lyra > .container-fluid {
       white-space: nowrap;
     }
 
-    @media only screen and (max-width: 576px) {
+    @media (max-width: 991px) {
       &.col-11 {
         flex: 0 0 calc(100% - 60px);
         max-width: calc(100% - 60px);

@@ -8,8 +8,8 @@ nav.sidebar {
   padding: 65px 0 0;
   background-color: var(--sidebar_background);
 
-  @media only screen and (max-width: 576px) {
-    &.col-1 {
+  @media (max-width: 991px) {
+    & {
       flex: 0 0 60px;
       max-width: 60px;
     }
