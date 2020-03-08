@@ -1,11 +1,11 @@
 <template>
-  <div v-if="$root.loader === false && resource !== null" class="pb-5 pt-4 px-lg-5">
+  <div v-if="$root.loader === false && resource !== null" class="pb-5 pt-lg-4 px-lg-5 pt-3 px-3">
 
-    <div class="align-items-baseline d-flex justify-content-between">
+    <div class="align-items-baseline d-flex flex-wrap justify-content-between">
       <div>
         <h3 class="pb-3">New {{ resource.labels.singular.toLowerCase() }}</h3>
       </div>
-      <div class="mb-2 text-right">
+      <div class="mb-2 text-right ml-auto">
         <div class="btn-group" role="group" aria-label="Languages available">
           <button type="button" class="btn" :class="languagesClass(language, key)"
                   data-toggle="tooltip" data-placement="top"

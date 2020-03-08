@@ -3,11 +3,33 @@
  */
 
 .media-manager {
-  height: calc(100vh - 32.5px - 65px);
+  @media (min-width: 992px) {
+    & {
+      height: calc(100vh - 32.5px - 65px);
+    }
+  }
+
+  @media (min-width: 992px) {
+    & > .media-viewer-container {
+      height: calc(100% - 64px);
+    }
+  }
 
   select, select:focus {
     background-color: var(--box_background);
     color: var(--body_color);
+  }
+
+  .breadcrumb {
+    height: calc(100% - 64px);
+
+    @media (max-width: 991px) {
+      & {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
   }
 
   .breadcrumb-item {

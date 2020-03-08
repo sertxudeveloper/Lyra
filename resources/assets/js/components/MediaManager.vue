@@ -3,15 +3,15 @@
     <lyra-loader v-if="$root.loader === false && !disks && !folderTree" class="py-5"></lyra-loader>
     <template v-else>
       <div class="border-bottom justify-content-between m-0 py-2 row">
-        <div class="col-8">
+        <div class="col-12 col-sm-6 col-lg-8">
           <Breadcrumb :key="$route.fullPath" @change-path="changePathEvent"
                       @drop-element-move="moveDraggedElements"
                       @drop-element-copy="copyDraggedElements"></Breadcrumb>
         </div>
-        <div class="col-4 align-self-center">
+        <div class="col-12 col-sm-6 col-lg-4 align-self-center">
           <div class="form-group row m-0">
-            <label for="selectDisk" class="col-sm-5 text-right col-form-label">Selected Disk:</label>
-            <div class="col-sm-7 px-0">
+            <label for="selectDisk" class="col-7 col-md-5 text-right col-form-label">Selected Disk:</label>
+            <div class="col-5 col-md-7 px-0">
               <select class="form-control" v-model="selectedDisk" id="selectDisk">
                 <option :value="disk" v-for="disk in disks">{{disk}}</option>
               </select>
@@ -19,7 +19,7 @@
           </div>
         </div>
       </div>
-      <div class="row m-0" style="height: calc(100% - 64px);">
+      <div class="row m-0 media-viewer-container">
         <div class="col-12 media-viewer pl-3 px-0">
           <MediaViewer :key="$route.fullPath" :folder-tree="folderTree" ref="media_viewer"
                        @change-path="changePathEvent" @reload-manager="reloadManager"></MediaViewer>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}"/>
   <meta name="lyra-api-route" content="{{ config('lyra.routes.api.prefix') }}">
+  <link rel="icon" type="image/png" href="{{ lyra_asset('images/favicon.png') }}">
 
   <link rel="stylesheet" href="{{ lyra_asset('css/main.css') }}">
   <link rel="stylesheet" href="{{ Lyra::getPreferredTheme() }}">
@@ -13,13 +14,13 @@
 <body>
 <div id="lyra">
   <nav class="navbar fixed-top flex-md-nowrap p-0">
-    <a class="col-lg-2 col-md-3 col-sm-3 d-none d-sm-block mr-0 navbar-brand" href="{{ lyra_route('dashboard') }}">
+
+    <a class="col-3 col-lg-2 d-none d-lg-block mr-0 navbar-brand" href="{{ lyra_route('dashboard') }}">
       <img src="{{ lyra_asset('images/lyra-logo.png') }}" alt="Logo Lyra" class="h-100">
     </a>
 
-    <div style="flex: 0 0 60px;overflow: hidden;" class="p-2 d-flex d-sm-none">
-      <img src="http://lyrawebsite.local/vendor/sertxudeveloper/lyra/assets/images/lyra-logo.png"
-           alt="Logo Lyra" class="h-100">
+    <div style="flex: 0 0 60px;overflow: hidden;" class="p-2 d-flex d-lg-none">
+      <img src="{{ lyra_asset('images/favicon.png') }}" alt="Logo Lyra" class="h-100">
     </div>
 
     <div class="col d-flex px-0 px-md-3 shadow w-100 navbar-top">
@@ -42,7 +43,7 @@
 
   <div class="container-fluid">
     <div class="row">
-      <nav class="col-1 col-sm-3 col-md-3 col-lg-2 d-block sidebar">
+      <nav class="col-1 col-lg-2 d-block sidebar">
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             @foreach(Lyra::getMenuItems() as $item)
@@ -52,7 +53,7 @@
         </div>
       </nav>
 
-      <main role="main" class="col-11 col-lg-10 col-md-9 col-sm-9 ml-sm-auto px-0">
+      <main role="main" class="col-11 col-lg-10 ml-sm-auto px-0">
 
         <div class="container-fluid p-0 m-0" :class="{ loading: loader }">
           @yield('content')

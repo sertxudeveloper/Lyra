@@ -1,7 +1,7 @@
 <template>
-  <div v-if="$root.loader === false && resource !== null" class="pb-5 pt-4 px-lg-5">
+  <div v-if="$root.loader === false && resource !== null" class="pb-5 pt-lg-4 px-lg-5 pt-3 px-3">
     <h3 class="pb-3">{{ resource.labels.plural }}</h3>
-    <div class="align-items-baseline d-flex justify-content-between" v-if="resource.labels.plural !== null">
+    <div class="align-items-baseline d-flex flex-wrap justify-content-between" v-if="resource.labels.plural !== null">
       <div class="resource-search">
         <div class="input-group mb-3 box-dark-shadow">
           <div class="input-group-prepend">
@@ -10,7 +10,7 @@
           <input type="text" class="form-control border-0" v-model="search" placeholder="Search">
         </div>
       </div>
-      <div>
+      <div class="mb-3 ml-auto">
         <div class="btn-group" role="group" aria-label="Languages available">
           <button type="button" class="btn" :class="languagesClass(language, key)"
                   @click="changeLanguage(language)"
