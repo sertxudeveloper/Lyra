@@ -3,16 +3,10 @@
  */
 
 .media-manager {
-  @media (min-width: 992px) {
-    & {
-      height: calc(100vh - 32.5px - 65px);
-    }
-  }
+  height: calc(100vh - 32.5px - 65px);
 
-  @media (min-width: 992px) {
-    & > .media-viewer-container {
-      height: calc(100% - 64px);
-    }
+  & > .media-viewer-container {
+    height: calc(100% - 64px);
   }
 
   select, select:focus {

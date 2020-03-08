@@ -129,7 +129,6 @@ new Vue({
   },
   mounted() {
     $('.router-link-active').parents('ul.list-unstyled').addClass('show');
-    window.scrollTo(0,1);
   }
 });
 
