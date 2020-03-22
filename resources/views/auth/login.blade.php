@@ -20,7 +20,7 @@
     </div>
 
     <div class="checkbox mb-5 col-6 p-0">
-      <label class="checkbox-container">@lang('lyra::auth.remember_me')
+      <label class="checkbox-container">@lang('lyra::fields.remember_me')
         <input type="checkbox" value="remember-me" name="remember">
         <span class="checkmark"></span>
       </label>
