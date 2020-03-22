@@ -1,15 +1,16 @@
 <?php
 
-use SertxuDeveloper\Lyra\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
+use SertxuDeveloper\Lyra\Http\Controllers\LoginController;
 use SertxuDeveloper\Lyra\Http\Controllers\MainController;
 
 Route::group(['middleware' => ['web']], function () {
 
   Route::prefix(config('lyra.routes.web.prefix'))->name(config('lyra.routes.web.name'))->group(function () {
 
-    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('login', [AuthController::class, 'showLoginForm'])->name('showLoginForm');
-    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('showLoginForm');
+    Route::post('login', [LoginController::class, 'login'])->name('login');
 
     Route::group(['middleware' => 'lyra'], function () {
       Route::get('/', [MainController::class, 'index'])->name('dashboard');
