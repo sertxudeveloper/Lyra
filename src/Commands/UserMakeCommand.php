@@ -88,8 +88,16 @@ class UserMakeCommand extends Command {
     $roles = Role::all();
 
     if (!$roles->count()) {
-      $this->error("No roles available, create a new role before creating any user");
-      return false;
+      $this->info('No roles available, creating a new one...');
+      $name = $this->ask('Insert the name of the new role');
+
+      $role = new Role();
+      $role->name = $name;
+
+      $role->save();
+      $this->info('Role saved successfully!');
+
+      return $role->id;
     }
 
     $choice = $this->choice('Select a role for the new user', $roles->pluck('name')->toArray());
