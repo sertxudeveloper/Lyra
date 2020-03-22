@@ -25,6 +25,7 @@ class PermissionsMakeCommand extends Command {
   public function handle() {
     $role_id = $this->askRole();
     $resource = $this->askResource();
+
     if ($resource === 'media') {
       $actions = $this->askActionsMedia();
     } else {

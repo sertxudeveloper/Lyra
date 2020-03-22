@@ -13,7 +13,6 @@ class CreateLyraPermissionsTable extends Migration {
    */
   public function up() {
     Schema::create('lyra_permissions', function (Blueprint $table) {
-      $table->integer('id');
       $table->integer('role_id');
       $table->string('resource_key', 50);
       $table->string('action', 50);
