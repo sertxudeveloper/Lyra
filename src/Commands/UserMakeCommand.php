@@ -68,7 +68,7 @@ class UserMakeCommand extends Command {
       'password' => 'required|min:8',
     ]);
 
-    if ($validator->fails()) $this->error('The email is not valid');
+    if ($validator->fails()) $this->error('The password is not valid');
     return !$validator->fails();
   }
 
