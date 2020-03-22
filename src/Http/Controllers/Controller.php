@@ -8,11 +8,11 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use SertxuDeveloper\Lyra\Facades\Lyra;
 
-class Controller extends BaseController
-{
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+class Controller extends BaseController {
 
-    public function __construct() {
-        Lyra::runObservables();
-    }
+  use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+  public function __construct() {
+    Lyra::runObservables();
+  }
 }

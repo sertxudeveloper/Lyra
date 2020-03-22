@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\CreateController;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\DestroyController;
 use SertxuDeveloper\Lyra\Http\Controllers\CRUD\EditController;

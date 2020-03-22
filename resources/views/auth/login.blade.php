@@ -20,14 +20,14 @@
     </div>
 
     <div class="checkbox mb-5 col-6 p-0">
-      <label class="checkbox-container">@lang('lyra::auth.remember_me')
+      <label class="checkbox-container">@lang('lyra::fields.remember_me')
         <input type="checkbox" value="remember-me" name="remember">
         <span class="checkmark"></span>
       </label>
     </div>
 
     <div class="text-center">
-      <button type="submit" class="btn btn-block btn-primary mx-auto w-75">Login</button>
+      <button type="submit" class="btn btn-block btn-primary mx-auto w-75">@lang('lyra::fields.login')</button>
     </div>
 
   </form>
