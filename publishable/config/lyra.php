@@ -23,16 +23,6 @@ return [
 
   /*
   |--------------------------------------------------------------------------
-  | Title and description of the Lyra Panel
-  |--------------------------------------------------------------------------
-  */
-  "admin" => [
-    "title" => "Lyra Panel",
-    "description" => "Bootstrap your app and turn ideas into reality"
-  ],
-
-  /*
-  |--------------------------------------------------------------------------
   | The translator functionality works with the package sertxudeveloper/translatable.
   | You're able to enable or disable this functionality depending on the project requirements.
   | If you enable it, you should set the default locale and the available locales using the ISO 639-1 format.

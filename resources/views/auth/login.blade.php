@@ -1,6 +1,6 @@
 @extends('lyra::auth.master')
 
-@section('title', config('lyra.admin.title') . " - " . config('lyra.admin.description'))
+@section('title', trans('lyra::theme.title') . " - " . trans('lyra::theme.description'))
 
 @section('content')
   <form method="post">
