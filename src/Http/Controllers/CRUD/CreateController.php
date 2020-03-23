@@ -18,7 +18,7 @@ class CreateController extends DatatypesController {
    */
   public function create(Request $request, string $resource) {
     /** Check if the user has permission to create the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write', $resource)) abort(403);
+    if (!Lyra::checkPermission('write', $resource)) abort(403);
 
     /** Get the Lyra resource from the global array */
     $resourcesNamespace = Lyra::getResources()[$resource];
@@ -41,7 +41,7 @@ class CreateController extends DatatypesController {
    */
   public function store(Request $request, string $resource) {
     /** Check if the user has permission to create the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write', $resource)) abort(403);
+    if (!Lyra::checkPermission('write', $resource)) abort(403);
 
     /** Get the Lyra resource from the global array and create a new model instance */
     $resourcesNamespace = Lyra::getResources()[$resource];

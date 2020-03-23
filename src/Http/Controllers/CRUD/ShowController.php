@@ -11,7 +11,7 @@ class ShowController extends DatatypesController {
 
   public function index(Request $request, string $resource) {
     /** Check if the user has permission to read the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('read', $resource)) abort(403);
+    if (!Lyra::checkPermission('read', $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
     $model = $resourcesNamespace::$model;
@@ -33,7 +33,12 @@ class ShowController extends DatatypesController {
     }
 
     $query = $this->checkSoftDeletes($request, $query, $model);
-    $query = $request->has('perPage') ? $query->paginate($request->get('perPage')) : $query->paginate($resourcesNamespace::$perPageOptions[0]);
+
+    if ($request->has('perPage')) {
+      $query = $query->paginate($request->get('perPage'));
+    } else {
+      $query = $query->paginate($resourcesNamespace::$perPageOptions[0]);
+    }
 
     $resourceCollection = new $resourcesNamespace($query);
     return $resourceCollection->getCollection($request, 'index');
@@ -41,7 +46,7 @@ class ShowController extends DatatypesController {
 
   public function show(Request $request, string $resource, string $id) {
     /** Check if the user has permission to read the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('read', $resource)) abort(403);
+    if(!Lyra::checkPermission('read', $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
     $modelClass = $resourcesNamespace::$model;
