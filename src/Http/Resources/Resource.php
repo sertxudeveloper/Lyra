@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use SertxuDeveloper\Lyra\Lyra;
 
 abstract class Resource extends ResourceCollection {
 
@@ -100,6 +101,12 @@ abstract class Resource extends ResourceCollection {
     if ($this->type === 'edit') $resource->preventConflict = $this->collection[0][static::$model::UPDATED_AT];
 
     $resource->hasSoftDeletes = $this->hasSoftDeletes();
+
+    $resource->permissions = [
+      "read" => Lyra::checkPermission('read', $request->route('resource')),
+      "edit" => Lyra::checkPermission('edit', $request->route('resource')),
+      "delete" => Lyra::checkPermission('delete', $request->route('resource')),
+    ];
 
     $resource = collect($resource)->filter(function ($item, $key) {
       return !preg_match('/^[0-9]+$/', $key);
