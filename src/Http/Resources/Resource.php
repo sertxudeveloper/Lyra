@@ -52,7 +52,7 @@ abstract class Resource extends ResourceCollection {
 
     $this->response['permissions'] = [
       "read" => Lyra::checkPermission('read', $request->route('resource')),
-      "edit" => Lyra::checkPermission('edit', $request->route('resource')),
+      "write" => Lyra::checkPermission('write', $request->route('resource')),
       "delete" => Lyra::checkPermission('delete', $request->route('resource')),
     ];
 
