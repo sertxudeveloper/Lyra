@@ -161,11 +161,11 @@
         this.selected = [];
       },
       editItem: function (collection) {
-        if (!this.resource.permissions.write) return toast.error("You're not allowed to edit this resource");
+        if (!this.resource.permissions.write) return toastr.error("You're not allowed to edit this resource");
         this.$router.push({ name: 'edit', params: { resourceName: this.getResourceName(), resourceId: this.getPrimaryField(collection).value }, query: { lang: this.$route.query.lang }});
       },
       removeItem: function (collection) {
-        if (!this.resource.permissions.delete) return toast.error("You're not allowed to delete this resource");
+        if (!this.resource.permissions.delete) return toastr.error("You're not allowed to delete this resource");
         this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/delete`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
@@ -175,7 +175,7 @@
         })
       },
       restoreItem: function (collection) {
-        if (!this.resource.permissions.delete) return toast.error("You're not allowed to restore this resource");
+        if (!this.resource.permissions.delete) return toastr.error("You're not allowed to restore this resource");
         this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/restore`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} restored successfully`);
@@ -185,7 +185,7 @@
         })
       },
       forceRemoveItem: function (collection) {
-        if (!this.resource.permissions.delete) return toast.error("You're not allowed to force delete this resource");
+        if (!this.resource.permissions.delete) return toastr.error("You're not allowed to force delete this resource");
         this.$http.post(`${this.getRoute()}/forceDelete`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
