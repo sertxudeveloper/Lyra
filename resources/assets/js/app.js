@@ -117,11 +117,8 @@ new Vue({
       if (error.response.data.message) toastr.error(error.response.data.message);
       if (error.response.status === 409) return Promise.reject(error.response);
       if (error.response.status === 401) location.reload(true);
-      if (error.response.status === 403) {
-        router.push('/403');
-      } else if (error.response.status === 404) {
-        router.push('/404');
-      }
+      if (error.response.status === 403) router.push('/403');
+      if (error.response.status === 404) router.push('/404');
 
       this.disableLoader();
       return Promise.reject(error);
