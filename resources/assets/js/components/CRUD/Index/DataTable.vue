@@ -88,11 +88,9 @@
                 <i class="fas fa-eye"></i>
               </router-link>
               <template v-if="!getPrimaryField(collection).trashed">
-                <router-link
-                  :to="{ name: 'edit', params: { resourceName: getResourceName(), resourceId: getPrimaryField(collection).value }, query: { lang: $route.query.lang }}"
-                  class="btn btn-link" :class="{'disabled': !resource.permissions.write}" title="Edit">
+                <a href="#" v-on:click="editItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Edit">
                   <i class="fas fa-pencil-alt"></i>
-                </router-link>
+                </a>
                 <a href="#" v-on:click="removeItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Delete">
                   <i class="fas fa-trash-alt"></i>
                 </a>
@@ -162,7 +160,12 @@
         this.selected.forEach(collection => this.removeItem(collection));
         this.selected = [];
       },
+      editItem: function (collection) {
+        if (!this.resource.permissions.write) return toast.error("You're not allowed to edit this resource");
+        this.$router.push({ name: 'edit', params: { resourceName: this.getResourceName(), resourceId: this.getPrimaryField(collection).value }, query: { lang: this.$route.query.lang }});
+      },
       removeItem: function (collection) {
+        if (!this.resource.permissions.delete) return toast.error("You're not allowed to delete this resource");
         this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/delete`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
@@ -172,6 +175,7 @@
         })
       },
       restoreItem: function (collection) {
+        if (!this.resource.permissions.delete) return toast.error("You're not allowed to restore this resource");
         this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/restore`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} restored successfully`);
@@ -181,6 +185,7 @@
         })
       },
       forceRemoveItem: function (collection) {
+        if (!this.resource.permissions.delete) return toast.error("You're not allowed to force delete this resource");
         this.$http.post(`${this.getRoute()}/forceDelete`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
