@@ -21,7 +21,7 @@
            class="bg-white box-dark-shadow btn btn-light text-body" title="Delete">
           <i class="fas fa-trash-alt"></i>
         </a>
-        <a href="#" v-on:click="forceRemoveItem(resource.collection.data[0])" v-if="resource.collection.hasSoftDeletes"
+        <a href="#" v-on:click="forceRemoveItem(resource.collection.data[0])" v-if="resource.hasSoftDeletes"
            class="bg-white box-dark-shadow btn btn-light text-body" title="Force Delete">
           <i class="fas fa-trash"></i>
         </a>

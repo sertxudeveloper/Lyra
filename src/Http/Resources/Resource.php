@@ -50,6 +50,16 @@ abstract class Resource extends ResourceCollection {
     $this->response['collection'] = $this->toArray($request);
     $this->response['perPageOptions'] = $this::$perPageOptions;
 
+    $this->response['permissions'] = [
+      "read" => Lyra::checkPermission('read', $request->route('resource')),
+      "edit" => Lyra::checkPermission('edit', $request->route('resource')),
+      "delete" => Lyra::checkPermission('delete', $request->route('resource')),
+    ];
+
+    $this->response['hasSoftDeletes'] = $this->hasSoftDeletes();
+
+    if ($this->type === 'edit') $this->response['preventConflict'] = $this->collection[0][static::$model::UPDATED_AT];
+
     if (config('lyra.translator.enabled') && $this->isTranslatable()) {
       $this->response['languages'] = $this->getAvailableLanguages();
     }
@@ -97,16 +107,6 @@ abstract class Resource extends ResourceCollection {
 
       return $fields;
     });
-
-    if ($this->type === 'edit') $resource->preventConflict = $this->collection[0][static::$model::UPDATED_AT];
-
-    $resource->hasSoftDeletes = $this->hasSoftDeletes();
-
-    $resource->permissions = [
-      "read" => Lyra::checkPermission('read', $request->route('resource')),
-      "edit" => Lyra::checkPermission('edit', $request->route('resource')),
-      "delete" => Lyra::checkPermission('delete', $request->route('resource')),
-    ];
 
     $resource = collect($resource)->filter(function ($item, $key) {
       return !preg_match('/^[0-9]+$/', $key);

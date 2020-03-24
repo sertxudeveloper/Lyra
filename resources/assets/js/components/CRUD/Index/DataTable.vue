@@ -32,7 +32,7 @@
                     </div>
                   </div>
 
-                  <div v-if="resource.collection.hasSoftDeletes">
+                  <div v-if="resource.hasSoftDeletes">
                     <span class="dropdown-header">Visibility</span>
                     <div class="form-group mx-3 my-2">
                       <select class="form-control" title="Visibility" v-model="visibility">
