@@ -1,1 +1,38 @@
-:root{--body_color:#000;--body_background:#eceff1;--text_muted:#6c757d;--placeholder_color:#495057;--navbar_profile_icon:#747474;--navbar_divider:#262626;--navbar_background:#fff;--navbar_search_text:#495057;--navbar_active:#006df3;--sidebar_background:#262626;--sidebar_active_border:#006df3;--sidebar_active:hsla(0,0%,100%,0.1);--sidebar_scrollbar_thumb:#4bb9ec;--sidebar_scrollbar_thumb_hover:#006df3;--sidebar_text:#fff;--footer_text:#fff;--footer_background:#262626;--notification_badge:rgba(220,53,69,0.7);--btn_outline_color:#262626;--btn_outline_background:#fafafa;--btn_outline_color_hover:#fafafa;--btn_outline_background_hover:#343a40;--box_background:#fff;--box_shadox:rgba(0,0,0,0.1);--table_border:#343a40;--field_row:#dee2e6;--button_disabled:grey;--button_background:#006df3;--button_background_hover:rgba(0,123,255,0.5);--button_background_active:#4bb9ec;--checkbox_background:#262626;--checkbox_border:#bdbdbd;--checkbox_color:#fff;--mediamanager_selected:#81d4fa;--mediamanager_breadcrumb:#006df3}
+:root {
+  --body_color: #000000;
+  --body_background: #eceff1;
+  --text_muted: #6c757d;
+  --placeholder_color: #495057;
+  --navbar_profile_icon: #747474;
+  --navbar_divider: #262626;
+  --navbar_background: #ffffff;
+  --navbar_search_text: #495057;
+  --navbar_active: #006DF3;
+  --sidebar_background: #262626;
+  --sidebar_active_border: #006DF3;
+  --sidebar_active: #ffffff1a;
+  --sidebar_scrollbar_thumb: #4BB9EC;
+  --sidebar_scrollbar_thumb_hover: #006DF3;
+  --sidebar_text: #ffffff;
+  --footer_text: #ffffff;
+  --footer_background: #262626;
+  --notification_badge: #dc3545b3;
+  --btn_outline_color: #262626;
+  --btn_outline_background: #fafafa;
+  --btn_outline_color_hover: #fafafa;
+  --btn_outline_background_hover: #343a40;
+  --box_background: #ffffff;
+  --box_shadox: #0000001a;
+  --table_border: #343A40;
+  --field_row: #dee2e6;
+  --button_disabled: #808080;
+  --button_background: #006DF3;
+  --button_background_hover: #007bff80;
+  --button_background_active: #4BB9EC;
+  --checkbox_background: #262626;
+  --checkbox_border: #BDBDBD;
+  --checkbox_color: #ffffff;
+  --mediamanager_selected: #81d4fa;
+  --mediamanager_breadcrumb: #006DF3;
+}
+
