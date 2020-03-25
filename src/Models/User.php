@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticable;
 use SertxuDeveloper\Lyra\Traits\Notifiable;
+use SertxuDeveloper\Lyra\Notifications\ResetPassword as ResetPasswordNotification;
 
 class User extends Authenticable {
 
