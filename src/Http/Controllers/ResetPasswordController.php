@@ -53,26 +53,6 @@ class ResetPasswordController extends Controller {
     );
   }
 
-//  /**
-//   * Attempt to log the user into the application.
-//   *
-//   * @param  \Illuminate\Http\Request $request
-//   * @return bool
-//   * @throws ValidationException
-//   */
-//  protected function attemptLogin(Request $request) {
-//    // If the application is in basic mode we will check if the username is in
-//    // the authorized_users array, if not the login request will be failed.
-//    if (config('lyra.authenticator') === Lyra::MODE_BASIC) {
-//      $authorized = array_search($request->get($this->username()), config('lyra.authorized_users'));
-//      if ($authorized === false) return $this->sendFailedLoginResponse($request);
-//    }
-//
-//    return $this->guard()->attempt(
-//      $this->credentials($request), $request->filled('remember')
-//    );
-//  }
-
   /**
    * Reset the given user's password.
    *
@@ -112,6 +92,15 @@ class ResetPasswordController extends Controller {
    */
   public function username() {
     return 'email';
+  }
+
+  /**
+   * Get the broker to be used during password reset.
+   *
+   * @return \Illuminate\Contracts\Auth\PasswordBroker
+   */
+  public function broker() {
+    return Lyra::broker();
   }
 
   /**

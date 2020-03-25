@@ -3,6 +3,7 @@
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
 use SertxuDeveloper\Lyra\Http\Controllers\Auth\SendsPasswordResetEmails;
+use SertxuDeveloper\Lyra\Lyra;
 
 class ForgotPasswordController extends Controller {
   /*
@@ -25,5 +26,14 @@ class ForgotPasswordController extends Controller {
    */
   public function showLinkRequestForm() {
     return view('lyra::auth.passwords.email');
+  }
+
+  /**
+   * Get the broker to be used during password reset.
+   *
+   * @return \Illuminate\Contracts\Auth\PasswordBroker
+   */
+  public function broker() {
+    return Lyra::broker();
   }
 }

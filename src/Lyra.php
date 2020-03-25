@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Password;
 use SertxuDeveloper\Lyra\Http\Controllers\MenuController;
 
 /**
@@ -100,6 +101,14 @@ class Lyra {
     return abort(403);
   }
 
+  static public function broker() {
+    if (config('lyra.authenticator') === self::MODE_BASIC) {
+      return Password::broker();
+    } else if (config('lyra.authenticator') === self::MODE_ADVANCED) {
+      return Password::broker('lyra');
+    }
+    return abort(403);
+  }
   /**
    * Check if the current user can do the requested $action in the current $resource
    *
