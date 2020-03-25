@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-  <title>@yield('title')</title>
+  <title>@yield('title', trans('lyra::theme.title') . " - " . trans('lyra::theme.description'))</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}"/>
   <link rel="icon" type="image/png" href="{{ lyra_asset('images/favicon.png') }}">

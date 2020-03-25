@@ -1,10 +1,8 @@
 @extends('lyra::auth.master')
 
-@section('title', trans('lyra::theme.title') . " - " . trans('lyra::theme.description'))
-
 @section('content')
   <form method="post">
-    {{ csrf_field() }}
+    @csrf
 
     <div class="form-group mt-2">
       <label for="email">@lang('lyra::fields.email')</label>
@@ -31,5 +29,9 @@
     </div>
 
   </form>
+  <hr>
+  <div class="text-center">
+    <a href="{{ route("lyra.password.request") }}">Forgot your password?</a>
+  </div>
 @endsection
 

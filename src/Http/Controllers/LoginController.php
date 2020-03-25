@@ -60,7 +60,7 @@ class LoginController extends Controller {
   protected function attemptLogin(Request $request) {
     // If the application is in basic mode we will check if the username is in
     // the authorized_users array, if not the login request will be failed.
-    if (config('lyra.authenticator') === 'basic') {
+    if (config('lyra.authenticator') === Lyra::MODE_BASIC) {
       $authorized = array_search($request->get($this->username()), config('lyra.authorized_users'));
       if ($authorized === false) return $this->sendFailedLoginResponse($request);
     }
