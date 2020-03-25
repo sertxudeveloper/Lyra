@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use SertxuDeveloper\Lyra\Http\Controllers\ForgotPasswordController;
 use SertxuDeveloper\Lyra\Http\Controllers\LoginController;
 use SertxuDeveloper\Lyra\Http\Controllers\MainController;
+use SertxuDeveloper\Lyra\Lyra;
 
 Route::group(['middleware' => ['web']], function () {
 
@@ -31,10 +32,12 @@ Route::group(['middleware' => ['web']], function () {
     | Password Reset Routes
     |--------------------------------------------------------------------------
     */
-    Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-    Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-    Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-    Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+    if (config('lyra.authenticator') === Lyra::MODE_ADVANCED) {
+      Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+      Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+      Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+      Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+    }
 
     Route::group(['middleware' => 'lyra'], function () {
       Route::get('/', [MainController::class, 'index'])->name('dashboard');
