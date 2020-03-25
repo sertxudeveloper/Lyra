@@ -10901,14 +10901,14 @@ body > div {
 }
 
 body > div .login-form {
-  background-color: var(--body_background);
+  background-color: var(--navbar_background);
   border-radius: 7px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.17);
 }
 
 body > div .login-form .header > div {
   text-align: center;
-  background-color: var(--navbar_background);
+  background-color: var(--sidebar_background);
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
 }
