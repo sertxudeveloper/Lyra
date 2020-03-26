@@ -17,7 +17,7 @@
     <div class="form-group mt-2">
       <label for="email">@lang('lyra::fields.email')</label>
       <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required
-             autofocus value="{{ old('email') }}" placeholder="@lang('lyra::fields.email')">
+             autofocus value="{{ $email ?? old('email') }}" placeholder="@lang('lyra::fields.email')">
 
       @error('email')
       <div class="invalid-feedback">{{ $errors->first('email') }}</div>
@@ -36,7 +36,7 @@
 
     <div class="form-group">
       <label for="password-confirm">@lang('lyra::fields.password_confirm')</label>
-      <input type="password" class="form-control" id="password-confirm" name="password-confirm"
+      <input type="password" class="form-control" id="password-confirm" name="password_confirmation"
              placeholder="@lang('lyra::fields.password_confirm')" required>
     </div>
 
