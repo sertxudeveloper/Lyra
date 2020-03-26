@@ -37,7 +37,7 @@
 
   </form>
 
-  @if(config('lyra.authenticator') === Lyra::MODE_ADVANCED)
+  @if(config('lyra.authenticator') === \SertxuDeveloper\Lyra\Lyra::MODE_ADVANCED)
     <hr>
     <div class="text-center">
       <a href="{{ route("lyra.password.request") }}">Forgot your password?</a>
