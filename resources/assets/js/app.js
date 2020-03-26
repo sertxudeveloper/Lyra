@@ -60,74 +60,8 @@ import Show from './components/CRUD/Show/Show'
 import Edit from './components/CRUD/Edit/Edit'
 import Create from './components/CRUD/Create/Create'
 
-const router = new VueRouter({
-  mode: 'history',
-  base: 'lyra',
-  routes: [
-
-    // Default pages
-    {path: '/', name: 'lyra', component: Dashboard},
-    {path: '/media', name: 'media', component: MediaManager},
-    {path: '/profile', name: 'profile', component: Profile},
-
-    // HTTP Errors
-    {path: '/404', name: '404', component: HTTP_404},
-    {path: '/403', name: '403', component: HTTP_403},
-
-    // Crud Actions
-    {path: '/:resourceName', name: 'index', component: Index},
-    {path: '/:resourceName/create', name: 'create', component: Create},
-    {path: '/:resourceName/:resourceId', name: 'show', component: Show},
-    {path: '/:resourceName/:resourceId/edit', name: 'edit', component: Edit},
-  ]
-});
-
 import GlobalSearch from './components/GlobalSearch';
 import Notifications from './components/Notifications';
-
-new Vue({
-  el: '#lyra',
-  router,
-  components: {GlobalSearch, Notifications},
-  data: {
-    loader: false
-  },
-  methods: {
-    enableLoader: function () {
-      this.loader = true;
-    },
-    disableLoader: function () {
-      this.loader = false;
-    }
-  },
-  created() {
-    axios.interceptors.request.use((config) => {
-      loadProgressBar(config);
-      return config;
-    }, (error) => {
-      this.disableLoader();
-      return Promise.reject(error);
-    });
-
-    axios.interceptors.response.use((response) => {
-      this.disableLoader();
-      return response;
-    }, (error) => {
-      if (error.response.status === 400) return Promise.reject(error.response);
-      if (error.response.data.message) toastr.error(error.response.data.message);
-      if (error.response.status === 409) return Promise.reject(error.response);
-      if (error.response.status === 401) location.reload(true);
-      if (error.response.status === 403) router.push('/403');
-      if (error.response.status === 404) router.push('/404');
-
-      this.disableLoader();
-      return Promise.reject(error);
-    });
-  },
-  mounted() {
-    $('.router-link-active').parents('ul.list-unstyled').addClass('show');
-  }
-});
 
 $(document).on('click', '.dropdown-menu', function (e) {
   e.stopPropagation();
@@ -142,12 +76,85 @@ class Lyra {
     this.callbacks.push(callback)
   }
 
-  ready(Vue, router) {
-    this.callbacks.forEach(callback => callback(Vue, router))
+  ready() {
+    const router = this.router();
+    this.mount(router);
+    this.callbacks.forEach(callback => callback(Vue, router));
+  }
+
+  mount(router) {
+    new Vue({
+      el: '#lyra',
+      router,
+      components: {GlobalSearch, Notifications},
+      data: {
+        loader: false
+      },
+      methods: {
+        enableLoader: function () {
+          this.loader = true;
+        },
+        disableLoader: function () {
+          this.loader = false;
+        }
+      },
+      created() {
+        axios.interceptors.request.use((config) => {
+          loadProgressBar(config);
+          return config;
+        }, (error) => {
+          this.disableLoader();
+          return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use((response) => {
+          this.disableLoader();
+          return response;
+        }, (error) => {
+          if (error.response.status === 400) return Promise.reject(error.response);
+          if (error.response.data.message) toastr.error(error.response.data.message);
+          if (error.response.status === 409) return Promise.reject(error.response);
+          if (error.response.status === 401) location.reload(true);
+          if (error.response.status === 403) router.push('/403');
+          if (error.response.status === 404) router.push('/404');
+
+          this.disableLoader();
+          return Promise.reject(error);
+        });
+      },
+      mounted() {
+        $('.router-link-active').parents('ul.list-unstyled').addClass('show');
+      }
+    });
+  }
+
+  router() {
+    return new VueRouter({
+      mode: 'history',
+      base: 'lyra',
+      routes: [
+
+        // Default pages
+        {path: '/', name: 'lyra', component: Dashboard},
+        {path: '/media', name: 'media', component: MediaManager},
+        {path: '/profile', name: 'profile', component: Profile},
+
+        // HTTP Errors
+        {path: '/404', name: '404', component: HTTP_404},
+        {path: '/403', name: '403', component: HTTP_403},
+
+        // Crud Actions
+        {path: '/:resourceName', name: 'index', component: Index},
+        {path: '/:resourceName/create', name: 'create', component: Create},
+        {path: '/:resourceName/:resourceId', name: 'show', component: Show},
+        {path: '/:resourceName/:resourceId/edit', name: 'edit', component: Edit},
+      ]
+    });
   }
 }
 
 window.Lyra = new Lyra();
+window.Lyra.ready();
 
 // $(document).on('ready', () => {
 //   $('.selectpicker').selectpicker();
