@@ -19,7 +19,7 @@
       <input type="password" class="form-control @if($errors->has('email'))is-invalid @endif"
              id="password" name="password" required placeholder="@lang('lyra::fields.password')">
 
-      @error->has('password')
+      @error('password')
       <div class="invalid-feedback">{{ $errors->first('password') }}</div>
       @enderror
     </div>
