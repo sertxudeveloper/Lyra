@@ -133,6 +133,22 @@ $(document).on('click', '.dropdown-menu', function (e) {
   e.stopPropagation();
 });
 
+class Lyra {
+  constructor() {
+    this.callbacks = []
+  }
+
+  register(callback) {
+    this.callbacks.push(callback)
+  }
+
+  ready(Vue, router) {
+    this.callbacks.forEach(callback => callback(Vue, router))
+  }
+}
+
+window.Lyra = new Lyra();
+
 // $(document).on('ready', () => {
 //   $('.selectpicker').selectpicker();
 // });
