@@ -154,7 +154,10 @@ class Lyra {
 }
 
 window.Lyra = new Lyra();
-window.Lyra.ready();
+
+(function () {
+  window.Lyra.ready();
+})();
 
 // $(document).on('ready', () => {
 //   $('.selectpicker').selectpicker();
