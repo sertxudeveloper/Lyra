@@ -1,7 +1,11 @@
 {
   "name": "sertxudeveloper/lyra",
   "description": "Lyra is an administration panel for Laravel for bootstrap your app and turn ideas into reality.",
-  "keywords": ["laravel", "admin", "panel"],
+  "keywords": [
+    "laravel",
+    "admin",
+    "panel"
+  ],
   "type": "library",
   "authors": [
     {
@@ -9,7 +13,6 @@
       "email": "dev.sertxu@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "illuminate/support": "^6.0|^7.0",
     "ext-json": "*",
@@ -34,5 +37,10 @@
         "SertxuDeveloper\\Lyra\\LyraServiceProvider"
       ]
     }
-  }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
