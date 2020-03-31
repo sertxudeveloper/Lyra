@@ -1,0 +1,31 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Support\ServiceProvider;
+use SertxuDeveloper\Lyra\Lyra;
+
+class {{ class }}ServiceProvider extends ServiceProvider {
+
+  /**
+   * Bootstrap services.
+   *
+   * @return void
+   */
+  public function boot() {
+    $this->app->booted(function () {
+      Lyra::route('/{{ name }}', __DIR__ . '/../routes/api.php');
+      Lyra::script(__DIR__ . '/../dist/js/component.js');
+      Lyra::style(__DIR__ . '/../dist/css/component.css');
+    });
+  }
+
+  /**
+   * Register services.
+   *
+   * @return void
+   */
+  public function register() {
+
+  }
+}

@@ -67,23 +67,51 @@ $(document).on('click', '.dropdown-menu', function (e) {
   e.stopPropagation();
 });
 
+const router = new VueRouter({
+  mode: 'history',
+  base: 'lyra',
+  routes: [
+
+    // Default pages
+    {path: '/', name: 'lyra', component: Dashboard},
+    {path: '/media', name: 'media', component: MediaManager},
+    {path: '/profile', name: 'profile', component: Profile},
+
+    // HTTP Errors
+    {path: '/404', name: '404', component: HTTP_404},
+    {path: '/403', name: '403', component: HTTP_403},
+
+    // Crud Actions
+    {path: '/resources/:resourceName', name: 'index', component: Index},
+    {path: '/resources/:resourceName/create', name: 'create', component: Create},
+    {path: '/resources/:resourceName/:resourceId', name: 'show', component: Show},
+    {path: '/resources/:resourceName/:resourceId/edit', name: 'edit', component: Edit},
+  ]
+});
+
 class Lyra {
   constructor() {
-    this.callbacks = []
+    this.callbacks = [];
+    this.routes = [];
   }
 
   register(callback) {
     this.callbacks.push(callback)
   }
 
-  ready() {
-    const router = this.router();
-    this.mount(router);
-    this.callbacks.forEach(callback => callback(Vue, router));
+  addRoutes(routes) {
+    this.routes.concat(routes);
   }
 
-  mount(router) {
-    new Vue({
+  ready() {
+    this.callbacks.forEach(callback => callback(Vue, router));
+    this.callbacks = [];
+    console.log(router);
+    this.mount()
+  }
+
+  mount() {
+    return new Vue({
       el: '#lyra',
       router,
       components: {GlobalSearch, Notifications},
@@ -128,36 +156,13 @@ class Lyra {
     });
   }
 
-  router() {
-    return new VueRouter({
-      mode: 'history',
-      base: 'lyra',
-      routes: [
-
-        // Default pages
-        {path: '/', name: 'lyra', component: Dashboard},
-        {path: '/media', name: 'media', component: MediaManager},
-        {path: '/profile', name: 'profile', component: Profile},
-
-        // HTTP Errors
-        {path: '/404', name: '404', component: HTTP_404},
-        {path: '/403', name: '403', component: HTTP_403},
-
-        // Crud Actions
-        {path: '/:resourceName', name: 'index', component: Index},
-        {path: '/:resourceName/create', name: 'create', component: Create},
-        {path: '/:resourceName/:resourceId', name: 'show', component: Show},
-        {path: '/:resourceName/:resourceId/edit', name: 'edit', component: Edit},
-      ]
-    });
-  }
 }
 
 window.Lyra = new Lyra();
 
-(function () {
-  window.Lyra.ready();
-})();
+// window.addEventListener('load', () => {
+//
+// });
 
 // $(document).on('ready', () => {
 //   $('.selectpicker').selectpicker();

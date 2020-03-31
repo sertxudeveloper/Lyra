@@ -9,6 +9,11 @@
 
   <link rel="stylesheet" href="{{ lyra_asset('css/main.css') }}">
   <link rel="stylesheet" href="{{ Lyra::getPreferredTheme() }}">
+
+  @foreach(\SertxuDeveloper\Lyra\Lyra::$styles as $style)
+    <link rel="stylesheet" href="{{$style}}">
+  @endforeach
+
 </head>
 
 <body>
@@ -72,6 +77,12 @@
 </div>
 
 <script src="{{ lyra_asset('js/app.js') }}"></script>
+
+@foreach(\SertxuDeveloper\Lyra\Lyra::$scripts as $script)
+  <script src="{{ $script }}"></script>
+@endforeach
+
+<script>Lyra.ready();</script>
 
 </body>
 </html>

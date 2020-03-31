@@ -5,6 +5,7 @@ namespace SertxuDeveloper\Lyra;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Route;
 use SertxuDeveloper\Lyra\Http\Controllers\MenuController;
 
 /**
@@ -17,6 +18,8 @@ class Lyra {
   protected $filesystem;
   static protected $resources = [];
   static protected $observables;
+  public static $scripts = [];
+  public static $styles = [];
 
   const MODE_BASIC = 'basic';
   const MODE_ADVANCED = 'advanced';
@@ -109,6 +112,7 @@ class Lyra {
     }
     return abort(403);
   }
+
   /**
    * Check if the current user can do the requested $action in the current $resource
    *
@@ -139,5 +143,19 @@ class Lyra {
 
   static public function runObservables() {
     if (self::$observables) call_user_func(self::$observables);
+  }
+
+  static public function script($script) {
+    self::$scripts[] = $script;
+  }
+
+  static public function style($style) {
+    self::$styles[] = $style;
+  }
+
+  static public function route($prefix, $route) {
+    Route::middleware(['web', 'lyra-api'])
+      ->prefix(config('lyra.routes.api.prefix') . '/components' . $prefix)
+      ->group($route);
   }
 }

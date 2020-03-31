@@ -33,6 +33,15 @@ class MenuController extends Controller {
         $menu->push($item);
         return true;
       } else {
+
+        if (isset($item['resource'])) {
+          $item['prefix'] = '/resources';
+        } else if (isset($item['component'])) {
+          $item['prefix'] = '/components';
+        } else {
+          $item['prefix'] = '';
+        }
+
         if ($this->can($item)) $menu->push($item);
         return true;
       }
@@ -49,21 +58,6 @@ class MenuController extends Controller {
   private function can(array $item): bool {
     if (config('lyra.authenticator') === 'basic') return true;
     return Lyra::auth()->user()->hasPermission('read', $item['key']);
-  }
-
-  /**
-   * Return a relative|absolute url to the current $item menu
-   * @param array $item
-   * @param bool $absolute
-   * @return \Illuminate\Contracts\Routing\ UrlGenerator|string
-   */
-  public static function link(array $item, $absolute = false): string {
-    if (isset($item['url']) && $item['url']) {
-      return $absolute ? url(config('lyra.routes.web.prefix') . "/{$item['url']}") : $item['url'];
-    } else if (isset($item['route']) && $item['route']) {
-      return route($item['route'], null, $absolute);
-    }
-    return abort('404', "MenuItem {$item['name']} has no url or route defined");
   }
 
 }

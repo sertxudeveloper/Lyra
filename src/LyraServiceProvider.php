@@ -32,6 +32,8 @@ class LyraServiceProvider extends ServiceProvider {
     if ($this->app->runningInConsole()) $this->registerCommands();
 
     Lyra::routes();
+
+    $this->registerComponents();
   }
 
   /**
@@ -97,6 +99,7 @@ class LyraServiceProvider extends ServiceProvider {
       Commands\ResourceMakeCommand::class,
       Commands\RoleMakeCommand::class,
       Commands\UserMakeCommand::class,
+      Commands\ComponentMakeCommand::class
     ]);
   }
 
@@ -117,6 +120,23 @@ class LyraServiceProvider extends ServiceProvider {
     });
   }
 
+  private function registerComponents() {
+    $components = config('lyra.menu');
+    $components = $this->generateComponentsMap($components)->toArray();
+    foreach ($components as $component) (new $component)->boot();
+  }
+
+  private function generateComponentsMap($components) {
+    return collect($components)->mapWithKeys(function ($item) {
+      if (isset($item['items'])) {
+        return $this->generateComponentsMap($item['items']);
+      } else {
+        if (!isset($item['component'])) return [];
+        return [$item['key'] => $item['component']];
+      }
+    });
+  }
+
   /**
    * Get dynamically the Helpers from the /src/Helpers directory and require_once each file.
    */
@@ -125,6 +145,5 @@ class LyraServiceProvider extends ServiceProvider {
       require_once $filename;
     }
   }
-
 
 }
