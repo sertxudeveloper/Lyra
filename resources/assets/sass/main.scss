@@ -251,6 +251,13 @@ div#lyra > .container-fluid {
   td.actions {
     width: 140px;
     vertical-align: middle;
+
+    a.btn.disabled {
+      pointer-events: auto;
+      cursor: not-allowed;
+      color: var(--button_disabled);
+      opacity: 1;
+    }
   }
 
   tr:hover {

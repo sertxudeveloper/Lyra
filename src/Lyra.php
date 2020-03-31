@@ -3,12 +3,10 @@
 namespace SertxuDeveloper\Lyra;
 
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Route;
 use SertxuDeveloper\Lyra\Http\Controllers\MenuController;
-use SertxuDeveloper\Lyra\Models\MenuItem;
-use SertxuDeveloper\Lyra\Models\Permission;
 
 /**
  * This class is the main class in the project, here we define the routes and get the Lyra version
@@ -20,6 +18,11 @@ class Lyra {
   protected $filesystem;
   static protected $resources = [];
   static protected $observables;
+  public static $scripts = [];
+  public static $styles = [];
+
+  const MODE_BASIC = 'basic';
+  const MODE_ADVANCED = 'advanced';
 
   /**
    * Lyra constructor.
@@ -44,7 +47,7 @@ class Lyra {
    * @return string
    */
   public function getPreferredTheme() {
-    if (config('lyra.authenticator') === 'lyra' && auth()->guard('lyra')->user()) {
+    if (config('lyra.authenticator') === self::MODE_ADVANCED && auth()->guard('lyra')->user()) {
       return lyra_asset("css/" . auth()->guard('lyra')->user()->preferred_theme . ".css");
     } else {
       if (Cookie::get('preferred_theme')) {
@@ -76,9 +79,7 @@ class Lyra {
    * @return void
    */
   protected function findVersion() {
-    if (!is_null($this->version)) {
-      return;
-    }
+    if (!is_null($this->version)) return;
 
     if ($this->filesystem->exists(base_path('composer.lock'))) {
       // Get the composer.lock file
@@ -95,12 +96,37 @@ class Lyra {
   }
 
   static public function auth() {
-    if (config('lyra.authenticator') == 'basic') {
+    if (config('lyra.authenticator') === self::MODE_BASIC) {
       return auth();
-    } else if (config('lyra.authenticator') == 'lyra') {
+    } else if (config('lyra.authenticator') === self::MODE_ADVANCED) {
       return auth()->guard('lyra');
     }
     return abort(403);
+  }
+
+  static public function broker() {
+    if (config('lyra.authenticator') === self::MODE_BASIC) {
+      return Password::broker();
+    } else if (config('lyra.authenticator') === self::MODE_ADVANCED) {
+      return Password::broker('lyra');
+    }
+    return abort(403);
+  }
+
+  /**
+   * Check if the current user can do the requested $action in the current $resource
+   *
+   * @param $action
+   * @param $resource
+   *
+   * @return bool
+   */
+  public static function checkPermission($action, $resource) {
+    if (config('lyra.authenticator') === Lyra::MODE_ADVANCED) {
+      return self::auth()->user()->hasPermission($action, $resource);
+    } else {
+      return true;
+    }
   }
 
   static public function resources(array $resources) {
@@ -117,5 +143,19 @@ class Lyra {
 
   static public function runObservables() {
     if (self::$observables) call_user_func(self::$observables);
+  }
+
+  static public function script($script) {
+    self::$scripts[] = $script;
+  }
+
+  static public function style($style) {
+    self::$styles[] = $style;
+  }
+
+  static public function route($prefix, $route) {
+    Route::middleware(['web', 'lyra-api'])
+      ->prefix(config('lyra.routes.api.prefix') . '/components' . $prefix)
+      ->group($route);
   }
 }

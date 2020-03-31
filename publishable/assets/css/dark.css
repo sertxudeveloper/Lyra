@@ -1,1 +1,38 @@
-:root{--body_color:#fff;--body_background:#3d3d3d;--text_muted:#adb3b8;--placeholder_color:#b3b3b3;--navbar_profile_icon:#747474;--navbar_divider:#fff;--navbar_background:#262626;--navbar_search_text:#fff;--sidebar_background:#262626;--sidebar_active_border:#006df3;--sidebar_active:hsla(0,0%,100%,0.1);--sidebar_scrollbar_thumb:#4bb9ec;--sidebar_scrollbar_thumb_hover:#006df3;--sidebar_text:#fff;--footer_text:#fff;--footer_background:#262626;--notification_badge:rgba(220,53,69,0.7);--btn_outline_color:#fafafa;--btn_outline_background:#262626;--btn_outline_color_hover:#343a40;--btn_outline_background_hover:#fafafa;--box_background:#262626;--box_shadox:rgba(0,0,0,0.1);--table_border:#343a40;--field_row:#dee2e6;--button_background:#006df3;--button_background_hover:rgba(0,123,255,0.5);--button_background_active:#4bb9ec;--checkbox_background:#fff;--checkbox_border:#bdbdbd;--checkbox_color:#262626;--mediamanager_selected:#35769b;--mediamanager_breadcrumb:#4bb9ec}
+:root {
+  --body_color: #ffffff;
+  --body_background: #3d3d3d;
+  --text_muted: #adb3b8;
+  --placeholder_color: #b3b3b3;
+  --navbar_profile_icon: #747474;
+  --navbar_divider: #ffffff;
+  --navbar_background: #262626;
+  --navbar_search_text: #ffffff;
+  --navbar_active: #ffffff1a;
+  --sidebar_background: #262626;
+  --sidebar_active_border: #006DF3;
+  --sidebar_active: #ffffff1a;
+  --sidebar_scrollbar_thumb: #4BB9EC;
+  --sidebar_scrollbar_thumb_hover: #006DF3;
+  --sidebar_text: #ffffff;
+  --footer_text: #ffffff;
+  --footer_background: #262626;
+  --notification_badge: #dc3545b3;
+  --btn_outline_color: #fafafa;
+  --btn_outline_background: #262626;
+  --btn_outline_color_hover: #343a40;
+  --btn_outline_background_hover: #fafafa;
+  --box_background: #262626;
+  --box_shadox: #0000001a;
+  --table_border: #343A40;
+  --field_row: #dee2e6;
+  --button_disabled: #808080;
+  --button_background: #006DF3;
+  --button_background_hover: #007bff80;
+  --button_background_active: #4BB9EC;
+  --checkbox_background: #ffffff;
+  --checkbox_border: #BDBDBD;
+  --checkbox_color: #262626;
+  --mediamanager_selected: #35769b;
+  --mediamanager_breadcrumb: #4BB9EC;
+}
+

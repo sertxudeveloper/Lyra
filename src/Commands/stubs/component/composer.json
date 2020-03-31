@@ -1,0 +1,31 @@
+{
+  "name": "{{ vendor }}/{{ package }}",
+  "description": "A new Lyra component",
+  "keywords": [
+    "laravel",
+    "lyra",
+    "lyra-component"
+  ],
+  "license": "GPL-3.0",
+  "require": {
+    "php": ">=7.1.0",
+    "sertxudeveloper/lyra": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "{{ escapedNamespace }}\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "{{ escapedNamespace }}\\{{ class }}ServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

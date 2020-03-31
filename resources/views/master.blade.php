@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-  <title>@yield('page_title', config('lyra.admin.title') . " - " . config('lyra.admin.description'))</title>
+  <title>@yield('page_title', trans('lyra::theme.title') . " - " . trans('lyra::theme.description'))</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}"/>
   <meta name="lyra-api-route" content="{{ config('lyra.routes.api.prefix') }}">
@@ -9,6 +9,11 @@
 
   <link rel="stylesheet" href="{{ lyra_asset('css/main.css') }}">
   <link rel="stylesheet" href="{{ Lyra::getPreferredTheme() }}">
+
+  @foreach(\SertxuDeveloper\Lyra\Lyra::$styles as $style)
+    <link rel="stylesheet" href="{{$style}}">
+  @endforeach
+
 </head>
 
 <body>
@@ -72,6 +77,12 @@
 </div>
 
 <script src="{{ lyra_asset('js/app.js') }}"></script>
+
+@foreach(\SertxuDeveloper\Lyra\Lyra::$scripts as $script)
+  <script src="{{ $script }}"></script>
+@endforeach
+
+<script>Lyra.ready();</script>
 
 </body>
 </html>

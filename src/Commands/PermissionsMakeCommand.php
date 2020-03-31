@@ -13,7 +13,7 @@ class PermissionsMakeCommand extends Command {
    *
    * @var string
    */
-  protected $signature = 'lyra:permission {role?}';
+  protected $signature = 'lyra:permission {role}';
 
   /**
    * The console command description.
@@ -23,12 +23,17 @@ class PermissionsMakeCommand extends Command {
   protected $description = 'Set permissions to a Lyra role';
 
   public function handle() {
-    $role_id = $this->askRole();
+    $role_id = $this->getRoleId();
     $resource = $this->askResource();
-    if ($resource === 'media') {
-      $actions = $this->askActionsMedia();
-    } else {
-      $actions = $this->askActions();
+
+    switch ($resource) {
+      case 'media':
+        $actions = $this->askActionsMedia();
+        break;
+
+      default:
+        $actions = $this->askActions();
+        break;
     }
 
     $this->info('Saving permissions');
@@ -53,25 +58,14 @@ class PermissionsMakeCommand extends Command {
     return $this->handle();
   }
 
-  private function askRole() {
-    if (!$this->argument('role')) {
-      $roles = Role::all();
-
-      $choice = $this->choice('Select the role you want to edit', $roles->pluck('name')->toArray());
-      $key = $roles->search(function ($item, $key) use ($choice) {
-        return $item['name'] === $choice;
-      });
-
-      return $roles[$key]->id;
-    } else {
-      $role_name = $this->argument('role');
-      $role = Role::where('name', $role_name)->first();
-      if (!$role) {
-        $this->error('Role not found!');
-        exit(1);
-      }
-      return $role->id;
+  private function getRoleId() {
+    $role_name = $this->argument('role');
+    $role = Role::where('name', $role_name)->first();
+    if (!$role) {
+      $this->error('Role not found!');
+      exit(1);
     }
+    return $role->id;
   }
 
   private function askResource() {

@@ -68,7 +68,7 @@ class UserMakeCommand extends Command {
       'password' => 'required|min:8',
     ]);
 
-    if ($validator->fails()) $this->error('The email is not valid');
+    if ($validator->fails()) $this->error('The password is not valid');
     return !$validator->fails();
   }
 
@@ -86,6 +86,19 @@ class UserMakeCommand extends Command {
 
   private function askRole() {
     $roles = Role::all();
+
+    if (!$roles->count()) {
+      $this->info('No roles available, creating a new one...');
+      $name = $this->ask('Insert the name of the new role');
+
+      $role = new Role();
+      $role->name = $name;
+
+      $role->save();
+      $this->info('Role saved successfully!');
+
+      return $role->id;
+    }
 
     $choice = $this->choice('Select a role for the new user', $roles->pluck('name')->toArray());
     $key = $roles->search(function ($item, $key) use ($choice) {

@@ -1,5 +1,7 @@
 <?php
 
+use SertxuDeveloper\Lyra\Lyra;
+
 return [
   "routes" => [
     "web" => [
@@ -18,16 +20,6 @@ return [
   |--------------------------------------------------------------------------
   */
   "assets_path" => "/vendor/sertxudeveloper/lyra/assets",
-
-  /*
-  |--------------------------------------------------------------------------
-  | Title and description of the Lyra Panel
-  |--------------------------------------------------------------------------
-  */
-  "admin" => [
-    "title" => "Lyra Panel",
-    "description" => "Bootstrap your app and turn ideas into reality"
-  ],
 
   /*
   |--------------------------------------------------------------------------
@@ -62,10 +54,10 @@ return [
   | Besides the Lyra driver require its own user table in the database, so it won't work until you run the migration.
   | In addition, the notifications functionality will require another table to work.
   |
-  | Supported: "basic", "lyra"
+  | Supported: "MODE_BASIC", "MODE_ADVANCED"
   |--------------------------------------------------------------------------
   */
-  "authenticator" => "basic",
+  "authenticator" => Lyra::MODE_BASIC,
 
   /*
   |--------------------------------------------------------------------------

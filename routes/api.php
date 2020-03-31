@@ -11,9 +11,8 @@ use SertxuDeveloper\Lyra\Http\Controllers\NotificationsController;
 use SertxuDeveloper\Lyra\Http\Controllers\ProfileController;
 use SertxuDeveloper\Lyra\Http\Controllers\SearchController;
 
-Route::group(['middleware' => ['web', 'lyra-api']], function () {
-
-  Route::prefix(config('lyra.routes.api.prefix'))->name(config('lyra.routes.api.name'))->group(function () {
+Route::middleware(['web', 'lyra-api'])->prefix(config('lyra.routes.api.prefix'))
+  ->name(config('lyra.routes.api.name'))->group(function () {
 
     /** Dashboard routes */
     Route::get('/', [DashboardController::class, 'index']);
@@ -24,7 +23,7 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
     Route::get('media/files', [MediaManagerController::class, 'files']);
     Route::post('media/rename', [MediaManagerController::class, 'rename']);
     Route::post('media/move', [MediaManagerController::class, 'move']);
-    Route::post('media/copy', [MediaManagerController::class ,'copy']);
+    Route::post('media/copy', [MediaManagerController::class, 'copy']);
     Route::post('media/delete', [MediaManagerController::class, 'delete']);
     Route::post('media/newFolder', [MediaManagerController::class, 'newFolder']);
     Route::post('media/upload', [MediaManagerController::class, 'upload']);
@@ -41,23 +40,24 @@ Route::group(['middleware' => ['web', 'lyra-api']], function () {
     Route::get('notifications/{id}', [NotificationsController::class, 'read']);
 
     /** Dynamic Resource routes */
+    Route::prefix('/resources')->name('resources')->group(function () {
 
-    /** Create Controller */
-    Route::get('{resource}/create', [CreateController::class, 'create']);
-    Route::post('{resource}/create', [CreateController::class, 'store']);
+      /** Create Controller */
+      Route::get('{resource}/create', [CreateController::class, 'create']);
+      Route::post('{resource}/create', [CreateController::class, 'store']);
 
-    /** Show Controller */
-    Route::get('{resource}', [ShowController::class, 'index']);
-    Route::get('{resource}/{id}', [ShowController::class, 'show']);
+      /** Show Controller */
+      Route::get('{resource}', [ShowController::class, 'index']);
+      Route::get('{resource}/{id}', [ShowController::class, 'show']);
 
-    /** Edit Controller */
-    Route::get('{resource}/{id}/edit', [EditController::class, 'edit']);
-    Route::post('{resource}/{id}/edit', [EditController::class, 'update']);
+      /** Edit Controller */
+      Route::get('{resource}/{id}/edit', [EditController::class, 'edit']);
+      Route::post('{resource}/{id}/edit', [EditController::class, 'update']);
 
-    /** Destroy Controller */
-    Route::post('{resource}/{id}/delete', [DestroyController::class, 'delete']);
-    Route::post('{resource}/{id}/restore', [DestroyController::class, 'restore']);
-    Route::post('{resource}/{id}/forceDelete', [DestroyController::class, 'forceDelete']);
+      /** Destroy Controller */
+      Route::post('{resource}/{id}/delete', [DestroyController::class, 'delete']);
+      Route::post('{resource}/{id}/restore', [DestroyController::class, 'restore']);
+      Route::post('{resource}/{id}/forceDelete', [DestroyController::class, 'forceDelete']);
+    });
+
   });
-
-});

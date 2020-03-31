@@ -78,7 +78,7 @@
         $('.invalid-feedback.d-block.text-left').remove();
 
         this.formData.append('collection', JSON.stringify(this.resource.collection.data[0]));
-        this.formData.append('preventConflict', this.resource.collection.preventConflict);
+        this.formData.append('preventConflict', this.resource.preventConflict);
         this.$http.post(this.$route.fullPath, this.formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} edited successfully`);

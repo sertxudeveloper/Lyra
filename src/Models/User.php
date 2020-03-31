@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticable;
 use SertxuDeveloper\Lyra\Traits\Notifiable;
+use SertxuDeveloper\Lyra\Notifications\ResetPassword as ResetPasswordNotification;
 
 class User extends Authenticable {
 
@@ -29,5 +30,15 @@ class User extends Authenticable {
    */
   public function role() {
     return $this->belongsTo(Role::class);
+  }
+
+  /**
+   * Send the password reset notification.
+   *
+   * @param  string $token
+   * @return void
+   */
+  public function sendPasswordResetNotification($token) {
+    $this->notify(new ResetPasswordNotification($token));
   }
 }

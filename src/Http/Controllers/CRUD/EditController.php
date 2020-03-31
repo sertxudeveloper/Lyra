@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Http\Controllers\CRUD;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\MessageBag;
 use SertxuDeveloper\Lyra\Http\Controllers\DatatypesController;
 use SertxuDeveloper\Lyra\Http\Controllers\TranslatorController;
 use SertxuDeveloper\Lyra\Lyra;
@@ -21,7 +22,7 @@ class EditController extends DatatypesController {
    */
   public function edit(Request $request, string $resource, string $id) {
     /** Check if the user has permission to edit the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write', $resource)) abort(403);
+    if (!Lyra::checkPermission('write', $resource)) abort(403);
 
     /** Get the Lyra resource from the global array and search the model instance in the database */
     $resourcesNamespace = Lyra::getResources()[$resource];
@@ -49,7 +50,7 @@ class EditController extends DatatypesController {
    */
   public function update(Request $request, string $resource, string $id) {
     /** Check if the user has permission to create (update) the $resource requested */
-    if (config('lyra.authenticator') == 'lyra') if (!Lyra::auth()->user()->hasPermission('write', $resource)) abort(403);
+    if (!Lyra::checkPermission('write', $resource)) abort(403);
 
     /** Get the Lyra resource from the global array and create a new model instance */
     $resourcesNamespace = Lyra::getResources()[$resource];
@@ -73,7 +74,7 @@ class EditController extends DatatypesController {
       return !$permission['hideOnEdit'];
     })->values();
 
-    $errors = new \Illuminate\Support\MessageBag;
+    $errors = new MessageBag;
 
     /** Process first the common fields with a column in the database */
     $fields->each(function ($field, $key) use ($values, $model, &$errors) {

@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+class {{ class }} {
+
+  /**
+   * This method is executed once Lyra has booted
+   */
+  public function boot() {
+
+  }
+}

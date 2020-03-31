@@ -1,22 +1,27 @@
 @extends('lyra::auth.master')
 
-@section('title', config('lyra.admin.title') . " - " . config('lyra.admin.description'))
-
 @section('content')
   <form method="post">
-    {{ csrf_field() }}
+    @csrf
 
     <div class="form-group mt-2">
       <label for="email">@lang('lyra::fields.email')</label>
-      <input type="email" class="form-control @if($errors->has('email'))is-invalid @endif" id="email" name="email" required autofocus
-             value="{{ old('email') }}" placeholder="@lang('lyra::fields.email')">
-      @if($errors->has('email')) <div class="invalid-feedback">{{ $errors->first('email') }}</div> @endif
+      <input type="email" class="form-control @if($errors->has('email'))is-invalid @endif" autofocus
+             id="email" name="email" required value="{{ old('email') }}" placeholder="@lang('lyra::fields.email')">
+
+      @error('email')
+      <div class="invalid-feedback">{{ $errors->first('email') }}</div>
+      @enderror
     </div>
 
     <div class="form-group">
       <label for="password">@lang('lyra::fields.password')</label>
-      <input type="password" class="form-control @if($errors->has('email'))is-invalid @endif" id="password" name="password" placeholder="@lang('lyra::fields.password')">
-      @if($errors->has('password')) <div class="invalid-feedback">{{ $errors->first('password') }}</div> @endif
+      <input type="password" class="form-control @if($errors->has('email'))is-invalid @endif"
+             id="password" name="password" required placeholder="@lang('lyra::fields.password')">
+
+      @error('password')
+      <div class="invalid-feedback">{{ $errors->first('password') }}</div>
+      @enderror
     </div>
 
     <div class="checkbox mb-5 col-6 p-0">
@@ -31,5 +36,12 @@
     </div>
 
   </form>
+
+  @if(config('lyra.authenticator') === \SertxuDeveloper\Lyra\Lyra::MODE_ADVANCED)
+    <hr>
+    <div class="text-center">
+      <a href="{{ route("lyra.password.request") }}">Forgot your password?</a>
+    </div>
+  @endif
 @endsection
 

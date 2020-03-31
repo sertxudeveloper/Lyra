@@ -32,7 +32,7 @@
                     </div>
                   </div>
 
-                  <div v-if="resource.collection.hasSoftDeletes">
+                  <div v-if="resource.hasSoftDeletes">
                     <span class="dropdown-header">Visibility</span>
                     <div class="form-group mx-3 my-2">
                       <select class="form-control" title="Visibility" v-model="visibility">
@@ -88,20 +88,18 @@
                 <i class="fas fa-eye"></i>
               </router-link>
               <template v-if="!getPrimaryField(collection).trashed">
-                <router-link
-                  :to="{ name: 'edit', params: { resourceName: getResourceName(), resourceId: getPrimaryField(collection).value }, query: { lang: $route.query.lang }}"
-                  class="btn btn-link" title="Edit">
+                <a href="#" v-on:click="editItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Edit">
                   <i class="fas fa-pencil-alt"></i>
-                </router-link>
-                <a href="#" v-on:click="removeItem(collection)" class="btn btn-link" title="Delete">
+                </a>
+                <a href="#" v-on:click="removeItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Delete">
                   <i class="fas fa-trash-alt"></i>
                 </a>
               </template>
               <template v-else>
-                <a href="#" v-on:click="restoreItem(collection)" class="btn btn-link" title="Restore">
+                <a href="#" v-on:click="restoreItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Restore">
                   <i class="fas fa-undo"></i>
                 </a>
-                <a href="#" v-on:click="forceRemoveItem(collection)" class="btn btn-link" title="Force Delete">
+                <a href="#" v-on:click="forceRemoveItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Force Delete">
                   <i class="fas fa-trash"></i>
                 </a>
               </template>
@@ -162,7 +160,12 @@
         this.selected.forEach(collection => this.removeItem(collection));
         this.selected = [];
       },
+      editItem: function (collection) {
+        if (!this.resource.permissions.write) return toastr.error("You're not allowed to edit this resource");
+        this.$router.push({ name: 'edit', params: { resourceName: this.getResourceName(), resourceId: this.getPrimaryField(collection).value }, query: { lang: this.$route.query.lang }});
+      },
       removeItem: function (collection) {
+        if (!this.resource.permissions.delete) return toastr.error("You're not allowed to delete this resource");
         this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/delete`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
@@ -172,6 +175,7 @@
         })
       },
       restoreItem: function (collection) {
+        if (!this.resource.permissions.delete) return toastr.error("You're not allowed to restore this resource");
         this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/restore`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} restored successfully`);
@@ -181,6 +185,7 @@
         })
       },
       forceRemoveItem: function (collection) {
+        if (!this.resource.permissions.delete) return toastr.error("You're not allowed to force delete this resource");
         this.$http.post(`${this.getRoute()}/forceDelete`).then(response => {
           if (response.status === 200) {
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);

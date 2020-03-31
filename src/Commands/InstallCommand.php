@@ -3,10 +3,8 @@
 namespace SertxuDeveloper\Lyra\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use SertxuDeveloper\Lyra\LyraServiceProvider;
 use SertxuDeveloper\Lyra\Traits\Seedable;
-use Symfony\Component\Console\Input\InputOption;
 
 class InstallCommand extends Command {
   use Seedable;
@@ -27,18 +25,6 @@ class InstallCommand extends Command {
    */
   protected $description = 'Install the Lyra package';
 
-
-//  /**
-//   * Get the console command options.
-//   *
-//   * @return array
-//   */
-//  protected function getOptions() {
-//    return [
-////      ['with-dummy', null, InputOption::VALUE_NONE, 'Install with dummy data', null],
-//    ];
-//  }
-
   /**
    * Execute the console command.
    * @return void
@@ -49,11 +35,15 @@ class InstallCommand extends Command {
     $this->info("First we're going to publish the assets files");
     $this->call("vendor:publish", ["--provider" => LyraServiceProvider::class, "--tag" => "lyra-assets"]);
 
-    $this->info("After that, we're going to publish the database files");
-    $this->call("vendor:publish", ["--provider" => LyraServiceProvider::class, "--tag" => "lyra-migrations"]);
-
     $this->info("Now, we're going to publish the config file");
     $this->call("vendor:publish", ["--provider" => LyraServiceProvider::class, "--tag" => "lyra-config"]);
+
+    if ($this->confirm("Are you going to use the advanced working mode?")) {
+      $this->info("After that, we're going to publish the database files and run the migrations");
+      $this->call("vendor:publish", ["--provider" => LyraServiceProvider::class, "--tag" => "lyra-migrations"]);
+
+      $this->call('migrate', ['--path' => 'database/migrations/lyra']);
+    }
 
     $this->info("Finally is your turn, I need you to decide if you want to publish the optional files o not");
 
@@ -61,25 +51,10 @@ class InstallCommand extends Command {
       $this->call("vendor:publish", ["--provider" => LyraServiceProvider::class, "--tag" => "lyra-views"]);
     }
 
-    if ($this->confirm('Do you want to run the migrations to the database')) {
-      $this->call('migrate', ['--path' => 'database/migrations/lyra']);
-    }
-
-//    if ($this->confirm('Do you want to add dummy data as an example in the database?')) {
-//      $this->addDummyData();
-//    }
-
     if ($this->confirm('Do you want to add the storage symlink to the public folder?')) {
       $this->call('storage:link');
     }
 
     $this->info('Successfully installed! Enjoy creating awesome things with Lyra.');
   }
-
-//  protected function addDummyData() {
-//    $this->seed('LyraDummyDatabaseSeeder');
-//    $this->call("vendor:publish", ["--provider" => LyraServiceProvider::class, "--tag" => "lyra-demo_content"]);
-//    $this->warn('Default admin user created. Now you will be able to login with the email "admin@example.com" and the password "secret"');
-//  }
-
 }

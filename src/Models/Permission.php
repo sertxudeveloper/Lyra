@@ -8,7 +8,6 @@ class Permission extends Model {
 
   protected $table = 'lyra_permissions';
   protected $guarded = [];
-  protected $primaryKey = ['role_id', 'resource_key', 'action'];
   public $incrementing = false;
 
 }
