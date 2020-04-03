@@ -6,34 +6,24 @@ class BelongsTo extends Relation {
 
   protected $component = "belongs-to-field";
 
-  public function nullable() {
-    $this->data->put('nullable', true);
-    return $this;
-  }
-
-  public function getValue($model, $type) {
+  /**
+   * Get the value of the Field
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return array
+   */
+  public function getValue($model, string $type): array {
     $value = null;
 
     if (is_callable($this->callback)) {
       $this->callback = $this->callback->bindTo($model);
       $value = call_user_func($this->callback);
     } else {
-      switch ($type) {
-        case 'index':
-          $value = $this->getValueShow($model);
-          break;
-
-        case 'show':
-          $value = $this->getValueShow($model);
-          break;
-
-        case 'edit':
-          $value = $this->getValueEdit($model);
-          break;
-
-        case 'create':
-          $value = $this->getValueCreate($model);
-          break;
+      if (config('lyra.translator.enabled') && $this->isTranslatable()) {
+        $value = $this->getTranslatedValue($model, $type);
+      } else {
+        $value = $this->getOriginalValue($model, $type);
       }
     }
 
@@ -42,47 +32,95 @@ class BelongsTo extends Relation {
     return $this->data->toArray();
   }
 
-  protected function getValueShow($model) {
-    $query = $model->{$this->data->get('column')}();
-    if (!$this->data->get('display_column')) $this->data->put('display_column', $query->getOwnerKeyName());
-    $item = $model->{$this->data->get('column')};
-    return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$this->data->get('display_column')]];
+  /**
+   * Get the translated value of the Field
+   * The language is specified as a request GET input
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getTranslatedValue($model, string $type) {
+    return abort(500, "This field currently doesn't support translations");
   }
 
-  protected function getValueCreate($model) {
-    $query = $model->{$this->data->get('column')}();
-    $field = $this;
+  /**
+   * Get the original value of the Field
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getOriginalValue($model, string $type) {
+    if ($type === 'create') {
+      return $this->getOriginalValueCreate($model);
+    } else if ($type === 'edit') {
+      return $this->getOriginalValueEdit($model);
+    } else {
+      return $this->getOriginalValueShow($model);
+    }
+  }
 
-    if (!$field->data->get('display_column')) $field->data->put('display_column', $query->getOwnerKeyName());
-    $options = $this->data->get('resource')::$model::all()->map(function ($item) use ($field, $query) {
-      return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$field->data->get('display_column')]];
-    });
+  /**
+   * @param $model
+   * @return array|null
+   */
+  private function getOriginalValueCreate($model) {
+    $query = $model->{$this->data->get('column')}();
+
+    $options = $this->getAllOptions($query);
     $this->data->put('options', $options);
 
     if (request()->get($query->getForeignKeyName())) {
-      $this->data->put('disabled', true);
       $element = $this->data->get('resource')::$model::find(request()->get($query->getForeignKeyName()));
-      return ['key' => $element[$query->getOwnerKeyName()], 'value' => $element[$field->data->get('display_column')]];
+      return ['key' => $element[$query->getOwnerKeyName()], 'value' => $element[$this->data->get('display_column')]];
     }
 
     return null;
   }
 
-  protected function getValueEdit($model) {
+  /**
+   * @param $model
+   * @return array
+   */
+  private function getOriginalValueEdit($model) {
     $query = $model->{$this->data->get('column')}();
-    $field = $this;
-    if (!$field->data->get('display_column')) $field->data->put('display_column', $query->getOwnerKeyName());
-    $options = $this->data->get('resource')::$model::all()->map(function ($item) use ($field, $query) {
-      return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$field->data->get('display_column')]];
-    });
+
+    $options = $this->getAllOptions($query);
     $this->data->put('options', $options);
-    $item = $model->{$this->data->get('column')};
+
+    $item = $model[$this->data->get('column')];
     return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$this->data->get('display_column')]];
   }
 
-  public function saveValue($field, $model) {
+  /**
+   * @param $model
+   * @return array
+   */
+  private function getOriginalValueShow($model) {
+    $query = $model->{$this->data->get('column')}();
+    $item = $model[$this->data->get('column')];
+    return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$this->data->get('display_column')]];
+  }
+
+  /**
+   * @param $query
+   * @return mixed
+   */
+  private function getAllOptions($query) {
+    return $this->data->get('resource')::$model::all()->map(function ($item) use ($query) {
+      return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$this->data->get('display_column')]];
+    });
+  }
+
+  /**
+   * Save the $field value in the model
+   *
+   * @param array $field
+   * @param $model
+   */
+  public function saveValue(array $field, $model): void {
     $query = $model->{$this->data->get('column')}();
     $model[$query->getForeignKeyName()] = $field['value']['key'] ?: null;
   }
-
 }

@@ -12,33 +12,34 @@ class MorphOneToOne extends Field {
   protected $component = "morph-one-to-one-field";
   protected $hideOnIndex = true;
 
-  public function getValue($model, $type) {
+  /**
+   * Get the value of the Field
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return array
+   */
+  public function getValue($model, string $type): array {
     $value = null;
 
-    switch ($type) {
-      case 'index':
-        return null;
-        break;
-
-      case 'show':
-        $value = $this->getValueShow($model);
-        break;
-
-      case 'edit':
-        $value = $this->getValueEdit($model);
-        break;
-
-      case 'create':
-        $value = $this->getValueCreate($model);
-        break;
+    if ($type === 'create') {
+      $value = [];
+    } else if ($type === 'edit') {
+      $value = $this->getOriginalValueEdit($model);
+    } else if ($type === 'show') {
+      $value = $this->getOriginalValueShow($model);
     }
 
-//    $this->data->put('value', []);
     $this->data->put('value', $value);
+
     return $this->data->toArray();
   }
 
-  public function getValueShow($model) {
+  /**
+   * @param $model
+   * @return mixed
+   */
+  private function getOriginalValueShow($model) {
     $morphedModel = $model->{$this->data->get('column')};
 
     $resource = $this->setResource($model);
@@ -50,7 +51,11 @@ class MorphOneToOne extends Field {
     return $resourceCollection->getCollection(request(), 'index')['collection']['data'][0];
   }
 
-  public function getValueEdit($model) {
+  /**
+   * @param $model
+   * @return mixed
+   */
+  private function getOriginalValueEdit($model) {
     $morphedModel = $model->{$this->data->get('column')};
 
     $resource = $this->setResource($model);
@@ -63,11 +68,35 @@ class MorphOneToOne extends Field {
     return $resourceCollection->getCollection(request(), 'edit')['collection']['data'][0];
   }
 
-  public function saveValue($field, $model) {
+  /**
+   * @param $model
+   * @return |null
+   */
+  private function setResource($model) {
+    $resources = Lyra::getResources();
+    $type = get_class($model->{$this->data->get('column')});
+
+    foreach ($resources as $resource) {
+      if ($resource::$model === $type) {
+        $this->data->put('resource', array_search($resource, $resources));
+        return $resource;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Save the $field value in the model
+   *
+   * @param array $field
+   * @param $model
+   */
+  public function saveValue(array $field, $model): void {
     $morphedModel = $model->{$this->data->get('column')};
 
     /** If the resource type has changed, remove the old type from the database and all the translations if required */
-    $removed = $this->removeOldMorphed($field, $model);
+    $removed = $this->removeMorphed($field, $model);
 
     if (!$morphedModel || $removed) {
       $morphedModel = Lyra::getResources()[$field['resource']]::$model;
@@ -83,7 +112,42 @@ class MorphOneToOne extends Field {
     }
 
     $morphedModel->save();
-    return $model->{$this->data->get('column')}()->associate($morphedModel);
+    $model->{$this->data->get('column')}()->associate($morphedModel);
+  }
+
+  /**
+   * @param $model
+   * @return bool
+   */
+  private function removeMorphed($model) {
+    $resource = $this->setResource($model);
+
+    $search = array_search($this->setResource($model), Lyra::getResources());
+
+    if ($resource !== $search) {
+      $deleteModel = Lyra::getResources()[$search]::$model;
+      $primaryColumn = (new $deleteModel)->getKeyName();
+      $deleteModel = $deleteModel::where($primaryColumn, $model[$primaryColumn])->first();
+
+      if (TranslatorController::isTranslatorUsable()) {
+        TranslatorController::removeTranslations($deleteModel);
+      }
+
+      $deleteModel->delete();
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Delete the file
+   * The file will be deleted only if the prunable option is enabled
+   *
+   * @param $model
+   */
+  public function delete($model) {
+    $this->removeMorphed($model);
   }
 
   public function types(array $types) {
@@ -102,43 +166,14 @@ class MorphOneToOne extends Field {
     return $this;
   }
 
-  private function setResource($model) {
-    $resources = Lyra::getResources();
-    $type = get_class($model->{$this->data->get('column')});
-
-    foreach ($resources as $resource) {
-      if ($resource::$model === $type) {
-        $this->data->put('resource', array_search($resource, $resources));
-        return $resource;
-      }
-    }
-
-    return null;
-  }
-
-  private function getValueCreate($model) {
-    return [];
-  }
-
+  /**
+   * Overwrite hideOnIndex visibility
+   *
+   * @param bool $hide
+   * @return static
+   */
   public function hideOnIndex(bool $hide = true) {
-    return true;
-  }
-
-  private function removeOldMorphed($field, $model) {
-    $search = array_search($this->setResource($model), Lyra::getResources());
-    if (!empty($field['resource']) && $field['resource'] !== $search) {
-      $deleteModel = Lyra::getResources()[$search]::$model;
-      $primaryColumn = (new $deleteModel)->getKeyName();
-      $deleteModel = $deleteModel::where($primaryColumn, $field[$primaryColumn])->first();
-
-      if (TranslatorController::isTranslatorUsable()) {
-        TranslatorController::removeTranslations($deleteModel);
-      }
-
-      $deleteModel->delete();
-      return true;
-    }
-
-    return false;
+    $this->hideOnIndex = true;
+    return $this;
   }
 }

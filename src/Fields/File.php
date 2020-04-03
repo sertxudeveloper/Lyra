@@ -9,31 +9,63 @@ class File extends Field {
   protected $component = "file-field";
   protected $defaultDisk = 'public';
 
+  /**
+   * Enable multiple file upload
+   * @return $this
+   */
   public function multiple() {
     $this->data->put('multiple', true);
     return $this;
   }
 
+  /**
+   * Set the disk to store
+   *
+   * @param $disk
+   * @return $this
+   */
   public function disk($disk) {
     $this->data->put('disk', $disk);
     return $this;
   }
 
+  /**
+   * Remove the previous file when replaced with a new one
+   *
+   * @return $this
+   */
   public function prunable() {
     $this->data->put('prunable', true);
     return $this;
   }
 
+  /**
+   * Set the folder to save the files
+   *
+   * @param $folder
+   * @return $this
+   */
   public function folder($folder) {
     $this->data->put('folder', $folder);
     return $this;
   }
 
+  /**
+   * Save the file with its original name
+   *
+   * @return $this
+   */
   public function originalName() {
     $this->data->put('originalName', true);
     return $this;
   }
 
+  /**
+   * Delete the file
+   * The file will be deleted only if the prunable option is enabled
+   *
+   * @param $model
+   */
   public function delete($model) {
     if ($this->data->get('prunable')) {
       $file = $model[$this->data->get('column')];
@@ -42,14 +74,40 @@ class File extends Field {
     }
   }
 
-  public function getValue($model, $type) {
+  /**
+   * Get the value of the Field
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return array
+   */
+  public function getValue($model, string $type): array {
     if (!$this->data->get('disk')) $this->data->put('disk', $this->defaultDisk);
     $this->data->put('storage_path', Storage::disk($this->data->get('disk'))->url(null));
 
-    return parent::getValue($model, $type);
+    if (is_callable($this->callback)) {
+      $this->callback = $this->callback->bindTo($model);
+      $value = call_user_func($this->callback);
+    } else {
+      if (config('lyra.translator.enabled') && $this->isTranslatable()) {
+        $value = $this->getTranslatedValue($model, $type);
+      } else {
+        $value = $this->getOriginalValue($model, $type);
+      }
+    }
+
+    $this->data->put('value', $value);
+
+    return $this->data->toArray();
   }
 
-  protected function retrieveValue($model) {
+  /**
+   * Get the original value of the Field
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getOriginalValue($model, string $type) {
     if (!isset($model[$this->data->get('column')])) return null;
 
     /** Decode the value if required */
@@ -60,16 +118,22 @@ class File extends Field {
     }
   }
 
-  public function saveValue($field, $resource) {
+  /**
+   * Save the $field value in the model
+   *
+   * @param array $field
+   * @param $model
+   */
+  public function saveValue(array $field, $model): void {
     /** Check if there is a disk defined, if not set the default disk */
     if (!$this->data->get('disk')) $this->data->put('disk', $this->defaultDisk);
 
     /** Check if the field can handle multiple files and get the old paths saved in the database */
     if ($this->data->get('multiple')) {
-      $old = json_decode($resource[$this->data->get('column')]);
+      $old = json_decode($model[$this->data->get('column')]);
       if (!$old) $old = [];
     } else {
-      $old = $resource[$this->data->get('column')];
+      $old = $model[$this->data->get('column')];
     }
 
     /** Check if the field is prunable */
@@ -115,6 +179,6 @@ class File extends Field {
     $paths = $paths->values();
 
     /** Save the path in the resource column, if the field handle multiple files save the paths as an encoded json */
-    $resource->{$this->data->get('column')} = ($this->data->get('multiple')) ? json_encode($paths->toArray()) : $paths->first();
+    $model[$this->data->get('column')] = ($this->data->get('multiple')) ? json_encode($paths->toArray()) : $paths->first();
   }
 }

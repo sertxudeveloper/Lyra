@@ -92,7 +92,7 @@ abstract class Resource extends ResourceCollection {
             }
           }
         } else {
-          $permission = $field->getPermissions();
+          $permission = $field->getVisibility();
           if ($permission['hideOn' . ucfirst($this->type)]) continue;
           if ($field->isPrimary() && $this->hasSoftDeletes()) {
             $field = $field->getValue($model, $this->type);

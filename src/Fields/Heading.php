@@ -15,7 +15,13 @@ class Heading {
 
   protected $data = null;
 
-  public static function make($text) {
+  /**
+   * Create a new instance of the Field
+   *
+   * @param string $text
+   * @return self
+   */
+  public static function make(string $text) {
     $class = new static();
     $class->data = collect([]);
     $class->data->put('component', $class->component);
@@ -23,35 +29,56 @@ class Heading {
     return $class;
   }
 
-  public function hideOnIndex($hide = true) {
+  /**
+   * Overwrite hideOnIndex visibility
+   *
+   * @param bool $hide
+   * @return $this
+   */
+  public function hideOnIndex(bool $hide = true): self {
     $this->hideOnIndex = $hide;
     return $this;
   }
 
-  public function hideOnShow($hide = true) {
+  /**
+   * Overwrite hideOnShow visibility
+   *
+   * @param bool $hide
+   * @return $this
+   */
+  public function hideOnShow(bool $hide = true): self {
     $this->hideOnShow = $hide;
     return $this;
   }
 
-  public function hideOnCreate($hide = true) {
+  /**
+   * Overwrite hideOnCreate visibility
+   *
+   * @param bool $hide
+   * @return $this
+   */
+  public function hideOnCreate(bool $hide = true): self {
     $this->hideOnCreate = $hide;
     return $this;
   }
 
-  public function hideOnEdit($hide = true) {
+  /**
+   * Overwrite hideOnEdit visibility
+   *
+   * @param bool $hide
+   * @return $this
+   */
+  public function hideOnEdit(bool $hide = true): self {
     $this->hideOnEdit = $hide;
     return $this;
   }
 
-  public function isTranslatable() {
-    return false;
-  }
-
-  public function saveValue(){
-    return null;
-  }
-
-  public function getPermissions() {
+  /**
+   * Get the visibility of the Field
+   *
+   * @return array
+   */
+  public function getVisibility(): array {
     return [
       "hideOnIndex" => $this->hideOnIndex,
       "hideOnShow" => $this->hideOnShow,
@@ -60,15 +87,14 @@ class Heading {
     ];
   }
 
+  /**
+   * Get the value of the Field
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return array
+   */
   public function getValue($model, $type) {
     return $this->data->toArray();
-  }
-
-  public function isPrimary() {
-    return false;
-  }
-
-  public function getColumnName() {
-    return null;
   }
 }

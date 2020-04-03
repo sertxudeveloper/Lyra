@@ -25,7 +25,7 @@ class LyraUser extends Resource
       Text::make('Email')->rules('required', "unique:users,email,{{id}}"),
       Password::make('Password')->rules('nullable', 'string', 'min:8'),
       Image::make('Avatar')->prunable(),
-      BelongsTo::make('Role')->setDisplay('name')->setResource(LyraRole::class),
+      BelongsTo::make('Role')->setResource(LyraRole::class),
       Select::make('Theme', 'preferred_theme')->options(['default', 'dark', 'light'])->default('default')
     ];
   }

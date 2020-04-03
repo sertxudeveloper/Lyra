@@ -19,6 +19,13 @@ abstract class Field {
   protected $data = null;
   protected $rules = [];
 
+  /**
+   * Create a new instance of the Field
+   *
+   * @param string $name
+   * @param null $column
+   * @return static
+   */
   public static function make(string $name, $column = null) {
     $class = new static();
     $class->data = collect([]);
@@ -40,63 +47,125 @@ abstract class Field {
     return $class;
   }
 
+  /**
+   * Add a description to the Field
+   *
+   * @param string $text
+   * @return $this
+   */
   public function description(string $text) {
     $this->data->put('description', $text);
     return $this;
   }
 
+  /**
+   * Add validation rules to Field
+   *
+   * @param mixed ...$rules
+   * @return $this
+   */
+  public function rules(...$rules): self {
+    $this->rules = $rules;
+    return $this;
+  }
+
+  /**
+   * Set the Field as sortable
+   *
+   * @return $this
+   */
   public function sortable() {
     $this->data->put('sortable', true);
     return $this;
   }
 
+  /**
+   * Set the Field as translatable
+   *
+   * @return $this
+   */
   public function translatable() {
     $this->data->put('translatable', true);
     return $this;
   }
 
-  public function isTranslatable() {
+  /**
+   * Get if the Field is translatable or not
+   *
+   * @return bool
+   */
+  public function isTranslatable(): bool {
     return (bool)$this->data->get('translatable');
   }
 
+  /**
+   * Get the Eloquent column name for the field
+   *
+   * @return string
+   */
+  public function getColumnName(): string {
+    return $this->data->get('column');
+  }
+
+  /**
+   * Return true if the Field is primary or false if not
+   *
+   * @return bool
+   */
+  public function isPrimary(): bool {
+    return (bool)$this->data->get('primary');
+  }
+
+  /**
+   * Overwrite hideOnIndex visibility
+   *
+   * @param bool $hide
+   * @return static
+   */
   public function hideOnIndex(bool $hide = true) {
     $this->hideOnIndex = $hide;
     return $this;
   }
 
+  /**
+   * Overwrite hideOnShow visibility
+   *
+   * @param bool $hide
+   * @return static
+   */
   public function hideOnShow(bool $hide = true) {
     $this->hideOnShow = $hide;
     return $this;
   }
 
+  /**
+   * Overwrite hideOnCreate visibility
+   *
+   * @param bool $hide
+   * @return static
+   */
   public function hideOnCreate(bool $hide = true) {
     $this->hideOnCreate = $hide;
     return $this;
   }
 
+  /**
+   * Overwrite hideOnEdit visibility
+   *
+   * @param bool $hide
+   * @return static
+   */
   public function hideOnEdit(bool $hide = true) {
     $this->hideOnEdit = $hide;
     return $this;
   }
 
-  public function saveValue(array $field, $model) {
-    $model[$this->data->get('column')] = $field['value'];
-  }
-
-  public function rules(...$rules) {
-    $this->rules = $rules;
-    return $this;
-  }
-
-  public function validate($value, $resource) {
-    preg_match('/{{(\w+)}}/', json_encode($this->rules), $matches);
-    if (!empty($matches)) $rules = str_replace('{{id}}', $resource[$matches[1]], $this->rules);
-    return Validator::make([$this->data->get('column') => $value], [
-      $this->data->get('column') => isset($rules) ? $rules : $this->rules,
-    ]);
-  }
-
-  public function getPermissions() {
+  /**
+   * Get the visibility of the Field
+   *
+   * @return array
+   */
+  public function getVisibility(): array {
     return [
       "hideOnIndex" => $this->hideOnIndex,
       "hideOnShow" => $this->hideOnShow,
@@ -105,29 +174,34 @@ abstract class Field {
     ];
   }
 
-  public function getValue($model, $type) {
+  /**
+   * Save the $field value in the model
+   *
+   * @param array $field
+   * @param $model
+   */
+  public function saveValue(array $field, $model): void {
+    $model[$this->data->get('column')] = $field['value'];
+  }
+
+  /**
+   * Get the value of the Field
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return array
+   */
+  public function getValue($model, string $type): array {
     $value = null;
 
     if (is_callable($this->callback)) {
       $this->callback = $this->callback->bindTo($model);
       $value = call_user_func($this->callback);
     } else {
-      switch ($type) {
-        case 'index':
-          $value = $this->getValueShow($model);
-          break;
-
-        case 'show':
-          $value = $this->getValueShow($model);
-          break;
-
-        case 'edit':
-          $value = $this->getValueEdit($model);
-          break;
-
-        case 'create':
-          $value = $this->getValueEdit($model);
-          break;
+      if (config('lyra.translator.enabled') && $this->isTranslatable()) {
+        $value = $this->getTranslatedValue($model, $type);
+      } else {
+        $value = $this->getOriginalValue($model, $type);
       }
     }
 
@@ -136,33 +210,43 @@ abstract class Field {
     return $this->data->toArray();
   }
 
-  protected function getValueShow($model) {
-    if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model);
-    return $this->retrieveValue($model);
-  }
-
-  protected function getValueEdit($model) {
-    if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model);
-    return $this->retrieveValue($model);
-  }
-
-  protected function getTranslatedValue($model) {
-    if (request()->get('lang') && request()->get('lang') !== config('lyra.translator.default_locale')) {
-      return $model->getTranslated($this->data->get('column'), request()->get('lang'));
+  /**
+   * Get the translated value of the Field
+   * The language is specified as a request GET input
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getTranslatedValue($model, string $type) {
+    if (request()->input('lang') && request()->input('lang') !== config('lyra.translator.default_locale')) {
+      return $model->getTranslated($this->data->get('column'), request()->input('lang'));
     }
-    return $this->retrieveValue($model);
+    return $this->getOriginalValue($model, $type);
   }
 
-  protected function retrieveValue($model) {
-    return isset($model[$this->data->get('column')]) ? $model[$this->data->get('column')] : null;
+  /**
+   * Get the original value of the Field
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getOriginalValue($model, string $type) {
+    return (isset($model[$this->data->get('column')])) ? $model[$this->data->get('column')] : null;
   }
 
-  public function getColumnName() {
-    return $this->data->get('column');
+  /**
+   * Validate the Field data
+   *
+   * @param $value
+   * @param $resource
+   * @return \Illuminate\Contracts\Validation\Validator
+   */
+  public function validate($value, $resource) {
+    preg_match('/{{(\w+)}}/', json_encode($this->rules), $matches);
+    if (!empty($matches)) $rules = str_replace('{{id}}', $resource[$matches[1]], $this->rules);
+    return Validator::make([$this->data->get('column') => $value], [
+      $this->data->get('column') => isset($rules) ? $rules : $this->rules,
+    ]);
   }
-
-  public function isPrimary() {
-    return !!$this->data->get('primary');
-  }
-
 }

@@ -58,7 +58,7 @@ class CreateController extends DatatypesController {
 
     /** Filter the fields which should not be included in the database because were hidden or is the primary key */
     $fields = $fields->filter(function ($field) {
-      $permission = $field->getPermissions();
+      $permission = $field->getVisibility();
       return !$permission['hideOnCreate'];
     })->values();
 

@@ -5,7 +5,6 @@ namespace SertxuDeveloper\Lyra\Fields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use SertxuDeveloper\Lyra\Http\Controllers\DatatypesController;
-use SertxuDeveloper\Lyra\Lyra;
 
 class BelongsToManyTable extends Relation {
 
@@ -15,9 +14,29 @@ class BelongsToManyTable extends Relation {
   protected $hideOnCreate = true;
   protected $hideOnEdit = true;
 
-  protected function retrieveValue($model) {
+  /**
+   * Get the translated value of the Field
+   * The language is specified as a request GET input
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getTranslatedValue($model, string $type) {
+    return abort(500, "This field currently doesn't support translations");
+  }
+
+  /**
+   * Get the original value of the Field
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getOriginalValue($model, string $type) {
     $query = $model->{$this->data->get('column')}();
 
+    /** Search functionality */
     if (request()->get('search')) {
       $search = urldecode(request()->get('search'));
       $resource = $this->data->get('resource');
@@ -29,6 +48,7 @@ class BelongsToManyTable extends Relation {
       });
     }
 
+    /** Column sort functionality */
     if (request()->get('sortCol') && request()->get('sortDir')) {
       $query->getBaseQuery()->orders = null;
       $sortCol = explode(',', request()->get('sortCol'));
@@ -51,5 +71,4 @@ class BelongsToManyTable extends Relation {
 
     return $resourceCollection->getCollection(request(), 'index');
   }
-
 }

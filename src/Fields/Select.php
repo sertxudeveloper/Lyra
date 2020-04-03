@@ -9,6 +9,12 @@ class Select extends Field {
   protected $component = "select-field";
   private $defaultValue;
 
+  /**
+   * Set the options of the Select field
+   *
+   * @param array $options
+   * @return $this
+   */
   public function options(array $options) {
     if (Arr::isAssoc($options)) {
       $options = $this->optionsAssoc($options);
@@ -20,6 +26,12 @@ class Select extends Field {
     return $this;
   }
 
+  /**
+   * Set the default option
+   *
+   * @param $value
+   * @return $this
+   */
   public function default($value) {
     $this->defaultValue = $value;
     return $this;
@@ -41,18 +53,31 @@ class Select extends Field {
     return $options;
   }
 
-  protected function getValueShow($model) {
-    if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model, 'value');
-    return $this->retrieveValue($model, 'value');
+  /**
+   * Get the original value of the Field
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getOriginalValue($model, string $type) {
+    $key = ($type == 'edit') ? 'key' : 'value';
+    if (!isset($model[$this->data->get('column')])) return $this->defaultValue;
+    $index = array_search($model[$this->data->get('column')], array_column($this->data->get('options'), 'key'));
+    if ($index === false) return abort(500, "Value {$model[$this->data->get('column')]} not found in the field options");
+    return $this->data->get('options')[$index][$key] ?? $this->defaultValue ?: null;
   }
 
-  protected function getValueEdit($model) {
-    if (config('lyra.translator.enabled')) return $this->getTranslatedValue($model, 'key');
-    return $this->retrieveValue($model, 'key');
-  }
-
-  protected function getTranslatedValue($model, $key = 'value') {
-    if (request()->get('lang') && request()->get('lang') !== config('lyra.translator.default_locale')) {
+  /**
+   * Get the translated value of the Field
+   * The language is specified as a request GET input
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getTranslatedValue($model, string $type) {
+    $key = ($type == 'edit') ? 'key' : 'value';
+    if (request()->input('lang') && request()->input('lang') !== config('lyra.translator.default_locale')) {
       $value = $model->getTranslated($this->data->get('column'), request()->get('lang'));
       if ($value) {
         $index = array_search($value, array_column($this->data->get('options'), 'key'));
@@ -60,16 +85,6 @@ class Select extends Field {
         return $this->data->get('options')[$index][$key];
       }
     }
-    return $this->retrieveValue($model, $key);
-  }
-
-  protected function retrieveValue($model, $key = 'value') {
-    if (isset($model[$this->data->get('column')])) {
-      $index = array_search($model[$this->data->get('column')], array_column($this->data->get('options'), 'key'));
-      if ($index === false) return abort(500, "Value {$model[$this->data->get('column')]} not found in the field options");
-      return $this->data->get('options')[$index][$key];
-    }
-
-    return $this->defaultValue ?: null;
+    return $this->getOriginalValue($model, $type);
   }
 }

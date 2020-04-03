@@ -6,8 +6,14 @@ class Slug extends Text {
 
   protected $component = "slug-field";
 
-  public function slugify(string $id) {
-    $this->data->put('target', $id);
+  /**
+   * Set the target column name to autogenerate the slug
+   *
+   * @param string $name
+   * @return $this
+   */
+  public function slugify(string $name) {
+    $this->data->put('target', $name);
     return $this;
   }
 }

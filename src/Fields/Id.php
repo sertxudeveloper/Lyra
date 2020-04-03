@@ -9,20 +9,18 @@ class Id extends Field {
   protected $component = "id-field";
   protected $hideOnCreate = true;
 
-  public static function make($name, $column = null) {
+  /**
+   * Create a new instance of the Field
+   *
+   * @param string $name
+   * @param null $column
+   * @return self
+   */
+  public static function make(string $name, $column = null) {
     $class = new static();
     $class->data = collect([]);
 
-    if (!$column) {
-      $column = Str::snake($name);
-    } else {
-      if (is_callable($column)) {
-        $class->callback = $column;
-        $column = Str::snake($name);
-        $class->hideOnCreate = true;
-        $class->hideOnEdit = true;
-      }
-    }
+    if (!$column) $column = Str::snake($name);
 
     $class->data->put('component', $class->component);
     $class->data->put('name', $name);
