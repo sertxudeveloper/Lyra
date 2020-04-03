@@ -88,7 +88,7 @@
         this.$http.get(this.$route.fullPath).then((response) => this.resource = response.data);
       },
       isRelationshipField: function (component) {
-        return (component === 'has-many-field' || component === 'belongs-to-many-inverse-field')
+        return (component === 'has-many-field' || component === 'belongs-to-many-table-field')
       },
       isHeadingField: function (component) {
         return component === 'heading-field';
