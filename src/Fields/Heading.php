@@ -74,6 +74,15 @@ class Heading {
   }
 
   /**
+   * Return true if the Field is primary or false if not
+   *
+   * @return bool
+   */
+  public function isPrimary(): bool {
+    return false;
+  }
+
+  /**
    * Get the visibility of the Field
    *
    * @return array
