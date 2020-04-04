@@ -1,9 +1,10 @@
 <template>
   <div class="text-right">
     <input type="text" v-model="field.value" :title="field.name" class="form-control" :id="field.column"
-    pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$">
+           :maxlength="(field.size && field.size.hardMode) ? field.size.number : false"
+           pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$">
     <small v-if="field.size" class="font-weight-bold text-muted">
-      <span :class="classLength">{{ length }}</span> / {{ field.size }}
+      <span :class="classLength">{{ length }}</span> / {{ field.size.number }}
     </small>
   </div>
 </template>
@@ -18,9 +19,9 @@
       classLength: function () {
         let classLength = '';
 
-        if ((this.field.size - this.length) > 10) {
+        if ((this.field.size.number - this.length) > 10) {
           classLength = 'text-success';
-        } else if ((this.field.size - this.length) <= 10 && (this.field.size - this.length) >= 0) {
+        } else if ((this.field.size.number - this.length) <= 10 && (this.field.size.number - this.length) >= 0) {
           classLength = 'text-warning';
         } else {
           classLength = 'text-danger';

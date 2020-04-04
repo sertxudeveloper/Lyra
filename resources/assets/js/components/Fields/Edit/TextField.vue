@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div class="text-right">
     <input type="text" v-model="field.value" :title="field.name" class="form-control" :id="field.column"
            :maxlength="(field.size && field.size.hardMode) ? field.size.number : false">
