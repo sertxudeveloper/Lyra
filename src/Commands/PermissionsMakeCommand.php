@@ -69,14 +69,26 @@ class PermissionsMakeCommand extends Command {
   }
 
   private function askResource() {
-    $options = [];
-    foreach (config('lyra.menu') as $item) {
-      if (isset($item['hidden']) && $item['hidden'] === true) continue;
-      if ($item['key'] === 'lyra') continue;
-      $options[] = $item['key'];
-    }
+    $options = $this->mapOptions(config('lyra.menu'));
     $selected = $this->choice('Select a resource (Press "Ctrl + C" to exit)', $options);
     return $selected;
+  }
+
+  private function mapOptions($items) {
+    $options = [];
+
+    foreach ($items as $item) {
+      if (isset($item['hidden']) && $item['hidden'] === true) continue;
+      if (isset($item['key']) && $item['key'] === 'lyra') continue;
+
+      if (isset($item['items'])) {
+        $options = array_merge($options, $this->mapOptions($item['items']));
+      } else {
+        $options[] = $item['key'];
+      }
+    }
+
+    return $options;
   }
 
   private function askActions() {
