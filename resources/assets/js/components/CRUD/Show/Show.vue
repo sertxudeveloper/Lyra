@@ -73,10 +73,11 @@
 
 <script>
   import HasManyField from '../../Fields/Show/HasManyField'
-  import BelongsToManyInverseField from '../../Fields/Show/BelongsToManyTableField'
+  import BelongsToManyTableField from '../../Fields/Show/BelongsToManyTableField'
   import MorphOneToOneField from '../../Fields/Show/MorphOneToOneField'
 
   export default {
+    components: {HasManyField, BelongsToManyTableField, MorphOneToOneField},
     data() {
       return {
         resource: null,
@@ -140,7 +141,6 @@
         }
       }
     },
-    components: {HasManyField, BelongsToManyInverseField, MorphOneToOneField},
     beforeMount: function () {
       this.getResource();
     },
