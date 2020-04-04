@@ -87,22 +87,29 @@
                 class="btn btn-link" title="Show">
                 <i class="fas fa-eye"></i>
               </router-link>
+
               <template v-if="!getPrimaryField(collection).trashed">
-                <a href="#" v-on:click="editItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Edit">
+                <a @click="editItem(collection)" class="btn btn-link"
+                   :class="{'disabled': !resource.permissions.delete}" title="Edit">
                   <i class="fas fa-pencil-alt"></i>
                 </a>
-                <a href="#" v-on:click="removeItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Delete">
+                <a @click="removeItem(collection)" class="btn btn-link"
+                   :class="{'disabled': !resource.permissions.delete}" title="Delete">
                   <i class="fas fa-trash-alt"></i>
                 </a>
               </template>
+
               <template v-else>
-                <a href="#" v-on:click="restoreItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Restore">
+                <a @click="restoreItem(collection)" class="btn btn-link"
+                   :class="{'disabled': !resource.permissions.delete}" title="Restore">
                   <i class="fas fa-undo"></i>
                 </a>
-                <a href="#" v-on:click="forceRemoveItem(collection)" class="btn btn-link" :class="{'disabled': !resource.permissions.delete}" title="Force Delete">
+                <a @click="forceRemoveItem(collection)" class="btn btn-link"
+                   :class="{'disabled': !resource.permissions.delete}" title="Force Delete">
                   <i class="fas fa-trash"></i>
                 </a>
               </template>
+
             </td>
           </tr>
           </tbody>
