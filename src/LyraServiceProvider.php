@@ -6,6 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
+use Illuminate\Support\Str;
 use SertxuDeveloper\Lyra\Http\Middleware\LyraAdminMiddleware;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
 use SertxuDeveloper\Lyra\Http\Middleware\LyraApiAdminMiddleware;
@@ -115,6 +116,7 @@ class LyraServiceProvider extends ServiceProvider {
         return $this->generateResourcesMap($item['items']);
       } else {
         if (!isset($item['resource'])) return [];
+        if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
         return [$item['key'] => $item['resource']];
       }
     });
@@ -132,6 +134,7 @@ class LyraServiceProvider extends ServiceProvider {
         return $this->generateComponentsMap($item['items']);
       } else {
         if (!isset($item['component'])) return [];
+        if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
         return [$item['key'] => $item['component']];
       }
     });

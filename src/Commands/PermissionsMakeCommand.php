@@ -3,6 +3,7 @@
 namespace SertxuDeveloper\Lyra\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use SertxuDeveloper\Lyra\Models\Permission;
 use SertxuDeveloper\Lyra\Models\Role;
 
@@ -84,6 +85,7 @@ class PermissionsMakeCommand extends Command {
       if (isset($item['items'])) {
         $options = array_merge($options, $this->mapOptions($item['items']));
       } else {
+        if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
         $options[] = $item['key'];
       }
     }
