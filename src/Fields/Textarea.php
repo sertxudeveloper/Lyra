@@ -6,4 +6,6 @@ class Textarea extends Text {
 
   protected $component = "textarea-field";
 
+  protected $hideOnIndex = true;
+
 }
