@@ -1,6 +1,6 @@
 <template>
   <div class="text-right">
-    <textarea class="form-control" :title="field.name" :id="field.column" v-model="field.value" cols="30" rows="10"
+    <textarea class="form-control" :title="field.name" :id="field.column" v-model="field.value" cols="30" rows="3"
               :maxlength="(field.size && field.size.hardMode) ? field.size.number : false"></textarea>
     <small v-if="field.size" class="font-weight-bold text-muted">
       <span :class="classLength">{{ length }}</span> / {{ field.size.number }}
