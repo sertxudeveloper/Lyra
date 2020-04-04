@@ -2,7 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Dashboards;
 
-class Dashboard {
+abstract class Dashboard {
 
   protected function dashboard() {
     return [
