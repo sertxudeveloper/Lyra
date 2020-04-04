@@ -174,6 +174,16 @@
           }
         })
       },
+      forceRemoveItem: function (collection) {
+        if (!this.resource.permissions.delete) return toastr.error("You're not allowed to force delete this resource");
+        this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/forceDelete`).then(response => {
+          if (response.status === 200) {
+            toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
+            this.$emit('clear-resource');
+            this.$emit('get-resource');
+          }
+        })
+      },
       restoreItem: function (collection) {
         if (!this.resource.permissions.delete) return toastr.error("You're not allowed to restore this resource");
         this.$http.post(`${this.getRoute()}/${this.getPrimaryField(collection).value}/restore`).then(response => {
@@ -181,15 +191,6 @@
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} restored successfully`);
             this.$emit('clear-resource');
             this.$emit('get-resource');
-          }
-        })
-      },
-      forceRemoveItem: function (collection) {
-        if (!this.resource.permissions.delete) return toastr.error("You're not allowed to force delete this resource");
-        this.$http.post(`${this.getRoute()}/forceDelete`).then(response => {
-          if (response.status === 200) {
-            toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} deleted successfully`);
-            this.$router.go()
           }
         })
       },

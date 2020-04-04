@@ -106,7 +106,6 @@ class Lyra {
   ready() {
     this.callbacks.forEach(callback => callback(Vue, router));
     this.callbacks = [];
-    console.log(router);
     this.mount()
   }
 
