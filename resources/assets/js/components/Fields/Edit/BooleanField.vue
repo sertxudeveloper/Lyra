@@ -1,7 +1,7 @@
 <template>
   <div class="checkbox">
     <label class="checkbox-container">
-      <input type="checkbox" v-model="field.value">
+      <input type="checkbox" v-model="field.value" :id="field.column">
       <span class="checkmark"></span>
     </label>
   </div>

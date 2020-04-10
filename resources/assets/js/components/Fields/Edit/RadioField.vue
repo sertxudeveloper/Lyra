@@ -1,6 +1,6 @@
 <template>
   <div class="form-group">
-    <div class="custom-control custom-radio" v-for="option in field.options">
+    <div class="custom-control custom-radio" v-for="option in field.options" :id="field.column">
       <input type="radio" :id="`${field.column}_${option.key}`" class="custom-control-input"
              :name="field.column" :value="option.key" v-model="field.value">
       <label class="custom-control-label" :for="`${field.column}_${option.key}`">{{ option.value }}</label>

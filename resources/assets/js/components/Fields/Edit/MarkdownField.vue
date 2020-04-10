@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-body">
-    <textarea v-model="field.value" ref="markdown" cols="200" :name="field.column"></textarea>
+    <textarea v-model="field.value" ref="markdown" cols="200" :name="field.column" :id="field.column"></textarea>
   </div>
 </template>
 
