@@ -67,7 +67,7 @@ class File extends Field {
    * @param $model
    */
   public function delete($model) {
-    if ($this->data->get('prunable')) {
+    if ($this->data->has('prunable')) {
       $file = $model[$this->data->get('column')];
       if (!$this->data->get('disk')) $this->data->put('disk', $this->defaultDisk);
       Storage::disk($this->data->get('disk'))->delete($file);
@@ -82,40 +82,10 @@ class File extends Field {
    * @return array
    */
   public function getValue($model, string $type): array {
-    if (!$this->data->get('disk')) $this->data->put('disk', $this->defaultDisk);
+    if (!$this->data->has('disk')) $this->data->put('disk', $this->defaultDisk);
     $this->data->put('storage_path', Storage::disk($this->data->get('disk'))->url(null));
 
-    if (is_callable($this->callback)) {
-      $this->callback = $this->callback->bindTo($model);
-      $value = call_user_func($this->callback);
-    } else {
-      if (config('lyra.translator.enabled') && $this->isTranslatable()) {
-        $value = $this->getTranslatedValue($model, $type);
-      } else {
-        $value = $this->getOriginalValue($model, $type);
-      }
-    }
-
-    $this->data->put('value', $value);
-
-    return $this->data->toArray();
-  }
-
-  /**
-   * Get the original value of the Field
-   * @param $model
-   * @param string $type Can be 'index', 'edit', 'show' or 'create'
-   * @return mixed
-   */
-  protected function getOriginalValue($model, string $type) {
-    if (!isset($model[$this->data->get('column')])) return null;
-
-    /** Decode the value if required */
-    if ($this->data->get('multiple')) {
-      return json_decode($model[$this->data->get('column')]);
-    } else {
-      return $model[$this->data->get('column')];
-    }
+    return parent::getValue($model, $type);
   }
 
   /**
@@ -126,18 +96,18 @@ class File extends Field {
    */
   public function saveValue(array $field, $model): void {
     /** Check if there is a disk defined, if not set the default disk */
-    if (!$this->data->get('disk')) $this->data->put('disk', $this->defaultDisk);
+    if (!$this->data->has('disk')) $this->data->put('disk', $this->defaultDisk);
 
     /** Check if the field can handle multiple files and get the old paths saved in the database */
-    if ($this->data->get('multiple')) {
-      $old = json_decode($model[$this->data->get('column')]);
+    if ($this->data->has('multiple')) {
+      $old = $model[$this->data->get('column')];
       if (!$old) $old = [];
     } else {
       $old = $model[$this->data->get('column')];
     }
 
     /** Check if the field is prunable */
-    if ($this->data->get('prunable')) {
+    if ($this->data->has('prunable')) {
       /** Get the old files not longer used and remove it from the disk */
       collect($old)->diff($field['value'])->each(function ($file) {
         Storage::disk($this->data->get('disk'))->delete($file);
@@ -145,7 +115,7 @@ class File extends Field {
     }
 
     /** If there's not a folder name defined use the column name */
-    $folder = (!$this->data->get('folder')) ? $this->data->get('column') : $this->data->get('folder');
+    $folder = (!$this->data->has('folder')) ? $this->data->get('column') : $this->data->get('folder');
 
     /** Check if the folder exists, if not create it */
     if (!Storage::disk($this->data->get('disk'))->exists($folder)) Storage::disk($this->data->get('disk'))->makeDirectory($folder);
@@ -164,7 +134,7 @@ class File extends Field {
     /** Iterate the file keys getted above */
     foreach ($filesKeys as $fileKey) {
       /** Check if the file should maintain the original name */
-      if ($this->data->get('originalName')) {
+      if ($this->data->has('originalName')) {
         /** Save the file with the original name and get the path */
         $path = request()->file($fileKey)->storeAs($folder, request()->file($fileKey)->getClientOriginalName(), $this->data->get('disk'));
       } else {
@@ -179,6 +149,6 @@ class File extends Field {
     $paths = $paths->values();
 
     /** Save the path in the resource column, if the field handle multiple files save the paths as an encoded json */
-    $model[$this->data->get('column')] = ($this->data->get('multiple')) ? json_encode($paths->toArray()) : $paths->first();
+    $model[$this->data->get('column')] = ($this->data->has('multiple')) ? $paths->toArray() : $paths->first();
   }
 }
