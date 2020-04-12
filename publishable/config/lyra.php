@@ -86,7 +86,7 @@ return [
    */
   "notificator" => false,
 
-  "profile_resource" => \SertxuDeveloper\Lyra\Http\Resources\LaravelProfile::class,
+  "profile_resource" => \SertxuDeveloper\Lyra\Http\Resources\LaravelUser::class,
 
   "dashboard" => null, // Add your Dashboard resource class
 
