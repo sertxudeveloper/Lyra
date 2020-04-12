@@ -7,12 +7,13 @@ use SertxuDeveloper\Lyra\Models\Role as Model;
 use SertxuDeveloper\Lyra\Fields\Id;
 use SertxuDeveloper\Lyra\Fields\Text;
 
-class LyraRole extends Resource
-{
+class LyraRole extends Resource {
+
   public static $model = Model::class;
   public static $search = ["id", "name"];
   public static $title = 'name';
   public static $subtitle = 'email';
+
   public $singular = "Role";
   public $plural = "Roles";
 
@@ -21,9 +22,6 @@ class LyraRole extends Resource
     return [
       Id::make('Id')->sortable(),
       Text::make('Name')->rules('required'),
-      Text::make('Users count', function () {
-        return $this->users()->count();
-      })->hideOnShow(),
       HasMany::make('Users')->setResource(LyraUser::class)
     ];
   }

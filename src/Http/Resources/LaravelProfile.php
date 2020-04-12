@@ -18,7 +18,7 @@ class LaravelProfile extends Resource {
   public function fields() {
 
     return [
-      Id::make('Id')->description('Campo autoincrementable'),
+      Id::make('Id')->description('Autoincrement'),
       Text::make('Name')->size(50)->sortable(),
       Text::make('Email')->description('Also used to log in')->sortable(),
       Password::make('Password'),

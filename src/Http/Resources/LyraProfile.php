@@ -13,16 +13,17 @@ class LyraProfile extends Resource {
   public static $model = User::class;
   public static $search = ["id", "name", "email"];
 
-  public $labels = ["singular" => "User", "plural" => "Users"];
+  public $singular = "User";
+  public $plural = "Users";
 
   public function fields() {
 
     return [
-      Id::make('Id')->description('Campo autoincrementable'),
+      Id::make('Id')->description('Autoincrement'),
       Text::make('Name')->size(50)->sortable(),
       Text::make('Email')->description('Also used to log in')->sortable(),
       Password::make('Password'),
-      BelongsTo::make('Role')->setResource(Roles::class)->setDisplay('name'),
+      BelongsTo::make('Role')->setResource(LyraRole::class)->setDisplay('name'),
     ];
   }
 
