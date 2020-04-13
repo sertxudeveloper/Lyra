@@ -147,8 +147,8 @@
         perPage: (this.$route.query.perPage) ? this.$route.query.perPage : this.resource.perPageOptions[0],
         visibility: (this.$route.query.visibility) ? this.$route.query.visibility : 'default',
         selected: [],
-        currentSortCol: [],
-        currentSortDir: []
+        currentSortCol: (this.$route.query.sortCol) ? this.$route.query.sortCol.split(',') : [],
+        currentSortDir: (this.$route.query.sortDir) ? this.$route.query.sortDir.split(',') : [],
       }
     },
     methods: {
