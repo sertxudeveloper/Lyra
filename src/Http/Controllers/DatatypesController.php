@@ -4,7 +4,7 @@ namespace SertxuDeveloper\Lyra\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DatatypesController extends Controller {
+abstract class DatatypesController extends Controller {
 
   public static function checkSoftDeletes(Request $request, $query, $model) {
 
