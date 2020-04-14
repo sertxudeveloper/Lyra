@@ -13,9 +13,13 @@
             <div class="col-3 text-muted">Name:</div>
             <div class="col-9">{{element.name}}</div>
           </div>
-          <div class="row justify-content-center" v-if="element.storage_path !== undefined">
-            <div class="col-3 text-muted">Storage Path:</div>
-            <div class="col-9"><a :href="element.storage_path" target="_blank">{{element.storage_path}}</a></div>
+          <div class="row justify-content-center" v-if="element.path !== undefined">
+            <div class="col-3 text-muted">Path:</div>
+            <div class="col-9">
+              <a :href="element.storage_path" class="path" target="_blank"
+                 v-if="element.storage_path">{{element.path}}</a>
+              <span v-else class="path">{{element.path}}</span>
+            </div>
           </div>
           <div class="row justify-content-center" v-if="element.mime !== undefined">
             <div class="col-3 text-muted">Mime:</div>
@@ -100,5 +104,7 @@
 </script>
 
 <style scoped>
-
+  .preview-modal .path {
+    overflow-wrap: break-word;
+  }
 </style>
