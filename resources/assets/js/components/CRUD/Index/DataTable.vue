@@ -169,7 +169,11 @@
       },
       editItem: function (collection) {
         if (!this.resource.permissions.write) return toastr.error("You're not allowed to edit this resource");
-        this.$router.push({ name: 'edit', params: { resourceName: this.getResourceName(), resourceId: this.getPrimaryField(collection).value }, query: { lang: this.$route.query.lang }});
+        this.$router.push({
+          name: 'edit',
+          params: {resourceName: this.getResourceName(), resourceId: this.getPrimaryField(collection).value},
+          query: {lang: this.$route.query.lang}
+        });
       },
       removeItem: function (collection) {
         if (!this.resource.permissions.delete) return toastr.error("You're not allowed to delete this resource");
