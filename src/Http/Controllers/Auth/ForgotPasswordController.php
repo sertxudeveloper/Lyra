@@ -1,8 +1,10 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Http\Controllers;
+namespace SertxuDeveloper\Lyra\Http\Controllers\Auth;
 
-use SertxuDeveloper\Lyra\Http\Controllers\Auth\SendsPasswordResetEmails;
+
+use SertxuDeveloper\Lyra\Http\Controllers\Auth\Traits\SendsPasswordResetEmails;
+use SertxuDeveloper\Lyra\Http\Controllers\Controller;
 use SertxuDeveloper\Lyra\Lyra;
 
 class ForgotPasswordController extends Controller {

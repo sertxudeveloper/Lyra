@@ -1,9 +1,9 @@
 <?php
 
-use SertxuDeveloper\Lyra\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
-use SertxuDeveloper\Lyra\Http\Controllers\ForgotPasswordController;
-use SertxuDeveloper\Lyra\Http\Controllers\LoginController;
+use SertxuDeveloper\Lyra\Http\Controllers\Auth\ForgotPasswordController;
+use SertxuDeveloper\Lyra\Http\Controllers\Auth\LoginController;
+use SertxuDeveloper\Lyra\Http\Controllers\Auth\ResetPasswordController;
 use SertxuDeveloper\Lyra\Http\Controllers\MainController;
 use SertxuDeveloper\Lyra\Lyra;
 

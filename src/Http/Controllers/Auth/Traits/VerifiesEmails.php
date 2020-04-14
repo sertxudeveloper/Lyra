@@ -1,6 +1,6 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Http\Controllers\Auth;
+namespace SertxuDeveloper\Lyra\Http\Controllers\Auth\Traits;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;

@@ -1,11 +1,12 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Http\Controllers;
+namespace SertxuDeveloper\Lyra\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use SertxuDeveloper\Lyra\Http\Controllers\Auth\AuthenticatesUsers;
+use SertxuDeveloper\Lyra\Http\Controllers\Auth\Traits\AuthenticatesUsers;
+use SertxuDeveloper\Lyra\Http\Controllers\Controller;
 use SertxuDeveloper\Lyra\Lyra;
 
 class LoginController extends Controller {

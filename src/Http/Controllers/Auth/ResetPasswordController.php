@@ -1,10 +1,11 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Http\Controllers;
+namespace SertxuDeveloper\Lyra\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use SertxuDeveloper\Lyra\Http\Controllers\Auth\ResetsPasswords;
+use SertxuDeveloper\Lyra\Http\Controllers\Auth\Traits\ResetsPasswords;
+use SertxuDeveloper\Lyra\Http\Controllers\Controller;
 use SertxuDeveloper\Lyra\Lyra;
 
 class ResetPasswordController extends Controller {
