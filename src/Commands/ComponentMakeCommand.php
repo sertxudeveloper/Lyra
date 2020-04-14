@@ -48,18 +48,11 @@ class ComponentMakeCommand extends Command {
     $this->replace('{{ escapedNamespace }}', $this->getComponentEscapedNamespace(), $this->getComponentPath() . '/composer.json');
     $this->replace('{{ class }}', $this->getComponentClass(), $this->getComponentPath() . '/composer.json');
 
-    $this->info('Component created successfully!');
-  }
+    if ($this->confirm('Do you want to register the component in your composer.json automatically?', true)) {
+      $this->addPackageToComposer();
+    }
 
-  /**
-   * Replace the $search with $replace in the $path file.
-   *
-   * @param $search
-   * @param $replace
-   * @param $path
-   */
-  private function replace($search, $replace, $path) {
-    file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
+    $this->info('Component created successfully!');
   }
 
   private function getComponentPath() {
@@ -86,6 +79,17 @@ class ComponentMakeCommand extends Command {
     return Str::studly($this->getComponentName());
   }
 
+  /**
+   * Replace the $search with $replace in the $path file.
+   *
+   * @param $search
+   * @param $replace
+   * @param $path
+   */
+  private function replace($search, $replace, $path) {
+    file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
+  }
+
   private function rename($from, $to, $file) {
     (new Filesystem)->move($file, str_replace($from, $to, $file));
   }
@@ -94,4 +98,17 @@ class ComponentMakeCommand extends Command {
     return str_replace('\\', '\\\\', $this->getComponentNamespace());
   }
 
+  private function addPackageToComposer() {
+    $composer = json_decode(file_get_contents(base_path('composer.json')), true);
+
+    $composer['repositories'][] = [
+      'type' => 'path',
+      'url' => './' . $this->getComponentRelativePath(),
+    ];
+
+    $composer['require'][$this->argument('name')] = '*';
+
+    $composer = json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    file_put_contents(base_path('composer.json'), $composer);
+  }
 }
