@@ -5,7 +5,7 @@
        draggable="true" @dragover.prevent >
     <div class="row no-gutters">
       <div class="card-preview d-flex align-items-center justify-content-center">
-        <div class="justify-content-around m-2 rounded" v-if="!showIcon">
+        <div class="justify-content-around m-2 rounded" v-if="element.storage_path && !showIcon">
           <img :src="element.storage_path" :alt="element.name" @error="onImgError()">
         </div>
         <i class="fas fa-image" v-else></i>

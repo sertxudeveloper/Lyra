@@ -182,9 +182,11 @@ class MediaManagerController extends Controller {
 
   private function getFoldersInPath($selectedDisk, $selectedPath) {
     return collect(Storage::disk($selectedDisk)->directories($selectedPath))->map(function ($folder) use ($selectedDisk) {
+      $visibility = config("filesystems.disks.$selectedDisk.visibility", 'private');
+
       return [
         "name" => basename($folder),
-        "storage_path" => Storage::url(null),
+        "storage_path" => $visibility === 'public' ? Storage::url(null) : null,
         "path" => "/$folder",
         "mime" => "directory",
         "files_count" => count(Storage::disk($selectedDisk)->files($folder)),
@@ -197,9 +199,11 @@ class MediaManagerController extends Controller {
 
   private function getFilesInPath($selectedDisk, $selectedPath) {
     return collect(Storage::disk($selectedDisk)->files($selectedPath))->map(function ($file) use ($selectedDisk) {
+      $visibility = config("filesystems.disks.$selectedDisk.visibility", 'private');
+
       return [
         "name" => basename($file),
-        "storage_path" => Storage::url($file),
+        "storage_path" => $visibility === 'public' ? Storage::url($file) : null,
         "path" => "/$file",
         "mime" => MimeType::from($file),
         "size" => Storage::disk($selectedDisk)->size($file),
