@@ -1,48 +1,48 @@
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900');
 
-* {
-  margin: 0;
-  padding: 0;
-  font-family: 'Source Sans Pro', sans-serif;
-  outline: none;
-}
+.login-page {
 
-body {
-  background: #4d4d4d;
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  color: var(--body_color);
+  * {
+    font-family: 'Source Sans Pro', sans-serif;
+    outline: none;
+  }
 
-  & > div {
-    position: relative;
-    max-width: 400px;
-    flex-basis: 400px;
-    margin: auto;
-    padding: 20px;
-    text-align: left;
+  body {
+    background: #4d4d4d;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    color: var(--body_color);
 
-    .login-form {
-      background-color: var(--navbar_background);
-      border-radius: 7px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, .17);
+    & > div {
+      position: relative;
+      max-width: 400px;
+      flex-basis: 400px;
+      margin: auto;
+      padding: 20px;
+      text-align: left;
 
-      .header > div {
-        text-align: center;
-        background-color: var(--sidebar_background);
-        border-top-left-radius: 7px;
-        border-top-right-radius: 7px;
+      .login-form {
+        background-color: var(--navbar_background);
+        border-radius: 7px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, .17);
 
-        img {
-          height: 50px;
+        .header > div {
+          text-align: center;
+          background-color: var(--sidebar_background);
+          border-top-left-radius: 7px;
+          border-top-right-radius: 7px;
+
+          img {
+            height: 50px;
+          }
         }
       }
+
     }
-
   }
-}
 
-@import "./formfields/button";
-@import "./formfields/checkbox";
+  @import "formfields/button";
+  @import "formfields/checkbox";
+}
