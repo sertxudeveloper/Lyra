@@ -2,7 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
-use SertxuDeveloper\Lyra\Facades\Lyra;
+use SertxuDeveloper\Lyra\Lyra;
 
 class MainController extends Controller {
 

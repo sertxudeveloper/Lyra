@@ -16,7 +16,8 @@
   "require": {
     "illuminate/support": "^6.0|^7.0",
     "ext-json": "*",
-    "ext-zip": "*"
+    "ext-zip": "*",
+    "ext-fileinfo": "*"
   },
   "autoload": {
     "psr-4": {
