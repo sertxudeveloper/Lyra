@@ -5,6 +5,7 @@ namespace SertxuDeveloper\Lyra\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\Models\Role;
 use SertxuDeveloper\Lyra\Models\User;
 
@@ -25,6 +26,11 @@ class UserMakeCommand extends Command {
   protected $description = 'Create a new Lyra user';
 
   public function handle() {
+    if (config('lyra.authenticator') !== Lyra::MODE_ADVANCED) {
+      $this->error('This command is only available using the Advanced mode!');
+      exit(1);
+    }
+
     $name = $this->ask('Insert the name of the new user');
     $email = $this->askEmail();
     $password = $this->askPassword();

@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\Models\Permission;
 use SertxuDeveloper\Lyra\Models\Role;
 
@@ -24,6 +25,11 @@ class PermissionsMakeCommand extends Command {
   protected $description = 'Set permissions to a Lyra role';
 
   public function handle() {
+    if (config('lyra.authenticator') !== Lyra::MODE_ADVANCED) {
+      $this->error('This command is only available using the Advanced mode!');
+      exit(1);
+    }
+
     $role_id = $this->getRoleId();
     $resource = $this->askResource();
 

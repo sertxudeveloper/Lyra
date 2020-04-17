@@ -3,6 +3,7 @@
 namespace SertxuDeveloper\Lyra\Commands;
 
 use Illuminate\Console\Command;
+use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\Models\Role;
 
 class RoleMakeCommand extends Command {
@@ -22,6 +23,11 @@ class RoleMakeCommand extends Command {
   protected $description = 'Create a new Lyra role';
 
   public function handle() {
+    if (config('lyra.authenticator') !== Lyra::MODE_ADVANCED) {
+      $this->error('This command is only available using the Advanced mode!');
+      exit(1);
+    }
+
     if (!$this->argument('name')) {
       $name = $this->ask('Insert the name of the new role');
     } else {
