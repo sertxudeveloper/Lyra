@@ -5,6 +5,7 @@ namespace SertxuDeveloper\Lyra\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use Symfony\Component\Process\Process;
 
 class ComponentMakeCommand extends Command {
 
@@ -34,12 +35,12 @@ class ComponentMakeCommand extends Command {
     // Replace Component.stub file
     $this->replace('{{ namespace }}', $this->getComponentNamespace(), $this->getComponentPath() . '/src/Component.stub');
     $this->replace('{{ class }}', $this->getComponentClass(), $this->getComponentPath() . '/src/Component.stub');
+    $this->replace('{{ name }}', $this->getComponentName(), $this->getComponentPath() . '/src/Component.stub');
     $this->rename('Component.stub', $this->getComponentClass() . '.php', $this->getComponentPath() . '/src/Component.stub');
 
     // Replace ComponentServiceProvider.stub file
     $this->replace('{{ namespace }}', $this->getComponentNamespace(), $this->getComponentPath() . '/src/ComponentServiceProvider.stub');
     $this->replace('{{ class }}', $this->getComponentClass(), $this->getComponentPath() . '/src/ComponentServiceProvider.stub');
-    $this->replace('{{ name }}', $this->getComponentName(), $this->getComponentPath() . '/src/ComponentServiceProvider.stub');
     $this->rename('ComponentServiceProvider.stub', $this->getComponentClass() . 'ServiceProvider.php', $this->getComponentPath() . '/src/ComponentServiceProvider.stub');
 
     // Replace composer.json file
@@ -50,6 +51,18 @@ class ComponentMakeCommand extends Command {
 
     if ($this->confirm('Do you want to register the component in your composer.json automatically?', true)) {
       $this->addPackageToComposer();
+    }
+
+    if ($this->confirm('Do you want to add the NPM scripts in your package.json file?', true)) {
+      $this->addPackageScripts();
+    }
+
+    if ($this->confirm('Do you want to install the component package.json dependencies?', true)) {
+      $this->installNpmDependencies();
+
+      if ($this->confirm('Do you want to compile the style and script files?', true)) {
+        $this->compile();
+      }
     }
 
     $this->info('Component created successfully!');
@@ -110,5 +123,31 @@ class ComponentMakeCommand extends Command {
 
     $composer = json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     file_put_contents(base_path('composer.json'), $composer);
+  }
+
+  private function addPackageScripts() {
+    $package = json_decode(file_get_contents(base_path('package.json')), true);
+
+    $package['scripts'][$this->getComponentName() . '-dev'] = 'cd ' . $this->getComponentRelativePath() . ' && npm run dev';
+    $package['scripts'][$this->getComponentName() . '-prod'] = 'cd ' . $this->getComponentRelativePath() . ' && npm run prod';
+
+    $package = json_encode($package, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    file_put_contents(base_path('package.json'), $package);
+  }
+
+  private function installNpmDependencies() {
+    $this->executeCommand('npm install', $this->getComponentPath());
+  }
+
+  private function compile() {
+    $this->executeCommand('npm run dev', $this->getComponentPath());
+  }
+
+  private function executeCommand($command, $cwd) {
+    $process = new Process($command, $cwd);
+    $process->setTimeout(null);
+    $process->run(function ($type, $line) {
+      $this->output->write($line);
+    });
   }
 }
