@@ -41,7 +41,6 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::group(['middleware' => 'lyra'], function () {
       Route::get('/', [MainController::class, 'index'])->name('dashboard');
-      Route::get('/404', function (){ return redirect(route('lyra.dashboard')); });
       Route::get('/{any}', [MainController::class, 'index'])->where('any', '.*');
     });
 

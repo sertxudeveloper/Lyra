@@ -3,7 +3,6 @@
 namespace SertxuDeveloper\Lyra;
 
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 use SertxuDeveloper\Lyra\Http\Controllers\MenuController;
@@ -17,9 +16,11 @@ class Lyra {
   protected $version;
   protected $filesystem;
   static protected $resources = [];
-  static protected $observables;
-  public static $scripts = [];
-  public static $styles = [];
+  static protected $callbacks = [];
+
+  protected static $scripts = [];
+  protected static $styles = [];
+  protected static $assets = [];
 
   const MODE_BASIC = 'basic';
   const MODE_ADVANCED = 'advanced';
@@ -43,24 +44,8 @@ class Lyra {
   }
 
   /**
-   * This method returns the url to the preferred theme by the user
-   * @return string
-   */
-  public function getPreferredTheme() {
-    if (config('lyra.authenticator') === self::MODE_ADVANCED && auth()->guard('lyra')->user()) {
-      return lyra_asset("css/" . auth()->guard('lyra')->user()->preferred_theme . ".css");
-    } else {
-      if (Cookie::get('preferred_theme')) {
-        return lyra_asset("css/" . Cookie::get('preferred_theme') . ".css");
-      } else {
-        return lyra_asset("css/default.css");
-      }
-    }
-  }
-
-  /**
    * This method returns all the items the user has access from the menu
-   * @return string
+   * @return array
    */
   public function getMenuItems() {
     return (new MenuController())->getMenu();
@@ -137,20 +122,36 @@ class Lyra {
     return self::$resources;
   }
 
-  static public function observables($observables) {
-    self::$observables = $observables;
+  static public function script($name, $script) {
+    self::$scripts[$name] = $script;
   }
 
-  static public function runObservables() {
-    if (self::$observables) call_user_func(self::$observables);
+  static public function style($name, $style) {
+    self::$styles[$name] = $style;
   }
 
-  static public function script($script) {
-    self::$scripts[] = $script;
+  static public function allStyles() {
+    return self::$styles;
   }
 
-  static public function style($style) {
-    self::$styles[] = $style;
+  static public function allScripts() {
+    return self::$scripts;
+  }
+
+  static public function allAssets() {
+    return self::$assets;
+  }
+
+  static public function asset($name, $style) {
+    self::$assets[$name] = $style;
+  }
+
+  static public function serving($callback) {
+    self::$callbacks[] = $callback;
+  }
+
+  static public function runCallbacks() {
+    foreach (self::$callbacks as $callback) call_user_func($callback);
   }
 
   static public function route($prefix, $route) {

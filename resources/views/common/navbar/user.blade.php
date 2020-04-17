@@ -6,7 +6,6 @@
         <span class="d-none d-lg-block">{{ Lyra::auth()->user()->name }}</span>
       </div>
       <div class="align-items-center avatar d-flex h-100 pl-0 pl-lg-3 pr-3">
-        {{--                <img src="{{ asset("storage/" . lyra_auth()->user()->avatar) }}" alt="{{ lyra_auth()->user()->name }}">--}}
         @if(!config('lyra.avatar'))
           <img src="//gravatar.com/avatar/{{md5(Lyra::auth()->user()->email)}}?d=mp" alt="{{ Lyra::auth()->user()->name }}">
         @else

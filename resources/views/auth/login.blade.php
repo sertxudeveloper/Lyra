@@ -16,7 +16,7 @@
 
     <div class="form-group">
       <label for="password">@lang('lyra::fields.password')</label>
-      <input type="password" class="form-control @if($errors->has('email'))is-invalid @endif"
+      <input type="password" class="form-control @if($errors->has('email'))is-invalid @endif" autocomplete
              id="password" name="password" required placeholder="@lang('lyra::fields.password')">
 
       @error('password')

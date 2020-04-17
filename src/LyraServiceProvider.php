@@ -6,6 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use SertxuDeveloper\Lyra\Http\Middleware\LyraAdminMiddleware;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
@@ -34,7 +35,14 @@ class LyraServiceProvider extends ServiceProvider {
 
     Lyra::routes();
 
-    $this->registerComponents();
+
+      Lyra::asset('lyra-favicon', __DIR__ . '/../publishable/assets/images/favicon.png');
+      Lyra::asset('lyra-logo', __DIR__ . '/../publishable/assets/images/lyra-logo.png');
+
+      Lyra::style('lyra', __DIR__ . '/../publishable/assets/css/main.css');
+      Lyra::script('lyra', __DIR__ . '/../publishable/assets/js/app.js');
+      $this->registerPreferredTheme();
+      $this->registerComponents();
   }
 
   /**
@@ -65,9 +73,6 @@ class LyraServiceProvider extends ServiceProvider {
     $packagePath = __DIR__ . '/..';
 
     $publishable = [
-      'lyra-assets' => [
-        "${packagePath}/publishable/assets" => public_path(config('lyra.assets_path')),
-      ],
       "lyra-views" => [
         "${packagePath}/resources/views" => base_path('resources/views/vendor/lyra')
       ],
@@ -76,9 +81,6 @@ class LyraServiceProvider extends ServiceProvider {
       ],
       'lyra-migrations' => [
         "${packagePath}/publishable/database/migrations/" => database_path('migrations/lyra'),
-      ],
-      'lyra-demo_content' => [
-        "${packagePath}/publishable/demo_content/" => storage_path('app/public'),
       ],
     ];
 
@@ -138,6 +140,24 @@ class LyraServiceProvider extends ServiceProvider {
         return [$item['key'] => $item['component']];
       }
     });
+  }
+
+  /**
+   * This method returns the url to the preferred theme by the user
+   * @return void
+   */
+  private function registerPreferredTheme() {
+    $folder = '/../publishable/assets/css/';
+
+    if (config('lyra.authenticator') === Lyra::MODE_ADVANCED && auth()->guard('lyra')->user()) {
+      Lyra::style('lyra-theme', __DIR__ . $folder . auth()->guard('lyra')->user()->preferred_theme .'.css');
+    } else {
+      if (Cookie::get('preferred_theme')) {
+        Lyra::style('lyra-theme', __DIR__ . $folder . Cookie::get('preferred_theme') . ".css");
+      } else {
+        Lyra::style('lyra-theme', __DIR__ . $folder . "default.css");
+      }
+    }
   }
 
   /**

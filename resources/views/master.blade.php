@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" class="lyra-page">
 <head>
   <title>@yield('page_title', trans('lyra::theme.title') . " - " . trans('lyra::theme.description'))</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}"/>
   <meta name="lyra-api-route" content="{{ config('lyra.routes.api.prefix') }}">
-  <link rel="icon" type="image/png" href="{{ lyra_asset('images/favicon.png') }}">
+  <link rel="icon" type="image/png" href="/{{ config('lyra.routes.api.prefix') }}/assets/lyra-favicon">
 
-  <link rel="stylesheet" href="{{ lyra_asset('css/main.css') }}">
-  <link rel="stylesheet" href="{{ Lyra::getPreferredTheme() }}">
-
-  @foreach(\SertxuDeveloper\Lyra\Lyra::$styles as $style)
-    <link rel="stylesheet" href="{{$style}}">
+  @foreach(\SertxuDeveloper\Lyra\Lyra::allStyles() as $name => $style)
+    <link rel="stylesheet" href="/{{ config('lyra.routes.api.prefix') }}/styles/{{$name}}">
   @endforeach
 
 </head>
@@ -21,11 +18,11 @@
   <nav class="navbar fixed-top flex-md-nowrap p-0">
 
     <a class="col-3 col-lg-2 d-none d-lg-block mr-0 navbar-brand" href="{{ lyra_route('dashboard') }}">
-      <img src="{{ lyra_asset('images/lyra-logo.png') }}" alt="Logo Lyra" class="h-100">
+      <img src="/{{ config('lyra.routes.api.prefix') }}/assets/lyra-logo" alt="Logo Lyra" class="h-100">
     </a>
 
     <div style="flex: 0 0 60px;overflow: hidden;" class="p-2 d-flex d-lg-none">
-      <img src="{{ lyra_asset('images/favicon.png') }}" alt="Logo Lyra" class="h-100">
+      <img src="/{{ config('lyra.routes.api.prefix') }}/assets/lyra-favicon" alt="Logo Lyra" class="h-100">
     </div>
 
     <div class="col d-flex px-0 px-md-3 shadow w-100 navbar-top">
@@ -76,10 +73,8 @@
   </div>
 </div>
 
-<script src="{{ lyra_asset('js/app.js') }}"></script>
-
-@foreach(\SertxuDeveloper\Lyra\Lyra::$scripts as $script)
-  <script src="{{ $script }}"></script>
+@foreach(\SertxuDeveloper\Lyra\Lyra::allScripts() as $name => $script)
+  <script src="/{{ config('lyra.routes.api.prefix') }}/scripts/{{ $name }}"></script>
 @endforeach
 
 <script>Lyra.ready();</script>
