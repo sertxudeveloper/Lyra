@@ -1,6 +1,6 @@
 <li class="nav-item w-100">
   <router-link
-    class="nav-link" {{ ($item['key'] !== 'lyra') ?  ":to='$item[prefix]/$item[key]'" :  ":to='/' exact" }}>
+    class="nav-link" {{ ($item['key'] !== 'lyra') ?  ":to='$item[prefix]/$item[key]$item[query]'" :  ":to='/' exact" }}>
     @if($item['icon'])
       <div class="icon">
         <i class="{{$item['icon']}} mx-auto"></i>

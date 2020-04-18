@@ -37,6 +37,12 @@ class MenuController extends Controller {
         $item['prefix'] = '';
       }
 
+      if (isset($item['query'])) {
+        $item['query'] = '?' . http_build_query($item['query']);
+      } else {
+        $item['query'] = '';
+      }
+
       if (isset($item['items'])) {
         $item['items'] = $this->buildMenu($item['items']);
         if (count($item['items'])) $menu[] = $item;
