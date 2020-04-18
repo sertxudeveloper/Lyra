@@ -11,3 +11,7 @@
 #toast-container > div:hover {
   box-shadow: 0 0 4px hsla(0, 0%, 0%, 0.5);
 }
+
+.toast-message a, .toast-message a:hover {
+  text-decoration: underline;
+}

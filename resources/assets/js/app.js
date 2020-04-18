@@ -19,6 +19,7 @@ import VueAxios from 'vue-axios'
 import {loadProgressBar} from 'axios-progress-bar'
 
 axios.defaults.baseURL = '/' + $('meta[name=lyra-api-route]').attr("content");
+const WEB_ROUTE = '/' + $('meta[name=lyra-web-route]').attr("content");
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
@@ -141,7 +142,9 @@ class Lyra {
           if (error.response.status === 400) return Promise.reject(error.response);
           if (error.response.data.message) toastr.error(error.response.data.message);
           if (error.response.status === 409) return Promise.reject(error.response);
-          if (error.response.status === 401) location.reload(true);
+          if (error.response.status === 401) {
+            toastr.error("The session has expired, please <a href='" + WEB_ROUTE + "'>log in again</a>");
+          }
           if (error.response.status === 403) router.push('/403');
           if (error.response.status === 404) router.push('/404');
 

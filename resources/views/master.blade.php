@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}"/>
   <meta name="lyra-api-route" content="{{ config('lyra.routes.api.prefix') }}">
+  <meta name="lyra-web-route" content="{{ config('lyra.routes.web.prefix') }}">
   <link rel="icon" type="image/png" href="/{{ config('lyra.routes.api.prefix') }}/assets/lyra-favicon">
 
   @foreach(\SertxuDeveloper\Lyra\Lyra::allStyles() as $name => $style)
