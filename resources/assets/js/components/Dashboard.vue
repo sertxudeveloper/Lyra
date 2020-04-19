@@ -2,8 +2,7 @@
   <div class="mx-lg-4 pb-2 pt-4 dashboard">
     <template v-if="dashboard">
       <div class="row" v-for="row in dashboard">
-        <component v-for="(card, key) in row"
-                   :key="key" :is="card.component" :card.sync="card"></component>
+        <component v-for="(card, key) in row" :key="key" :is="card.component" :card.sync="card"></component>
       </div>
     </template>
   </div>

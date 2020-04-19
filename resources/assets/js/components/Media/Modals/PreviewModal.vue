@@ -9,7 +9,7 @@
             <span aria-hidden="true" class="text-muted">&times;</span>
           </button>
         </div>
-        <div class="modal-body p-0" v-if="!linkBroken">
+        <div class="modal-body p-0" v-if="element.storage_path && !linkBroken">
 
           <template v-if="/^image\/\w+$/.test(element.mime)">
             <img :src="element.storage_path" :alt="element.name" @error="onLinkBroken">
