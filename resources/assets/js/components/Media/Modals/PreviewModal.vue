@@ -1,7 +1,7 @@
 <template>
   <div class="modal fade preview-modal modal-preview" tabindex="-1" role="dialog"
        aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{element.name}}</h5>
@@ -73,8 +73,6 @@
 </script>
 
 <style scoped>
-  @import "~plyr/dist/plyr.css";
-
   .modal-preview video,
   .modal-preview audio {
     height: 100%;
@@ -88,5 +86,4 @@
     display: block;
     margin: 0 auto;
   }
-
 </style>

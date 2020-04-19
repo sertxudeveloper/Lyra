@@ -52,6 +52,8 @@
 </template>
 
 <script>
+  import {humanFileSize} from '../../../methods/humanFileSize'
+
   export default {
     data() {
       return {
@@ -67,21 +69,6 @@
       })
     },
     methods: {
-      humanFileSize: function (bytes, si) {
-        const thresh = si ? 1000 : 1024;
-        if (Math.abs(bytes) < thresh) {
-          return bytes + ' B';
-        }
-        const units = si
-          ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-          : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-        let u = -1;
-        do {
-          bytes /= thresh;
-          ++u;
-        } while (Math.abs(bytes) >= thresh && u < units.length - 1);
-        return bytes.toFixed(1) + ' ' + units[u];
-      },
       formatDate: function (timestamp) {
         const date = new Date(timestamp * 1000);
 
@@ -94,6 +81,9 @@
         let year = date.getFullYear();
 
         return `${hour}:${minute}:${seconds} ${day}/${month}/${year}`
+      },
+      humanFileSize: function (size, si) {
+        return humanFileSize(size, si)
       },
       pad: function (number) {
         if (number < 10 && number >= 0) number = "0" + number;
