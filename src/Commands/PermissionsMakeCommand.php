@@ -30,7 +30,6 @@ class PermissionsMakeCommand extends Command {
       exit(1);
     }
 
-    $role_id = $this->getRoleId();
     $resource = $this->askResource();
 
     switch ($resource) {
@@ -38,65 +37,19 @@ class PermissionsMakeCommand extends Command {
         $actions = $this->askActionsMedia();
         break;
 
+      case '[All]':
+        return $this->grantAll();
+        break;
+
       default:
         $actions = $this->askActions();
         break;
     }
 
-    $this->info('Saving permissions');
-    foreach ($actions as $action => $value) {
-      if ($value) {
-        Permission::updateOrCreate([
-          'role_id' => $role_id,
-          'resource_key' => $resource,
-          'action' => $action
-        ]);
-      } else {
-        $permission = Permission::where([
-          'role_id' => $role_id,
-          'resource_key' => $resource,
-          'action' => $action
-        ])->first();
-
-        if ($permission) $permission->delete();
-      }
-    }
+    $this->grantResource($resource, $actions);
+    $this->info('New permissions saved!');
 
     return $this->handle();
-  }
-
-  private function getRoleId() {
-    $role_name = $this->argument('role');
-    $role = Role::where('name', $role_name)->first();
-    if (!$role) {
-      $this->error('Role not found!');
-      exit(1);
-    }
-    return $role->id;
-  }
-
-  private function askResource() {
-    $options = $this->mapOptions(config('lyra.menu'));
-    $selected = $this->choice('Select a resource (Press "Ctrl + C" to exit)', $options);
-    return $selected;
-  }
-
-  private function mapOptions($items) {
-    $options = [];
-
-    foreach ($items as $item) {
-      if (isset($item['hidden']) && $item['hidden'] === true) continue;
-      if (isset($item['key']) && $item['key'] === 'lyra') continue;
-
-      if (isset($item['items'])) {
-        $options = array_merge($options, $this->mapOptions($item['items']));
-      } else {
-        if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
-        $options[] = $item['key'];
-      }
-    }
-
-    return $options;
   }
 
   private function askActions() {
@@ -111,5 +64,84 @@ class PermissionsMakeCommand extends Command {
     $actions = [];
     $actions['read'] = $this->confirm('Will be able to access?');
     return $actions;
+  }
+
+  private function askResource() {
+    $options = $this->mapOptions(config('lyra.menu'));
+    $selected = $this->choice('Select a resource (Press "Ctrl + C" to exit)', $options);
+    return $selected;
+  }
+
+  private function getRoleId() {
+    $role_name = $this->argument('role');
+    $role = Role::where('name', $role_name)->first();
+    if (!$role) {
+      $this->error('Role not found!');
+      exit(1);
+    }
+    return $role->id;
+  }
+
+  private function grantAll() {
+    $options = $this->mapOptions(config('lyra.menu'));
+    array_shift($options);
+
+    $read = $this->confirm('Will be able to read?');
+    $write = $this->confirm('Will be able to write?');
+    $delete = $this->confirm('Will be able to delete?');
+
+    foreach ($options as $resource) {
+      switch ($resource) {
+        case 'media':
+          $actions = ['read' => $read];
+          break;
+
+        default:
+          $actions = ['read' => $read, 'write' => $write, 'delete' => $delete];
+          break;
+      }
+
+      $this->grantResource($resource, $actions);
+    }
+
+    $this->info('New permissions applied to all the resources!');
+
+    return $this->handle();
+  }
+
+  private function grantResource($resource, $actions) {
+    $role_id = $this->getRoleId();
+
+    foreach ($actions as $action => $value) {
+      if ($value) {
+        Permission::updateOrCreate([
+          'role_id' => $role_id, 'resource_key' => $resource, 'action' => $action
+        ]);
+      } else {
+        $permission = Permission::where([
+          'role_id' => $role_id, 'resource_key' => $resource, 'action' => $action
+        ])->first();
+
+        if ($permission) $permission->delete();
+      }
+    }
+  }
+
+  private function mapOptions($items) {
+    $options = ['[All]'];
+
+    foreach ($items as $item) {
+      if (isset($item['hidden']) && $item['hidden'] === true) continue;
+      if (isset($item['key']) && $item['key'] === 'lyra') continue;
+
+      if (isset($item['items'])) {
+        $options = array_merge($options, $this->mapOptions($item['items']));
+      } else {
+        if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
+        $options[] = $item['key'];
+      }
+    }
+
+    return $options;
   }
 }
