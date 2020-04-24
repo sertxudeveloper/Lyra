@@ -30,20 +30,15 @@ class PermissionsMakeCommand extends Command {
       exit(1);
     }
 
-    $resource = $this->askResource();
+    $options = $this->mapOptions(config('lyra.menu'));
+    $resource = $this->askResource($options);
 
-    switch ($resource) {
-      case 'media':
-        $actions = $this->askActionsMedia();
-        break;
-
-      case '[All]':
-        return $this->grantAll();
-        break;
-
-      default:
-        $actions = $this->askActions();
-        break;
+    if ($resource === '[All]') {
+      return $this->grantAll($options);
+    } else if ($options[$resource] === 'component') {
+      $actions = $this->askActionsComponent();
+    } else {
+      $actions = $this->askActionsResource();
     }
 
     $this->grantResource($resource, $actions);
@@ -52,7 +47,7 @@ class PermissionsMakeCommand extends Command {
     return $this->handle();
   }
 
-  private function askActions() {
+  private function askActionsResource() {
     $actions = [];
     $actions['read'] = $this->confirm('Will be able to read?');
     $actions['write'] = $this->confirm('Will be able to write?');
@@ -60,15 +55,14 @@ class PermissionsMakeCommand extends Command {
     return $actions;
   }
 
-  private function askActionsMedia() {
+  private function askActionsComponent() {
     $actions = [];
     $actions['read'] = $this->confirm('Will be able to access?');
     return $actions;
   }
 
-  private function askResource() {
-    $options = $this->mapOptions(config('lyra.menu'));
-    $selected = $this->choice('Select a resource (Press "Ctrl + C" to exit)', $options);
+  private function askResource($options) {
+    $selected = $this->choice('Select a resource or a component (Press "Ctrl + C" to exit)', array_keys($options));
     return $selected;
   }
 
@@ -82,29 +76,24 @@ class PermissionsMakeCommand extends Command {
     return $role->id;
   }
 
-  private function grantAll() {
-    $options = $this->mapOptions(config('lyra.menu'));
-    array_shift($options);
-
+  private function grantAll($options) {
     $read = $this->confirm('Will be able to read?');
     $write = $this->confirm('Will be able to write?');
     $delete = $this->confirm('Will be able to delete?');
 
-    foreach ($options as $resource) {
-      switch ($resource) {
-        case 'media':
-          $actions = ['read' => $read];
-          break;
-
-        default:
-          $actions = ['read' => $read, 'write' => $write, 'delete' => $delete];
-          break;
+    foreach ($options as $resource => $type) {
+      if ($type === 'component') {
+        $actions = ['read' => $read];
+      } else if ($type === 'resource') {
+        $actions = ['read' => $read, 'write' => $write, 'delete' => $delete];
+      } else {
+        continue;
       }
 
       $this->grantResource($resource, $actions);
     }
 
-    $this->info('New permissions applied to all the resources!');
+    $this->info('New permissions applied to all the resources and components!');
 
     return $this->handle();
   }
@@ -128,7 +117,7 @@ class PermissionsMakeCommand extends Command {
   }
 
   private function mapOptions($items) {
-    $options = ['[All]'];
+    $options = ['[All]' => 'special'];
 
     foreach ($items as $item) {
       if (isset($item['hidden']) && $item['hidden'] === true) continue;
@@ -138,7 +127,7 @@ class PermissionsMakeCommand extends Command {
         $options = array_merge($options, $this->mapOptions($item['items']));
       } else {
         if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
-        $options[] = $item['key'];
+        $options[$item['key']] = (isset($item['resource'])) ? 'resource' : 'component';
       }
     }
 
