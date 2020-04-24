@@ -53,29 +53,10 @@ class UserMakeCommand extends Command {
     $this->info('User saved successfully!');
   }
 
-  private function validateEmail($email) {
-    $validator = Validator::make(['email' => $email], [
-      'email' => 'required|email',
-    ]);
-
-    if ($validator->fails()) $this->error('The email is not valid');
-    return !$validator->fails();
-  }
-
   private function askEmail() {
     $email = $this->ask('Insert the email of the new user');
     if (!$this->validateEmail($email)) return $this->askEmail();
     return $email;
-  }
-
-
-  private function validatePassword($email) {
-    $validator = Validator::make(['password' => $email], [
-      'password' => 'required|min:8',
-    ]);
-
-    if ($validator->fails()) $this->error('The password is not valid');
-    return !$validator->fails();
   }
 
   private function askPassword() {
@@ -93,8 +74,14 @@ class UserMakeCommand extends Command {
   private function askRole() {
     $roles = Role::all();
 
-    if (!$roles->count()) {
-      $this->info('No roles available, creating a new one...');
+    $NEW_ROLE_OPTION = '[New Role]';
+
+    $options = [$NEW_ROLE_OPTION];
+    $options = array_merge($options, $roles->pluck('name')->toArray());
+
+    $choice = $this->choice('Select a role for the new user', $options);
+
+    if ($choice === $NEW_ROLE_OPTION) {
       $name = $this->ask('Insert the name of the new role');
 
       $role = new Role();
@@ -104,14 +91,31 @@ class UserMakeCommand extends Command {
       $this->info('Role saved successfully!');
 
       return $role->id;
+    } else {
+      $key = $roles->search(function ($item, $key) use ($choice) {
+        return $item['name'] === $choice;
+      });
+
+      return $roles[$key]->id;
     }
+  }
 
-    $choice = $this->choice('Select a role for the new user', $roles->pluck('name')->toArray());
-    $key = $roles->search(function ($item, $key) use ($choice) {
-      return $item['name'] === $choice;
-    });
+  private function validateEmail($email) {
+    $validator = Validator::make(['email' => $email], [
+      'email' => 'required|email',
+    ]);
 
-    return $roles[$key]->id;
+    if ($validator->fails()) $this->error('The email is not valid');
+    return !$validator->fails();
+  }
+
+  private function validatePassword($email) {
+    $validator = Validator::make(['password' => $email], [
+      'password' => 'required|min:8',
+    ]);
+
+    if ($validator->fails()) $this->error('The password is not valid');
+    return !$validator->fails();
   }
 
 }
