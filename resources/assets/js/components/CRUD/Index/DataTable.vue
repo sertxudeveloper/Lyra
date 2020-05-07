@@ -205,6 +205,10 @@
             this.$emit('clear-resource');
             this.$emit('get-resource');
           }
+        }).catch(error => {
+          if (error.response.status === 304) {
+            toastr.warning(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} not modified`);
+          }
         })
       },
       forceRemoveItem: function (collection) {
@@ -215,6 +219,10 @@
             this.$emit('clear-resource');
             this.$emit('get-resource');
           }
+        }).catch(error => {
+          if (error.response.status === 304) {
+            toastr.warning(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} not modified`);
+          }
         })
       },
       restoreItem: function (collection) {
@@ -224,6 +232,10 @@
             toastr.success(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} restored successfully`);
             this.$emit('clear-resource');
             this.$emit('get-resource');
+          }
+        }).catch(error => {
+          if (error.response.status === 304) {
+            toastr.warning(`${this.resource.labels.singular} #${this.getPrimaryField(collection).value} not modified`);
           }
         })
       },

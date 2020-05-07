@@ -29,7 +29,7 @@ class DestroyController extends DatatypesController {
     $resourcesNamespace = Lyra::getResources()[$resource];
 
     /** Get the first model instance with the provided $id */
-    $model = $resourcesNamespace::$model::find($id);
+    $model = $resourcesNamespace::$model::withTrashed()->find($id);
 
     /** If no model where found, return a HTTP 404 code error */
     if (!$model) return abort(404);
@@ -71,8 +71,9 @@ class DestroyController extends DatatypesController {
     if (!Lyra::checkPermission('delete', $resource)) abort(403);
 
     $resourcesNamespace = Lyra::getResources()[$resource];
-    $model = $resourcesNamespace::$model::onlyTrashed()->find($id);
+    $model = $resourcesNamespace::$model::withTrashed()->find($id);
     if (!$model) return abort(404);
+    if (!$model->trashed()) return abort(304);
     $model->restore();
     return null;
   }
