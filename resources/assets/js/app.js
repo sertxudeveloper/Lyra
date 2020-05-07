@@ -161,11 +161,3 @@ class Lyra {
 }
 
 window.Lyra = new Lyra();
-
-// window.addEventListener('load', () => {
-//
-// });
-
-// $(document).on('ready', () => {
-//   $('.selectpicker').selectpicker();
-// });
