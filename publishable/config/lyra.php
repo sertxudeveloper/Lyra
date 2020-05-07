@@ -16,13 +16,6 @@ return [
 
   /*
   |--------------------------------------------------------------------------
-  | Path to the Lyra Assets
-  |--------------------------------------------------------------------------
-  */
-  "assets_path" => "/vendor/sertxudeveloper/lyra/assets",
-
-  /*
-  |--------------------------------------------------------------------------
   | The translator functionality works with the package sertxudeveloper/translatable.
   | You're able to enable or disable this functionality depending on the project requirements.
   | If you enable it, you should set the default locale and the available locales using the ISO 639-1 format.
