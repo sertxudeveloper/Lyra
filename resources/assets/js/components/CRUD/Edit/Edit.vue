@@ -88,7 +88,7 @@
               query: {...this.$route.query}
             });
           }
-        }).catch((error) => {
+        }).catch(error => {
           if (error.status === 400) {
             let errors = JSON.parse(error.data.message);
             this.resource.collection.data[0].forEach(field => {

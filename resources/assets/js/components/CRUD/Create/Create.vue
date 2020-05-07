@@ -85,7 +85,7 @@
             toastr.success(`${this.resource.labels.singular} created successfully`);
             return this.$router.back()
           }
-        }).catch((error) => {
+        }).catch(error => {
           if (error.status === 400) {
             let errors = JSON.parse(error.data.message);
             this.resource.collection.data[0].forEach(field => {
