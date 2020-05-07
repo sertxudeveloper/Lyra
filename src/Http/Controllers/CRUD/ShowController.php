@@ -19,8 +19,19 @@ class ShowController extends DatatypesController {
 
     if ($request->get('search')) {
       $search = urldecode($request->get('search'));
-      foreach ($resourcesNamespace::$search as $key => $column) {
+      if (preg_match('/^col:[\w]+ [\s\S]*/', $search)) {
+        $column = explode('col:', $search)[1];
+        $column = explode(' ', $column)[0];
+
+        $search = explode(' ', $search);
+        array_shift($search);
+        $search = implode(' ', $search);
+
         $query = $query->orWhere($column, 'like', "%$search%");
+      } else {
+        foreach ($resourcesNamespace::$search as $key => $column) {
+          $query = $query->orWhere($column, 'like', "%$search%");
+        }
       }
     }
 
