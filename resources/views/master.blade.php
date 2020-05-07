@@ -6,7 +6,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}"/>
   <meta name="lyra-api-route" content="{{ config('lyra.routes.api.prefix') }}">
   <meta name="lyra-web-route" content="{{ config('lyra.routes.web.prefix') }}">
-  <link rel="icon" type="image/png" href="/{{ config('lyra.routes.api.prefix') }}/assets/lyra-favicon">
+  <link rel="icon" type="image/png" href="/{{ config('lyra.routes.api.prefix') }}/assets/lyra-favicon" sizes="32x32">
 
   @foreach(\SertxuDeveloper\Lyra\Lyra::allStyles() as $name => $style)
     <link rel="stylesheet" href="/{{ config('lyra.routes.api.prefix') }}/styles/{{$name}}">
@@ -23,7 +23,7 @@
     </a>
 
     <div style="flex: 0 0 60px;overflow: hidden;" class="p-2 d-flex d-lg-none">
-      <img src="/{{ config('lyra.routes.api.prefix') }}/assets/lyra-favicon" alt="Logo Lyra" class="h-100">
+      <img src="/{{ config('lyra.routes.api.prefix') }}/assets/lyra-icon" alt="Logo Lyra" class="h-100">
     </div>
 
     <div class="col d-flex px-0 px-md-3 shadow w-100 navbar-top">

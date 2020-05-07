@@ -37,7 +37,8 @@ class LyraServiceProvider extends ServiceProvider {
 
 
       Lyra::asset('lyra-favicon', __DIR__ . '/../publishable/assets/images/favicon.png');
-      Lyra::asset('lyra-logo', __DIR__ . '/../publishable/assets/images/lyra-logo.png');
+      Lyra::asset('lyra-icon', __DIR__ . '/../publishable/assets/images/icon.png.png');
+      Lyra::asset('lyra-logo', __DIR__ . '/../publishable/assets/images/logo.png');
 
       Lyra::style('lyra', __DIR__ . '/../publishable/assets/css/main.css');
       Lyra::script('lyra', __DIR__ . '/../publishable/assets/js/app.js');
