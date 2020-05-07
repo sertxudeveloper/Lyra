@@ -2,19 +2,33 @@
   <div class="table-container box-dark-shadow">
     <div v-if="resource.collection.data !== null && resource.labels.plural !== null && $root.loader === false">
       <div class="header d-flex justify-content-between align-items-center">
-        <div class="h-100">
+        <div class="d-flex align-items-center">
           <div class="align-items-center d-inline-flex h-100 justify-content-center select-checkbox">
             <label class="checkbox-container pl-0">
               <input type="checkbox" v-model="allSelected">
               <span class="checkmark"></span>
             </label>
           </div>
+          <button type="button" class="btn btn-outline-danger ml-3"
+                  :class="{'disabled': !resource.permissions.delete}"
+                  v-if="selected.length > 0" @click="removeSelectedItems">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+          <template v-if="resource.hasSoftDeletes">
+            <button type="button" class="btn btn-outline-dark ml-3"
+                    :class="{'disabled': !resource.permissions.delete}"
+                    v-if="selected.length > 0" @click="restoreSelectedItems">
+              <i class="fas fa-undo"></i>
+            </button>
+            <button type="button" class="btn btn-outline-danger ml-3"
+                    :class="{'disabled': !resource.permissions.delete}"
+                    v-if="selected.length > 0" @click="forceRemoveSelectedItems">
+              <i class="fas fa-trash"></i>
+            </button>
+          </template>
         </div>
         <div class="pr-3">
           <div class="d-flex">
-            <button type="button" class="btn btn-outline-danger mx-3" v-if="selected.length > 0" @click="removeSelectedItems">
-              <i class="fas fa-trash-alt"></i>
-            </button>
             <form v-on:change="formOnChange()" class="filter-form">
               <div class="dropdown h-100">
                 <button class="btn btn-outline-dark dropdown-toggle py-1 h-100" type="button" id="dropdownFilter"
@@ -165,6 +179,14 @@
       },
       removeSelectedItems: function () {
         this.selected.forEach(collection => this.removeItem(collection));
+        this.selected = [];
+      },
+      restoreSelectedItems: function () {
+        this.selected.forEach(collection => this.restoreItem(collection));
+        this.selected = [];
+      },
+      forceRemoveSelectedItems: function () {
+        this.selected.forEach(collection => this.forceRemoveItem(collection));
         this.selected = [];
       },
       editItem: function (collection) {
