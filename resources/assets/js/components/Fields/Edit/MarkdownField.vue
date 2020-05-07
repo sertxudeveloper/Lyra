@@ -6,7 +6,7 @@
 
 <script>
   import EasyMDE from 'easymde'
-  import "../../../vendors/prism"
+  import "prismjs/prism"
 
   export default {
     data() {
