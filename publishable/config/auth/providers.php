@@ -1,7 +1,7 @@
 <?php
 
 return [
-  //User Providers
+  // User Providers
   'driver' => 'eloquent',
   'model' => \SertxuDeveloper\Lyra\Models\User::class,
 ];

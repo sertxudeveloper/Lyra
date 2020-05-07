@@ -1,7 +1,7 @@
 <?php
 
 return [
-  //Resetting Password
+  // Resetting Password
   'provider' => 'lyra',
   'table' => 'lyra_password_resets',
   'expire' => 60,
