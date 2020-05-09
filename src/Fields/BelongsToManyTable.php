@@ -15,18 +15,6 @@ class BelongsToManyTable extends Relation {
   protected $hideOnEdit = true;
 
   /**
-   * Get the translated value of the Field
-   * The language is specified as a request GET input
-   *
-   * @param $model
-   * @param string $type Can be 'index', 'edit', 'show' or 'create'
-   * @return mixed
-   */
-  protected function getTranslatedValue($model, string $type) {
-    return abort(500, "This field currently doesn't support translations");
-  }
-
-  /**
    * Get the original value of the Field
    *
    * @param $model
@@ -70,5 +58,17 @@ class BelongsToManyTable extends Relation {
     $resourceCollection->plural = Str::plural($this->data->get('name'));
 
     return $resourceCollection->getCollection(request(), 'index');
+  }
+
+  /**
+   * Get the translated value of the Field
+   * The language is specified as a request GET input
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getTranslatedValue($model, string $type) {
+    return $this->getOriginalValue($model, $type);
   }
 }

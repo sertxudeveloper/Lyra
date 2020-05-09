@@ -21,7 +21,7 @@ class BelongsToMany extends Relation {
       $this->callback = $this->callback->bindTo($model);
       $value = call_user_func($this->callback);
     } else {
-      if (config('lyra.translator.enabled') && $this->isTranslatable()) {
+      if ($this->isTranslatable()) {
         $value = $this->getTranslatedValue($model, $type);
       } else {
         $value = $this->getOriginalValue($model, $type);
@@ -34,15 +34,14 @@ class BelongsToMany extends Relation {
   }
 
   /**
-   * Get the translated value of the Field
-   * The language is specified as a request GET input
+   * Sync the relationship after updating the model
    *
-   * @param $model
-   * @param string $type Can be 'index', 'edit', 'show' or 'create'
-   * @return mixed
+   * @param $field
+   * @param $resource
    */
-  protected function getTranslatedValue($model, string $type) {
-    return abort(500, "This field currently doesn't support translations");
+  public function syncRelationship($field, $resource) {
+    $keys = collect($field['value'])->pluck('key');
+    $resource->{$this->data->get('column')}()->sync($keys);
   }
 
   /**
@@ -63,28 +62,29 @@ class BelongsToMany extends Relation {
   }
 
   /**
+   * Get the translated value of the Field
+   * The language is specified as a request GET input
+   *
    * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
    * @return mixed
    */
-  private function getOriginalValueShow($model) {
-    $query = $model->{$this->data->get('column')}();
-
-    return $model->{$this->data->get('column')}->map(function ($element) use ($query) {
-      return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
-    });
+  protected function getTranslatedValue($model, string $type) {
+    if ($type === 'create') {
+      return $this->getTranslatedValueCreate($model);
+    } else if ($type === 'edit') {
+      return $this->getTranslatedValueEdit($model);
+    } else {
+      return $this->getTranslatedValueShow($model);
+    }
   }
 
   /**
-   * @param $model
+   * @param $query
    * @return mixed
    */
-  private function getOriginalValueEdit($model) {
-    $query = $model->{$this->data->get('column')}();
-
-    $options = $this->getAllOptions($query);
-    $this->data->put('options', $options);
-
-    return $model->{$this->data->get('column')}->map(function ($element) use ($query) {
+  private function getAllOptions($query) {
+    return $this->data->get('resource')::$model::all()->map(function ($element) use ($query) {
       return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
     });
   }
@@ -108,23 +108,85 @@ class BelongsToMany extends Relation {
   }
 
   /**
-   * @param $query
+   * @param $model
    * @return mixed
    */
-  private function getAllOptions($query) {
-    return $this->data->get('resource')::$model::all()->map(function ($element) use ($query) {
+  private function getOriginalValueEdit($model) {
+    $query = $model->{$this->data->get('column')}();
+
+    $options = $this->getAllOptions($query);
+    $this->data->put('options', $options);
+
+    return $model->{$this->data->get('column')}->map(function ($element) use ($query) {
       return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
     });
   }
 
   /**
-   * Sync the relationship after updating the model
-   *
-   * @param $field
-   * @param $resource
+   * @param $model
+   * @return mixed
    */
-  public function syncRelationship($field, $resource) {
-    $keys = collect($field['value'])->pluck('key');
-    $resource->{$this->data->get('column')}()->sync($keys);
+  private function getOriginalValueShow($model) {
+    $query = $model->{$this->data->get('column')}();
+
+    return $model->{$this->data->get('column')}->map(function ($element) use ($query) {
+      return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
+    });
+  }
+
+  /**
+   * @param $model
+   * @return array|null
+   */
+  private function getTranslatedValueCreate($model) {
+    $query = $model->{$this->data->get('column')}();
+
+    $options = $this->getAllOptions($query);
+    $this->data->put('options', $options);
+
+    if (request()->get($query->getRelatedPivotKeyName())) {
+      $element = $this->data->get('resource')::$model::find(request()->get($query->getRelatedPivotKeyName()));
+      return [
+        [
+          'key' => $element[$query->getRelatedKeyName()],
+          'value' => $element->getTranslated($this->data->get('display_column'), request()->input('lang'))
+        ]
+      ];
+    }
+
+    return null;
+  }
+
+  /**
+   * @param $model
+   * @return mixed
+   */
+  private function getTranslatedValueEdit($model) {
+    $query = $model->{$this->data->get('column')}();
+
+    $options = $this->getAllOptions($query);
+    $this->data->put('options', $options);
+
+    return $model->{$this->data->get('column')}->map(function ($element) use ($query) {
+      return [
+        'key' => $element[$query->getParentKeyName()],
+        'value' => $element->getTranslated($this->data->get('display_column'), request()->input('lang'))
+      ];
+    });
+  }
+
+  /**
+   * @param $model
+   * @return mixed
+   */
+  private function getTranslatedValueShow($model) {
+    $query = $model->{$this->data->get('column')}();
+
+    return $model->{$this->data->get('column')}->map(function ($element) use ($query) {
+      return [
+        'key' => $element[$query->getParentKeyName()],
+        'value' => $element->getTranslated($this->data->get('display_column'), request()->input('lang'))
+      ];
+    });
   }
 }

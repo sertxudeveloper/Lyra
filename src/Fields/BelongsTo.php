@@ -20,7 +20,7 @@ class BelongsTo extends Relation {
       $this->callback = $this->callback->bindTo($model);
       $value = call_user_func($this->callback);
     } else {
-      if (config('lyra.translator.enabled') && $this->isTranslatable()) {
+      if ($this->isTranslatable()) {
         $value = $this->getTranslatedValue($model, $type);
       } else {
         $value = $this->getOriginalValue($model, $type);
@@ -33,15 +33,14 @@ class BelongsTo extends Relation {
   }
 
   /**
-   * Get the translated value of the Field
-   * The language is specified as a request GET input
+   * Save the $field value in the model
    *
+   * @param array $field
    * @param $model
-   * @param string $type Can be 'index', 'edit', 'show' or 'create'
-   * @return mixed
    */
-  protected function getTranslatedValue($model, string $type) {
-    return abort(500, "This field currently doesn't support translations");
+  public function saveValue(array $field, $model): void {
+    $query = $model->{$this->data->get('column')}();
+    $model[$query->getForeignKeyName()] = $field['value']['key'] ?: null;
   }
 
   /**
@@ -59,6 +58,34 @@ class BelongsTo extends Relation {
     } else {
       return $this->getOriginalValueShow($model);
     }
+  }
+
+  /**
+   * Get the translated value of the Field
+   * The language is specified as a request GET input
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getTranslatedValue($model, string $type) {
+    if ($type === 'create') {
+      return $this->getTranslatedValueCreate($model);
+    } else if ($type === 'edit') {
+      return $this->getTranslatedValueEdit($model);
+    } else {
+      return $this->getTranslatedValueShow($model);
+    }
+  }
+
+  /**
+   * @param $query
+   * @return mixed
+   */
+  private function getAllOptions($query) {
+    return $this->data->get('resource')::$model::all()->map(function ($item) use ($query) {
+      return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$this->data->get('display_column')]];
+    });
   }
 
   /**
@@ -104,23 +131,50 @@ class BelongsTo extends Relation {
   }
 
   /**
-   * @param $query
-   * @return mixed
+   * @param $model
+   * @return array|null
    */
-  private function getAllOptions($query) {
-    return $this->data->get('resource')::$model::all()->map(function ($item) use ($query) {
-      return ['key' => $item[$query->getOwnerKeyName()], 'value' => $item[$this->data->get('display_column')]];
-    });
+  private function getTranslatedValueCreate($model) {
+    $query = $model->{$this->data->get('column')}();
+
+    $options = $this->getAllOptions($query);
+    $this->data->put('options', $options);
+
+    if (request()->get($query->getForeignKeyName())) {
+      $element = $this->data->get('resource')::$model::find(request()->get($query->getForeignKeyName()));
+      return ['key' => $element[$query->getOwnerKeyName()], 'value' => $element[$this->data->get('display_column')]];
+    }
+
+    return null;
   }
 
   /**
-   * Save the $field value in the model
-   *
-   * @param array $field
    * @param $model
+   * @return array
    */
-  public function saveValue(array $field, $model): void {
+  private function getTranslatedValueEdit($model) {
     $query = $model->{$this->data->get('column')}();
-    $model[$query->getForeignKeyName()] = $field['value']['key'] ?: null;
+
+    $options = $this->getAllOptions($query);
+    $this->data->put('options', $options);
+
+    $item = $model[$this->data->get('column')];
+    return [
+      'key' => $item[$query->getOwnerKeyName()],
+      'value' => $item->getTranslated($this->data->get('display_column'), request()->input('lang'))
+    ];
+  }
+
+  /**
+   * @param $model
+   * @return array
+   */
+  private function getTranslatedValueShow($model) {
+    $query = $model->{$this->data->get('column')}();
+    $item = $model[$this->data->get('column')];
+    return [
+      'key' => $item[$query->getOwnerKeyName()],
+      'value' => $item->getTranslated($this->data->get('display_column'), request()->input('lang'))
+    ];
   }
 }
