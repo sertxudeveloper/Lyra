@@ -59,46 +59,6 @@ abstract class Field {
   }
 
   /**
-   * Add validation rules to Field
-   *
-   * @param mixed ...$rules
-   * @return $this
-   */
-  public function rules(...$rules): self {
-    $this->rules = $rules;
-    return $this;
-  }
-
-  /**
-   * Set the Field as sortable
-   *
-   * @return $this
-   */
-  public function sortable() {
-    $this->data->put('sortable', true);
-    return $this;
-  }
-
-  /**
-   * Set the Field as translatable
-   *
-   * @return $this
-   */
-  public function translatable() {
-    $this->data->put('translatable', true);
-    return $this;
-  }
-
-  /**
-   * Get if the Field is translatable or not
-   *
-   * @return bool
-   */
-  public function isTranslatable(): bool {
-    return (bool)$this->data->get('translatable');
-  }
-
-  /**
    * Get the Eloquent column name for the field
    *
    * @return string
@@ -108,34 +68,43 @@ abstract class Field {
   }
 
   /**
-   * Return true if the Field is primary or false if not
+   * Get the value of the Field
    *
-   * @return bool
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return array
    */
-  public function isPrimary(): bool {
-    return (bool)$this->data->get('primary');
+  public function getValue($model, string $type): array {
+    $value = null;
+
+    if (is_callable($this->callback)) {
+      $this->callback = $this->callback->bindTo($model);
+      $value = call_user_func($this->callback);
+    } else {
+      if ($this->isTranslatable()) {
+        $value = $this->getTranslatedValue($model, $type);
+      } else {
+        $value = $this->getOriginalValue($model, $type);
+      }
+    }
+
+    $this->data->put('value', $value);
+
+    return $this->data->toArray();
   }
 
   /**
-   * Overwrite hideOnIndex visibility
+   * Get the visibility of the Field
    *
-   * @param bool $hide
-   * @return static
+   * @return array
    */
-  public function hideOnIndex(bool $hide = true) {
-    $this->hideOnIndex = $hide;
-    return $this;
-  }
-
-  /**
-   * Overwrite hideOnShow visibility
-   *
-   * @param bool $hide
-   * @return static
-   */
-  public function hideOnShow(bool $hide = true) {
-    $this->hideOnShow = $hide;
-    return $this;
+  public function getVisibility(): array {
+    return [
+      "hideOnIndex" => $this->hideOnIndex,
+      "hideOnShow" => $this->hideOnShow,
+      "hideOnCreate" => $this->hideOnCreate,
+      "hideOnEdit" => $this->hideOnEdit,
+    ];
   }
 
   /**
@@ -161,17 +130,55 @@ abstract class Field {
   }
 
   /**
-   * Get the visibility of the Field
+   * Overwrite hideOnIndex visibility
    *
-   * @return array
+   * @param bool $hide
+   * @return static
    */
-  public function getVisibility(): array {
-    return [
-      "hideOnIndex" => $this->hideOnIndex,
-      "hideOnShow" => $this->hideOnShow,
-      "hideOnCreate" => $this->hideOnCreate,
-      "hideOnEdit" => $this->hideOnEdit,
-    ];
+  public function hideOnIndex(bool $hide = true) {
+    $this->hideOnIndex = $hide;
+    return $this;
+  }
+
+  /**
+   * Overwrite hideOnShow visibility
+   *
+   * @param bool $hide
+   * @return static
+   */
+  public function hideOnShow(bool $hide = true) {
+    $this->hideOnShow = $hide;
+    return $this;
+  }
+
+  /**
+   * Return true if the Field is primary or false if not
+   *
+   * @return bool
+   */
+  public function isPrimary(): bool {
+    return (bool)$this->data->get('primary');
+  }
+
+  /**
+   * Get if the Field is translatable or not
+   *
+   * @return bool
+   */
+  public function isTranslatable(): bool {
+    return config('lyra.translator.enabled') && $this->data->get('translatable')
+      && request()->input('lang') && request()->input('lang') !== config('lyra.translator.default_locale');
+  }
+
+  /**
+   * Add validation rules to Field
+   *
+   * @param mixed ...$rules
+   * @return $this
+   */
+  public function rules(...$rules): self {
+    $this->rules = $rules;
+    return $this;
   }
 
   /**
@@ -185,54 +192,23 @@ abstract class Field {
   }
 
   /**
-   * Get the value of the Field
+   * Set the Field as sortable
    *
-   * @param $model
-   * @param string $type Can be 'index', 'edit', 'show' or 'create'
-   * @return array
+   * @return $this
    */
-  public function getValue($model, string $type): array {
-    $value = null;
-
-    if (is_callable($this->callback)) {
-      $this->callback = $this->callback->bindTo($model);
-      $value = call_user_func($this->callback);
-    } else {
-      if (config('lyra.translator.enabled') && $this->isTranslatable()) {
-        $value = $this->getTranslatedValue($model, $type);
-      } else {
-        $value = $this->getOriginalValue($model, $type);
-      }
-    }
-
-    $this->data->put('value', $value);
-
-    return $this->data->toArray();
+  public function sortable() {
+    $this->data->put('sortable', true);
+    return $this;
   }
 
   /**
-   * Get the translated value of the Field
-   * The language is specified as a request GET input
+   * Set the Field as translatable
    *
-   * @param $model
-   * @param string $type Can be 'index', 'edit', 'show' or 'create'
-   * @return mixed
+   * @return $this
    */
-  protected function getTranslatedValue($model, string $type) {
-    if (request()->input('lang') && request()->input('lang') !== config('lyra.translator.default_locale')) {
-      return $model->getTranslated($this->data->get('column'), request()->input('lang'));
-    }
-    return $this->getOriginalValue($model, $type);
-  }
-
-  /**
-   * Get the original value of the Field
-   * @param $model
-   * @param string $type Can be 'index', 'edit', 'show' or 'create'
-   * @return mixed
-   */
-  protected function getOriginalValue($model, string $type) {
-    return (isset($model[$this->data->get('column')])) ? $model[$this->data->get('column')] : null;
+  public function translatable() {
+    $this->data->put('translatable', true);
+    return $this;
   }
 
   /**
@@ -248,5 +224,27 @@ abstract class Field {
     return Validator::make([$this->data->get('column') => $value], [
       $this->data->get('column') => isset($rules) ? $rules : $this->rules,
     ]);
+  }
+
+  /**
+   * Get the original value of the Field
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getOriginalValue($model, string $type) {
+    return (isset($model[$this->data->get('column')])) ? $model[$this->data->get('column')] : null;
+  }
+
+  /**
+   * Get the translated value of the Field
+   * The language is specified as a request GET input
+   *
+   * @param $model
+   * @param string $type Can be 'index', 'edit', 'show' or 'create'
+   * @return mixed
+   */
+  protected function getTranslatedValue($model, string $type) {
+    return $model->getTranslated($this->data->get('column'), request()->input('lang'));
   }
 }
