@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Http\Controllers\CRUD;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\MessageBag;
 use SertxuDeveloper\Lyra\Http\Controllers\DatatypesController;
 use SertxuDeveloper\Lyra\Http\Controllers\TranslatorController;
@@ -23,6 +24,8 @@ class EditController extends DatatypesController {
   public function edit(Request $request, string $resource, string $id) {
     /** Check if the user has permission to edit the $resource requested */
     if (!Lyra::checkPermission('write', $resource)) abort(403);
+
+    if(config('lyra.translator.enabled') && $request->has('lang')) App::setLocale($request->get('lang'));
 
     /** Get the Lyra resource from the global array and search the model instance in the database */
     $resourcesNamespace = Lyra::getResources()[$resource];
@@ -51,6 +54,8 @@ class EditController extends DatatypesController {
   public function update(Request $request, string $resource, string $id) {
     /** Check if the user has permission to create (update) the $resource requested */
     if (!Lyra::checkPermission('write', $resource)) abort(403);
+
+    if(config('lyra.translator.enabled') && $request->has('lang')) App::setLocale($request->get('lang'));
 
     /** Get the Lyra resource from the global array and create a new model instance */
     $resourcesNamespace = Lyra::getResources()[$resource];

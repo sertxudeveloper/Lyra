@@ -3,6 +3,7 @@
 namespace SertxuDeveloper\Lyra\Http\Controllers\CRUD;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use SertxuDeveloper\Lyra\Http\Controllers\DatatypesController;
 use SertxuDeveloper\Lyra\Lyra;
 
@@ -19,6 +20,8 @@ class CreateController extends DatatypesController {
   public function create(Request $request, string $resource) {
     /** Check if the user has permission to create the $resource requested */
     if (!Lyra::checkPermission('write', $resource)) abort(403);
+
+    if(config('lyra.translator.enabled') && $request->has('lang')) App::setLocale($request->get('lang'));
 
     /** Get the Lyra resource from the global array */
     $resourcesNamespace = Lyra::getResources()[$resource];
@@ -42,6 +45,8 @@ class CreateController extends DatatypesController {
   public function store(Request $request, string $resource) {
     /** Check if the user has permission to create the $resource requested */
     if (!Lyra::checkPermission('write', $resource)) abort(403);
+
+    if(config('lyra.translator.enabled') && $request->has('lang')) App::setLocale($request->get('lang'));
 
     /** Get the Lyra resource from the global array and create a new model instance */
     $resourcesNamespace = Lyra::getResources()[$resource];

@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Http\Controllers\CRUD;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use SertxuDeveloper\Lyra\Http\Controllers\DatatypesController;
 use SertxuDeveloper\Lyra\Lyra;
 
@@ -12,6 +13,8 @@ class ShowController extends DatatypesController {
   public function index(Request $request, string $resource) {
     /** Check if the user has permission to read the $resource requested */
     if (!Lyra::checkPermission('read', $resource)) abort(403);
+
+    if(config('lyra.translator.enabled') && $request->has('lang')) App::setLocale($request->get('lang'));
 
     $resourcesNamespace = Lyra::getResources()[$resource];
     $model = $resourcesNamespace::$model;
@@ -58,6 +61,8 @@ class ShowController extends DatatypesController {
   public function show(Request $request, string $resource, string $id) {
     /** Check if the user has permission to read the $resource requested */
     if(!Lyra::checkPermission('read', $resource)) abort(403);
+
+    if(config('lyra.translator.enabled') && $request->has('lang')) App::setLocale($request->get('lang'));
 
     $resourcesNamespace = Lyra::getResources()[$resource];
     $modelClass = $resourcesNamespace::$model;
