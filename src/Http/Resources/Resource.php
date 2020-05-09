@@ -65,9 +65,7 @@ abstract class Resource extends ResourceCollection {
 
     if ($this->type === 'edit') $this->response['preventConflict'] = $this->collection[0][static::$model::UPDATED_AT];
 
-    if (config('lyra.translator.enabled') && $this->isTranslatable()) {
-      $this->response['languages'] = $this->getAvailableLanguages();
-    }
+    if ($this->isTranslatable()) $this->response['languages'] = $this->getAvailableLanguages();
 
     return $this->response;
   }
