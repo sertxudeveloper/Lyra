@@ -20,7 +20,7 @@ class ShowController extends DatatypesController {
     $model = $resourcesNamespace::$model;
     $query = $model::query();
 
-    if ($request->get('search')) {
+    if ($request->has('search')) {
       $search = urldecode($request->get('search'));
       if (preg_match('/^col:[\w]+ [\s\S]*/', $search)) {
         $column = explode('col:', $search)[1];
@@ -38,7 +38,7 @@ class ShowController extends DatatypesController {
       }
     }
 
-    if ($request->get('sortCol') && $request->get('sortDir')) {
+    if ($request->has('sortCol') && $request->has('sortDir')) {
       $sortCol = explode(',', $request->get('sortCol'));
       $sortDir = explode(',', $request->get('sortDir'));
       foreach ($sortCol as $key => $value) {
