@@ -5,8 +5,6 @@ namespace SertxuDeveloper\Lyra;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use SertxuDeveloper\Lyra\Http\Middleware\LyraAdminMiddleware;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
@@ -62,6 +60,62 @@ class LyraServiceProvider extends ServiceProvider {
     $this->registerPolicies();
   }
 
+  /**
+   * Get dynamically the Helpers from the /src/Helpers directory and require_once each file.
+   */
+  protected function loadHelpers() {
+    foreach (glob(__DIR__ . '/Helpers/*.php') as $filename) {
+      require_once $filename;
+    }
+  }
+
+  private function generateComponentsMap($components) {
+    return collect($components)->mapWithKeys(function ($item) {
+      if (isset($item['items'])) {
+        return $this->generateComponentsMap($item['items']);
+      } else {
+        if (!isset($item['component'])) return [];
+        if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
+        return [$item['key'] => $item['component']];
+      }
+    });
+  }
+
+  private function generateResourcesMap($resources) {
+    return collect($resources)->mapWithKeys(function ($item) {
+      if (isset($item['items'])) {
+        return $this->generateResourcesMap($item['items']);
+      } else {
+        if (!isset($item['resource'])) return [];
+        if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
+        return [$item['key'] => $item['resource']];
+      }
+    });
+  }
+
+  /**
+   * Register terminal commands
+   */
+  private function registerCommands() {
+    $this->commands([
+      Commands\CardMakeCommand::class,
+      Commands\DashboardMakeCommand::class,
+      Commands\InstallCommand::class,
+      Commands\UpdateCommand::class,
+      Commands\PermissionsMakeCommand::class,
+      Commands\ResourceMakeCommand::class,
+      Commands\RoleMakeCommand::class,
+      Commands\UserMakeCommand::class,
+      Commands\ComponentMakeCommand::class
+    ]);
+  }
+
+  private function registerComponents() {
+    $components = config('lyra.menu');
+    $components = $this->generateComponentsMap($components)->toArray();
+    foreach ($components as $component) (new $component)->boot();
+  }
+
   private function registerConfigs() {
     $this->mergeConfigFrom(dirname(__DIR__) . '/publishable/config/lyra.php', 'lyra');
     $this->mergeConfigFrom(dirname(__DIR__) . '/publishable/config/auth/guards.php', 'auth.guards.lyra');
@@ -89,84 +143,10 @@ class LyraServiceProvider extends ServiceProvider {
     }
   }
 
-  /**
-   * Register terminal commands
-   */
-  private function registerCommands() {
-    $this->commands([
-      Commands\CardMakeCommand::class,
-      Commands\DashboardMakeCommand::class,
-      Commands\InstallCommand::class,
-      Commands\UpdateCommand::class,
-      Commands\PermissionsMakeCommand::class,
-      Commands\ResourceMakeCommand::class,
-      Commands\RoleMakeCommand::class,
-      Commands\UserMakeCommand::class,
-      Commands\ComponentMakeCommand::class
-    ]);
-  }
-
   private function registerResources() {
     $resources = config('lyra.menu');
     $resources = $this->generateResourcesMap($resources)->toArray();
     Lyra::resources($resources);
-  }
-
-  private function generateResourcesMap($resources) {
-    return collect($resources)->mapWithKeys(function ($item) {
-      if (isset($item['items'])) {
-        return $this->generateResourcesMap($item['items']);
-      } else {
-        if (!isset($item['resource'])) return [];
-        if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
-        return [$item['key'] => $item['resource']];
-      }
-    });
-  }
-
-  private function registerComponents() {
-    $components = config('lyra.menu');
-    $components = $this->generateComponentsMap($components)->toArray();
-    foreach ($components as $component) (new $component)->boot();
-  }
-
-  private function generateComponentsMap($components) {
-    return collect($components)->mapWithKeys(function ($item) {
-      if (isset($item['items'])) {
-        return $this->generateComponentsMap($item['items']);
-      } else {
-        if (!isset($item['component'])) return [];
-        if (!isset($item['key'])) $item['key'] = Str::snake($item['name']);
-        return [$item['key'] => $item['component']];
-      }
-    });
-  }
-
-  /**
-   * This method returns the url to the preferred theme by the user
-   * @return void
-   */
-  private function registerPreferredTheme() {
-    $folder = '/../publishable/assets/css/';
-
-    if (config('lyra.authenticator') === Lyra::MODE_ADVANCED && auth()->guard('lyra')->user()) {
-      Lyra::style('lyra-theme', __DIR__ . $folder . auth()->guard('lyra')->user()->preferred_theme .'.css');
-    } else {
-      if (Cookie::get('preferred_theme')) {
-        Lyra::style('lyra-theme', __DIR__ . $folder . Cookie::get('preferred_theme') . ".css");
-      } else {
-        Lyra::style('lyra-theme', __DIR__ . $folder . "default.css");
-      }
-    }
-  }
-
-  /**
-   * Get dynamically the Helpers from the /src/Helpers directory and require_once each file.
-   */
-  protected function loadHelpers() {
-    foreach (glob(__DIR__ . '/Helpers/*.php') as $filename) {
-      require_once $filename;
-    }
   }
 
 }
