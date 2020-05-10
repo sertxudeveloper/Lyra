@@ -12,6 +12,10 @@
 @import "vendors/multiselect";
 @import "sections/toast-notifications";
 
+@import "theme/default";
+@import "theme/dark";
+@import "theme/light";
+
 * {
   margin: 0;
   padding: 0;

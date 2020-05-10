@@ -4,7 +4,6 @@ namespace SertxuDeveloper\Lyra\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use SertxuDeveloper\Lyra\Http\Controllers\Auth\Traits\AuthenticatesUsers;
 use SertxuDeveloper\Lyra\Http\Controllers\Controller;
 use SertxuDeveloper\Lyra\Lyra;
@@ -64,6 +63,8 @@ class LoginController extends Controller {
       $authorized = array_search($request->get($this->username()), config('lyra.authorized_users'));
       if ($authorized === false) return false;
     }
+
+    setcookie('preferred_theme', $request->get('theme'), strtotime( '+1 year' ));
 
     return $this->guard()->attempt(
       $this->credentials($request), $request->filled('remember')

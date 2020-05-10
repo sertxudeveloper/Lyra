@@ -12,7 +12,4 @@ const mix = require('laravel-mix');
  */
 mix.setPublicPath('publishable/assets');
 mix.sass('resources/assets/sass/main.scss', 'css')
-  .sass('resources/assets/sass/theme/default.scss', 'css')
-  .sass('resources/assets/sass/theme/dark.scss', 'css')
-  .sass('resources/assets/sass/theme/light.scss', 'css')
   .js('resources/assets/js/app.js', 'js');

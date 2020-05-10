@@ -24,6 +24,23 @@
       @enderror
     </div>
 
+    @if(config('lyra.authenticator') !== \SertxuDeveloper\Lyra\Lyra::MODE_ADVANCED)
+      <div class="form-group">
+        <label for="theme">@lang('lyra::fields.theme')</label>
+        <select class="form-control" id="theme" name="theme">
+          <option value="default" @if(lyra_theme() == 'default')selected @endif>
+            @lang('lyra::fields.themes.default')
+          </option>
+          <option value="light" @if(lyra_theme() == 'light')selected @endif>
+            @lang('lyra::fields.themes.light')
+          </option>
+          <option value="dark" @if(lyra_theme() == 'dark')selected @endif>
+            @lang('lyra::fields.themes.dark')
+          </option>
+        </select>
+      </div>
+    @endif
+
     <div class="checkbox mb-5 col-6 p-0">
       <label class="checkbox-container">@lang('lyra::fields.remember_me')
         <input type="checkbox" value="remember-me" name="remember">

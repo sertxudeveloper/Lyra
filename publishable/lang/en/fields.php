@@ -8,4 +8,10 @@ return [
   "login" => "Login",
   "send_reset_link" => "Send reset link",
   "reset_password" => "Reset password",
+  "theme" => "Preferred theme",
+  "themes" => [
+    "default" => "Default",
+    "dark" => "Dark",
+    "light" => "Light",
+  ],
 ];

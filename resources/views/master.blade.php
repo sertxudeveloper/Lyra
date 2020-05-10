@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" class="lyra-page">
+<html lang="{{ app()->getLocale() }}" class="lyra-page theme-{{ lyra_theme() }}">
 <head>
   <title>@yield('page_title', trans('lyra::theme.title') . " - " . trans('lyra::theme.description'))</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
