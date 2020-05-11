@@ -33,8 +33,6 @@ class LyraServiceProvider extends ServiceProvider {
 
     Lyra::routes();
 
-
-    Lyra::asset('lyra-favicon', __DIR__ . '/../publishable/assets/images/favicon.png');
     Lyra::asset('lyra-icon', __DIR__ . '/../publishable/assets/images/icon.png');
     Lyra::asset('lyra-logo', __DIR__ . '/../publishable/assets/images/logo.png');
 
