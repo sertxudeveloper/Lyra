@@ -2,13 +2,13 @@
   <div class="text-right">
 
     <template v-if="field.multiple">
-      <div class="mb-2 mx-0 row">
-        <div class="col-4 p-1 text-left" v-for="element in field.value">
-          <div class="position-relative">
-            <img :src="field.storage_path + element" :id="`${field.column}-image`" class="img-thumbnail">
-            <span class="bg-white input-group-text text-primary cursor-pointer" @click="download(element)">
+      <div class="mb-2 mx-0 row" v-for="element in field.value">
+        <div class="col-9 text-left px-0">
+          <div class="cursor-pointer input-group-text position-relative" @click="download(element)">
+            <span class="mr-3 text-primary">
               <i class="fas fa-download"></i>
             </span>
+            <span>{{ getName(element) }}</span>
           </div>
         </div>
       </div>
@@ -17,11 +17,11 @@
     <template v-else>
       <div class="mb-2 mx-0 row">
         <div class="col-9 text-left px-0" v-if="field.value">
-          <div class="position-relative">
-            <img :src="field.storage_path + field.value" :id="`${field.column}-image`" class="img-thumbnail w-100">
-            <span class="bg-white input-group-text text-primary cursor-pointer" @click="download(field.value)">
+          <div class="cursor-pointer input-group-text position-relative" @click="download(field.value)">
+            <span class="mr-3 text-primary">
               <i class="fas fa-download"></i>
             </span>
+            <span>{{ getName(field.value) }}</span>
           </div>
         </div>
       </div>
@@ -38,6 +38,7 @@
         const element = document.createElement('a');
         element.setAttribute('href', this.field.storage_path + filename);
         element.setAttribute('download', filename.replace(/^.*[\\\/]/, ''));
+        element.setAttribute('target', '_blank');
         element.style.display = 'none';
         document.body.appendChild(element);
         element.click();
@@ -52,18 +53,9 @@
 </script>
 
 <style scoped>
-  .img-thumbnail ~ span {
-    display: none;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-  }
-
-  .img-thumbnail:hover ~ span {
-    display: block;
-  }
-
-  .img-thumbnail ~ span:hover {
-    display: block;
+  .text-primary ~ span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 </style>

@@ -6,25 +6,30 @@
           <div class="position-relative">
             <img :src="previews[key]" :id="`${field.column}-image`" class="img-thumbnail" v-if="previews[key]">
             <img :src="field.storage_path + element" :id="`${field.column}-image`" class="img-thumbnail" v-else>
-            <span class="bg-white input-group-text text-danger cursor-pointer" @click="removeFile(key)"><i class="far fa-trash-alt"></i></span>
+            <span class="bg-white input-group-text text-danger cursor-pointer" @click="removeFile(key)">
+              <i class="far fa-trash-alt"></i>
+            </span>
           </div>
         </div>
       </div>
 
-      <button class="btn btn-outline-primary" @click.prevent="openFileDialog(field.column)">Add New File</button>
+      <button class="btn btn-outline-primary" @click.prevent="openFileDialog">Add New File</button>
       <input type="file" :id="field.column" class="d-none" @change="addNewFile($event)" multiple accept="image/*">
-
     </template>
+
     <template v-else>
       <div class="mb-2 mx-0 row">
-        <div class="col-9 text-left px-0">
+        <div class="col-9 text-left px-0" v-if="field.value">
           <div class="position-relative">
             <img :src="field.storage_path + field.value" :id="`${field.column}-image`" class="img-thumbnail w-100">
-            <span class="bg-white input-group-text text-danger cursor-pointer" @click="clearFile(field.column)"><i class="far fa-trash-alt"></i></span>
+            <span class="bg-white input-group-text text-danger cursor-pointer" @click="clearFile">
+              <i class="far fa-trash-alt"></i>
+            </span>
           </div>
         </div>
       </div>
-      <button class="btn btn-outline-primary" @click.prevent="openFileDialog(field.column)">Replace File</button>
+      <button class="btn btn-outline-primary" v-if="field.value" @click.prevent="openFileDialog">Replace File</button>
+      <button class="btn btn-outline-primary" v-else @click.prevent="openFileDialog">Add File</button>
       <input type="file" :id="field.column" class="d-none" @change="updateFile($event)" accept="image/*">
     </template>
   </div>
@@ -39,40 +44,35 @@
       }
     },
     props: ['field', 'formData'],
+    mounted() {
+      console.log(typeof this.field.value, this.field.value)
+    },
     methods: {
-      download: function (filename) {
-        const element = document.createElement('a');
-        element.setAttribute('href', this.field.storage_path + filename);
-        element.setAttribute('download', filename.replace(/^.*[\\\/]/, ''));
-        element.style.display = 'none';
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
-      },
       getName: function (filename) {
         if (!filename) return "";
         return filename.replace(/^.*[\\\/]/, '');
       },
-      openFileDialog: function (id) {
-        $(`#${id}`).trigger('click')
+      openFileDialog: function () {
+        $(`#${this.field.column}`).trigger('click')
       },
       updateFile: function (e) {
         let files = e.target.files || e.dataTransfer.files;
         if (files && files[0]) {
-          let id = e.target.id;
-          this.formData.append(`${e.target.id}-0`, files[0]);
+          this.formData.append(`${this.field.column}-0`, files[0]);
           this.field.value = files[0].name;
 
           const reader = new FileReader();
           reader.onload = (e) => {
-            $(`#${id}-image`)[0].src = e.target.result
+            $(`#${this.field.column}-image`)[0].src = e.target.result
           };
           reader.readAsDataURL(files[0]);
         }
       },
-      clearFile: function (id) {
-        $(`#${id}`)[0].value = null;
-        $(`#${id}-image`)[0].src = null;
+      clearFile: function () {
+        $(`#${this.field.column}`)[0].value = null;
+        $(`#${this.field.column}-image`)[0].src = null;
+        this.field.value = null;
+        this.formData.delete(`${this.field.column}-0`);
       },
       addNewFile: function (e) {
         if (!this.field.value) this.field.value = [];
@@ -117,9 +117,9 @@
     top: 15px;
   }
 
- .img-thumbnail:hover ~ span {
-   display: block;
- }
+  .img-thumbnail:hover ~ span {
+    display: block;
+  }
 
   .img-thumbnail ~ span:hover {
     display: block;

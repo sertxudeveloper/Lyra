@@ -6,6 +6,4 @@ class Image extends File {
 
   protected $component = "image-field";
 
-  protected $hideOnIndex = true;
-
 }

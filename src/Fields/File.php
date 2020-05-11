@@ -8,6 +8,7 @@ class File extends Field {
 
   protected $component = "file-field";
   protected $defaultDisk = 'public';
+  protected $hideOnIndex = true;
 
   /**
    * Enable multiple file upload
@@ -118,7 +119,9 @@ class File extends Field {
     $folder = (!$this->data->has('folder')) ? $this->data->get('column') : $this->data->get('folder');
 
     /** Check if the folder exists, if not create it */
-    if (!Storage::disk($this->data->get('disk'))->exists($folder)) Storage::disk($this->data->get('disk'))->makeDirectory($folder);
+    if (!Storage::disk($this->data->get('disk'))->exists($folder)) {
+      Storage::disk($this->data->get('disk'))->makeDirectory($folder);
+    }
 
     /** Get the array with the files paths */
     $paths = collect($field['value'])->intersect($old);
