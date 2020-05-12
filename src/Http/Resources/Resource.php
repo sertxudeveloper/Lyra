@@ -30,7 +30,7 @@ abstract class Resource extends ResourceCollection {
   }
 
   public static function isTranslatable() {
-    return in_array('SertxuDeveloper\Translatable\Traits\HasTranslations', class_uses(static::$model));
+    return config('lyra.translator.enabled') && in_array('SertxuDeveloper\Translatable\Traits\HasTranslations', class_uses(static::$model));
   }
 
   static public function search($term) {
