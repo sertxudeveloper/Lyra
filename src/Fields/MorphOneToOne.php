@@ -66,7 +66,7 @@ class MorphOneToOne extends Field {
     $morphedModel = $model->{$this->data->get('column')};
 
     /** If the resource type has changed, remove the old type from the database and all the translations if required */
-    $removed = $this->removeMorphed($field, $model);
+    $removed = $this->removeMorphed($model);
 
     if (!$morphedModel || $removed) {
       $morphedModel = Lyra::getResources()[$field['resource']]::$model;
@@ -93,8 +93,6 @@ class MorphOneToOne extends Field {
     foreach ($types as $type) {
       $search = array_search($type, $resources);
       if ($search) {
-        $permission = Lyra::checkPermission('write', $search);
-        if (!$permission) continue;
         $availableTypes[] = ["key" => $search, "value" => Arr::last(explode('\\', $type))];
       }
     }
@@ -133,7 +131,7 @@ class MorphOneToOne extends Field {
     $resourceCollection->singular = Str::singular($this->data->get('name'));
     $resourceCollection->plural = Str::plural($this->data->get('name'));
 
-    return $resourceCollection->getCollection(request(), 'index')['collection']['data'][0];
+    return $resourceCollection->getCollection(request(), 'show')['collection']['data'][0];
   }
 
   /**
@@ -142,6 +140,7 @@ class MorphOneToOne extends Field {
    */
   private function removeMorphed($model) {
     $resource = $this->setResource($model);
+    if (!$resource) return false;
 
     $search = array_search($this->setResource($model), Lyra::getResources());
 
@@ -163,16 +162,19 @@ class MorphOneToOne extends Field {
 
   /**
    * @param $model
-   * @return |null
+   * @return string|null
    */
   private function setResource($model) {
     $resources = Lyra::getResources();
-    $type = get_class($model->{$this->data->get('column')});
 
-    foreach ($resources as $resource) {
-      if ($resource::$model === $type) {
-        $this->data->put('resource', array_search($resource, $resources));
-        return $resource;
+    if ($model->{$this->data->get('column')}) {
+      $type = get_class($model->{$this->data->get('column')});
+
+      foreach ($resources as $resource) {
+        if ($resource::$model === $type) {
+          $this->data->put('resource', array_search($resource, $resources));
+          return $resource;
+        }
       }
     }
 
