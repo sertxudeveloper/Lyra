@@ -13,6 +13,16 @@ class MorphOneToOne extends Field {
   protected $hideOnIndex = true;
 
   /**
+   * Delete the file
+   * The file will be deleted only if the prunable option is enabled
+   *
+   * @param $model
+   */
+  public function delete($model) {
+    $this->removeMorphed($model);
+  }
+
+  /**
    * Get the value of the Field
    *
    * @param $model
@@ -36,54 +46,14 @@ class MorphOneToOne extends Field {
   }
 
   /**
-   * @param $model
-   * @return mixed
+   * Overwrite hideOnIndex visibility
+   *
+   * @param bool $hide
+   * @return static
    */
-  private function getOriginalValueShow($model) {
-    $morphedModel = $model->{$this->data->get('column')};
-
-    $resource = $this->setResource($model);
-    $resourceCollection = new $resource(collect([$morphedModel]));
-
-    $resourceCollection->singular = Str::singular($this->data->get('name'));
-    $resourceCollection->plural = Str::plural($this->data->get('name'));
-
-    return $resourceCollection->getCollection(request(), 'index')['collection']['data'][0];
-  }
-
-  /**
-   * @param $model
-   * @return mixed
-   */
-  private function getOriginalValueEdit($model) {
-    $morphedModel = $model->{$this->data->get('column')};
-
-    $resource = $this->setResource($model);
-    $resourceCollection = new $resource(collect([$morphedModel]));
-
-    $resourceCollection->singular = Str::singular($this->data->get('name'));
-    $resourceCollection->plural = Str::plural($this->data->get('name'));
-
-    $this->data->put('id', $morphedModel->id);
-    return $resourceCollection->getCollection(request(), 'edit')['collection']['data'][0];
-  }
-
-  /**
-   * @param $model
-   * @return |null
-   */
-  private function setResource($model) {
-    $resources = Lyra::getResources();
-    $type = get_class($model->{$this->data->get('column')});
-
-    foreach ($resources as $resource) {
-      if ($resource::$model === $type) {
-        $this->data->put('resource', array_search($resource, $resources));
-        return $resource;
-      }
-    }
-
-    return null;
+  public function hideOnIndex(bool $hide = true) {
+    $this->hideOnIndex = true;
+    return $this;
   }
 
   /**
@@ -115,6 +85,57 @@ class MorphOneToOne extends Field {
     $model->{$this->data->get('column')}()->associate($morphedModel);
   }
 
+  public function types(array $types) {
+    $resources = Lyra::getResources();
+    $availableTypes = [];
+    $this->data->put('resource', "");
+
+    foreach ($types as $type) {
+      $search = array_search($type, $resources);
+      if ($search) {
+        $permission = Lyra::checkPermission('write', $search);
+        if (!$permission) continue;
+        $availableTypes[] = ["key" => $search, "value" => Arr::last(explode('\\', $type))];
+      }
+    }
+
+    $this->data->put('types', $availableTypes);
+    return $this;
+  }
+
+  /**
+   * @param $model
+   * @return mixed
+   */
+  private function getOriginalValueEdit($model) {
+    $morphedModel = $model->{$this->data->get('column')};
+
+    $resource = $this->setResource($model);
+    $resourceCollection = new $resource(collect([$morphedModel]));
+
+    $resourceCollection->singular = Str::singular($this->data->get('name'));
+    $resourceCollection->plural = Str::plural($this->data->get('name'));
+
+    $this->data->put('id', $morphedModel->id);
+    return $resourceCollection->getCollection(request(), 'edit')['collection']['data'][0];
+  }
+
+  /**
+   * @param $model
+   * @return mixed
+   */
+  private function getOriginalValueShow($model) {
+    $morphedModel = $model->{$this->data->get('column')};
+
+    $resource = $this->setResource($model);
+    $resourceCollection = new $resource(collect([$morphedModel]));
+
+    $resourceCollection->singular = Str::singular($this->data->get('name'));
+    $resourceCollection->plural = Str::plural($this->data->get('name'));
+
+    return $resourceCollection->getCollection(request(), 'index')['collection']['data'][0];
+  }
+
   /**
    * @param $model
    * @return bool
@@ -141,39 +162,20 @@ class MorphOneToOne extends Field {
   }
 
   /**
-   * Delete the file
-   * The file will be deleted only if the prunable option is enabled
-   *
    * @param $model
+   * @return |null
    */
-  public function delete($model) {
-    $this->removeMorphed($model);
-  }
-
-  public function types(array $types) {
+  private function setResource($model) {
     $resources = Lyra::getResources();
-    $availableTypes = [];
-    $this->data->put('resource', "");
+    $type = get_class($model->{$this->data->get('column')});
 
-    foreach ($types as $type) {
-      $search = array_search($type, $resources);
-      if ($search) {
-        $availableTypes[] = ["key" => $search, "value" => Arr::last(explode('\\', $type))];
+    foreach ($resources as $resource) {
+      if ($resource::$model === $type) {
+        $this->data->put('resource', array_search($resource, $resources));
+        return $resource;
       }
     }
 
-    $this->data->put('types', $availableTypes);
-    return $this;
-  }
-
-  /**
-   * Overwrite hideOnIndex visibility
-   *
-   * @param bool $hide
-   * @return static
-   */
-  public function hideOnIndex(bool $hide = true) {
-    $this->hideOnIndex = true;
-    return $this;
+    return null;
   }
 }

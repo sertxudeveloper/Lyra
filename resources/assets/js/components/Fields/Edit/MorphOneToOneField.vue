@@ -43,11 +43,11 @@
     watch: {
       'field.resource': function (to, from) {
         if (to === this.morph) {
-          this.$http.get(`/${to}/${this.field.id}/edit`, {params: this.$route.query}).then(response => {
+          this.$http.get(`/resources/${to}/${this.field.id}/edit`, {params: this.$route.query}).then(response => {
             if (response.status === 200) this.field.value = response.data.collection.data[0]
           });
         } else {
-          this.$http.get(`/${to}/create`).then(response => {
+          this.$http.get(`/resources/${to}/create`).then(response => {
             if (response.status === 200) this.field.value = response.data.collection.data[0]
           });
         }
