@@ -35,22 +35,9 @@
 <script>
   export default {
     props: ["field", "formData"],
-    data: function () {
-      return {
-        morph: this.field.resource
-      }
-    },
     watch: {
       'field.resource': function (to, from) {
-        if (to === this.morph) {
-          this.$http.get(`/resources/${to}/${this.field.id}/edit`, {params: this.$route.query}).then(response => {
-            if (response.status === 200) this.field.value = response.data.collection.data[0]
-          });
-        } else {
-          this.$http.get(`/resources/${to}/create`).then(response => {
-            if (response.status === 200) this.field.value = response.data.collection.data[0]
-          });
-        }
+        this.field.value = this.field.types.find(type => type.key === to).fields;
       }
     }
   }
