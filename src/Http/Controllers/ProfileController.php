@@ -49,6 +49,8 @@ class ProfileController extends Controller {
 
     $errors = new \Illuminate\Support\MessageBag;
 
+    $translatableFields = [];
+
     /** Process first the common fields with a column in the database */
     $fields->each(function ($field, $key) use ($values, $resource, &$errors) {
       if (method_exists($field, 'validate')) {
@@ -57,11 +59,15 @@ class ProfileController extends Controller {
       }
 
       if (TranslatorController::isTranslatorUsable() && $field->isTranslatable()) {
-        TranslatorController::updateTranslation($values[$key], $resource);
+        $translatableFields[$values[$key]['column']] = $values[$key]['value'];
       } else {
         if (method_exists($field, 'saveValue')) $field->saveValue($values[$key], $resource);
       }
     });
+
+    if (count($translatableFields)) {
+      TranslatorController::updateTranslation($translatableFields, $model);
+    }
 
     if ($errors->isEmpty()) {
       /** Save the model to get the $id */

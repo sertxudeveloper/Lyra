@@ -81,19 +81,25 @@ class EditController extends DatatypesController {
 
     $errors = new MessageBag;
 
+    $translatableFields = [];
+
     /** Process first the common fields with a column in the database */
-    $fields->each(function ($field, $key) use ($values, $model, &$errors) {
+    $fields->each(function ($field, $key) use ($values, $model, &$errors, $translatableFields) {
       if (method_exists($field, 'validate')) {
         $validation = $field->validate($values[$key]['value'], $model);
         if ($validation->fails()) $errors->merge($validation->errors()->toArray());
       }
 
       if (TranslatorController::isTranslatorUsable() && $field->isTranslatable()) {
-        TranslatorController::updateTranslation($values[$key], $model);
+        $translatableFields[$values[$key]['column']] = $values[$key]['value'];
       } else {
         if (method_exists($field, 'saveValue')) $field->saveValue($values[$key], $model);
       }
     });
+
+    if (count($translatableFields)) {
+      TranslatorController::updateTranslation($translatableFields, $model);
+    }
 
     if ($errors->isEmpty()) {
       /** Save the model to get the $id */

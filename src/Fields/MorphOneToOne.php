@@ -73,12 +73,18 @@ class MorphOneToOne extends Field {
       $morphedModel = new $morphedModel;
     }
 
+    $translatableFields = [];
+
     foreach ($field['value'] as $item) {
-      if (TranslatorController::isTranslatorUsable() && isset($item['translatable']) && $item['translatable'] === true && !$removed) {
-        TranslatorController::updateTranslation($item, $morphedModel);
+      if (TranslatorController::isTranslatorUsable() && $this->isFieldTranslatable($item)) {
+        $translatableFields[$item['column']] = $item['value'];
       } else {
         $morphedModel->{$item['column']} = $item['value'];
       }
+    }
+
+    if (count($translatableFields)) {
+      TranslatorController::updateTranslation($translatableFields, $morphedModel);
     }
 
     $morphedModel->save();

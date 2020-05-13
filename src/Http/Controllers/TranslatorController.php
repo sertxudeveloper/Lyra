@@ -11,6 +11,11 @@ use SertxuDeveloper\Lyra\Lyra;
 
 class TranslatorController extends Controller {
 
+  public static function isTranslatorUsable() {
+    return config('lyra.translator.enabled') && request()->get('lang') &&
+      request()->get('lang') !== config('lyra.translator.default_locale');
+  }
+
   public static function removeTranslation($lang, $element) {
     DB::table($element->getTable() . '_translations')
       ->where([['locale', $lang], ['id', $element[$element->getKeyName()]]])->delete();
@@ -21,14 +26,7 @@ class TranslatorController extends Controller {
       ->where('id', $element[$element->getKeyName()])->delete();
   }
 
-  public static function isTranslatorUsable() {
-    return config('lyra.translator.enabled') && request()->get('lang') &&
-      request()->get('lang') !== config('lyra.translator.default_locale');
-  }
-
-  public static function updateTranslation($field, $resource) {
-    $fields = [$field['column'] => $field['value']];
-
+  public static function updateTranslation($fields, $resource) {
     $translation = DB::table($resource->getTable() . config('lyra.translator.table_suffix'))
       ->where([['locale', request()->get('lang')], ['id', $resource[$resource->getKeyName()]]])->first();
 
@@ -40,12 +38,12 @@ class TranslatorController extends Controller {
       DB::table($resource->getTable() . config('lyra.translator.table_suffix'))
         ->where([
           [config('lyra.translator.locale_column'), request()->get('lang')],
-          ['id', $resource[$resource->getKeyName()]]
+          ['id', $resource->getKeyName()]
         ])->update($data);
     } else {
 
       $data = [
-        'id' => $resource[$resource->getKeyName()],
+        'id' => $resource->getKey(),
         'locale' => request()->get('lang'),
         'created_at' => new Carbon(),
         'updated_at' => new Carbon()
