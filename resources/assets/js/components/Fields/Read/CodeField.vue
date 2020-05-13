@@ -68,10 +68,6 @@
         gutters: ["CodeMirror-lint-markers", "CodeMirror-linenumbers"],
         styleActiveLine: true,
       });
-
-      this.editor.on("change", (event) => {
-        this.field.value = event.getValue();
-      });
     }
   };
 </script>

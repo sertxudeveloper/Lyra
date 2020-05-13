@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="field in resource" class="row field-row py-2 align-items-center mx-0">
+    <div v-for="field in resource" class="row field-row py-2 align-items-center mx-0" :key="field">
 
       <template>
         <div class="col-3 mb-1 mb-lg-0 text-muted">

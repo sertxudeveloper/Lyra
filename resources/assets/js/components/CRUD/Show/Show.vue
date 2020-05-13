@@ -34,7 +34,8 @@
              :class="{'disabled': !resource.permissions.delete}" title="Restore">
             <i class="fas fa-undo"></i>
           </a>
-          <a @click="forceRemoveItem(resource.collection.data[0])" class="bg-white box-dark-shadow btn btn-light text-body"
+          <a @click="forceRemoveItem(resource.collection.data[0])"
+             class="bg-white box-dark-shadow btn btn-light text-body"
              :class="{'disabled': !resource.permissions.delete}" title="Force Delete">
             <i class="fas fa-trash"></i>
           </a>
@@ -44,7 +45,7 @@
 
     <div class="align-items-baseline d-flex justify-content-between">
       <div class="panel box-dark-shadow col-12 py-2 w-100">
-        <div v-for="field in resource.collection.data[0]"
+        <div v-for="field in resource.collection.data[0]" :key="field"
              v-if="!isRelationshipField(field.component) && field.component !== 'morph-one-to-one-field'"
              class="row field-row py-2 align-items-center"
              :class="[!isHeadingField(field.component) ? 'mx-0' : 'heading-field']">
@@ -68,7 +69,7 @@
         </div>
 
         <component v-for="field in resource.collection.data[0]"
-                   v-if="field.component === 'morph-one-to-one-field' && !isRelationshipField(field.component)"
+                   v-if="isMorphField(field.component) && field.value.length"
                    :is="field.component" :key="field.column" :resource.sync="field.value"></component>
       </div>
     </div>
@@ -99,12 +100,19 @@
       isRelationshipField: function (component) {
         return (component === 'has-many-field' || component === 'belongs-to-many-table-field')
       },
+      isMorphField: function (component) {
+        return (component === 'morph-one-to-one-field')
+      },
       isHeadingField: function (component) {
         return component === 'heading-field';
       },
       editItem: function (collection) {
         if (!this.resource.permissions.write) return toastr.error("You're not allowed to edit this resource");
-        this.$router.push({ name: 'edit', params: { resourceName: this.getResourceName(), resourceId: this.getPrimaryField(collection).value }, query: { lang: this.$route.query.lang }});
+        this.$router.push({
+          name: 'edit',
+          params: {resourceName: this.getResourceName(), resourceId: this.getPrimaryField(collection).value},
+          query: {lang: this.$route.query.lang}
+        });
       },
       removeItem: function (collection) {
         if (!this.resource.permissions.delete) return toastr.error("You're not allowed to delete this resource");
