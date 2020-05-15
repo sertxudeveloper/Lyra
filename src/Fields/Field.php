@@ -219,8 +219,9 @@ abstract class Field {
    * @return \Illuminate\Contracts\Validation\Validator
    */
   public function validate($value, $resource) {
+    $matches = [];
     preg_match('/{{(\w+)}}/', json_encode($this->rules), $matches);
-    if (!empty($matches)) $rules = str_replace('{{id}}', $resource[$matches[1]], $this->rules);
+    if (!empty($matches)) $rules = str_replace($matches[0], $resource[$matches[1]], $this->rules);
     return Validator::make([$this->data->get('column') => $value], [
       $this->data->get('column') => isset($rules) ? $rules : $this->rules,
     ]);
