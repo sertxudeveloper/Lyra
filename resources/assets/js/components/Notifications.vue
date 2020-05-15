@@ -49,6 +49,7 @@
     },
     mounted() {
       this.getNotifications();
+      setInterval(() => this.getNotifications(), 2 * 60 * 1000);
     }
   }
 </script>
