@@ -13,17 +13,16 @@ use SertxuDeveloper\Lyra\Http\Controllers\MenuController;
  * @package SertxuDeveloper\Lyra
  */
 class Lyra {
-  protected $version;
-  protected $filesystem;
+  const MODE_BASIC = 'basic';
+  const MODE_ADVANCED = 'advanced';
   static protected $resources = [];
   static protected $callbacks = [];
 
   protected static $scripts = [];
   protected static $styles = [];
   protected static $assets = [];
-
-  const MODE_BASIC = 'basic';
-  const MODE_ADVANCED = 'advanced';
+  protected $version;
+  protected $filesystem;
 
   /**
    * Lyra constructor.
@@ -31,6 +30,78 @@ class Lyra {
   public function __construct() {
     $this->filesystem = app(Filesystem::class);
     $this->findVersion();
+  }
+
+  static public function allAssets() {
+    return self::$assets;
+  }
+
+  static public function allScripts() {
+    return self::$scripts;
+  }
+
+  static public function allStyles() {
+    return self::$styles;
+  }
+  static public function asset($name, $style) {
+    self::$assets[$name] = $style;
+  }
+
+  static public function script($name, $script) {
+    self::$scripts[$name] = $script;
+  }
+
+  static public function style($name, $style) {
+    self::$styles[$name] = $style;
+  }
+
+
+  static public function auth() {
+    if (config('lyra.authenticator') === self::MODE_BASIC) {
+      return auth();
+    } else if (config('lyra.authenticator') === self::MODE_ADVANCED) {
+      return auth()->guard('lyra');
+    }
+    return abort(403);
+  }
+
+  static public function broker() {
+    if (config('lyra.authenticator') === self::MODE_BASIC) {
+      return Password::broker();
+    } else if (config('lyra.authenticator') === self::MODE_ADVANCED) {
+      return Password::broker('lyra');
+    }
+    return abort(403);
+  }
+
+  /**
+   * Check if the current user can do the requested $action in the current $resource
+   *
+   * @param $action
+   * @param $resource
+   *
+   * @return bool
+   */
+  public static function checkPermission($action, $resource) {
+    if (config('lyra.authenticator') === Lyra::MODE_ADVANCED) {
+      return self::auth()->user()->hasPermission($action, $resource);
+    } else {
+      return true;
+    }
+  }
+
+  static public function getResources() {
+    return self::$resources;
+  }
+
+  static public function resources(array $resources) {
+    self::$resources = array_merge(self::$resources, $resources);
+  }
+
+  static public function route($prefix, $route) {
+    Route::middleware(['web', 'lyra-api'])
+      ->prefix(config('lyra.routes.api.prefix') . '/components' . $prefix)
+      ->group($route);
   }
 
   /**
@@ -41,6 +112,14 @@ class Lyra {
   static public function routes() {
     require __DIR__ . '/../routes/api.php';
     require __DIR__ . '/../routes/web.php';
+  }
+
+  static public function runCallbacks() {
+    foreach (self::$callbacks as $callback) call_user_func($callback);
+  }
+
+  static public function serving($callback) {
+    self::$callbacks[] = $callback;
   }
 
   /**
@@ -78,85 +157,5 @@ class Lyra {
         }
       }
     }
-  }
-
-  static public function auth() {
-    if (config('lyra.authenticator') === self::MODE_BASIC) {
-      return auth();
-    } else if (config('lyra.authenticator') === self::MODE_ADVANCED) {
-      return auth()->guard('lyra');
-    }
-    return abort(403);
-  }
-
-  static public function broker() {
-    if (config('lyra.authenticator') === self::MODE_BASIC) {
-      return Password::broker();
-    } else if (config('lyra.authenticator') === self::MODE_ADVANCED) {
-      return Password::broker('lyra');
-    }
-    return abort(403);
-  }
-
-  /**
-   * Check if the current user can do the requested $action in the current $resource
-   *
-   * @param $action
-   * @param $resource
-   *
-   * @return bool
-   */
-  public static function checkPermission($action, $resource) {
-    if (config('lyra.authenticator') === Lyra::MODE_ADVANCED) {
-      return self::auth()->user()->hasPermission($action, $resource);
-    } else {
-      return true;
-    }
-  }
-
-  static public function resources(array $resources) {
-    self::$resources = array_merge(self::$resources, $resources);
-  }
-
-  static public function getResources() {
-    return self::$resources;
-  }
-
-  static public function script($name, $script) {
-    self::$scripts[$name] = $script;
-  }
-
-  static public function style($name, $style) {
-    self::$styles[$name] = $style;
-  }
-
-  static public function allStyles() {
-    return self::$styles;
-  }
-
-  static public function allScripts() {
-    return self::$scripts;
-  }
-
-  static public function allAssets() {
-    return self::$assets;
-  }
-
-  static public function asset($name, $style) {
-    self::$assets[$name] = $style;
-  }
-
-  static public function serving($callback) {
-    self::$callbacks[] = $callback;
-  }
-
-  static public function runCallbacks() {
-    foreach (self::$callbacks as $callback) call_user_func($callback);
-  }
-
-  static public function route($prefix, $route) {
-    Route::middleware(['web', 'lyra-api'])
-      ->prefix(config('lyra.routes.api.prefix') . '/components' . $prefix)
-      ->group($route);
   }
 }
