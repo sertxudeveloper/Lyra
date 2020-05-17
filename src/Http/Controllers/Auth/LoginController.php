@@ -64,7 +64,9 @@ class LoginController extends Controller {
       if ($authorized === false) return false;
     }
 
-    setcookie('preferred_theme', $request->get('theme'), strtotime( '+1 year' ));
+    if (config('lyra.authenticator') === Lyra::MODE_BASIC) {
+      setcookie('preferred_theme', $request->get('theme'), strtotime( '+1 year' ));
+    }
 
     return $this->guard()->attempt(
       $this->credentials($request), $request->filled('remember')
