@@ -1,3 +1,52 @@
 .theme-light {
+  --body_color: #212529;
+  --body_background: #eceff1;
+  --text_muted: #6c757d;
+  --placeholder_color: #495057;
+  --divider: #262626;
 
+  --navbar_profile_icon: #747474;
+  --navbar_background: #ffffff;
+  --navbar_search_hover: #e6e6e6;
+  --navbar_search_title_text: #4a4a4a;
+  --navbar_search_title_background: #e6e6e6;
+  --navbar_search_text: #495057;
+  --navbar_active: #006DF3;
+
+  --sidebar_background: #ffffff;
+  --sidebar_active_border: #006DF3;
+  --sidebar_active: #0000001a;
+  --sidebar_scrollbar_thumb: #4BB9EC;
+  --sidebar_scrollbar_thumb_hover: #006DF3;
+  --sidebar_text: #212529;
+
+  --footer_text: #212529;
+  --footer_background: #ffffff;
+
+  --notification_badge: #dc3545b3;
+
+  --btn_outline_color: #262626;
+  --btn_outline_background: #fafafa;
+  --btn_outline_color_hover: #fafafa;
+  --btn_outline_background_hover: #343a40;
+
+  --box_background: #ffffff;
+  --box_shadox: #0000001a;
+
+  --table_border: #343A40;
+  --table_color: #3e3e3e;
+  --table_title_background: #ffffff;
+  --field_row: #dee2e6;
+
+  --button_disabled: #808080;
+  --button_background: #006DF3;
+  --button_background_hover: #007bff80;
+  --button_background_active: #4BB9EC;
+
+  --checkbox_background: #262626;
+  --checkbox_border: #BDBDBD;
+  --checkbox_color: #ffffff;
+
+  --mediamanager_selected: #81d4fa;
+  --mediamanager_breadcrumb: #006DF3;
 }

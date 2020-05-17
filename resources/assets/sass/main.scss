@@ -90,7 +90,7 @@
         z-index: 100;
 
         a {
-          color: var(--white);
+          color: var(--footer_text);
           outline: none;
 
           &:focus {
@@ -170,7 +170,9 @@
   }
 
   .table .thead-dark th {
+    color: var(--table_color);
     border-color: var(--table_border);
+    background-color: var(--table_title_background);
   }
 
   .panel {
@@ -297,6 +299,7 @@
   @import "sections/navbar";
   @import "sections/sidebar";
 
+  @import "sections/dashboard";
   @import "sections/media-manager";
 
   @import "formfields/button";

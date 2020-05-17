@@ -38,6 +38,14 @@
             height: 50px;
           }
         }
+
+        input, textarea, select,
+        .multiselect, .multiselect > div, .multiselect .multiselect__single,
+        input:focus, textarea:focus, select:focus {
+          background-color: var(--box_background);
+          color: var(--body_color);
+        }
+
       }
 
     }

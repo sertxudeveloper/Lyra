@@ -97,19 +97,19 @@
   }
 
   .search-results .group-title {
-    background: #e6e6e6;
+    background-color: var(--navbar_search_title_background);
     font-size: 11px;
     font-weight: bold;
-    color: #4a4a4a;
+    color: var(--navbar_search_title_text);
   }
 
   .result-element {
     outline: none !important;
     text-decoration: none !important;
-    color: #000;
+    color: var(--navbar_search_text);
   }
 
   .result-element:hover > div {
-    background: #f0f0f0;
+    background-color: var(--navbar_search_hover);
   }
 </style>

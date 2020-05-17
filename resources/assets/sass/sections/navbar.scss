@@ -50,7 +50,7 @@ nav.navbar {
     }
 
     .divider {
-      border-left: 1px var(--navbar_divider) solid;
+      border-left: 1px var(--divider) solid;
       height: 25px;
     }
 
@@ -88,7 +88,7 @@ nav.navbar {
       a {
         background-color: var(--navbar_background);
         color: var(--body_color);
-        border-color: var(--navbar_divider);
+        border-color: var(--divider);
       }
     }
 
