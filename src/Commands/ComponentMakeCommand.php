@@ -51,6 +51,10 @@ class ComponentMakeCommand extends Command {
 
     if ($this->confirm('Do you want to register the component in your composer.json automatically?', true)) {
       $this->addPackageToComposer();
+
+      if ($this->confirm('Do you want to update the composer.json dependencies?', true)) {
+        $this->updateComposerDependencies();
+      }
     }
 
     if ($this->confirm('Do you want to add the NPM scripts in your package.json file?', true)) {
@@ -137,6 +141,10 @@ class ComponentMakeCommand extends Command {
 
   private function installNpmDependencies() {
     $this->executeCommand('npm install', $this->getComponentPath());
+  }
+
+  private function updateComposerDependencies() {
+    $this->executeCommand('composer update', base_path());
   }
 
   private function compile() {
