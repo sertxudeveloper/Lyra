@@ -2,6 +2,8 @@
 
 namespace {{ namespace }};
 
+use SertxuDeveloper\Lyra\Lyra;
+
 class {{ class }} {
 
     /**

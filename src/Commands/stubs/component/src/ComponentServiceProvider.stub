@@ -3,7 +3,6 @@
 namespace {{ namespace }};
 
 use Illuminate\Support\ServiceProvider;
-use SertxuDeveloper\Lyra\Lyra;
 
 class {{ class }}ServiceProvider extends ServiceProvider {
 
