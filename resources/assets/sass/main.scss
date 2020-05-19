@@ -170,6 +170,7 @@
   }
 
   .table .thead-dark th {
+    white-space: nowrap;
     color: var(--table_color);
     border-color: var(--table_border);
     background-color: var(--table_title_background);
