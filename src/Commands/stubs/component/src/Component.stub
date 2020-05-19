@@ -10,7 +10,7 @@ class {{ class }} {
     * This method is executed once Lyra has booted
     */
     public function boot() {
-        Lyra::route('/{{ name }}', __DIR__ . '/../routes/api.php');
+        Lyra::route('{{ name }}', __DIR__ . '/../routes/api.php');
         Lyra::style('{{ name }}', __DIR__ . '/../dist/css/component.css');
         Lyra::script('{{ name }}', __DIR__ . '/../dist/js/component.js');
     }

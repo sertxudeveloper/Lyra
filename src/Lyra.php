@@ -100,7 +100,7 @@ class Lyra {
 
   static public function route($prefix, $route) {
     Route::middleware(['web', 'lyra-api'])
-      ->prefix(config('lyra.routes.api.prefix') . '/components' . $prefix)
+      ->prefix(config('lyra.routes.api.prefix') . '/components/' . $prefix)
       ->group($route);
   }
 
