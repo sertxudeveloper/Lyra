@@ -1,5 +1,4 @@
 nav.navbar {
-  background-color: var(--sidebar_background);
 
   & > * {
     height: 65px;
@@ -8,7 +7,6 @@ nav.navbar {
   & > .navbar-brand {
     text-align: center;
     padding: 12px 0;
-    background-color: var(--sidebar_background);
   }
 
   & > div {

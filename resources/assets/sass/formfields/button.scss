@@ -15,3 +15,10 @@
 .show > .btn-primary.dropdown-toggle:focus {
   box-shadow: 0 0 7px 3px var(----button_background_hover);
 }
+
+.btn-radius {
+  padding: 12px 35px;
+  text-transform: uppercase;
+  border-radius: 40px;
+  font-size: 14px;
+}

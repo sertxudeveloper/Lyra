@@ -7,6 +7,7 @@ nav.sidebar {
   z-index: 100;
   padding: 65px 0 0;
   background-color: var(--sidebar_background);
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 991px) {
     & {
@@ -21,7 +22,6 @@ nav.sidebar {
     height: calc(100vh - 65px);
     overflow-x: hidden;
     overflow-y: auto;
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
 
     &::-webkit-scrollbar {
       width: 7px;
