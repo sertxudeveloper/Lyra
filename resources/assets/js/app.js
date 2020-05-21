@@ -53,13 +53,13 @@ requireComponentReadable.keys().forEach(fileName => {
 
 Vue.component('lyra-loader', Loader);
 
-const HTTP_404 = {template: '<div>This is HTTP_404 {{ $route.params }}</div>'};
-const HTTP_403 = {template: '<div>This is HTTP_403 {{ $route.params }}</div>'};
-
 import Index from './components/CRUD/Index/Index'
 import Show from './components/CRUD/Show/Show'
 import Edit from './components/CRUD/Edit/Edit'
 import Create from './components/CRUD/Create/Create'
+
+import HTTP_403 from './components/403'
+import HTTP_404 from './components/404'
 
 import GlobalSearch from './components/GlobalSearch';
 import Notifications from './components/Notifications';
