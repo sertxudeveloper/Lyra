@@ -16,7 +16,7 @@ With Lyra you can manage your project's database, this is achieved by defining t
 To check out the documentation and try the demo, visit our [website](https://lyra.sertxudeveloper.com).
 
 ## Versioning
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the tags on this [repository](https://github.com/sertxudeveloper/Lyra/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags](https://github.com/sertxudeveloper/Lyra/tags) on this repository.
 
 ## Authors
 - Sergio Peris - Author - [Sertxu Developer](https://github.com/sertxudeveloper)
