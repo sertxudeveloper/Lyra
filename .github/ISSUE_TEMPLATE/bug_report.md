@@ -27,7 +27,7 @@ If applicable, add screenshots to help explain your problem.
  - Lyra Version: [e.g. 1.0.3]
  - PHP Version: [e.g. 7.3] 
  - Database Driver & Version: [e.g. MariaDB 10.4] 
- - OS: [e.g. iOS]
+ - OS: [e.g. Ubuntu Server 20.04]
  - Environment Type [e.g. Barebone, Vagrant, Docker, LXC ]
  - Browser & Version [e.g. Chrome 22, Safari 12]
 
