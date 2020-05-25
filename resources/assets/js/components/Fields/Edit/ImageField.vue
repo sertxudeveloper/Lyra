@@ -44,9 +44,6 @@
       }
     },
     props: ['field', 'formData'],
-    mounted() {
-      console.log(typeof this.field.value, this.field.value)
-    },
     methods: {
       getName: function (filename) {
         if (!filename) return "";
