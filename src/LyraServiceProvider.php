@@ -6,9 +6,10 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Str;
-use SertxuDeveloper\Lyra\Http\Middleware\LyraAdminMiddleware;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
 use SertxuDeveloper\Lyra\Http\Middleware\LyraApiAdminMiddleware;
+use SertxuDeveloper\Lyra\Http\Middleware\LyraAdminMiddleware;
+use SertxuDeveloper\Lyra\Http\Middleware\LyraGuestMiddleware;
 
 class LyraServiceProvider extends ServiceProvider {
 
@@ -21,6 +22,7 @@ class LyraServiceProvider extends ServiceProvider {
   public function boot(Router $router) {
     $router->aliasMiddleware('lyra', LyraAdminMiddleware::class);
     $router->aliasMiddleware('lyra-api', LyraApiAdminMiddleware::class);
+    $router->aliasMiddleware('lyra-guest', LyraGuestMiddleware::class);
     $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lyra');
 
     $this->registerConfigs();
