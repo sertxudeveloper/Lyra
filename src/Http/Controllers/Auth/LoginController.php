@@ -36,18 +36,19 @@ class LoginController extends Controller {
    * @return void
    */
   public function __construct() {
-    $this->middleware('guest')->except('logout');
+    $this->middleware('lyra-guest')->except('logout');
     $this->redirectTo = config('lyra.routes.web.prefix');
     parent::__construct();
   }
 
   /**
-   * Get the guard to be used during authentication.
+   * Show the application's login form.
    *
-   * @return \Illuminate\Contracts\Auth\StatefulGuard
+   * @return \Illuminate\Http\Response
    */
-  protected function guard() {
-    return Lyra::auth();
+  public function showLoginForm() {
+    if (Lyra::auth()->check()) return redirect()->route('lyra.dashboard');
+    return view('lyra::auth.login');
   }
 
   /**
@@ -65,7 +66,7 @@ class LoginController extends Controller {
     }
 
     if (config('lyra.authenticator') === Lyra::MODE_BASIC) {
-      setcookie('preferred_theme', $request->get('theme'), strtotime( '+1 year' ));
+      setcookie('preferred_theme', $request->get('theme'), strtotime('+1 year'));
     }
 
     return $this->guard()->attempt(
@@ -74,13 +75,12 @@ class LoginController extends Controller {
   }
 
   /**
-   * Show the application's login form.
+   * Get the guard to be used during authentication.
    *
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Contracts\Auth\StatefulGuard
    */
-  public function showLoginForm() {
-    if (Auth::check()) return redirect()->route('lyra.dashboard');
-    return view('lyra::auth.login');
+  protected function guard() {
+    return Lyra::auth();
   }
 
   /**
@@ -88,8 +88,7 @@ class LoginController extends Controller {
    *
    * @return mixed
    */
-  protected function loggedOut()
-  {
+  protected function loggedOut() {
     return redirect()->route('lyra.login');
   }
 }

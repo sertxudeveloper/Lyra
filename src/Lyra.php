@@ -43,18 +43,10 @@ class Lyra {
   static public function allStyles() {
     return self::$styles;
   }
+
   static public function asset($name, $style) {
     self::$assets[$name] = $style;
   }
-
-  static public function script($name, $script) {
-    self::$scripts[$name] = $script;
-  }
-
-  static public function style($name, $style) {
-    self::$styles[$name] = $style;
-  }
-
 
   static public function auth() {
     if (config('lyra.authenticator') === self::MODE_BASIC) {
@@ -86,7 +78,7 @@ class Lyra {
     if (config('lyra.authenticator') === Lyra::MODE_ADVANCED) {
       return self::auth()->user()->hasPermission($action, $resource);
     } else {
-      return true;
+      return (bool)array_search(self::auth()->user()->email, config('lyra.authorized_users'));
     }
   }
 
@@ -118,8 +110,16 @@ class Lyra {
     foreach (self::$callbacks as $callback) call_user_func($callback);
   }
 
+  static public function script($name, $script) {
+    self::$scripts[$name] = $script;
+  }
+
   static public function serving($callback) {
     self::$callbacks[] = $callback;
+  }
+
+  static public function style($name, $style) {
+    self::$styles[$name] = $style;
   }
 
   /**
