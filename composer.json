@@ -1,7 +1,7 @@
 {
   "name": "sertxudeveloper/lyra",
   "description": "Lyra is an administration panel for Laravel for bootstrap your app and turn ideas into reality.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "keywords": [
     "laravel",
