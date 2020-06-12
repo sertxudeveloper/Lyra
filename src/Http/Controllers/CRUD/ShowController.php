@@ -42,7 +42,9 @@ class ShowController extends DatatypesController {
       $sortCol = explode(',', $request->get('sortCol'));
       $sortDir = explode(',', $request->get('sortDir'));
       foreach ($sortCol as $key => $value) {
-        $query = $query->orderBy($sortCol[$key], $sortDir[$key]);
+        if ($sortCol[$key] && $sortDir[$key]) {
+          $query = $query->orderBy($sortCol[$key], $sortDir[$key]);
+        }
       }
     }
 
