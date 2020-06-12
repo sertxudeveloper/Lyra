@@ -25,7 +25,7 @@ class LyraAdminMiddleware {
     if (Lyra::auth()->check()) {
       if (config('lyra.authenticator') === Lyra::MODE_BASIC) {
         $authorized = array_search(Lyra::auth()->user()->email, config('lyra.authorized_users'));
-        if (!$authorized) abort(403);
+        if ($authorized === false) abort(403);
       }
 
       return $next($request);
