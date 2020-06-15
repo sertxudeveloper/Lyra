@@ -21,7 +21,7 @@ class BelongsToMany extends Relation {
       $this->callback = $this->callback->bindTo($model);
       $value = call_user_func($this->callback);
     } else {
-      if ($this->isTranslatable()) {
+      if (method_exists($this->data->get('resource')::$model, 'getTranslated')) {
         $value = $this->getTranslatedValue($model, $type);
       } else {
         $value = $this->getOriginalValue($model, $type);
@@ -85,7 +85,10 @@ class BelongsToMany extends Relation {
    */
   private function getAllOptions($query) {
     return $this->data->get('resource')::$model::all()->map(function ($element) use ($query) {
-      return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
+      return [
+        'key' => $element[$query->getParentKeyName()],
+        'value' => $element[$this->data->get('display_column')]
+      ];
     });
   }
 
@@ -101,7 +104,12 @@ class BelongsToMany extends Relation {
 
     if (request()->get($query->getRelatedPivotKeyName())) {
       $element = $this->data->get('resource')::$model::find(request()->get($query->getRelatedPivotKeyName()));
-      return [['key' => $element[$query->getRelatedKeyName()], 'value' => $element[$this->data->get('display_column')]]];
+      return [
+        [
+          'key' => $element[$query->getRelatedKeyName()],
+          'value' => $element[$this->data->get('display_column')]
+        ]
+      ];
     }
 
     return null;
@@ -118,7 +126,10 @@ class BelongsToMany extends Relation {
     $this->data->put('options', $options);
 
     return $model->{$this->data->get('column')}->map(function ($element) use ($query) {
-      return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
+      return [
+        'key' => $element[$query->getParentKeyName()],
+        'value' => $element[$this->data->get('display_column')]
+      ];
     });
   }
 
@@ -130,7 +141,10 @@ class BelongsToMany extends Relation {
     $query = $model->{$this->data->get('column')}();
 
     return $model->{$this->data->get('column')}->map(function ($element) use ($query) {
-      return ['key' => $element[$query->getParentKeyName()], 'value' => $element[$this->data->get('display_column')]];
+      return [
+        'key' => $element[$query->getParentKeyName()],
+        'value' => $element[$this->data->get('display_column')]
+      ];
     });
   }
 
