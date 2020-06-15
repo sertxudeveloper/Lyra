@@ -33,7 +33,7 @@ class EditController extends DatatypesController {
     $model = $modelClass::find($id);
 
     /** Check if the model exists, if not trow a 404 error code */
-    if (!Arr::first($model)) return abort(404, "No query results for model [$modelClass]");
+    if (!$model) return abort(404, "No query results for model [$modelClass]");
 
     /** Create a new collection with the model instance in the new Lyra resource instance */
     $resourceCollection = new $resourcesNamespace(collect([$model]));

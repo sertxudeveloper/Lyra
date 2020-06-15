@@ -75,7 +75,7 @@ class ShowController extends DatatypesController {
       $model = $modelClass::find($id);
     }
 
-    if (!Arr::first($model)) return abort(404, "No query results for model [$modelClass]");
+    if (!$model) return abort(404, "No query results for model [$modelClass]");
     $resourceCollection = new $resourcesNamespace(collect([$model]));
     return $resourceCollection->getCollection($request, 'show');
   }
