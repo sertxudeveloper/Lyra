@@ -120,7 +120,6 @@ class PermissionsMakeCommand extends Command {
     $options = ['[All]' => 'special'];
 
     foreach ($items as $item) {
-      if (isset($item['hidden']) && $item['hidden'] === true) continue;
       if (isset($item['key']) && $item['key'] === 'lyra') continue;
 
       if (isset($item['items'])) {
