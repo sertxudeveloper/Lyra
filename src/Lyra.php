@@ -78,7 +78,7 @@ class Lyra {
     if (config('lyra.authenticator') === Lyra::MODE_ADVANCED) {
       return self::auth()->user()->hasPermission($action, $resource);
     } else {
-      return (bool)array_search(self::auth()->user()->email, config('lyra.authorized_users'));
+      return array_search(self::auth()->user()->email, config('lyra.authorized_users')) !== false;
     }
   }
 
