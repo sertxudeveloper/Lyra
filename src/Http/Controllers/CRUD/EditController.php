@@ -67,8 +67,10 @@ class EditController extends DatatypesController {
     $values = collect($collection);
 
     /** Check if the model has been modified while editing */
-    $preventConflict = $request->post('preventConflict');
-    if ($preventConflict !== $model[$model::UPDATED_AT]->toJSON()) abort(409);
+    if($model[$model::UPDATED_AT]) {
+      $preventConflict = $request->post('preventConflict');
+      if ($preventConflict !== $model[$model::UPDATED_AT]->toJSON()) abort(409);
+    }
 
     /** Get the Lyra resource fields to be able to call the method 'saveValue' and 'syncRelationship' at each field */
     $fields = $resourcesNamespace::getFields($model);
