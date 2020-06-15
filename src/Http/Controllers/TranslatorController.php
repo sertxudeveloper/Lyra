@@ -17,18 +17,18 @@ class TranslatorController extends Controller {
   }
 
   public static function removeTranslation($lang, $element) {
-    DB::table($element->getTable() . '_translations')
-      ->where([['locale', $lang], ['id', $element[$element->getKeyName()]]])->delete();
+    DB::table($element->getTable() . config('lyra.translator.table_suffix'))
+      ->where([['locale', $lang], [$element->getKeyName(), $element->getKey()]])->delete();
   }
 
   public static function removeTranslations($element) {
-    DB::table($element->getTable() . '_translations')
-      ->where('id', $element[$element->getKeyName()])->delete();
+    DB::table($element->getTable() . config('lyra.translator.table_suffix'))
+      ->where($element->getKeyName(), $element->getKey())->delete();
   }
 
   public static function updateTranslation($fields, $resource) {
     $translation = DB::table($resource->getTable() . config('lyra.translator.table_suffix'))
-      ->where([['locale', request()->get('lang')], ['id', $resource[$resource->getKeyName()]]])->first();
+      ->where([['locale', request()->get('lang')], [$resource->getKeyName(), $resource->getKey()]])->first();
 
     if ($translation) {
 
@@ -38,19 +38,19 @@ class TranslatorController extends Controller {
       DB::table($resource->getTable() . config('lyra.translator.table_suffix'))
         ->where([
           [config('lyra.translator.locale_column'), request()->get('lang')],
-          ['id', $resource->getKeyName()]
+          [$resource->getKeyName(), $resource->getKey()]
         ])->update($data);
     } else {
 
       $data = [
-        'id' => $resource->getKey(),
+        $resource->getKeyName() => $resource->getKey(),
         'locale' => request()->get('lang'),
         'created_at' => new Carbon(),
         'updated_at' => new Carbon()
       ];
 
       $data = array_merge($data, $fields);
-      DB::table($resource->getTable() . '_translations')->insert($data);
+      DB::table($resource->getTable() . config('lyra.translator.table_suffix'))->insert($data);
     }
   }
 
