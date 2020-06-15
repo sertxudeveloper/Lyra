@@ -122,6 +122,8 @@ class BelongsTo extends Relation {
 
     $item = $model[$this->data->get('column')];
 
+    if (!$item) return null;
+
     return [
       'key' => $item[$query->getOwnerKeyName()],
       'value' => $item[$this->data->get('display_column')]
@@ -135,6 +137,8 @@ class BelongsTo extends Relation {
   private function getOriginalValueShow($model) {
     $query = $model->{$this->data->get('column')}();
     $item = $model[$this->data->get('column')];
+
+    if (!$item) return null;
 
     return [
       'key' => $item[$query->getOwnerKeyName()],
@@ -176,6 +180,8 @@ class BelongsTo extends Relation {
 
     $item = $model[$this->data->get('column')];
 
+    if (!$item) return null;
+
     return [
       'key' => $item[$query->getOwnerKeyName()],
       'value' => $item->getTranslated($this->data->get('display_column'), request()->input('lang'))
@@ -189,6 +195,8 @@ class BelongsTo extends Relation {
   private function getTranslatedValueShow($model) {
     $query = $model->{$this->data->get('column')}();
     $item = $model[$this->data->get('column')];
+
+    if (!$item) return null;
 
     return [
       'key' => $item[$query->getOwnerKeyName()],
