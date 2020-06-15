@@ -84,7 +84,7 @@ class EditController extends DatatypesController {
     $translatableFields = [];
 
     /** Process first the common fields with a column in the database */
-    $fields->each(function ($field, $key) use ($values, $model, &$errors, $translatableFields) {
+    $fields->each(function ($field, $key) use ($values, $model, &$errors, &$translatableFields) {
       if (method_exists($field, 'validate')) {
         $validation = $field->validate($values[$key]['value'], $model);
         if ($validation->fails()) $errors->merge($validation->errors()->toArray());
