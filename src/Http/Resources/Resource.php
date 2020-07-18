@@ -26,7 +26,7 @@ abstract class Resource extends ResourceCollection {
   }
 
   public static function hasSoftDeletes() {
-    return in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses(static::$model));
+    return method_exists(static::$model, 'withTrashed');
   }
 
   public static function isTranslatable() {
