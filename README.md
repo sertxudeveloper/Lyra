@@ -3,6 +3,13 @@
 </p>
 
 <h3 align="center">Boost your application and turn your ideas into reality</h3>
+<p align="center">
+<img src="https://img.shields.io/github/v/release/sertxudeveloper/Lyra">
+<img src="https://img.shields.io/librariesio/github/sertxudeveloper/Lyra">
+<img src="https://img.shields.io/github/repo-size/sertxudeveloper/Lyra">
+<img src="https://img.shields.io/packagist/dt/sertxudeveloper/Lyra">
+<img src="https://img.shields.io/github/issues/sertxudeveloper/Lyra">
+</p>
 
 ## About Lyra
 #### Lyra is an administration panel for applications created with Laravel
