@@ -6,7 +6,6 @@
 <p align="center">
 <img src="https://img.shields.io/github/v/release/sertxudeveloper/Lyra">
 <img src="https://img.shields.io/github/license/sertxudeveloper/Lyra">
-<img src="https://img.shields.io/librariesio/github/sertxudeveloper/Lyra">
 <img src="https://img.shields.io/github/repo-size/sertxudeveloper/Lyra">
 <img src="https://img.shields.io/github/stars/sertxudeveloper/Lyra">
 <img src="https://img.shields.io/packagist/dt/sertxudeveloper/Lyra">
