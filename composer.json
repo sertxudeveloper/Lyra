@@ -1,0 +1,60 @@
+{
+  "name": "sertxudeveloper/lyra",
+  "description": "Lyra is an administration panel for Laravel for bootstrap your app and turn ideas into reality.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "admin",
+    "panel",
+    "lyra",
+    "sertxudeveloper"
+  ],
+  "support": {
+    "issues": "https://github.com/sertxudeveloper/Lyra/issues",
+    "source": "https://github.com/sertxudeveloper/Lyra"
+  },
+  "autoload": {
+    "psr-4": {
+      "SertxuDeveloper\\Lyra\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SertxuDeveloper\\Lyra\\Tests\\": "tests/"
+    }
+  },
+  "suggest": {
+    "sertxudeveloper/laravel-translatable": "Needed to add multilanguage support"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "SertxuDeveloper\\Lyra\\LyraServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "authors": [
+    {
+      "name": "Sertxu Developer",
+      "email": "dev.sertxu@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^7.3|^8.0",
+    "illuminate/support": "^7.0|^8.0",
+    "ext-json": "*",
+    "ext-zip": "*",
+    "ext-fileinfo": "*"
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.0",
+    "orchestra/testbench": "^4.0|^5.0|^6.0",
+    "phpunit/phpunit": "^8.0|^9.3"
+  },
+  "prefer-stable": true
+}
