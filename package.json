@@ -10,8 +10,12 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
+    "@vue/compiler-sfc": "^3.2.19",
     "cross-env": "^7.0.3",
     "laravel-mix": "^6.0.31",
-    "tailwindcss": "^2.2.15"
+    "tailwindcss": "^2.2.15",
+    "vue": "^3.2.19",
+    "vue-loader": "^16.8.1",
+    "vue-router": "^4.0.11"
   }
 }

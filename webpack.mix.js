@@ -13,6 +13,5 @@ const tailwindcss = require('tailwindcss')
  */
 mix.setPublicPath('publishable/assets')
 
-mix.js('resources/js/app.js', 'js')
+mix.js('resources/js/app.js', 'js').vue()
   .postCss('resources/css/app.css', 'css', [tailwindcss('tailwind.config.js')])
-
