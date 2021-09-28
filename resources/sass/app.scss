@@ -3,35 +3,35 @@
 @tailwind utilities;
 
 /* Works on Firefox */
-/** {
+* {
   scrollbar-width: thin;
   scrollbar-color: #6B7280 #d4d4d400;
-}*/
+}
 
-/**::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 8px;
-}*/
+}
 
-/**::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: #d4d4d400;
-}*/
+}
 
-/**::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: #6B7280;
   border-radius: 20px;
   border: 3px solid #d4d4d400;
-}*/
+}
 
 #sidebar {
   a {
     @apply flex items-center px-3 py-2 rounded-lg mb-2 cursor-pointer
+  }
 
-    &.router-link-active {
-      @apply text-gray-100 bg-gray-900
-    }
+  a.router-link-active {
+    @apply text-gray-100 bg-gray-900
+  }
 
-    //&:not(.router-link-active) {
-    //  @apply text-gray-300 hover:text-gray-100 hover:bg-gray-900 hover:bg-opacity-50
-    //}
+  a:not(.router-link-active) {
+    @apply text-gray-300 hover:text-gray-100 hover:bg-gray-900 hover:bg-opacity-50
   }
 }

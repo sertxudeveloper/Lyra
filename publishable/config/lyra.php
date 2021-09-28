@@ -11,5 +11,4 @@ return [
       "name" => "lyra-api."
     ]
   ],
-
 ];

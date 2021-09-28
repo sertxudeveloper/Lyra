@@ -1,4 +1,5 @@
 const mix = require('laravel-mix')
+const path = require('path')
 const tailwindcss = require('tailwindcss')
 
 /*
@@ -13,5 +14,31 @@ const tailwindcss = require('tailwindcss')
  */
 mix.setPublicPath('publishable/assets')
 
-mix.js('resources/js/app.js', 'js').vue()
-  .postCss('resources/css/app.css', 'css', [tailwindcss('tailwind.config.js')])
+// mix.js('resources/js/app.js', 'js').vue()
+//   .sass('resources/sass/app.scss', 'css', {}, [ tailwindcss('./tailwind.config.js') ])
+//   .options({ processCssUrls: false })
+//   .version()
+//   .webpackConfig({
+//     resolve: {
+//       alias: {
+//         '@': path.resolve(__dirname, 'resources/js/'),
+//       },
+//     },
+//   })
+
+mix.sass('resources/sass/app.scss', 'css');
+mix.js('resources/js/app.js', 'js').vue();
+
+mix.webpackConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'resources/js/'),
+    },
+  },
+})
+
+mix.options({
+  processCssUrls: false, // Process/optimize relative stylesheet url()'s. Set to false, if you don't want them touched.
+  purifyCss: false, // Remove unused CSS selectors.
+  postCss: [tailwindcss('tailwind.config.js')],
+});

@@ -14,6 +14,7 @@ use Symfony\Component\Finder\Finder;
 class Lyra {
 
   private static array $callbacks = [];
+  private static array $resources = [];
 
   static public function routes() {
     require __DIR__ . '/../routes/api.php';
@@ -26,26 +27,32 @@ class Lyra {
 
   /**
    * @param $directory
-   * @return array
-   * @throws \ReflectionException
+   * @return void
    */
-  static public function resourcesIn($directory): array {
+  static public function resourcesIn($directory): void {
     $namespace = app()->getNamespace();
-    if (!file_exists($directory)) return [];
-
-    $resources = collect();
+    if (!file_exists($directory)) return;
 
     foreach ((new Finder)->in($directory)->files() as $resource) {
       $path = Str::after($resource->getPathname(), app_path() . DIRECTORY_SEPARATOR);
       $resource = $namespace . str_replace(['/', '.php'], ['\\', ''], $path);
 
-      if (is_subclass_of($resource, Resource::class) &&
-        !(new \ReflectionClass($resource))->isAbstract()) {
-        $resources->push($resource);
+      try {
+        if (is_subclass_of($resource, Resource::class) &&
+            !(new \ReflectionClass($resource))->isAbstract()) {
+          array_push(self::$resources, $resource);
+        }
+      } catch (\ReflectionException $e) {
+        continue;
       }
     }
+  }
 
-    return $resources->all();
+  /**
+   * @return array
+   */
+  static public function resources(): array {
+    return self::$resources;
   }
 
   static public function asset($file): string {
