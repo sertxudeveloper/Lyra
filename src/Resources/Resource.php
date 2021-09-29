@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 abstract class Resource {
 
   static public string $icon = '';
+  static public int $priority = 99;
 
   /**
    * Get the slug of the resource

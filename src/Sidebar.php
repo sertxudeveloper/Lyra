@@ -12,14 +12,15 @@ class Sidebar {
   static public function items(): array {
     $items = collect();
 
-    foreach (Lyra::resources() as $class) {
+    foreach (Lyra::$resources as $class) {
       $items->push([
         'name' => $class::label(),
         'slug' => $class::slug(),
         'icon' => $class::$icon,
+        'priority' => $class::$priority,
       ]);
     }
 
-    return $items->all();
+    return $items->sortBy('priority')->all();
   }
 }
