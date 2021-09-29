@@ -6,19 +6,32 @@ use Illuminate\Support\Str;
 
 abstract class Resource {
 
-  protected string $icon = '';
-  protected ?string $name = null;
-  protected ?string $slug = null;
+  static public string $icon = '';
 
-  public function getName(): string {
-    return $this->name ?? Str::singular((new \ReflectionClass($this))->getShortName());
+  /**
+   * Get the slug of the resource
+   *
+   * @return string
+   */
+  static public function slug(): string {
+    return Str::kebab(class_basename(get_called_class()));
   }
 
-  public function getSlug(): string {
-    return $this->slug ?? strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', self::getName())));
+  /**
+   * Get the label of the resource
+   *
+   * @return string
+   */
+  static public function label(): string {
+    return class_basename(get_called_class());
   }
 
-  public function getIcon(): string {
-    return $this->icon;
+  /**
+   * Get the singular label of the resource
+   *
+   * @return string
+   */
+  static public function singular(): string {
+    return Str::singular(static::label());
   }
 }

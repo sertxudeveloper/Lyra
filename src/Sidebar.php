@@ -4,21 +4,22 @@ namespace SertxuDeveloper\Lyra;
 
 class Sidebar {
 
+  /**
+   * Get sidebar resource elements
+   *
+   * @return array
+   */
   static public function items(): array {
-    $items = [];
+    $items = collect();
 
     foreach (Lyra::resources() as $class) {
-      $class = new $class;
-
-      $item = [
-        'name' => $class->getName(),
-        'slug' => $class->getSlug(),
-        'icon' => $class->getIcon(),
-      ];
-
-      array_push($items, $item);
+      $items->push([
+        'name' => $class::label(),
+        'slug' => $class::slug(),
+        'icon' => $class::$icon,
+      ]);
     }
 
-    return $items;
+    return $items->all();
   }
 }
