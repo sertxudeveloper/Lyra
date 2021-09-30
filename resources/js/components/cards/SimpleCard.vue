@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white flex flex-col p-4 rounded-lg shadow w-96">
+  <div class="bg-white flex flex-col p-4 rounded-lg shadow">
     <div class="flex items-center justify-between mb-4">
       <div class="font-semibold text-gray-500 text-sm tracking-wider uppercase">{{ data.label }}</div>
       <div class="bg-gray-200 bg-opacity-70 px-1 py-px rounded">

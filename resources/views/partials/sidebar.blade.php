@@ -1,5 +1,5 @@
 <!-- Sidebar --->
-<div id="sidebar" class="bg-gray-800 flex flex-col flex-shrink-0 h-full w-64">
+<div id="sidebar" class="bg-gray-800 hidden lg:flex flex-col flex-shrink-0 h-full w-50 xl:w-64">
   @include('lyra::partials.logo')
 
   <!-- Menu --->
