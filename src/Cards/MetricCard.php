@@ -65,17 +65,18 @@ abstract class MetricCard extends Card {
    * @return array
    */
   public function toArray(Request $request): array {
-    $selectedInterval = $request->input('interval') ?? $this->defaultInterval;
-    $value = $this->value($selectedInterval);
-    $previous = $this->previous($selectedInterval);
+    $selected = $request->input('interval') ?? $this->defaultInterval;
+    $value = $this->value($selected);
+    $previous = $this->previous($selected);
     $difference = $this->difference($value, $previous);
+    $difference = $difference > 0 ? "+$difference%" : "$difference%";
 
     return [
       'component' => $this->component,
-      'label' => $this::label(),
-      'slug' => $this::slug(),
+      'label' => $this->label(),
+      'slug' => $this->slug(),
       'interval' => $this->interval,
-      'selectedInterval' => $selectedInterval,
+      'selected' => $selected,
       'value' => $value,
       'difference' => $difference,
     ];

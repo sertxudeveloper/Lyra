@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+import registerCards from './cards'
+
 import Dashboard from "@/components/sections/Dashboard";
 import MediaManager from "@/components/sections/MediaManager";
 import ResourceIndex from "@/components/sections/ResourceIndex";
@@ -24,6 +26,8 @@ const router = createRouter({
 })
 
 const app = createApp({})
+
+registerCards(app)
 
 app.use(router)
 app.use(VueAxios, axios)

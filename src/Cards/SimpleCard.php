@@ -45,15 +45,15 @@ abstract class SimpleCard extends Card {
    * @return array
    */
   public function toArray(Request $request): array {
-    $selectedInterval = $request->input('interval') ?? $this->defaultInterval;
-    $value = $this->value($selectedInterval);
+    $selected = $request->input('interval') ?? $this->defaultInterval;
+    $value = $this->value($selected);
 
     return [
       'component' => $this->component,
-      'label' => $this::label(),
-      'slug' => $this::slug(),
+      'label' => $this->label(),
+      'slug' => $this->slug(),
       'interval' => $this->interval,
-      'selectedInterval' => $selectedInterval,
+      'selected' => $selected,
       'value' => $value,
     ];
   }

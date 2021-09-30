@@ -19,7 +19,7 @@ abstract class Resource extends ResourceCollection {
    * @return string
    */
   static public function slug(): string {
-    return Str::kebab(static::label());
+    return Str::kebab(class_basename(get_called_class()));
   }
 
   /**

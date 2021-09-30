@@ -6,14 +6,12 @@ use Illuminate\Support\Str;
 
 abstract class Card {
 
-  public string $name = '';
-
   /**
    * Get the label of the card
    *
    * @return string
    */
-  static public function label(): string {
+  public function label(): string {
     return Str::title(Str::snake(class_basename(get_called_class()), ' '));
   }
 
@@ -22,7 +20,7 @@ abstract class Card {
    *
    * @return string
    */
-  static public function slug(): string {
-    return Str::kebab(static::label());
+  public function slug(): string {
+    return Str::kebab(class_basename(get_called_class()));
   }
 }

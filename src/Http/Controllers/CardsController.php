@@ -33,9 +33,19 @@ class CardsController extends Controller {
    *
    * @param Request $request
    * @param string $resource
-   * @param $id
+   * @param string $card
+   * @return object|void
+   * @throws Exception
    */
-  public function show(Request $request, string $resource, $id) {
+  public function show(Request $request, string $resource, string $card) {
+    $class = Lyra::resourceBySlug($resource);
+    $resource = new $class($class::newModel());
 
+    foreach ($resource->cards() as $class) {
+      if ($class->slug() !== $card) continue;
+      return $class->toArray($request);
+    }
+
+    abort(404);
   }
 }
