@@ -28,7 +28,7 @@ abstract class Resource extends ResourceCollection {
    * @return string
    */
   static public function label(): string {
-    return class_basename(get_called_class());
+    return Str::title(Str::snake(class_basename(get_called_class()), ' '));
   }
 
   /**

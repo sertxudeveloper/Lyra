@@ -24,7 +24,6 @@ class ResourceController extends Controller {
     return new $class($result);
   }
 
-
   /**
    * Create a model with the given resource
    *
