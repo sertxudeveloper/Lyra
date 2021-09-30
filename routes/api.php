@@ -7,6 +7,14 @@ Route::group(['middleware' => ['web']], function () {
 
   Route::prefix(config('lyra.routes.api.prefix'))->name(config('lyra.routes.api.name'))->group(function () {
 
+    /** Resources routes */
+    Route::get('/resource/{resource}', [Controllers\ResourceController::class, 'index']);
+    Route::post('/resource/{resource}', [Controllers\ResourceController::class, 'create']);
+    Route::get('/resource/{resource}/{id}', [Controllers\ResourceController::class, 'show']);
+    Route::put('/resource/{resource}/{id}', [Controllers\ResourceController::class, 'store']);
+    Route::delete('/resource/{resource}/{id}', [Controllers\ResourceController::class, 'delete']);
+
+    /** Assets routes */
     Route::get('/assets/{any}', [Controllers\AssetsController::class, 'show'])->where('any', '.*');
   });
 });

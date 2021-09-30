@@ -2,6 +2,7 @@
 
 namespace SertxuDeveloper\Lyra;
 
+use Exception;
 use Illuminate\Support\Str;
 use SertxuDeveloper\Lyra\Resources\Resource;
 use Symfony\Component\Finder\Finder;
@@ -66,6 +67,21 @@ class Lyra {
     static::$resources = array_unique(
       array_merge(static::$resources, $resource)
     );
+  }
+
+  /**
+   * Get the resource class from the given slug
+   *
+   * @param string $slug
+   * @return string
+   * @throws Exception
+   */
+  static public function searchResource(string $slug): string {
+    foreach (static::$resources as $class) {
+      if ($class::slug() == $slug) return $class;
+    }
+
+    throw new Exception('Resource not found');
   }
 
   /**
