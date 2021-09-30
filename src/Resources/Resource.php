@@ -19,7 +19,7 @@ abstract class Resource extends ResourceCollection {
    * @return string
    */
   static public function slug(): string {
-    return Str::kebab(class_basename(get_called_class()));
+    return Str::kebab(static::label());
   }
 
   /**
@@ -41,11 +41,27 @@ abstract class Resource extends ResourceCollection {
   }
 
   /**
+   * Create a new instance of the provided model
+   *
+   * @return mixed
+   */
+  public static function newModel() {
+    $model = static::$model;
+    return new $model;
+  }
+
+  /**
    * The fields' resource definition
    *
    * @return array
    */
   abstract public function fields(): array;
+
+  /**
+   * The cards' resource definition
+   * @return array
+   */
+  abstract public function cards(): array;
 
   /**
    * Transform the resource into a JSON array.

@@ -13,10 +13,11 @@ class ResourceController extends Controller {
    *
    * @param Request $request
    * @param string $resource
+   * @return object
    * @throws Exception
    */
-  public function index(Request $request, string $resource) {
-    $class = Lyra::searchResource($resource);
+  public function index(Request $request, string $resource): object {
+    $class = Lyra::resourceBySlug($resource);
 
     $result = $class::$model::query()->paginate();
 

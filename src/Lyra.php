@@ -76,7 +76,7 @@ class Lyra {
    * @return string
    * @throws Exception
    */
-  static public function searchResource(string $slug): string {
+  static public function resourceBySlug(string $slug): string {
     foreach (static::$resources as $class) {
       if ($class::slug() == $slug) return $class;
     }
