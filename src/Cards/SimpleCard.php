@@ -10,6 +10,13 @@ abstract class SimpleCard extends Card {
   public string $column = '';
   public string $class = '';
 
+  /**
+   * Supported Eloquent 'count', 'min', 'max', 'avg' and 'sum' methods
+   * @var string
+   */
+  public string $method = 'count';
+  public int $precision = 0;
+
   public array $interval = [
     '1 month' => '1 month',
     '3 months' => '3 months',
@@ -18,16 +25,6 @@ abstract class SimpleCard extends Card {
   ];
 
   public string $defaultInterval = '3 months';
-
-  /**
-   * Return the instance count in the current interval
-   *
-   * @param $interval
-   * @return mixed
-   */
-  public function value($interval) {
-    return $this->class::query()->whereBetween($this->column(), [now()->sub($interval), now()])->count();
-  }
 
   /**
    * Get the column used by the selected interval
@@ -39,6 +36,16 @@ abstract class SimpleCard extends Card {
   }
 
   /**
+   * Generate current range from selected interval
+   *
+   * @param $interval
+   * @return array
+   */
+  public function currentRange($interval): array {
+    return [now()->sub($interval), now()];
+  }
+
+  /**
    * Transform the card into a JSON array.
    *
    * @param Request $request
@@ -46,7 +53,7 @@ abstract class SimpleCard extends Card {
    */
   public function toArray(Request $request): array {
     $selected = $request->input('interval') ?? $this->defaultInterval;
-    $value = $this->value($selected);
+    $value = $this->value($selected) ?? 0;
 
     return [
       'component' => $this->component,
@@ -56,5 +63,20 @@ abstract class SimpleCard extends Card {
       'selected' => $selected,
       'value' => $value,
     ];
+  }
+
+  /**
+   * Return the instance count in the current interval
+   *
+   * @param $interval
+   * @return float
+   */
+  public function value($interval): float {
+    $column = (new $this->class)->getQualifiedKeyName();
+    $value = $this->class::query()
+      ->whereBetween($this->column(), $this->currentRange($interval))
+      ->{$this->method}($column);
+
+    return round($value, $this->precision);
   }
 }

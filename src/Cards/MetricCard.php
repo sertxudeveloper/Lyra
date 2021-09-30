@@ -10,6 +10,13 @@ abstract class MetricCard extends Card {
   public string $column = '';
   public string $class = '';
 
+  /**
+   * Supported Eloquent 'count', 'min', 'max', 'avg' and 'sum' methods
+   * @var string
+   */
+  public string $method = 'count';
+  public int $precision = 0;
+
   public array $interval = [
     '1 month' => '1 month',
     '3 months' => '3 months',
@@ -20,22 +27,22 @@ abstract class MetricCard extends Card {
   public string $defaultInterval = '3 months';
 
   /**
-   * Return the instance count in the current interval
+   * Get the column used by the selected interval
    *
-   * @param $interval
-   * @return mixed
+   * @return string
    */
-  public function value($interval) {
-    return $this->class::query()->whereBetween($this->column(), [now()->sub($interval), now()])->count();
+  public function column(): string {
+    return $this->column ?: $this->class::CREATED_AT;
   }
 
   /**
-   * Return the instance count in the previous interval
+   * Generate current range from selected interval
    *
-   * @return mixed
+   * @param $interval
+   * @return array
    */
-  public function previous($interval) {
-    return $this->class::query()->whereBetween($this->column(), [now()->sub($interval)->sub($interval), now()->sub($interval)])->count();
+  public function currentRange($interval): array {
+    return [now()->sub($interval), now()];
   }
 
   /**
@@ -50,12 +57,28 @@ abstract class MetricCard extends Card {
   }
 
   /**
-   * Get the column used by the selected interval
+   * Return the instance count in the previous interval
    *
-   * @return string
+   * @param $interval
+   * @return float
    */
-  public function column(): string {
-    return $this->column ?: $this->class::CREATED_AT;
+  public function previous($interval): float {
+    $column = (new $this->class)->getQualifiedKeyName();
+    $value = $this->class::query()
+      ->whereBetween($this->column(), $this->previousRange($interval))
+      ->{$this->method}($column);
+
+    return round($value, $this->precision);
+  }
+
+  /**
+   * Generate previous range from selected interval
+   *
+   * @param $interval
+   * @return array
+   */
+  public function previousRange($interval): array {
+    return [now()->sub($interval)->sub($interval), now()->sub($interval)];
   }
 
   /**
@@ -66,8 +89,8 @@ abstract class MetricCard extends Card {
    */
   public function toArray(Request $request): array {
     $selected = $request->input('interval') ?? $this->defaultInterval;
-    $value = $this->value($selected);
-    $previous = $this->previous($selected);
+    $value = $this->value($selected) ?? 0;
+    $previous = $this->previous($selected) ?? 0;
     $difference = $this->difference($value, $previous);
     $difference = $difference > 0 ? "+$difference%" : "$difference%";
 
@@ -80,5 +103,20 @@ abstract class MetricCard extends Card {
       'value' => $value,
       'difference' => $difference,
     ];
+  }
+
+  /**
+   * Return the instance count in the current interval
+   *
+   * @param $interval
+   * @return float
+   */
+  public function value($interval): float {
+    $column = (new $this->class)->getQualifiedKeyName();
+    $value = $this->class::query()
+      ->whereBetween($this->column(), $this->currentRange($interval))
+      ->{$this->method}($column);
+
+    return round($value, $this->precision);
   }
 }
