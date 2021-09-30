@@ -1,11 +1,23 @@
 <template>
-  <h1>Resource</h1>
-  <pre>{{ $route }}</pre>
+  <h1>{{ $route.params.resourceName }}</h1>
 </template>
 
 <script>
 export default {
-  name: "Resource"
+  name: "Resource",
+  data() {
+    return {
+      resources: {},
+      cards: [],
+    }
+  },
+  mounted() {
+    this.$http.get(`/resource/${this.$route.params.resourceName}`)
+      .then(response => this.resources = response.data)
+
+    this.$http.get(`/cards/${this.$route.params.resourceName}`)
+        .then(response => this.cards = response.data)
+  }
 }
 </script>
 

@@ -19489,7 +19489,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Resource"
+  name: "Resource",
+  data: function data() {
+    return {
+      resources: {},
+      cards: []
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$http.get("/resource/".concat(this.$route.params.resourceName)).then(function (response) {
+      return _this.resources = response.data;
+    });
+    this.$http.get("/cards/".concat(this.$route.params.resourceName)).then(function (response) {
+      return _this.cards = response.data;
+    });
+  }
 });
 
 /***/ }),
