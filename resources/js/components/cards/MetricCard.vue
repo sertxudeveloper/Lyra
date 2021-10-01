@@ -3,10 +3,8 @@
     <div class="flex items-center justify-between mb-4">
       <div class="font-semibold text-gray-500 text-sm tracking-wider uppercase">{{ data.label }}</div>
       <div class="bg-gray-200 bg-opacity-70 px-1 py-px rounded">
-        <select class="bg-transparent flex outline-none pr-1 text-sm" v-model="data.selected" @change="updateCard">
-          <option v-for="(label, key) in data.interval" :value="key">{{ label }}</option>
-          <option value="12 hours">12 hours</option>
-          <option value="1 hour">1 hour</option>
+        <select class="bg-transparent flex outline-none pr-1 text-sm" v-model="data.range" @change="updateCard">
+          <option v-for="(label, key) in data.ranges" :value="key">{{ label }}</option>
         </select>
       </div>
     </div>
@@ -33,7 +31,7 @@ export default {
   },
   methods: {
     updateCard() {
-      this.$http.get(`/cards/${this.$route.params.resourceName}/${this.data.slug}?interval=${this.data.selected}`)
+      this.$http.get(`/cards/${this.$route.params.resourceName}/${this.data.slug}?range=${this.data.range}`)
           .then(response => this.data = response.data)
     }
   },

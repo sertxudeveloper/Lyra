@@ -2,83 +2,166 @@
 
 namespace SertxuDeveloper\Lyra\Cards;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 abstract class MetricCard extends Card {
 
-  public string $component = 'card-metric';
-  public string $column = '';
-  public string $class = '';
-
   /**
-   * Supported Eloquent 'count', 'min', 'max', 'avg' and 'sum' methods
+   * The card component
+   *
    * @var string
    */
-  public string $method = 'count';
-  public int $precision = 0;
-
-  public array $interval = [
-    '1 month' => '1 month',
-    '3 months' => '3 months',
-    '6 months' => '6 months',
-    '1 year' => '1 year',
-  ];
-
-  public string $defaultInterval = '3 months';
+  public string $component = 'card-metric';
 
   /**
-   * Get the column used by the selected interval
+   * Precision for the rounding method
    *
-   * @return string
+   * @var int
    */
-  public function column(): string {
-    return $this->column ?: $this->class::CREATED_AT;
+  public int $precision = 0;
+
+  /**
+   * Calculate the value in the specified range
+   * Supported 'count', 'min', 'max', 'avg' and 'sum' methods
+   *
+   * @param Request $request
+   * @return float[]
+   */
+  abstract public function calculate(Request $request): array;
+
+  /**
+   * Count instances of the model
+   *
+   * @param Request $request
+   * @param Builder|string $model
+   * @param string|null $column
+   * @param string|null $dateColumn
+   * @return float[]
+   */
+  public function count(Request $request, $model, ?string $column = null, ?string $dateColumn = null): array {
+    return $this->query($request, $model, 'count', $column, $dateColumn);
   }
 
   /**
    * Generate current range from selected interval
    *
-   * @param $interval
+   * @param Request $request
    * @return array
    */
-  public function currentRange($interval): array {
-    return [now()->sub($interval), now()];
+  public function currentRange(Request $request): array {
+    $range = $request->input('range') ?? $this->defaultRange();
+    return [now()->sub($range), now()];
+  }
+
+  /**
+   * Get the key of the default range
+   *
+   * @return string
+   */
+  public function defaultRange(): string {
+    return '3 months';
   }
 
   /**
    * Calculate the difference between the two intervals
    *
-   * @param $value
-   * @param $previous
+   * @param float $current
+   * @param float $previous
    * @return float|int
    */
-  public function difference($value, $previous) {
-    return ($previous == 0) ? ($value * 100) : (($value - $previous) / $previous * 100);
+  public function difference(float $current, float $previous) {
+    return ($previous == 0) ? ($current * 100) : (($current - $previous) / $previous * 100);
   }
 
   /**
-   * Return the instance count in the previous interval
+   * Get the maximum value of the specified column
    *
-   * @param $interval
-   * @return float
+   * @param Request $request
+   * @param Builder|string $model
+   * @param string $column
+   * @param string|null $dateColumn
+   * @return float[]
    */
-  public function previous($interval): float {
-    $column = (new $this->class)->getQualifiedKeyName();
-    $value = $this->class::query()
-      ->whereBetween($this->column(), $this->previousRange($interval))
-      ->{$this->method}($column);
+  public function max(Request $request, $model, string $column, ?string $dateColumn = null): array {
+    return $this->query($request, $model, 'max', $column, $dateColumn);
+  }
 
-    return round($value, $this->precision);
+  /**
+   * Get the minimum value of the specified column
+   *
+   * @param Request $request
+   * @param Builder|string $model
+   * @param string $column
+   * @param string|null $dateColumn
+   * @return float[]
+   */
+  public function min(Request $request, $model, string $column, ?string $dateColumn = null): array {
+    return $this->query($request, $model, 'min', $column, $dateColumn);
   }
 
   /**
    * Generate previous range from selected interval
    *
-   * @param $interval
+   * @param Request $request
    * @return array
    */
-  public function previousRange($interval): array {
-    return [now()->sub($interval)->sub($interval), now()->sub($interval)];
+  public function previousRange(Request $request): array {
+    $range = $request->input('range') ?? $this->defaultRange();
+    return [now()->sub($range)->sub($range), now()->sub($range)];
+  }
+
+  /**
+   * Return the result of the query
+   *
+   * @param Request $request
+   * @param Builder|string $model
+   * @param string $method
+   * @param string|null $column
+   * @param string|null $dateColumn
+   * @return float[]
+   */
+  public function query(Request $request, $model, string $method, ?string $column = null, ?string $dateColumn = null): array {
+    $query = $model instanceof Builder ? $model : $model::query();
+    $column = $column ?? $query->getModel()->getQualifiedKeyName();
+    $createdAt = $query->getModel()->getCreatedAtColumn();
+
+    $current = round($query
+        ->whereBetween($dateColumn ?? $createdAt, $this->currentRange($request))
+        ->{$method}($column), $this->precision) ?? 0;
+
+    $previous = round($query
+        ->whereBetween($dateColumn ?? $createdAt, $this->previousRange($request))
+        ->{$method}($column), $this->precision) ?? 0;
+
+    return [$current, $previous];
+  }
+
+  /**
+   * Get the available ranges for the card
+   *
+   * @return string[]
+   */
+  public function ranges(): array {
+    return [
+      '1 month' => '1 month',
+      '3 months' => '3 months',
+      '6 months' => '6 months',
+      '1 year' => '1 year',
+    ];
+  }
+
+  /**
+   * Get the aggregate value of the specified column
+   *
+   * @param Request $request
+   * @param Builder|string $model
+   * @param string $column
+   * @param string|null $dateColumn
+   * @return float[]
+   */
+  public function sum(Request $request, $model, string $column, ?string $dateColumn = null): array {
+    return $this->query($request, $model, 'sum', $column, $dateColumn);
   }
 
   /**
@@ -88,35 +171,19 @@ abstract class MetricCard extends Card {
    * @return array
    */
   public function toArray(Request $request): array {
-    $selected = $request->input('interval') ?? $this->defaultInterval;
-    $value = $this->value($selected) ?? 0;
-    $previous = $this->previous($selected) ?? 0;
-    $difference = $this->difference($value, $previous);
+    [$current, $previous] = $this->calculate($request);
+
+    $difference = $this->difference($current, $previous);
     $difference = $difference > 0 ? "+$difference%" : "$difference%";
 
     return [
       'component' => $this->component,
       'label' => $this->label(),
       'slug' => $this->slug(),
-      'interval' => $this->interval,
-      'selected' => $selected,
-      'value' => $value,
+      'ranges' => $this->ranges(),
+      'range' => $request->input('range') ?: $this->defaultRange(),
+      'value' => $current,
       'difference' => $difference,
     ];
-  }
-
-  /**
-   * Return the instance count in the current interval
-   *
-   * @param $interval
-   * @return float
-   */
-  public function value($interval): float {
-    $column = (new $this->class)->getQualifiedKeyName();
-    $value = $this->class::query()
-      ->whereBetween($this->column(), $this->currentRange($interval))
-      ->{$this->method}($column);
-
-    return round($value, $this->precision);
   }
 }
