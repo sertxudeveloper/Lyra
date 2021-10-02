@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between mb-4">
       <div class="font-semibold text-gray-500 text-sm tracking-wider uppercase">{{ data.label }}</div>
       <div class="bg-gray-200 bg-opacity-70 px-1 py-px rounded">
-        <select class="bg-transparent flex outline-none pr-1 text-sm" v-model="data.range" @change="updateCard">
+        <select class="bg-transparent flex outline-none pr-1 text-sm text-gray-700" v-model="data.range" @change="updateCard">
           <option v-for="(label, key) in data.ranges" :value="key">{{ label }}</option>
         </select>
       </div>
