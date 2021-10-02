@@ -30,6 +30,13 @@ abstract class PartitionCard extends Card {
   public int $limit = 6;
 
   /**
+   * Show the quantity instead of the percentage in the items list
+   *
+   * @var bool
+   */
+  public bool $showQuantity = false;
+
+  /**
    * Calculate the value in the specified range
    * Supported 'count', 'min', 'max', 'avg' and 'sum' methods
    *
@@ -113,20 +120,10 @@ abstract class PartitionCard extends Card {
 
     $values = $query
       ->addSelect(DB::raw("$method($column) as value"))
-      ->limit($this->limit)
       ->orderByDesc('value')
       ->get();
 
-    $total = collect($values)->sum('value');
-
-    $values->mapWithKeys(function ($item, $key) use ($total) {
-      $item['color'] = $this->colors()[$key];
-      $item['value'] = (float)$item['value'];
-      $item['percent'] = round($item['value'] / $total * 100, 3);
-      return [$key => $item];
-    });
-
-    return $values->toArray();
+    return  $values->toArray();
   }
 
   /**
@@ -149,13 +146,29 @@ abstract class PartitionCard extends Card {
    * @return array
    */
   public function toArray(Request $request): array {
-    $values = $this->calculate($request);
-    $total = collect($values)->sum('value');
+    $values = collect($this->calculate($request));
+    $total = $values->sum('value');
+
+    /** Limit the quantity of results */
+    if ($values->count() > $this->limit) {
+      $values = $values->take($this->limit);
+      $totalLimited = $values->sum('value');
+    } else {
+      $totalLimited = $total;
+    }
+
+    $values = $values->mapWithKeys(function ($item, $key) use ($totalLimited) {
+      $item['color'] = $this->colors()[$key];
+      $item['value'] = (float)$item['value'];
+      $item['percent'] = round($item['value'] / $totalLimited * 100, 3);
+      return [$key => $item];
+    });
 
     return [
       'component' => $this->component,
       'label' => $this->label(),
       'slug' => $this->slug(),
+      'showQuantity' => $this->showQuantity,
       'total' => $total,
       'values' => $values,
     ];

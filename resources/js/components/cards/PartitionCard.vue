@@ -10,7 +10,8 @@
           <div class="flex flex-shrink-0 h-2.5 mr-1.5 rounded-full w-2.5" :style="`background-color: ${group.color}`"></div>
           <div class="flex justify-between w-full">
             <div class="">{{ group.label }}</div>
-            <div>{{ group.value }} - ({{ group.percent.toFixed(2) }}%)</div>
+            <div v-if="card.showQuantity">{{ group.value }}</div>
+            <div v-else>{{ group.percent.toFixed(2) }}%</div>
           </div>
         </div>
       </div>
