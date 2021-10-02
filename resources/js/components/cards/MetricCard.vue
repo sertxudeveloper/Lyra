@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white flex flex-col p-4 rounded-lg shadow">
+  <div class="bg-white flex flex-col p-4 rounded-lg shadow justify-between">
     <div class="flex items-center justify-between mb-4">
       <div class="font-semibold text-gray-500 text-sm tracking-wider uppercase">{{ data.label }}</div>
       <div class="bg-gray-200 bg-opacity-70 px-1 py-px rounded">
@@ -8,8 +8,8 @@
         </select>
       </div>
     </div>
-    <div class="flex justify-between">
-      <div class="text-4xl text-gray-800">{{ data.value }}</div>
+    <div class="flex h-full justify-between">
+      <div class="flex items-end text-4xl text-gray-800">{{ data.value }}</div>
       <div>
         <div class="border font-semibold px-2 rounded-full text-sm" :class="diffClass">{{ difference }}</div>
       </div>
