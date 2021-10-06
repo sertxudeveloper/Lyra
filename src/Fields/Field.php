@@ -2,6 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 abstract class Field {
@@ -79,4 +81,47 @@ abstract class Field {
     return $this;
   }
 
+  /**
+   * Check if the field can be displayed in the current view
+   *
+   * @param Request $request
+   * @return bool
+   */
+  public function canShow(Request $request): bool {
+    $route = $request->route()->getName();
+    $route = str_replace(config('lyra.routes.api.name'), '', $route);
+    switch ($route) {
+      case 'resource.index':
+        return $this->showOnIndex;
+
+      case 'resource.show':
+        return $this->showOnShow;
+
+      case 'resource.create':
+        return $this->showOnCreate;
+
+      case 'resource.update':
+        return $this->showOnUpdate;
+
+      default:
+        return false;
+    }
+  }
+
+  /**
+   * Add field-specific data to the response
+   */
+  public function additional(): array {
+    return [];
+  }
+
+  public function toArray(Model $model): array {
+    $field = [
+      'component' => $this->component,
+      'name' => $this->name,
+      'value' => $model->{$this->column},
+    ];
+
+    return array_merge($field, $this->additional());
+  }
 }

@@ -3,8 +3,11 @@
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
 use Exception;
+use Illuminate\Container\Container;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use SertxuDeveloper\Lyra\Lyra;
+use SertxuDeveloper\Lyra\Pagination\LengthAwarePaginator;
 
 class ResourceController extends Controller {
 
@@ -19,9 +22,22 @@ class ResourceController extends Controller {
   public function index(Request $request, string $resource): object {
     $class = Lyra::resourceBySlug($resource);
 
-    $result = $class::$model::query()->paginate();
+//    $items = $class::$model::all();
+//    $total = $items->count();
 
-    return new $class($result);
+
+    $currentPage = $request->input('page') ?: Paginator::resolveCurrentPage();
+    $perPage = $request->input('perPage') ?: (new $class::$model)->getPerPage();
+    $options = ['path' => '/', 'pageName' => 'page'];
+
+    $query = $class::$model::query();
+    $total = $query->toBase()->getCountForPagination();
+
+    $items = $total ? $query->forPage($currentPage, $perPage)->get('*') : (new $class::$model)->newCollection();
+
+    $pagination = new LengthAwarePaginator($items, $total, $perPage, $currentPage, $options);
+
+    return new $class($pagination);
   }
 
   /**

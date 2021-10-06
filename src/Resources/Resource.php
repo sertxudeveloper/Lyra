@@ -3,6 +3,7 @@
 namespace SertxuDeveloper\Lyra\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\PaginatedResourceResponse;
 use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -70,16 +71,13 @@ abstract class Resource extends ResourceCollection {
    * @return array
    */
   public function toArray($request): array {
-    $this->collection = $this->collection->map(function ($model) {
+    $this->collection = $this->collection->map(function ($model) use ($request) {
       $items = [];
 
       $fields = [];
       foreach ($this->fields() as $field) {
-        $fields[] = [
-          'component' => $field->component,
-          'column' => $field->column,
-          'value' => $model->{$field->column},
-        ];
+        if (!$field->canShow($request)) continue;
+        $fields[] = $field->toArray($model);
       }
 
       $items['key'] = $model->getKey();
@@ -97,5 +95,22 @@ abstract class Resource extends ResourceCollection {
       ],
       'perPageOptions' => $this::$perPageOptions,
     ];
+  }
+
+  /**
+   * Create a paginate-aware HTTP response.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  protected function preparePaginatedResponse($request)
+  {
+    if ($this->preserveAllQueryParameters) {
+      $this->resource->appends($request->query());
+    } elseif (! is_null($this->queryParameters)) {
+      $this->resource->appends($this->queryParameters);
+    }
+
+    return (new Pagination($this))->toResponse($request);
   }
 }

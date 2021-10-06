@@ -11,7 +11,7 @@
       <input type="search" name="search" placeholder="Search..." class="placeholder-gray-500 w-full h-full outline-none">
     </div>
   </div>
-  <div class="md:flex hidden flex-shrink-0 h-full items-center justify-end mr-8 text-gray-700 cursor-pointer">
+  <div class="md:flex hidden flex-shrink-0 h-full items-center justify-end ml-4 mr-8 text-gray-700 cursor-pointer">
     <div class="h-full overflow-hidden p-3 rounded-full">
       <img src="{{ asset(config('lyra.routes.api.prefix').'/assets/images/avatar.png') }}" alt="Sergio Peris" class="h-full rounded-full">
     </div>

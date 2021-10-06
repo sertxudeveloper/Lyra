@@ -1,11 +1,11 @@
 <template>
-  <h1>Resource</h1>
+  <h1>Create</h1>
   <pre>{{ $route }}</pre>
 </template>
 
 <script>
 export default {
-  name: "Resource"
+  name: "Create"
 }
 </script>
 
