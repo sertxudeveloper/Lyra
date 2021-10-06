@@ -1,6 +1,6 @@
 <template>
   <div class="lg:p-4">
-    <h1 class="capitalize mb-4 text-3xl text-gray-800">{{ $route.params.resourceName }}</h1>
+    <h1 class="capitalize mb-4 text-3xl text-gray-800">{{ resources?.labels?.plural }}</h1>
     <div v-if="cards.length" class="gap-4 grid grid-cols-1 md:grid-cols-2 mb-4 xl:grid-cols-4">
       <component v-for="card in cards" :is="card.component" :card="card"></component>
     </div>
@@ -44,7 +44,7 @@
           <!-- New resource button -->
           <router-link class="bg-blue-600 flex focus:ring h-full items-center px-3 rounded outline-none"
                        :to="{ name: 'resourceCreate', params: { resourceName: $route.params.resourceName } }">
-            <span class="text-base text-white">New User</span>
+            <span class="text-base text-white">New {{ resources.labels.singular }}</span>
           </router-link>
         </div>
       </div>
@@ -55,13 +55,13 @@
           <thead class="bg-gray-100">
           <tr class="uppercase text-left text-xs tracking-wider text-gray-500">
             <th scope="col" class="px-6 py-4">&nbsp;</th>
-            <th scope="col" v-for="field in resources?.data[0]?.fields"
+            <th scope="col" v-for="field in resources.data[0]?.fields"
                 class="px-6 py-4 font-medium">{{ field.name }}</th>
             <th scope="col" class="px-6 py-4">&nbsp;</th>
           </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 text-gray-600">
-          <tr v-for="resource in resources?.data" :key="resource.key">
+          <tr v-for="resource in resources.data" :key="resource.key">
             <td class="px-6 py-4 whitespace-nowrap">
               <input type="checkbox" name="select" v-model="selected" :value="resource.key" class="cursor-pointer h-4 w-4">
             </td>
