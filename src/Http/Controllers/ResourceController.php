@@ -27,10 +27,11 @@ class ResourceController extends Controller {
 
 
     $currentPage = $request->input('page') ?: Paginator::resolveCurrentPage();
-    $perPage = $request->input('perPage') ?: (new $class::$model)->getPerPage();
+    $perPage = $request->input('perPage') ?: $class::$perPageOptions[0];
     $options = ['path' => '/', 'pageName' => 'page'];
 
     $query = $class::$model::query();
+    if ($class::$orderBy) $query->orderBy((new $class::$model)->getKeyName(), $class::$orderBy);
     $total = $query->toBase()->getCountForPagination();
 
     $items = $total ? $query->forPage($currentPage, $perPage)->get('*') : (new $class::$model)->newCollection();

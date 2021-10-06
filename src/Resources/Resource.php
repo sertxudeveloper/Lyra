@@ -3,7 +3,6 @@
 namespace SertxuDeveloper\Lyra\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\PaginatedResourceResponse;
 use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -12,7 +11,8 @@ abstract class Resource extends ResourceCollection {
   static public string $model = '';
   static public string $icon = '';
   static public int $priority = 99;
-  static public array $perPageOptions = [15, 50, 100];
+  static public array $perPageOptions = [10, 50, 100];
+  static public string $orderBy = 'asc'; // 'desc' or 'asc'
 
   /**
    * Get the slug of the resource

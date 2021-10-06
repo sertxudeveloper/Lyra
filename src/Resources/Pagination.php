@@ -6,7 +6,6 @@ use Illuminate\Http\Resources\Json\PaginatedResourceResponse;
 
 class Pagination extends PaginatedResourceResponse {
 
-
   /**
    * Add the pagination information to the response.
    *

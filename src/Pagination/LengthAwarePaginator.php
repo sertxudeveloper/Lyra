@@ -8,12 +8,26 @@ use Illuminate\Support\Collection;
 class LengthAwarePaginator extends IlluminateLengthAwarePaginator {
 
   /**
+   * The number of links to display on each side of current page link.
+   *
+   * @var int
+   */
+  public $onEachSide = 3;
+
+  /**
    * Get the paginator links as a collection (for JSON responses).
    *
    * @return Collection
    */
   public function linkCollection() {
-    return collect($this->elements())->flatMap(function ($item) {
+
+    $middlePage = min(max($this->onEachSide, $this->currentPage()), $this->lastPage() - $this->onEachSide + 1);
+    $fromPage = max($middlePage - $this->onEachSide + 1 , 1);
+    $toPage = min($middlePage + $this->onEachSide - 1, $this->lastPage());
+
+    $elements = ['first' => $this->getUrlRange($fromPage, $toPage)];
+
+    return collect($elements)->flatMap(function ($item) {
       if (!is_array($item)) {
         return [['url' => null, 'label' => '...', 'active' => false]];
       }
@@ -28,14 +42,16 @@ class LengthAwarePaginator extends IlluminateLengthAwarePaginator {
       });
     })->prepend([
       'url' => $this->previousPageUrl(),
-      'label' => function_exists('__') ? __('pagination.previous') : 'Previous',
+//      'label' => function_exists('__') ? __('pagination.previous') : 'Previous',
+      'label' => 'First',
       'active' => false,
-      'page' => $this->currentPage() > 1 ? $this->currentPage() - 1 : null,
+      'page' => 1,
     ])->push([
       'url' => $this->nextPageUrl(),
-      'label' => function_exists('__') ? __('pagination.next') : 'Next',
+//      'label' => function_exists('__') ? __('pagination.next') : 'Next',
+      'label' => 'Last',
       'active' => false,
-      'page' => $this->hasMorePages() ? $this->currentPage() + 1 : null,
+      'page' => $this->lastPage(),
     ]);
   }
 

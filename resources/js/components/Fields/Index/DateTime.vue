@@ -1,7 +1,7 @@
 <template>
   <div>
     <p v-if="field.value">{{ localizedDateTime }}</p>
-    <p v-else>&mdash;</p>
+    <p v-else class="text-gray-300">&mdash;</p>
   </div>
 </template>
 
