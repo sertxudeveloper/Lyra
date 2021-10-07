@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:p-4">
+  <div class="xl:p-4">
     <h1 class="capitalize mb-4 text-3xl text-gray-800">{{ resources?.labels?.plural }}</h1>
     <div v-if="cards.length" class="gap-4 grid grid-cols-1 md:grid-cols-2 mb-4 xl:grid-cols-4">
       <component v-for="card in cards" :is="card.component" :card="card"></component>
@@ -31,7 +31,7 @@
         <!-- Right toolbar -->
         <div class="flex items-center gap-x-4 h-full">
           <!-- Filter tool -->
-          <button class="bg-gray-200 h-full px-3 rounded text-gray-700" @click="getResource">
+          <button class="bg-gray-200 h-full flex focus:ring items-center px-3 rounded text-gray-700" @click="getResource">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.3392 0.660806L13.6565 2.34355C12.2089 0.89571 10.2092 0 8 0C3.71703 0 0.220129 3.36574 0.01 7.59655C-0.00093547 7.81648 0.176613 8 0.396806 8H1.30148C1.50642 8 1.6761 7.84026 1.68771 7.63568C1.87616 4.31126 4.62752 1.67742 8 1.67742C9.74719 1.67742 11.3276 2.38461 12.4714 3.52858L10.7254 5.27468C10.4815 5.51855 10.6542 5.93548 10.9991 5.93548H15.6129C15.8267 5.93548 16 5.76216 16 5.54839V0.934548C16 0.589677 15.583 0.416968 15.3392 0.660806V0.660806ZM15.6032 8H14.6985C14.4936 8 14.3239 8.15974 14.3123 8.36432C14.1238 11.6887 11.3725 14.3226 8 14.3226C6.25281 14.3226 4.67235 13.6154 3.52858 12.4714L5.27465 10.7253C5.51852 10.4815 5.34581 10.0645 5.00094 10.0645H0.387097C0.173323 10.0645 0 10.2378 0 10.4516V15.0655C0 15.4103 0.416968 15.583 0.660806 15.3392L2.34355 13.6565C3.79113 15.1043 5.79084 16 8 16C12.283 16 15.7799 12.6343 15.99 8.40345C16.0009 8.18352 15.8234 8 15.6032 8Z"/></svg>
           </button>
 
@@ -50,8 +50,8 @@
       </div>
 
       <!-- Resource Table-->
-      <div>
-        <table class="min-w-full border-b border-gray-200">
+      <div class="overflow-x-auto">
+        <table class="w-full border-b border-gray-200">
           <thead class="bg-gray-100">
           <tr class="uppercase text-left text-xs tracking-wider text-gray-500">
             <th scope="col" class="px-6 py-4">&nbsp;</th>
@@ -72,11 +72,12 @@
           </tr>
           </tbody>
         </table>
-        <div class="flex justify-between p-2 items-center">
-          <div></div>
-          <div class="flex items-center gap-x-4">
-            <pagination :meta="resources.meta" @changePage="changePage" />
-          </div>
+      </div>
+
+      <div class="flex justify-between p-2 items-center">
+        <div></div>
+        <div class="flex items-center gap-x-4">
+          <pagination :meta="resources.meta" @changePage="changePage" />
         </div>
       </div>
 

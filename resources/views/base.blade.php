@@ -8,8 +8,8 @@
   <link rel="icon" type="image/png" href="{{ asset(config('lyra.routes.api.prefix').'/assets/images/favicon.png') }}"/>
   <link rel="stylesheet" href="{{ asset(config('lyra.routes.api.prefix').'/assets/css/app.css') }}">
 </head>
-<body class="h-screen bg-gray-200">
-  <div id="app" v-cloak class="flex h-full w-full">
+<body class="h-screen bg-gray-200 flex">
+  <div id="app" v-cloak class="flex h-full w-full overflow-hidden">
     @include('lyra::partials.sidebar')
     @include('lyra::partials.main')
   </div>
