@@ -5,7 +5,7 @@
       <component v-for="card in cards" :is="card.component" :card="card"></component>
     </div>
 
-    <div v-if="resources?.data?.length" class="bg-white flex flex-col rounded-lg shadow w-full">
+    <div v-if="resources?.data?.length" class="bg-white flex flex-col max-w-0 min-w-full rounded-lg shadow w-full">
       <div class="flex items-center justify-between h-9 m-4">
         <!-- Left toolbar -->
         <div class="flex items-center gap-x-4 h-full">
