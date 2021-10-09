@@ -22,7 +22,7 @@
     <div class="font-semibold mx-3 mb-2 pt-2 text-gray-300 text-xs tracking-widest uppercase mb-2">Resources</div>
 
     @foreach(\SertxuDeveloper\Lyra\Sidebar::items() as $item)
-      <router-link :to="{ name: 'resourceIndex', params: { resourceName: '{{ $item['slug'] }}' } }">
+      <router-link :to="{ name: 'resource-index', params: { resourceName: '{{ $item['slug'] }}' } }">
         @if($item['icon'])
           <div class="opacity-70 mr-3">{!! $item['icon'] !!}</div>
         @endif

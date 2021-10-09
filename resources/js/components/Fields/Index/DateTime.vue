@@ -11,7 +11,6 @@ export default {
   props: ['field'],
   computed: {
     localizedDateTime() {
-      console.log(typeof this.field.value)
       let date = new Date(this.field.value)
 
       if (!this.field.forceLocale)
