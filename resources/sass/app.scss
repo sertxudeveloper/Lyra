@@ -35,4 +35,8 @@
   a:not(.router-link-active) {
     @apply text-gray-300 hover:text-gray-100 hover:bg-gray-900 hover:bg-opacity-50
   }
+
+  #menu {
+    height: calc(100% - 64px);
+  }
 }

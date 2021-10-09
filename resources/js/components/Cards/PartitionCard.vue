@@ -5,7 +5,7 @@
         <div class="font-semibold text-gray-500 text-sm tracking-wider uppercase">{{ card.label }}</div>
         <div class="text-gray-400 text-sm tracking-wide">{{ card.total }} total</div>
       </div>
-      <div class="gap-y-1 gap-x-4 grid grid-cols-2">
+      <div class="gap-x-4 gap-y-1 grid grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
         <div class="flex items-center text-gray-500 text-xs" v-for="group in card.values">
           <div class="flex flex-shrink-0 h-2.5 mr-1.5 rounded-full w-2.5" :style="`background-color: ${group.color}`"></div>
           <div class="flex justify-between w-full">

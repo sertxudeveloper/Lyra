@@ -1,5 +1,5 @@
 <!-- Main --->
-<div class="flex flex-col h-full w-full">
+<div class="flex flex-col flex-grow-0 h-full w-full">
   @include('lyra::partials.navbar')
 
   <!-- Content --->

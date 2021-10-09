@@ -1,9 +1,9 @@
 <!-- Sidebar --->
-<div id="sidebar" class="bg-gray-800 hidden lg:flex flex-col flex-shrink-0 h-full w-50 xl:w-64">
+<div id="sidebar" class="bg-gray-800 flex-grow-0 flex-shrink-0 hidden lg:block overflow-hidden w-52 xl:w-64">
   @include('lyra::partials.logo')
 
   <!-- Menu --->
-  <div class="h-full overflow-y-auto p-4">
+  <div id="menu" class="overflow-y-auto p-4">
 
     <router-link :to="{ name: 'dashboard' }">
       <div class="opacity-70 mr-3">

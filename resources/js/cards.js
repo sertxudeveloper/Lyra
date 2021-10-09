@@ -1,6 +1,6 @@
-import SimpleCard from "./components/cards/SimpleCard";
-import MetricCard from "./components/cards/MetricCard";
-import PartitionCard from "./components/cards/PartitionCard";
+import SimpleCard from "./components/Cards/SimpleCard";
+import MetricCard from "./components/Cards/MetricCard";
+import PartitionCard from "./components/Cards/PartitionCard";
 
 export default function (app) {
   app.component('card-simple', SimpleCard)
