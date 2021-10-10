@@ -7,12 +7,19 @@ Route::group(['middleware' => ['web']], function () {
 
   Route::prefix(config('lyra.routes.api.prefix'))->name(config('lyra.routes.api.name'))->group(function () {
 
-    /** Resources routes */
-    Route::get('/resource/{resource}', [Controllers\ResourceController::class, 'index'])->name('resource.index');
-    Route::post('/resource/{resource}', [Controllers\ResourceController::class, 'create'])->name('resource.create');
-    Route::get('/resource/{resource}/{id}', [Controllers\ResourceController::class, 'show'])->name('resource.show');
-    Route::put('/resource/{resource}/{id}', [Controllers\ResourceController::class, 'store'])->name('resource.update');
-    Route::delete('/resource/{resource}/{id}', [Controllers\ResourceController::class, 'delete'])->name('resource.delete');
+    /**
+     * Resources routes
+     *
+     * index, create, store, show, edit, update, destroy
+     * @see https://laravel.com/docs/8.x/controllers#actions-handled-by-resource-controller
+     */
+    Route::get('/resources/{resource}', [Controllers\ResourceController::class, 'index'])->name('resources.index');
+    Route::get('/resources/{resource}/create', [Controllers\ResourceController::class, 'create'])->name('resources.create');
+    Route::post('/resources/{resource}', [Controllers\ResourceController::class, 'store'])->name('resources.store');
+    Route::get('/resources/{resource}/{id}', [Controllers\ResourceController::class, 'show'])->name('resources.show');
+    Route::get('/resources/{resource}/{id}/edit', [Controllers\ResourceController::class, 'edit'])->name('resources.edit');
+    Route::put('/resources/{resource}/{id}', [Controllers\ResourceController::class, 'update'])->name('resources.update');
+    Route::delete('/resources/{resource}/{id}', [Controllers\ResourceController::class, 'destroy'])->name('resources.destroy');
 
     /** Cards routes */
     Route::get('/cards/{resource}', [Controllers\CardsController::class, 'index'])->name('cards.index');

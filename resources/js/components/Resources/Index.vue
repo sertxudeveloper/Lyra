@@ -61,7 +61,7 @@
           </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 text-gray-600">
-          <tr v-for="resource in resources.data" :key="resource.key">
+          <tr v-for="resource in resources.data">
             <td class="px-6 py-4 whitespace-nowrap">
               <input type="checkbox" name="select" v-model="selected" :value="resource.key" class="cursor-pointer h-4 w-4">
             </td>
@@ -108,12 +108,12 @@ export default {
     }
   },
   mounted() {
-    this.getResource()
+    this.getResources()
     this.getCards()
   },
   methods: {
-    getResource() {
-      this.$http.get(`/resource/${this.$route.params.resourceName}?perPage=${this.perPage ?? ''}&page=${this.page ?? ''}`)
+    getResources() {
+      this.$http.get(`/resources/${this.$route.params.resourceName}?perPage=${this.perPage ?? ''}&page=${this.page ?? ''}`)
           .then(response => {
             this.resources = response.data
             this.page = this.resources.meta.current_page
@@ -126,7 +126,7 @@ export default {
     },
     changePage(page) {
       this.page = page
-      this.getResource()
+      this.getResources()
     },
     remove(index) {
       console.log('deleteResource', index)

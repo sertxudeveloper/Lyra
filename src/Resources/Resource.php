@@ -2,11 +2,13 @@
 
 namespace SertxuDeveloper\Lyra\Resources;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use JsonSerializable;
 
-abstract class Resource extends ResourceCollection {
+abstract class Resource extends JsonResource {
 
   static public string $model = '';
   static public string $icon = '';
@@ -14,13 +16,8 @@ abstract class Resource extends ResourceCollection {
   static public array $perPageOptions = [10, 50, 100];
   static public string $orderBy = 'asc'; // 'desc' or 'asc'
 
-  /**
-   * Get the slug of the resource
-   *
-   * @return string
-   */
-  static public function slug(): string {
-    return Str::kebab(class_basename(get_called_class()));
+  public static function getKeyName(): string {
+    return (new static::$model)->getKeyName();
   }
 
   /**
@@ -30,15 +27,6 @@ abstract class Resource extends ResourceCollection {
    */
   static public function label(): string {
     return Str::title(Str::snake(class_basename(get_called_class()), ' '));
-  }
-
-  /**
-   * Get the singular label of the resource
-   *
-   * @return string
-   */
-  static public function singular(): string {
-    return Str::singular(static::label());
   }
 
   /**
@@ -52,11 +40,22 @@ abstract class Resource extends ResourceCollection {
   }
 
   /**
-   * The fields' resource definition
+   * Get the singular label of the resource
    *
-   * @return array
+   * @return string
    */
-  abstract public function fields(): array;
+  static public function singular(): string {
+    return Str::singular(static::label());
+  }
+
+  /**
+   * Get the slug of the resource
+   *
+   * @return string
+   */
+  static public function slug(): string {
+    return Str::kebab(class_basename(get_called_class()));
+  }
 
   /**
    * The cards' resource definition
@@ -65,52 +64,30 @@ abstract class Resource extends ResourceCollection {
   abstract public function cards(): array;
 
   /**
-   * Transform the resource into a JSON array.
+   * The fields' resource definition
    *
-   * @param Request $request
    * @return array
    */
-  public function toArray($request): array {
-    $this->collection = $this->collection->map(function ($model) use ($request) {
-      $items = [];
-
-      $fields = [];
-      foreach ($this->fields() as $field) {
-        if (!$field->canShow($request)) continue;
-        $fields[] = $field->toArray($model);
-      }
-
-      $items['key'] = $model->getKey();
-      $items['trashed'] = (method_exists($model, 'trashed')) ? $model->trashed() : false;
-      $items['fields'] = $fields;
-
-      return $items;
-    });
-
-    return [
-      'data' => $this->collection,
-      'labels' => [
-        'singular' => $this::singular(),
-        'plural' => $this::label(),
-      ],
-      'perPageOptions' => $this::$perPageOptions,
-    ];
-  }
+  abstract public function fields(): array;
 
   /**
-   * Create a paginate-aware HTTP response.
+   * Transform the resource into an array.
    *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\JsonResponse
+   * @param Request $request
+   * @return array|Arrayable|JsonSerializable
    */
-  protected function preparePaginatedResponse($request)
-  {
-    if ($this->preserveAllQueryParameters) {
-      $this->resource->appends($request->query());
-    } elseif (! is_null($this->queryParameters)) {
-      $this->resource->appends($this->queryParameters);
+  public function toArray($request): array {
+
+    $fields = [];
+    foreach ($this->fields() as $field) {
+      if (!$field->canShow($request)) continue;
+      $fields[] = $field->toArray($this->resource);
     }
 
-    return (new Pagination($this))->toResponse($request);
+    return [
+      'key' => $this->resource->getKey(),
+      'trashed' => (method_exists($this->resource, 'trashed')) ? $this->resource->trashed() : false,
+      'fields' => $fields,
+    ];
   }
 }

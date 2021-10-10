@@ -91,17 +91,17 @@ abstract class Field {
     $route = $request->route()->getName();
     $route = str_replace(config('lyra.routes.api.name'), '', $route);
     switch ($route) {
-      case 'resource.index':
+      case 'resources.index':
         return $this->showOnIndex;
 
-      case 'resource.show':
-        return $this->showOnShow;
+      case 'resources.create':
+      return $this->showOnCreate;
 
-      case 'resource.create':
-        return $this->showOnCreate;
+      case 'resources.show':
+      return $this->showOnShow;
 
-      case 'resource.update':
-        return $this->showOnUpdate;
+      case 'resources.edit':
+      return $this->showOnUpdate;
 
       default:
         return false;
