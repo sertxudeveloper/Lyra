@@ -75,12 +75,11 @@ abstract class Field {
   /**
    * Set the rules for the creation
    *
-   * @param array $rules
+   * @param string[] $rules
    * @return $this
    */
-  public function creationRules(array $rules): self {
+  public function creationRules(string ...$rules): self {
     $this->creationRules = $rules;
-    $this->updatingRules = $rules;
     return $this;
   }
 
@@ -107,10 +106,10 @@ abstract class Field {
   /**
    * Set the rules for creation and update
    *
-   * @param array $rules
+   * @param string[] $rules
    * @return $this
    */
-  public function rules(array $rules): self {
+  public function rules(string ...$rules): self {
     $this->creationRules = $rules;
     $this->updatingRules = $rules;
     return $this;
@@ -135,5 +134,16 @@ abstract class Field {
     ];
 
     return array_merge($field, $this->additional());
+  }
+
+  /**
+   * Set the rules for the update
+   *
+   * @param string[] $rules
+   * @return $this
+   */
+  public function updatingRules(string ...$rules): self {
+    $this->updatingRules = $rules;
+    return $this;
   }
 }

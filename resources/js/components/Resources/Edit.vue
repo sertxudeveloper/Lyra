@@ -61,17 +61,10 @@ export default {
     submit() {
       let formData = new FormData(this.$refs.form);
 
-      // for (let element of this.$refs.form.elements) {
-      //   if (element.localName === 'button') continue
-      //   values[element.name] = element.value
-      // }
-
-      this.$http.put(`/resources/${this.$route.params.resourceName}/${this.$route.params.resourceId}`, formData)
+      this.$http.post(`/resources/${this.$route.params.resourceName}/${this.$route.params.resourceId}`, formData)
           .then(response => {
             console.log(response)
           })
-      // console.log(values)
-      // console.log('submit form', this.$refs.form, this.resource)
     }
   }
 }

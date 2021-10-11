@@ -4,7 +4,9 @@ namespace SertxuDeveloper\Lyra\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 abstract class Resource extends JsonResource {
 
@@ -95,5 +97,49 @@ abstract class Resource extends JsonResource {
     }
 
     return $response;
+  }
+
+  /**
+   * Validate the update request received.
+   *
+   * @param Request $request
+   * @return array
+   * @throws ValidationException
+   */
+  public function validateCreation(Request $request): array {
+    $validator = Validator::make($request->all(), $this->formatRules($request));
+    return $validator->validate();
+  }
+
+  /**
+   * Validate the update request received.
+   *
+   * @param Request $request
+   * @return array
+   * @throws ValidationException
+   */
+  public function validateUpdating(Request $request): array {
+    $validator = Validator::make($request->all(), $this->formatRules($request));
+    return $validator->validate();
+  }
+
+  /**
+   * Format the rules for the validation
+   *
+   * @param Request $request
+   * @return array
+   */
+  protected function formatRules(Request $request): array {
+    $rules = [];
+    $route = str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
+    $isUpdating = $route == 'resources.update';
+
+    foreach ($this->fields() as $field) {
+      if (!$field->canShow($request)) continue;
+      $fieldRules = $isUpdating ? $field->updatingRules : $field->creationRules;
+      $rules[$field->column] = str_replace('{{resourceId}}', $this->resource->getKey(), $fieldRules);
+    }
+
+    return $rules;
   }
 }

@@ -5,11 +5,14 @@ namespace SertxuDeveloper\Lyra\Http\Controllers;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\Pagination\LengthAwarePaginator;
 use SertxuDeveloper\Lyra\Resources\ResourceCollection;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class ResourceController extends Controller {
 
@@ -116,31 +119,25 @@ class ResourceController extends Controller {
    *
    * @param Request $request
    * @param string $resource
-   * @return JsonResponse
+   * @return Response
+   * @throws Exception
    */
-  public function store(Request $request, string $resource): JsonResponse {
+  public function store(Request $request, string $resource): Response {
     $class = Lyra::resourceBySlug($resource);
 
     $model = new $class::$model;
     $resource = new $class($model);
 
-    $fields = [];
-    foreach ($resource->fields() as $field) {
-      if (!$field->canShow($request)) continue;
-//      $fields[] = $field->toArray($this->resource);
-      dd($field);
-      $fields[$field->column] = $request->get($field->key);
+    $validated = $resource->validateCreation($request);
+
+    foreach ($validated as $key => $value) {
+      $model->$key = $value;
     }
 
-    dd('end', $fields);
+    if ($model->save())
+      return response()->noContent(SymfonyResponse::HTTP_CREATED);
 
-//    dd($resource->update($request));
-
-//    foreach ($request->except('updated_at') as $attribute => $value) {
-//      $model->setAttribute();
-//    }
-
-//    dd($request->all(), $model, $model->getAttributes(), $model->getFillable(), $model->getGuarded());
+    return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
   }
 
   /**
@@ -149,12 +146,28 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
-   * @return JsonResponse
+   * @return Response
    * @throws Exception
    */
-  public function update(Request $request, string $resource, $id): JsonResponse {
+  public function update(Request $request, string $resource, $id): Response {
     $class = Lyra::resourceBySlug($resource);
 
     $model = $class::$model::findOrFail($id);
+    $resource = new $class($model);
+
+    $validated = $resource->validateUpdating($request);
+
+    /** Check if the model has been modified since the retrieval */
+    if (Carbon::make($request->input('updated_at'))->notEqualTo($model->{$model->getUpdatedAtColumn()}))
+      return response()->noContent(SymfonyResponse::HTTP_CONFLICT);
+
+    foreach ($validated as $key => $value) {
+      $model->$key = $value;
+    }
+
+    if ($model->save())
+      return response()->noContent(SymfonyResponse::HTTP_ACCEPTED);
+
+    return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
   }
 }
