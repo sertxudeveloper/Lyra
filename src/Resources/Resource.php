@@ -91,7 +91,7 @@ abstract class Resource extends JsonResource {
     ];
 
     $route = str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
-    if ($route === 'resources.edit') {
+    if ($route === 'resources.edit' || $route === 'resources.update') {
       $updated_at = (new $this->resource)->getUpdatedAtColumn();
       $response['updated_at'] = $this->resource->$updated_at;
     }

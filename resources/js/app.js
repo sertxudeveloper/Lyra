@@ -15,6 +15,7 @@ import Create from "./components/Resources/Create";
 import Edit from "./components/Resources/Edit";
 
 import Pagination from "./components/elements/Pagination";
+import NotificationWrapper from "./components/Notifications/Wrapper";
 
 const routes = [
   { path: '/', name: 'dashboard', component: Dashboard },
@@ -39,6 +40,11 @@ registerCards(app)
 registerFields(app)
 
 app.component('pagination', Pagination)
+app.component('notification-wrapper', NotificationWrapper)
+
+app.config.globalProperties.$notify = (options) => {
+  app._instance.refs['notification-wrapper'].add(options)
+}
 
 app.use(router)
 app.use(VueAxios, axios)

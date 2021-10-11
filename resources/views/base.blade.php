@@ -12,6 +12,7 @@
   <div id="app" v-cloak class="flex flex-grow-0 flex-shrink-0 h-screen w-screen">
     @include('lyra::partials.sidebar')
     @include('lyra::partials.main')
+    <notification-wrapper ref="notification-wrapper"></notification-wrapper>
   </div>
   <script>
     window.config = {

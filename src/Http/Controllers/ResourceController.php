@@ -146,10 +146,10 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
-   * @return Response
+   * @return JsonResponse|Response
    * @throws Exception
    */
-  public function update(Request $request, string $resource, $id): Response {
+  public function update(Request $request, string $resource, $id) {
     $class = Lyra::resourceBySlug($resource);
 
     $model = $class::$model::findOrFail($id);
@@ -165,9 +165,12 @@ class ResourceController extends Controller {
       $model->$key = $value;
     }
 
-    if ($model->save())
-      return response()->noContent(SymfonyResponse::HTTP_ACCEPTED);
+    if (!$model->save())
+      return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
 
-    return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+    return response()->json([
+      'data' => $class::make($model->fresh())->toArray($request),
+      'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
+    ], SymfonyResponse::HTTP_ACCEPTED);
   }
 }
