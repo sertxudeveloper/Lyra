@@ -44,9 +44,17 @@ class ResourceController extends Controller {
    * @param string $resource
    * @param mixed $id
    * @return JsonResponse
+   * @throws Exception
    */
   public function edit(Request $request, string $resource, $id): JsonResponse {
-    //
+    $class = Lyra::resourceBySlug($resource);
+
+    $model = $class::$model::findOrFail($id);
+
+    return response()->json([
+      'data' => $class::make($model)->toArray($request),
+      'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
+    ]);
   }
 
   /**
@@ -114,8 +122,11 @@ class ResourceController extends Controller {
    * @param string $resource
    * @param mixed $id
    * @return JsonResponse
+   * @throws Exception
    */
   public function update(Request $request, string $resource, $id): JsonResponse {
-    //
+    $class = Lyra::resourceBySlug($resource);
+
+    $model = $class::$model::findOrFail($id);
   }
 }

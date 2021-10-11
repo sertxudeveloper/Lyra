@@ -2,11 +2,9 @@
 
 namespace SertxuDeveloper\Lyra\Resources;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
-use JsonSerializable;
 
 abstract class Resource extends JsonResource {
 
@@ -74,7 +72,7 @@ abstract class Resource extends JsonResource {
    * Transform the resource into an array.
    *
    * @param Request $request
-   * @return array|Arrayable|JsonSerializable
+   * @return array
    */
   public function toArray($request): array {
 
@@ -84,10 +82,18 @@ abstract class Resource extends JsonResource {
       $fields[] = $field->toArray($this->resource);
     }
 
-    return [
+    $response = [
       'key' => $this->resource->getKey(),
       'trashed' => (method_exists($this->resource, 'trashed')) ? $this->resource->trashed() : false,
       'fields' => $fields,
     ];
+
+    $route = str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
+    if ($route === 'resources.edit') {
+      $updated_at = (new $this->resource)->getUpdatedAtColumn();
+      $response['updated_at'] = $this->resource->$updated_at;
+    }
+
+    return $response;
   }
 }

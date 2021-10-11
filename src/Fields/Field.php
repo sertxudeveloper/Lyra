@@ -117,6 +117,7 @@ abstract class Field {
 
   public function toArray(Model $model): array {
     $field = [
+      'key' => Str::snake($this->name),
       'component' => $this->component,
       'name' => $this->name,
       'value' => $model->{$this->column},
