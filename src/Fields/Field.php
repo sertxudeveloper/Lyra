@@ -37,48 +37,10 @@ abstract class Field {
   }
 
   /**
-   * Set the field as sortable
-   *
-   * @return $this
+   * Add field-specific data to the response
    */
-  public function sortable(): self {
-    $this->sortable = true;
-    return $this;
-  }
-
-  /**
-   * Set the rules for creation and update
-   *
-   * @param array $rules
-   * @return $this
-   */
-  public function rules(array $rules): self {
-    $this->creationRules = $rules;
-    $this->updatingRules = $rules;
-    return $this;
-  }
-
-  /**
-   * Set the rules for the creation
-   *
-   * @param array $rules
-   * @return $this
-   */
-  public function creationRules(array $rules): self {
-    $this->creationRules = $rules;
-    $this->updatingRules = $rules;
-    return $this;
-  }
-
-  /**
-   * Hide the field on form views
-   *
-   * @return $this
-   */
-  public function hideOnForms(): self {
-    $this->showOnCreate = false;
-    $this->showOnUpdate = false;
-    return $this;
+  public function additional(): array {
+    return [];
   }
 
   /**
@@ -95,13 +57,15 @@ abstract class Field {
         return $this->showOnIndex;
 
       case 'resources.create':
-      return $this->showOnCreate;
+      case 'resources.store':
+        return $this->showOnCreate;
 
       case 'resources.show':
-      return $this->showOnShow;
+        return $this->showOnShow;
 
       case 'resources.edit':
-      return $this->showOnUpdate;
+      case 'resources.update':
+        return $this->showOnUpdate;
 
       default:
         return false;
@@ -109,15 +73,62 @@ abstract class Field {
   }
 
   /**
-   * Add field-specific data to the response
+   * Set the rules for the creation
+   *
+   * @param array $rules
+   * @return $this
    */
-  public function additional(): array {
-    return [];
+  public function creationRules(array $rules): self {
+    $this->creationRules = $rules;
+    $this->updatingRules = $rules;
+    return $this;
+  }
+
+  /**
+   * Get the key of the field based on it's name
+   *
+   * @return string
+   */
+  public function getKey(): string {
+    return Str::snake($this->name);
+  }
+
+  /**
+   * Hide the field on form views
+   *
+   * @return $this
+   */
+  public function hideOnForms(): self {
+    $this->showOnCreate = false;
+    $this->showOnUpdate = false;
+    return $this;
+  }
+
+  /**
+   * Set the rules for creation and update
+   *
+   * @param array $rules
+   * @return $this
+   */
+  public function rules(array $rules): self {
+    $this->creationRules = $rules;
+    $this->updatingRules = $rules;
+    return $this;
+  }
+
+  /**
+   * Set the field as sortable
+   *
+   * @return $this
+   */
+  public function sortable(): self {
+    $this->sortable = true;
+    return $this;
   }
 
   public function toArray(Model $model): array {
     $field = [
-      'key' => Str::snake($this->name),
+      'key' => $this->getKey(),
       'component' => $this->component,
       'name' => $this->name,
       'value' => $model->{$this->column},

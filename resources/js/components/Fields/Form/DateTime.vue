@@ -18,6 +18,8 @@ export default {
         this.field.value = value
       },
       get() {
+        if (!this.field.value) return ''
+
         let date = new Date(this.field.value)
         let ISOdate = date.toISOString()
         return ISOdate.substring(0, ISOdate.length - 1)

@@ -5,7 +5,6 @@ namespace SertxuDeveloper\Lyra\Http\Controllers;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use SertxuDeveloper\Lyra\Lyra;
@@ -15,18 +14,26 @@ use SertxuDeveloper\Lyra\Resources\ResourceCollection;
 class ResourceController extends Controller {
 
   /**
-   * Show the form for creating a new resource.
+   * Return a new empty resource.
    *
    * @param Request $request
    * @param string $resource
    * @return JsonResponse
+   * @throws Exception
    */
   public function create(Request $request, string $resource): JsonResponse {
-    //
+    $class = Lyra::resourceBySlug($resource);
+
+    $model = new $class::$model;
+
+    return response()->json([
+      'data' => $class::make($model)->toArray($request),
+      'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
+    ]);
   }
 
   /**
-   * Remove the specified resource from storage.
+   * Remove the specified resource.
    *
    * @param Request $request
    * @param string $resource
@@ -38,7 +45,7 @@ class ResourceController extends Controller {
   }
 
   /**
-   * Show the form for editing the specified resource.
+   * Return the specified resource.
    *
    * @param Request $request
    * @param string $resource
@@ -58,7 +65,7 @@ class ResourceController extends Controller {
   }
 
   /**
-   * Display a listing of the resource.
+   * Return a collection of resources.
    *
    * @param Request $request
    * @param string $resource
@@ -112,7 +119,28 @@ class ResourceController extends Controller {
    * @return JsonResponse
    */
   public function store(Request $request, string $resource): JsonResponse {
-    //
+    $class = Lyra::resourceBySlug($resource);
+
+    $model = new $class::$model;
+    $resource = new $class($model);
+
+    $fields = [];
+    foreach ($resource->fields() as $field) {
+      if (!$field->canShow($request)) continue;
+//      $fields[] = $field->toArray($this->resource);
+      dd($field);
+      $fields[$field->column] = $request->get($field->key);
+    }
+
+    dd('end', $fields);
+
+//    dd($resource->update($request));
+
+//    foreach ($request->except('updated_at') as $attribute => $value) {
+//      $model->setAttribute();
+//    }
+
+//    dd($request->all(), $model, $model->getAttributes(), $model->getFillable(), $model->getGuarded());
   }
 
   /**
