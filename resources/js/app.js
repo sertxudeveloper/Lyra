@@ -43,3 +43,12 @@ app.component('pagination', Pagination)
 app.use(router)
 app.use(VueAxios, axios)
 app.mount('#app')
+
+axios.interceptors.response.use((response) => {
+  return response;
+}, (error) => {
+  // if (error.response.status === 403) router.push('/403');
+  // if (error.response.status === 404) router.push('/404');
+
+  return Promise.reject(error);
+});

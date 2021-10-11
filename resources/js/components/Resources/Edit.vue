@@ -20,7 +20,7 @@
             <div class="shadow rounded-md overflow-hidden">
               <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                 <div v-for="field in resource.data.fields" class="gap-6 grid grid-cols-3">
-                  <component :is="`form-${field.component}`" :field="field" />
+                  <component :is="`form-${field.component}`" :field="field" :errors="errors[field.key]" />
                 </div>
               </div>
               <div class="bg-gray-50 flex space-x-2 justify-end px-4 py-3 sm:px-6 text-right">
@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       resource: {},
+      errors: {},
     }
   },
   mounted() {
@@ -59,11 +60,17 @@ export default {
       this.$router.push({ name: 'resource-index', params: { resourceName: this.$route.params.resourceName } })
     },
     submit() {
+      this.errors = []
+
       let formData = new FormData(this.$refs.form);
 
       this.$http.post(`/resources/${this.$route.params.resourceName}/${this.$route.params.resourceId}`, formData)
           .then(response => {
             console.log(response)
+          })
+          .catch(error => {
+            const data = error.response.data
+            this.errors = data.errors
           })
     }
   }

@@ -89,7 +89,7 @@ abstract class Field {
    * @return string
    */
   public function getKey(): string {
-    return Str::snake($this->name);
+    return is_string($this->column) ? $this->column : Str::snake($this->name);
   }
 
   /**
