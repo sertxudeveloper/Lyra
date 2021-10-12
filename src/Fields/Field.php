@@ -104,6 +104,26 @@ abstract class Field {
   }
 
   /**
+   * Hide the field on the index view
+   *
+   * @return $this
+   */
+  public function hideOnIndex(): self {
+    $this->showOnIndex = false;
+    return $this;
+  }
+
+  /**
+   * Hide the field on the index view
+   *
+   * @return $this
+   */
+  public function hideOnShow(): self {
+    $this->showOnShow = false;
+    return $this;
+  }
+
+  /**
    * Set the rules for creation and update
    *
    * @param string[] $rules

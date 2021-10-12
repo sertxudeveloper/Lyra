@@ -4,10 +4,8 @@ namespace SertxuDeveloper\Lyra\Fields;
 
 class ID extends Field {
 
-  public string $component = 'field-text';
+  public string $component = 'field-id';
 
   public bool $showOnCreate = false;
-  public bool $showOnUpdate = false;
-
 
 }
