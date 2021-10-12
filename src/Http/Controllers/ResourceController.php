@@ -41,10 +41,18 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
-   * @return JsonResponse
+   * @return Response
+   * @throws Exception
    */
-  public function destroy(Request $request, string $resource, $id): JsonResponse {
-    //
+  public function destroy(Request $request, string $resource, $id): Response {
+    $class = Lyra::resourceBySlug($resource);
+
+    $model = $class::$model::findOrFail($id);
+
+    if (!$model->delete())
+      return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+
+    return response()->noContent(SymfonyResponse::HTTP_NO_CONTENT);
   }
 
   /**
@@ -119,10 +127,10 @@ class ResourceController extends Controller {
    *
    * @param Request $request
    * @param string $resource
-   * @return Response
+   * @return JsonResponse|Response
    * @throws Exception
    */
-  public function store(Request $request, string $resource): Response {
+  public function store(Request $request, string $resource) {
     $class = Lyra::resourceBySlug($resource);
 
     $model = new $class::$model;
@@ -134,10 +142,13 @@ class ResourceController extends Controller {
       $model->$key = $value;
     }
 
-    if ($model->save())
-      return response()->noContent(SymfonyResponse::HTTP_CREATED);
+    if (!$model->save())
+      return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
 
-    return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+    return response()->json([
+      'data' => $class::make($model->fresh())->toArray($request),
+      'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
+    ], SymfonyResponse::HTTP_CREATED);
   }
 
   /**

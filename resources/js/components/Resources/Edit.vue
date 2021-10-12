@@ -63,12 +63,12 @@ export default {
 
       this.$http.post(`/resources/${this.$route.params.resourceName}/${this.$route.params.resourceId}`, formData)
           .then(response => {
-            this.$notify({ type: 'success', title: 'Resource saved', text: 'The resource has been saved correctly.', timeout: 2000 })
+            this.$notify({ type: 'success', title: 'Resource saved', text: 'The resource has been saved correctly.', timeout: 4000 })
             this.resource = response.data
           })
           .catch(error => {
             if (error.response.status === 409) {
-              this.$notify({ type: 'error', title: 'Error', text: 'A conflict has been detected, the resource has been edited by other session.', timeout: 5000 })
+              this.$notify({ type: 'error', title: 'Error', text: 'A conflict has been detected, the resource has been edited by other session.', timeout: 8000 })
               return null
             }
 

@@ -54,6 +54,13 @@ export default {
             this.resource = response.data
           })
     },
+    remove() {
+      this.$http.delete(`/resources/${this.$route.params.resourceName}/${this.$route.params.resourceId}`)
+          .then(response => {
+            this.$notify({ type: 'success', title: 'Resource removed', text: 'The resource has been deleted correctly.', timeout: 4000 })
+            this.$router.back()
+          })
+    }
   }
 }
 </script>
