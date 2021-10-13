@@ -110,8 +110,6 @@ export default {
       resources: {},
       cards: [],
       selected: [],
-      page: null,
-      perPage: null
     }
   },
   mounted() {
@@ -120,12 +118,18 @@ export default {
   },
   methods: {
     getResources(isRefresh = false) {
-      this.$http.get(`/resources/${this.$route.params.resourceName}?perPage=${this.perPage ?? ''}&page=${this.page ?? ''}`)
+      let query = new URLSearchParams()
+      if (this.$route.query.perPage) query.set('perPage', this.$route.query.perPage)
+      if (this.$route.query.page) query.set('page', this.$route.query.page)
+      if (this.$route.query.sortBy) query.set('sortBy', this.$route.query.sortBy)
+      if (this.$route.query.sortOrder) query.set('sortOrder', this.$route.query.sortOrder)
+
+      this.$http.get(`/resources/${this.$route.params.resourceName}?${decodeURIComponent(query.toString())}`)
           .then(response => {
             if (isRefresh) this.$notify({ type: 'success', title: 'Table reloaded', text: 'The table is showing the last updated data.', timeout: 2000 })
             this.resources = response.data
-            this.page = this.resources.meta.current_page
-            this.perPage = this.resources.meta.per_page
+
+            this.$router.push({ query: { ...this.$route.query, perPage: this.resources.meta.per_page, page: this.resources.meta.current_page }})
           })
     },
     getCards() {
@@ -133,8 +137,7 @@ export default {
           .then(response => this.cards = response.data)
     },
     changePage(page) {
-      this.page = page
-      this.getResources()
+      this.$router.push({ query: { ...this.$route.query, page: page }})
     },
     remove(index) {
       this.$http.delete(`/resources/${this.$route.params.resourceName}/${index}`)
@@ -157,6 +160,14 @@ export default {
         }
 
         this.selected = selected;
+      }
+    }
+  },
+  watch: {
+    $route: {
+      deep: true,
+      handler() {
+        this.getResources(true)
       }
     }
   }

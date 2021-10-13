@@ -1,5 +1,8 @@
 <template>
-  <th scope="col" v-for="field in fields" class="px-6 py-4 font-medium">
+  <th v-for="field in fields"
+      @click="sort(field)"
+      scope="col" class="px-6 py-4 font-medium"
+      :class="[ field.sortable ? 'cursor-pointer' : '' ]">
     <div class="flex space-x-2 items-center">
       <span>{{ field.name }}</span>
       <div v-if="field.sortable" class="text-gray-400">
@@ -18,6 +21,43 @@ export default {
       if (!this.resource.length) return []
 
       return this.resource[0].fields ?? []
+    }
+  },
+  methods: {
+    sort(field) {
+      if (!field.sortable) return null
+
+      let URLSearch = new URLSearchParams(location.search)
+
+      if (!URLSearch.has('sortBy') || !URLSearch.has('sortOrder')) {
+        URLSearch.delete('sortBy')
+        URLSearch.delete('sortOrder')
+      }
+
+      let sortBy = URLSearch.get('sortBy')
+      sortBy = (sortBy) ? sortBy.split(',') : []
+
+      let sortOrder = URLSearch.get('sortOrder')
+      sortOrder = (sortOrder) ? sortOrder.split(',') : []
+
+      let index = sortBy.findIndex(element => element === field.key)
+      if (index !== -1) {
+        let order = sortOrder[index]
+        if (order === 'desc') {
+          sortBy.splice(index, 1)
+          sortOrder.splice(index, 1)
+        } else {
+          sortOrder[index] = 'desc'
+        }
+      } else {
+        sortBy.push(field.key)
+        sortOrder.push('asc')
+      }
+
+      URLSearch.set('sortBy', sortBy.join(','))
+      URLSearch.set('sortOrder', sortOrder.join(','))
+
+      this.$router.push({ query: { ...this.$route.query, sortBy: sortBy.join(','), sortOrder: sortOrder.join(',') }})
     }
   }
 }
