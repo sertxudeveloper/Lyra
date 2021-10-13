@@ -14,7 +14,6 @@ import Show from "./components/Resources/Show";
 import Create from "./components/Resources/Create";
 import Edit from "./components/Resources/Edit";
 
-import Pagination from "./components/elements/Pagination";
 import NotificationWrapper from "./components/Notifications/Wrapper";
 
 const routes = [
@@ -39,7 +38,6 @@ const app = createApp({})
 registerCards(app)
 registerFields(app)
 
-app.component('pagination', Pagination)
 app.component('notification-wrapper', NotificationWrapper)
 
 app.config.globalProperties.$notify = (options) => {
@@ -55,6 +53,10 @@ axios.interceptors.response.use((response) => {
 }, (error) => {
   // if (error.response.status === 403) router.push('/403');
   // if (error.response.status === 404) router.push('/404');
+
+  if (error.response.status === 500) {
+    app.config.globalProperties.$notify({ type: 'error', title: 'Error', text: `An internal error occurred.\n${error.response.data.message}`, timeout: 8000 })
+  }
 
   return Promise.reject(error);
 });

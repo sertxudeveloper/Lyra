@@ -151,6 +151,7 @@ abstract class Field {
       'component' => $this->component,
       'name' => $this->name,
       'value' => $model->{$this->column},
+      'sortable' => $this->sortable,
     ];
 
     return array_merge($field, $this->additional());
