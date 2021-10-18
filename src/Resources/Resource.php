@@ -2,6 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Resources;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -57,6 +58,30 @@ abstract class Resource extends JsonResource {
    */
   static public function slug(): string {
     return Str::kebab(class_basename(get_called_class()));
+  }
+
+  /**
+   * Add the requested sorting method to the query
+   *
+   * @param Request $request
+   * @param Builder $query
+   * @return Builder
+   */
+  static public function sortResource(Request $request, Builder $query): Builder {
+    $sortBy = explode(',', $request->input('sortBy'));
+    $sortOrder = explode(',', $request->input('sortOrder'));
+
+    /** Do not apply the sorting due to invalid params */
+    if (count($sortBy) !== count($sortOrder)) return $query;
+
+    $sort = collect($sortBy)->combine($sortOrder)->toArray();
+
+    foreach ($sort as $column => $direction) {
+      if ($direction !== 'asc' && $direction !== 'desc') continue;
+      $query->orderBy($column, $direction);
+    }
+
+    return $query;
   }
 
   /**

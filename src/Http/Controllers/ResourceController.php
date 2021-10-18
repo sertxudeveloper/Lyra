@@ -96,7 +96,15 @@ class ResourceController extends Controller {
     $options = ['path' => '/', 'pageName' => 'page'];
 
     $query = $class::$model::query();
-    if ($class::$orderBy) $query->orderBy($class::getKeyName(), $class::$orderBy);
+
+    /** Add sort to the resource query */
+    if ($request->has('sortBy') && $request->has('sortOrder')) {
+      $query = $class::sortResource($request, $query);
+    } else {
+      /** Add default sorting if defined */
+      if ($class::$orderBy) $query->orderBy($class::getKeyName(), $class::$orderBy);
+    }
+
     $total = $query->toBase()->getCountForPagination();
 
     $items = $total ? $query->forPage($currentPage, $perPage)->get('*') : (new $class::$model)->newCollection();
