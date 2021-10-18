@@ -2,6 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Resources;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Validator;
@@ -10,7 +11,8 @@ use Illuminate\Validation\ValidationException;
 
 abstract class Resource extends JsonResource {
 
-  static public string $model = '';
+  /** @var Model $model */
+  static public string $model;
   static public string $icon = '';
   static public int $priority = 99;
   static public array $perPageOptions = [10, 50, 100];

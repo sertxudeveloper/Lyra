@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\Pagination\LengthAwarePaginator;
+use SertxuDeveloper\Lyra\Resources\Resource;
 use SertxuDeveloper\Lyra\Resources\ResourceCollection;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
@@ -25,6 +26,7 @@ class ResourceController extends Controller {
    * @throws Exception
    */
   public function create(Request $request, string $resource): JsonResponse {
+    /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
     $model = new $class::$model;
@@ -45,6 +47,7 @@ class ResourceController extends Controller {
    * @throws Exception
    */
   public function destroy(Request $request, string $resource, $id): Response {
+    /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
     $model = $class::$model::findOrFail($id);
@@ -65,6 +68,7 @@ class ResourceController extends Controller {
    * @throws Exception
    */
   public function edit(Request $request, string $resource, $id): JsonResponse {
+    /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
     $model = $class::$model::findOrFail($id);
@@ -84,6 +88,7 @@ class ResourceController extends Controller {
    * @throws Exception
    */
   public function index(Request $request, string $resource): JsonResponse {
+    /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
     $currentPage = $request->input('page') ?: Paginator::resolveCurrentPage();
@@ -112,6 +117,7 @@ class ResourceController extends Controller {
    * @throws Exception
    */
   public function show(Request $request, string $resource, $id): JsonResponse {
+    /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
     $model = $class::$model::findOrFail($id);
@@ -131,6 +137,7 @@ class ResourceController extends Controller {
    * @throws Exception
    */
   public function store(Request $request, string $resource) {
+    /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
     $model = new $class::$model;
@@ -161,6 +168,7 @@ class ResourceController extends Controller {
    * @throws Exception
    */
   public function update(Request $request, string $resource, $id) {
+    /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
     $model = $class::$model::findOrFail($id);
