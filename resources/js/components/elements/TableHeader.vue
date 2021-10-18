@@ -16,6 +16,7 @@
 export default {
   name: "TableHeader",
   props: ['resource'],
+  emits: ['updated'],
   computed: {
     fields() {
       if (!this.resource.length) return []
@@ -54,10 +55,11 @@ export default {
         sortOrder.push('asc')
       }
 
-      URLSearch.set('sortBy', sortBy.join(','))
-      URLSearch.set('sortOrder', sortOrder.join(','))
+      sortBy = sortBy.join(',')
+      sortOrder = sortOrder.join(',')
 
-      this.$router.push({ query: { ...this.$route.query, sortBy: sortBy.join(','), sortOrder: sortOrder.join(',') }})
+      this.$router.push({ query: { ...this.$route.query, sortBy: sortBy, sortOrder: sortOrder }})
+      this.$emit('updated', { sortBy: sortBy, sortOrder: sortOrder })
     }
   }
 }
