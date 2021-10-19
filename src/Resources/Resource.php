@@ -19,6 +19,9 @@ abstract class Resource extends JsonResource {
   static public array $perPageOptions = [10, 50, 100];
   static public string $orderBy = 'asc'; // 'desc' or 'asc'
 
+  /** @var string[] $search Columns where the search is enabled */
+  static public array $search = [];
+
   public static function getKeyName(): string {
     return (new static::$model)->getKeyName();
   }
@@ -80,6 +83,18 @@ abstract class Resource extends JsonResource {
       if ($direction !== 'asc' && $direction !== 'desc') continue;
       $query->orderBy($column, $direction);
     }
+
+    return $query;
+  }
+
+  static public function searchInResource(Request $request, Builder $query): Builder {
+    $searchTerm = $request->input('q');
+
+    $query->where(function (Builder $query) use ($searchTerm) {
+      foreach (static::$search as $column) {
+        $query->orWhere($column, 'LIKE', "%{$searchTerm}%");
+      }
+    });
 
     return $query;
   }

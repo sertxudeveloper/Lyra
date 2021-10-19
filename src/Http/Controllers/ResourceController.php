@@ -105,6 +105,10 @@ class ResourceController extends Controller {
       if ($class::$orderBy) $query->orderBy($class::getKeyName(), $class::$orderBy);
     }
 
+    if ($request->has('q')) {
+      $query = $class::searchInResource($request, $query);
+    }
+
     $total = $query->toBase()->getCountForPagination();
 
     $items = $total ? $query->forPage($currentPage, $perPage)->get('*') : (new $class::$model)->newCollection();
