@@ -32,11 +32,14 @@ class ResourceCollection extends JsonResourceCollection {
    * @return array
    */
   public function toArray($request): array {
+    /** @var Resource $resource */
+    $resource = new $this->collects($request);
 
     return [
-      'data' => $this->collects::collection($this->collection),
-      'labels' => ['singular' => $this->collects::singular(), 'plural' => $this->collects::label()],
-      'perPageOptions' => $this->collects::$perPageOptions
+      'data' => $resource::collection($this->collection),
+      'labels' => ['singular' => $resource::singular(), 'plural' => $resource::label()],
+      'perPageOptions' => $resource::$perPageOptions,
+      'actions' => ActionResource::collection($resource->actions())
     ];
   }
 

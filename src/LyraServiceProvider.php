@@ -4,8 +4,10 @@ namespace SertxuDeveloper\Lyra;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
+use SertxuDeveloper\Lyra\Models\LyraUser;
 
 class LyraServiceProvider extends ServiceProvider {
 
@@ -18,7 +20,11 @@ class LyraServiceProvider extends ServiceProvider {
   public function boot(Router $router) {
     $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lyra');
 
+    /** Register configuration files */
     $this->registerConfig();
+
+    /** Register Auth provider and guard */
+    $this->registerAuth();
 
     /** Register routes */
     Lyra::routes();
@@ -50,6 +56,23 @@ class LyraServiceProvider extends ServiceProvider {
     foreach (glob(__DIR__ . '/Helpers/*.php') as $filename) {
       require_once $filename;
     }
+  }
+
+  /**
+   * Register the Lyra auth provider and guard
+   */
+  private function registerAuth() {
+    /** Register new guard driver */
+    Config::set('auth.guards.lyra', [
+      'driver' => 'session',
+      'provider' => 'lyra',
+    ]);
+
+    /** Register new user provider */
+    Config::set('auth.providers.lyra', [
+      'driver' => 'eloquent',
+      'model' => LyraUser::class,
+    ]);
   }
 
   /**

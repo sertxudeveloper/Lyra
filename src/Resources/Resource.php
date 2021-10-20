@@ -113,6 +113,13 @@ abstract class Resource extends JsonResource {
   abstract public function fields(): array;
 
   /**
+   * The actions' resource definition
+   *
+   * @return array
+   */
+  abstract public function actions(): array;
+
+  /**
    * Transform the resource into an array.
    *
    * @param Request $request

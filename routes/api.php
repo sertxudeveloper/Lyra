@@ -21,6 +21,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/resources/{resource}/{id}', [Controllers\ResourceController::class, 'update'])->name('resources.update'); // The PUT method doesn't work with form-data
     Route::delete('/resources/{resource}/{id}', [Controllers\ResourceController::class, 'destroy'])->name('resources.destroy');
 
+    Route::post('/actions/{resource}', [Controllers\ResourceActionController::class, 'exec'])->name('resources.action');
+
     /** Cards routes */
     Route::get('/cards/{resource}', [Controllers\CardsController::class, 'index'])->name('cards.index');
     Route::get('/cards/{resource}/{card}', [Controllers\CardsController::class, 'show'])->name('cards.show');
