@@ -104,11 +104,6 @@ export default {
       selected: [],
     }
   },
-  mounted() {
-    // let query = new URLSearchParams({ ...this.$route.query })
-    //
-    // query.has('')
-  },
   methods: {
     changePage(page) {
       this.$router.push({ query: { ...this.$route.query, page: page }})
