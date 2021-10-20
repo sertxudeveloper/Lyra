@@ -78,7 +78,7 @@ class Lyra {
    */
   static public function resourceBySlug(string $slug): string {
     foreach (static::$resources as $class) {
-      if ($class::slug() == $slug) return $class;
+      if ($class::slug() === $slug) return $class;
     }
 
     throw new Exception('Resource not found');
