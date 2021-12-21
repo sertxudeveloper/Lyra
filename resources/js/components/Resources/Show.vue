@@ -24,7 +24,7 @@
 
       <!-- Fields -->
       <div class="md:grid md:grid-cols-4 md:gap-6">
-        <div class="md:col-span-1 md:mt-11">
+        <div class="md:col-span-1">
           <div>
             <h3 class="text-xl font-medium leading-6 text-gray-900">{{ resource?.labels?.singular }} details</h3>
             <p class="mt-2 text-sm text-gray-600">This information will be displayed publicly so be careful what you share.</p>

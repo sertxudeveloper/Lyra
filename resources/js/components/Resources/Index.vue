@@ -1,6 +1,6 @@
 <template>
-  <div class="xl:p-4" v-if="resources?.data">
-    <h1 class="capitalize mb-4 text-3xl text-gray-800">{{ resources.labels.plural }}</h1>
+  <div class="xl:px-4 xl:pb-4" v-if="resources?.data">
+    <h1 class="capitalize mb-4 text-2xl text-gray-800">{{ resources.labels.plural }}</h1>
     <div v-if="cards.length" class="gap-4 grid grid-cols-1 md:grid-cols-2 mb-4 xl:grid-cols-4">
       <component v-for="card in cards" :is="card.component" :card="card"></component>
     </div>
