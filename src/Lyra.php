@@ -2,8 +2,11 @@
 
 namespace SertxuDeveloper\Lyra;
 
-use Exception;
+use App\Exceptions\ResourceNotFoundException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use ReflectionClass;
+use ReflectionException;
 use SertxuDeveloper\Lyra\Resources\Resource;
 use Symfony\Component\Finder\Finder;
 
@@ -47,10 +50,11 @@ class Lyra {
 
       try {
         if (is_subclass_of($resource, Resource::class) &&
-            !(new \ReflectionClass($resource))->isAbstract()) {
-          array_push($resources, $resource);
+            !(new ReflectionClass($resource))->isAbstract()) {
+          $resources[] = $resource;
         }
-      } catch (\ReflectionException $e) {
+      } catch (ReflectionException $e) {
+        Log::error($e->getMessage());
         continue;
       }
     }
@@ -74,14 +78,14 @@ class Lyra {
    *
    * @param string $slug
    * @return string
-   * @throws Exception
+   * @throws ResourceNotFoundException
    */
   static public function resourceBySlug(string $slug): string {
     foreach (static::$resources as $class) {
       if ($class::slug() === $slug) return $class;
     }
 
-    throw new Exception('Resource not found');
+    throw new ResourceNotFoundException;
   }
 
   /**

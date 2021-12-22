@@ -22,6 +22,7 @@ class ResourceController extends Controller {
    *
    * @param Request $request
    * @param string $resource
+   *
    * @return JsonResponse
    * @throws Exception
    */
@@ -43,17 +44,17 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
+   *
    * @return Response
    * @throws Exception
    */
-  public function destroy(Request $request, string $resource, $id): Response {
+  public function destroy(Request $request, string $resource, mixed $id): Response {
     /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
     $model = $class::$model::findOrFail($id);
 
-    if (!$model->delete())
-      return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+    abort_if(!$model->delete(), SymfonyResponse::HTTP_NOT_ACCEPTABLE);
 
     return response()->noContent(SymfonyResponse::HTTP_NO_CONTENT);
   }
@@ -64,10 +65,11 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
+   *
    * @return JsonResponse
    * @throws Exception
    */
-  public function edit(Request $request, string $resource, $id): JsonResponse {
+  public function edit(Request $request, string $resource, mixed $id): JsonResponse {
     /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
@@ -84,6 +86,7 @@ class ResourceController extends Controller {
    *
    * @param Request $request
    * @param string $resource
+   *
    * @return JsonResponse
    * @throws Exception
    */
@@ -102,7 +105,8 @@ class ResourceController extends Controller {
       $query = $class::sortResource($request, $query);
     } else {
       /** Add default sorting if defined */
-      if ($class::$orderBy) $query->orderBy($class::getKeyName(), $class::$orderBy);
+      if ($class::$orderBy)
+        $query->orderBy($class::getKeyName(), $class::$orderBy);
     }
 
     if ($request->has('q')) {
@@ -125,10 +129,11 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
+   *
    * @return JsonResponse
    * @throws Exception
    */
-  public function show(Request $request, string $resource, $id): JsonResponse {
+  public function show(Request $request, string $resource, mixed $id): JsonResponse {
     /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
@@ -145,10 +150,11 @@ class ResourceController extends Controller {
    *
    * @param Request $request
    * @param string $resource
+   *
    * @return JsonResponse|Response
    * @throws Exception
    */
-  public function store(Request $request, string $resource) {
+  public function store(Request $request, string $resource): Response|JsonResponse {
     /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
@@ -161,8 +167,7 @@ class ResourceController extends Controller {
       $model->$key = $value;
     }
 
-    if (!$model->save())
-      return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+    abort_if(!$model->save(), SymfonyResponse::HTTP_NOT_ACCEPTABLE);
 
     return response()->json([
       'data' => $class::make($model->fresh())->toArray($request),
@@ -176,10 +181,11 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
+   *
    * @return JsonResponse|Response
    * @throws Exception
    */
-  public function update(Request $request, string $resource, $id) {
+  public function update(Request $request, string $resource, mixed $id): Response|JsonResponse {
     /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
@@ -196,8 +202,7 @@ class ResourceController extends Controller {
       $model->$key = $value;
     }
 
-    if (!$model->save())
-      return response()->noContent(SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+    abort_if(!$model->save(), SymfonyResponse::HTTP_NOT_ACCEPTABLE);
 
     return response()->json([
       'data' => $class::make($model->fresh())->toArray($request),
