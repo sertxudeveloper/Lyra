@@ -12,35 +12,63 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * Main Lyra package class
+ *
  * @version 2.x
  * @package SertxuDeveloper\Lyra
  */
 class Lyra {
 
-  static private array $callbacks = [];
   public static array $resources = [];
+  static private array $callbacks = [];
 
   /**
-   * Register Lyra routes
+   * Generate the URL of the given asset
+   *
+   * @param $file
+   *
+   * @return string
    */
-  static public function routes() {
-    require __DIR__ . '/../routes/api.php';
-    require __DIR__ . '/../routes/web.php';
+  static public function asset($file): string {
+    return dirname(__DIR__) . '/publishable/assets/' . $file;
   }
 
-  static public function runCallbacks() {
-    foreach (static::$callbacks as $callback) call_user_func($callback);
+  /**
+   * Get the resource class from the given slug
+   *
+   * @param string $slug
+   *
+   * @return string
+   * @throws ResourceNotFoundException
+   */
+  static public function resourceBySlug(string $slug): string {
+    foreach (static::$resources as $class) {
+      if ($class::slug() === $slug)
+        return $class;
+    }
+
+    throw new ResourceNotFoundException;
+  }
+
+  /**
+   * Register given resources
+   *
+   * @param string ...$resource
+   */
+  static public function resources(string ...$resource): void {
+    static::$resources = array_unique(array_merge(static::$resources, $resource));
   }
 
   /**
    * Register resources in a directory
    *
    * @param $directory
+   *
    * @return void
    */
   static public function resourcesIn($directory): void {
     $namespace = app()->getNamespace();
-    if (!file_exists($directory)) return;
+    if (!file_exists($directory))
+      return;
 
     $resources = [];
 
@@ -49,8 +77,7 @@ class Lyra {
       $resource = $namespace . str_replace(['/', '.php'], ['\\', ''], $path);
 
       try {
-        if (is_subclass_of($resource, Resource::class) &&
-            !(new ReflectionClass($resource))->isAbstract()) {
+        if (is_subclass_of($resource, Resource::class) && !(new ReflectionClass($resource))->isAbstract()) {
           $resources[] = $resource;
         }
       } catch (ReflectionException $e) {
@@ -63,38 +90,15 @@ class Lyra {
   }
 
   /**
-   * Register given resources
-   *
-   * @param string ...$resource
+   * Register Lyra routes
    */
-  static public function resources(string ...$resource): void {
-    static::$resources = array_unique(
-      array_merge(static::$resources, $resource)
-    );
+  static public function routes() {
+    require __DIR__ . '/../routes/api.php';
+    require __DIR__ . '/../routes/web.php';
   }
 
-  /**
-   * Get the resource class from the given slug
-   *
-   * @param string $slug
-   * @return string
-   * @throws ResourceNotFoundException
-   */
-  static public function resourceBySlug(string $slug): string {
-    foreach (static::$resources as $class) {
-      if ($class::slug() === $slug) return $class;
-    }
-
-    throw new ResourceNotFoundException;
-  }
-
-  /**
-   * Generate the URL of the given asset
-   *
-   * @param $file
-   * @return string
-   */
-  static public function asset($file): string {
-    return dirname(__DIR__) . '/publishable/assets/' . $file;
+  static public function runCallbacks() {
+    foreach (static::$callbacks as $callback)
+      call_user_func($callback);
   }
 }
