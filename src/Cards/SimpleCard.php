@@ -25,17 +25,16 @@ abstract class SimpleCard extends Card {
    * Get the average value of the specified column
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $column
-   * @param string|null $dateColumn
    * @return float
    */
-  public function avg(Request $request, $model, string $column, ?string $dateColumn = null): float {
-    return $this->query($request, $model, 'avg', $column, $dateColumn);
+  public function avg(Request $request, Builder|string $model, string $column): float {
+    return $this->query($request, $model, 'avg', $column);
   }
 
   /**
-   * Calculate the value in the specified range
+   * Calculate the value of the card.
    * Supported 'count', 'min', 'max', 'avg' and 'sum' methods
    *
    * @param Request $request
@@ -47,106 +46,64 @@ abstract class SimpleCard extends Card {
    * Count instances of the model
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string|null $column
-   * @param string|null $dateColumn
    * @return float
    */
-  public function count(Request $request, $model, ?string $column = null, ?string $dateColumn = null): float {
-    return $this->query($request, $model, 'count', $column, $dateColumn);
-  }
-
-  /**
-   * Generate current range from selected interval
-   *
-   * @param Request $request
-   * @return array
-   */
-  public function currentRange(Request $request): array {
-    $range = $request->input('range') ?? $this->defaultRange();
-    return [now()->sub($range), now()];
-  }
-
-  /**
-   * Get the key of the default range
-   *
-   * @return string
-   */
-  public function defaultRange(): string {
-    return '3 months';
+  public function count(Request $request, Builder|string $model, ?string $column = null): float {
+    return $this->query($request, $model, 'count', $column);
   }
 
   /**
    * Get the maximum value of the specified column
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $column
-   * @param string|null $dateColumn
    * @return float
    */
-  public function max(Request $request, $model, string $column, ?string $dateColumn = null): float {
-    return $this->query($request, $model, 'max', $column, $dateColumn);
+  public function max(Request $request, Builder|string $model, string $column): float {
+    return $this->query($request, $model, 'max', $column);
   }
 
   /**
    * Get the minimum value of the specified column
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $column
-   * @param string|null $dateColumn
    * @return float
    */
-  public function min(Request $request, $model, string $column, ?string $dateColumn = null): float {
-    return $this->query($request, $model, 'min', $column, $dateColumn);
+  public function min(Request $request, Builder|string $model, string $column): float {
+    return $this->query($request, $model, 'min', $column);
   }
 
   /**
    * Return the result of the query
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $method
    * @param string|null $column
-   * @param string|null $dateColumn
    * @return float
    */
-  public function query(Request $request, $model, string $method, ?string $column = null, ?string $dateColumn = null): float {
+  public function query(Request $request, Builder|string $model, string $method, ?string $column = null): float {
     $query = $model instanceof Builder ? $model : $model::query();
     $column = $column ?? $query->getModel()->getQualifiedKeyName();
-    $createdAt = $query->getModel()->getCreatedAtColumn();
 
-    return round($query
-      ->whereBetween($dateColumn ?? $createdAt, $this->currentRange($request))
-      ->{$method}($column), $this->precision);
-  }
-
-  /**
-   * Get the available ranges for the card
-   *
-   * @return string[]
-   */
-  public function ranges(): array {
-    return [
-      '1 month' => '1 month',
-      '3 months' => '3 months',
-      '6 months' => '6 months',
-      '1 year' => '1 year',
-    ];
+    return round($query->{$method}($column), $this->precision);
   }
 
   /**
    * Get the aggregate value of the specified column
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $column
-   * @param string|null $dateColumn
    * @return float
    */
-  public function sum(Request $request, $model, string $column, ?string $dateColumn = null): float {
-    return $this->query($request, $model, 'sum', $column, $dateColumn);
+  public function sum(Request $request, Builder|string $model, string $column): float {
+    return $this->query($request, $model, 'sum', $column);
   }
 
   /**
@@ -162,8 +119,6 @@ abstract class SimpleCard extends Card {
       'component' => $this->component,
       'label' => $this->label(),
       'slug' => $this->slug(),
-      'ranges' => $this->ranges(),
-      'range' => $request->input('range') ?: $this->defaultRange(),
       'value' => $value,
     ];
   }
