@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Cards;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 abstract class MetricCard extends Card {
 
@@ -129,13 +130,11 @@ abstract class MetricCard extends Card {
     $column = $column ?? $query->getModel()->getQualifiedKeyName();
     $createdAt = $query->getModel()->getCreatedAtColumn();
 
-    $current = round($query
-        ->whereBetween($dateColumn ?? $createdAt, $this->currentRange($request))
-        ->{$method}($column), $this->precision) ?? 0;
+    $current = (clone $query)->whereBetween($dateColumn ?? $createdAt, $this->currentRange($request));
+    $current = round($current->{$method}($column), $this->precision) ?? 0;
 
-    $previous = round($query
-        ->whereBetween($dateColumn ?? $createdAt, $this->previousRange($request))
-        ->{$method}($column), $this->precision) ?? 0;
+    $previous = (clone $query)->whereBetween($dateColumn ?? $createdAt, $this->previousRange($request));
+    $previous = round($previous->{$method}($column), $this->precision) ?? 0;
 
     return [$current, $previous];
   }
