@@ -36,6 +36,7 @@ class ResourceCollection extends JsonResourceCollection {
     $resource = new $this->collects($request);
 
     return [
+      'header' => $resource::make($this->collects::newModel())->toTableHeader($request),
       'data' => $resource::collection($this->collection),
       'labels' => ['singular' => $resource::singular(), 'plural' => $resource::label()],
       'perPageOptions' => $resource::$perPageOptions,

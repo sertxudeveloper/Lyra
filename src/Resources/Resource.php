@@ -22,6 +22,11 @@ abstract class Resource extends JsonResource {
   /** @var string[] $search Columns where the search is enabled */
   static public array $search = [];
 
+  /**
+   * Get related model primary key name
+   *
+   * @return string
+   */
   public static function getKeyName(): string {
     return (new static::$model)->getKeyName();
   }
@@ -81,7 +86,6 @@ abstract class Resource extends JsonResource {
    *
    * @param Request $request
    * @param Builder $query
-   *
    * @return Builder
    */
   static public function sortResource(Request $request, Builder $query): Builder {
@@ -126,11 +130,9 @@ abstract class Resource extends JsonResource {
    * Transform the resource into an array.
    *
    * @param Request $request
-   *
    * @return array
    */
   public function toArray($request): array {
-
     $fields = [];
     foreach ($this->fields() as $field) {
       if (!$field->canShow($request)) continue;
@@ -153,10 +155,25 @@ abstract class Resource extends JsonResource {
   }
 
   /**
+   * Transform the resource into an array for the table header.
+   *
+   * @param $request
+   * @return array
+   */
+  public function toTableHeader($request): array {
+    $fields = [];
+    foreach ($this->fields() as $field) {
+      if (!$field->canShow($request)) continue;
+      $fields[] = $field->toTableHeader($request);
+    }
+
+    return $fields;
+  }
+
+  /**
    * Validate the update request received.
    *
    * @param Request $request
-   *
    * @return array
    * @throws ValidationException
    */
@@ -170,7 +187,6 @@ abstract class Resource extends JsonResource {
    * Validate the update request received.
    *
    * @param Request $request
-   *
    * @return array
    * @throws ValidationException
    */
@@ -184,7 +200,6 @@ abstract class Resource extends JsonResource {
    * Format the rules for the validation
    *
    * @param Request $request
-   *
    * @return array
    */
   protected function formatRules(Request $request): array {

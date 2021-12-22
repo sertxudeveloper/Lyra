@@ -11,7 +11,7 @@ abstract class Field {
   public string $component = '';
 
   public string $name = '';
-  public string $column = '';
+  public object|string $column = '';
   public bool $sortable = false;
   public array $creationRules = [];
   public array $updatingRules = [];
@@ -26,7 +26,7 @@ abstract class Field {
    *
    * @param string $name
    * @param null $column
-   * @return $this
+   * @return self
    */
   static public function make(string $name, $column = null): self {
     $field = new static();
@@ -38,6 +38,8 @@ abstract class Field {
 
   /**
    * Add field-specific data to the response
+   *
+   * @return array
    */
   public function additional(): array {
     return [];
@@ -52,34 +54,25 @@ abstract class Field {
   public function canShow(Request $request): bool {
     $route = $request->route()->getName();
     $route = str_replace(config('lyra.routes.api.name'), '', $route);
-    switch ($route) {
-      case 'resources.index':
-        return $this->showOnIndex;
 
-      case 'resources.create':
-      case 'resources.store':
-        return $this->showOnCreate;
-
-      case 'resources.show':
-        return $this->showOnShow;
-
-      case 'resources.edit':
-      case 'resources.update':
-        return $this->showOnUpdate;
-
-      default:
-        return false;
-    }
+    return match ($route) {
+      'resources.index' => $this->showOnIndex,
+      'resources.create', 'resources.store' => $this->showOnCreate,
+      'resources.show' => $this->showOnShow,
+      'resources.edit', 'resources.update' => $this->showOnUpdate,
+      default => false,
+    };
   }
 
   /**
    * Set the rules for the creation
    *
    * @param string[] $rules
-   * @return $this
+   * @return self
    */
   public function creationRules(string ...$rules): self {
     $this->creationRules = $rules;
+
     return $this;
   }
 
@@ -95,31 +88,34 @@ abstract class Field {
   /**
    * Hide the field on form views
    *
-   * @return $this
+   * @return self
    */
   public function hideOnForms(): self {
     $this->showOnCreate = false;
     $this->showOnUpdate = false;
+
     return $this;
   }
 
   /**
    * Hide the field on the index view
    *
-   * @return $this
+   * @return self
    */
   public function hideOnIndex(): self {
     $this->showOnIndex = false;
+
     return $this;
   }
 
   /**
    * Hide the field on the index view
    *
-   * @return $this
+   * @return self
    */
   public function hideOnShow(): self {
     $this->showOnShow = false;
+
     return $this;
   }
 
@@ -127,44 +123,73 @@ abstract class Field {
    * Set the rules for creation and update
    *
    * @param string[] $rules
-   * @return $this
+   * @return self
    */
   public function rules(string ...$rules): self {
     $this->creationRules = $rules;
     $this->updatingRules = $rules;
+
     return $this;
   }
 
   /**
    * Set the field as sortable
    *
-   * @return $this
+   * @return self
    */
   public function sortable(): self {
     $this->sortable = true;
+
     return $this;
   }
 
+  /**
+   * Transform the field into an array.
+   *
+   * @param Model $model
+   * @return array
+   */
   public function toArray(Model $model): array {
     $field = [
       'key' => $this->getKey(),
       'component' => $this->component,
       'name' => $this->name,
       'value' => $model->{$this->column},
-      'sortable' => $this->sortable,
     ];
 
     return array_merge($field, $this->additional());
   }
 
   /**
+   * Transform the resource into an array for the table header.
+   *
+   * @param Request $request
+   * @return array
+   */
+  public function toTableHeader(Request $request): array {
+    $sortBy = explode(',', $request->query('sortBy'));
+    $sortOrder = explode(',', $request->query('sortOrder'));
+
+    $sortIndex = array_search($this->getKey(), $sortBy);
+    if ($sortIndex !== false) $order = $sortOrder[$sortIndex];
+
+    return [
+      'key' => $this->getKey(),
+      'name' => $this->name,
+      'sortable' => $this->sortable,
+      'order' => $order ?? null,
+    ];
+  }
+
+  /**
    * Set the rules for the update
    *
    * @param string[] $rules
-   * @return $this
+   * @return self
    */
   public function updatingRules(string ...$rules): self {
     $this->updatingRules = $rules;
+
     return $this;
   }
 }

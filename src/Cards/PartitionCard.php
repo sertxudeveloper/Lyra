@@ -65,12 +65,12 @@ abstract class PartitionCard extends Card {
    * Count instances of the model
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $groupBy
    * @param string|null $column
    * @return array[]
    */
-  public function count(Request $request, $model, string $groupBy, ?string $column = null): array {
+  public function count(Request $request, Builder|string $model, string $groupBy, ?string $column = null): array {
     return $this->query($request, $model, 'count', $column, $groupBy);
   }
 
@@ -78,12 +78,12 @@ abstract class PartitionCard extends Card {
    * Get the maximum value of the specified column
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $column
    * @param string $groupBy
    * @return array[]
    */
-  public function max(Request $request, $model, string $column, string $groupBy): array {
+  public function max(Request $request, Builder|string $model, string $column, string $groupBy): array {
     return $this->query($request, $model, 'max', $column, $groupBy);
   }
 
@@ -91,12 +91,12 @@ abstract class PartitionCard extends Card {
    * Get the minimum value of the specified column
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $column
    * @param string $groupBy
    * @return array[]
    */
-  public function min(Request $request, $model, string $column, string $groupBy): array {
+  public function min(Request $request, Builder|string $model, string $column, string $groupBy): array {
     return $this->query($request, $model, 'min', $column, $groupBy);
   }
 
@@ -104,13 +104,13 @@ abstract class PartitionCard extends Card {
    * Return the result of the query
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $method
    * @param string|null $column
    * @param string $groupBy
    * @return array[]
    */
-  public function query(Request $request, $model, string $method, ?string $column, string $groupBy): array {
+  public function query(Request $request, Builder|string $model, string $method, ?string $column, string $groupBy): array {
     $query = $model instanceof Builder ? $model : $model::query();
     $column = $column ?? $query->getModel()->getQualifiedKeyName();
 
@@ -123,19 +123,19 @@ abstract class PartitionCard extends Card {
       ->orderByDesc('value')
       ->get();
 
-    return  $values->toArray();
+    return $values->toArray();
   }
 
   /**
    * Get the aggregate value of the specified column
    *
    * @param Request $request
-   * @param Builder|string $model
+   * @param string|Builder $model
    * @param string $column
    * @param string $groupBy
    * @return array[]
    */
-  public function sum(Request $request, $model, string $column, string $groupBy): array {
+  public function sum(Request $request, Builder|string $model, string $column, string $groupBy): array {
     return $this->query($request, $model, 'sum', $column, $groupBy);
   }
 
@@ -161,6 +161,7 @@ abstract class PartitionCard extends Card {
       $item['color'] = $this->colors()[$key];
       $item['value'] = (float)$item['value'];
       $item['percent'] = round($item['value'] / $totalLimited * 100, 3);
+
       return [$key => $item];
     });
 
