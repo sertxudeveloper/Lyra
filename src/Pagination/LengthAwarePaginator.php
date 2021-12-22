@@ -19,7 +19,7 @@ class LengthAwarePaginator extends IlluminateLengthAwarePaginator {
    *
    * @return Collection
    */
-  public function linkCollection() {
+  public function linkCollection(): Collection {
 
     $middlePage = min(max($this->onEachSide, $this->currentPage()), $this->lastPage() - $this->onEachSide + 1);
     $fromPage = max($middlePage - $this->onEachSide + 1 , 1);
@@ -42,13 +42,11 @@ class LengthAwarePaginator extends IlluminateLengthAwarePaginator {
       });
     })->prepend([
       'url' => $this->previousPageUrl(),
-//      'label' => function_exists('__') ? __('pagination.previous') : 'Previous',
       'label' => 'First',
       'active' => false,
       'page' => 1,
     ])->push([
       'url' => $this->nextPageUrl(),
-//      'label' => function_exists('__') ? __('pagination.next') : 'Next',
       'label' => 'Last',
       'active' => false,
       'page' => $this->lastPage(),

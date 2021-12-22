@@ -15,6 +15,7 @@ class LyraServiceProvider extends ServiceProvider {
    * Bootstrap any application services.
    *
    * @param Router $router
+   *
    * @return void
    */
   public function boot(Router $router) {

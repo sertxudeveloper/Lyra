@@ -2,6 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\PaginatedResourceResponse;
 
 class Pagination extends PaginatedResourceResponse {
@@ -9,11 +10,11 @@ class Pagination extends PaginatedResourceResponse {
   /**
    * Add the pagination information to the response.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param Request $request
+   *
    * @return array
    */
-  protected function paginationInformation($request)
-  {
+  protected function paginationInformation($request): array {
     $paginated = $this->resource->resource->toArray();
 
     return [

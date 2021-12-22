@@ -40,9 +40,22 @@ abstract class Resource extends JsonResource {
    *
    * @return mixed
    */
-  public static function newModel() {
+  public static function newModel(): mixed {
     $model = static::$model;
+
     return new $model;
+  }
+
+  static public function searchInResource(Request $request, Builder $query): Builder {
+    $searchTerm = $request->input('q');
+
+    $query->where(function (Builder $query) use ($searchTerm) {
+      foreach (static::$search as $column) {
+        $query->orWhere($column, 'LIKE', "%{$searchTerm}%");
+      }
+    });
+
+    return $query;
   }
 
   /**
@@ -68,6 +81,7 @@ abstract class Resource extends JsonResource {
    *
    * @param Request $request
    * @param Builder $query
+   *
    * @return Builder
    */
   static public function sortResource(Request $request, Builder $query): Builder {
@@ -87,20 +101,16 @@ abstract class Resource extends JsonResource {
     return $query;
   }
 
-  static public function searchInResource(Request $request, Builder $query): Builder {
-    $searchTerm = $request->input('q');
-
-    $query->where(function (Builder $query) use ($searchTerm) {
-      foreach (static::$search as $column) {
-        $query->orWhere($column, 'LIKE', "%{$searchTerm}%");
-      }
-    });
-
-    return $query;
-  }
+  /**
+   * The actions' resource definition
+   *
+   * @return array
+   */
+  abstract public function actions(): array;
 
   /**
    * The cards' resource definition
+   *
    * @return array
    */
   abstract public function cards(): array;
@@ -113,16 +123,10 @@ abstract class Resource extends JsonResource {
   abstract public function fields(): array;
 
   /**
-   * The actions' resource definition
-   *
-   * @return array
-   */
-  abstract public function actions(): array;
-
-  /**
    * Transform the resource into an array.
    *
    * @param Request $request
+   *
    * @return array
    */
   public function toArray($request): array {
@@ -152,11 +156,13 @@ abstract class Resource extends JsonResource {
    * Validate the update request received.
    *
    * @param Request $request
+   *
    * @return array
    * @throws ValidationException
    */
   public function validateCreation(Request $request): array {
     $validator = Validator::make($request->all(), $this->formatRules($request));
+
     return $validator->validate();
   }
 
@@ -164,11 +170,13 @@ abstract class Resource extends JsonResource {
    * Validate the update request received.
    *
    * @param Request $request
+   *
    * @return array
    * @throws ValidationException
    */
   public function validateUpdating(Request $request): array {
     $validator = Validator::make($request->all(), $this->formatRules($request));
+
     return $validator->validate();
   }
 
@@ -176,6 +184,7 @@ abstract class Resource extends JsonResource {
    * Format the rules for the validation
    *
    * @param Request $request
+   *
    * @return array
    */
   protected function formatRules(Request $request): array {

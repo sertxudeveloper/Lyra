@@ -20,7 +20,7 @@ class ResourceCollection extends JsonResourceCollection {
    * @param mixed $resource
    * @return void
    */
-  public function __construct(string $collects, $resource) {
+  public function __construct(string $collects, mixed $resource) {
     $this->collects = $collects;
     parent::__construct($resource);
   }
