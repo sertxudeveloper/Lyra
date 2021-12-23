@@ -43,9 +43,13 @@
       "email": "dev.sertxu@gmail.com"
     }
   ],
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  },
   "minimum-stability": "dev",
   "require": {
     "php": "^8.0",
+    "illuminate/database": "^8.0",
     "illuminate/support": "^8.0",
     "ext-json": "*",
     "ext-zip": "*",
@@ -53,8 +57,8 @@
   },
   "require-dev": {
     "mockery/mockery": "^1.0",
-    "orchestra/testbench": "^6.0",
-    "phpunit/phpunit": "^9.5"
+    "orchestra/database": "^6.0",
+    "orchestra/testbench": "^6.0"
   },
   "prefer-stable": true
 }

@@ -92,9 +92,11 @@ class Lyra {
   /**
    * Register Lyra routes
    */
-  static public function routes() {
+  static public function routes($auth = false): void {
     require __DIR__ . '/../routes/api.php';
     require __DIR__ . '/../routes/web.php';
+
+    if ($auth) require __DIR__ . '/../routes/auth.php';
   }
 
   static public function runCallbacks() {
