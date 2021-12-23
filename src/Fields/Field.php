@@ -26,7 +26,7 @@ abstract class Field {
    *
    * @param string $name
    * @param null $column
-   * @return self
+   * @return $this
    */
   static public function make(string $name, $column = null): self {
     $field = new static();
@@ -68,7 +68,7 @@ abstract class Field {
    * Set the rules for the creation
    *
    * @param string[] $rules
-   * @return self
+   * @return $this
    */
   public function creationRules(string ...$rules): self {
     $this->creationRules = $rules;
@@ -88,7 +88,7 @@ abstract class Field {
   /**
    * Hide the field on form views
    *
-   * @return self
+   * @return $this
    */
   public function hideOnForms(): self {
     $this->showOnCreate = false;
@@ -100,7 +100,7 @@ abstract class Field {
   /**
    * Hide the field on the index view
    *
-   * @return self
+   * @return $this
    */
   public function hideOnIndex(): self {
     $this->showOnIndex = false;
@@ -111,7 +111,7 @@ abstract class Field {
   /**
    * Hide the field on the index view
    *
-   * @return self
+   * @return $this
    */
   public function hideOnShow(): self {
     $this->showOnShow = false;
@@ -123,7 +123,7 @@ abstract class Field {
    * Set the rules for creation and update
    *
    * @param string[] $rules
-   * @return self
+   * @return $this
    */
   public function rules(string ...$rules): self {
     $this->creationRules = $rules;
@@ -135,7 +135,7 @@ abstract class Field {
   /**
    * Set the field as sortable
    *
-   * @return self
+   * @return $this
    */
   public function sortable(): self {
     $this->sortable = true;
@@ -185,7 +185,7 @@ abstract class Field {
    * Set the rules for the update
    *
    * @param string[] $rules
-   * @return self
+   * @return $this
    */
   public function updatingRules(string ...$rules): self {
     $this->updatingRules = $rules;

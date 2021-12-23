@@ -74,10 +74,11 @@ abstract class IntegrationTest extends TestCase {
    * @return void
    */
   protected function loadMigrations(): void {
-//    $this->loadMigrationsFrom([
-//      '--database' => 'sqlite',
-//      '--realpath' => realpath(__DIR__ . '/Migrations'),
-//    ]);
+    $this->loadMigrationsFrom([
+      '--database' => 'sqlite',
+      '--realpath' => true,
+      '--path' => realpath(__DIR__ . '/Migrations'),
+    ]);
   }
 
   /**
@@ -86,8 +87,11 @@ abstract class IntegrationTest extends TestCase {
    * @return $this
    */
   protected function authenticate() {
-    $this->actingAs($this->authenticatedAs = Mockery::mock(Authenticatable::class));
 
-    return $this;
+//    $this->actingAs($this->authenticatedAs = Mockery::mock(Authenticatable::class));
+//
+//    $this->authenticatedAs->shouldReceive('getAuthIdentifier')->andReturn(1);
+
+//    return $this;
   }
 }

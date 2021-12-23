@@ -22,7 +22,6 @@ class ResourceController extends Controller {
    *
    * @param Request $request
    * @param string $resource
-   *
    * @return JsonResponse
    * @throws Exception
    */
@@ -44,7 +43,6 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
-   *
    * @return Response
    * @throws Exception
    */
@@ -65,7 +63,6 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
-   *
    * @return JsonResponse
    * @throws Exception
    */
@@ -86,7 +83,6 @@ class ResourceController extends Controller {
    *
    * @param Request $request
    * @param string $resource
-   *
    * @return JsonResponse
    * @throws Exception
    */
@@ -94,11 +90,18 @@ class ResourceController extends Controller {
     /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
-    $currentPage = $request->input('page') ?: Paginator::resolveCurrentPage();
-    $perPage = $request->input('perPage') ?: Arr::first($class::$perPageOptions);
+    $currentPage = $request->query('page') ?: Paginator::resolveCurrentPage();
+    $perPage = $request->query('perPage') ?: Arr::first($class::$perPageOptions);
     $options = ['path' => '/', 'pageName' => 'page'];
 
     $query = $class::$model::query();
+
+    /** Add soft deleted if requested */
+    if ($request->query('withTrashed') === 'include') {
+      $query->withTrashed();
+    } else if ($request->query('withTrashed') === 'only') {
+      $query->onlyTrashed();
+    }
 
     /** Add sort to the resource query */
     if ($request->has('sortBy') && $request->has('sortOrder')) {
@@ -129,7 +132,6 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
-   *
    * @return JsonResponse
    * @throws Exception
    */
@@ -150,7 +152,6 @@ class ResourceController extends Controller {
    *
    * @param Request $request
    * @param string $resource
-   *
    * @return JsonResponse|Response
    * @throws Exception
    */
@@ -181,7 +182,6 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @param mixed $id
-   *
    * @return JsonResponse|Response
    * @throws Exception
    */

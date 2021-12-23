@@ -2,9 +2,19 @@
 
 namespace SertxuDeveloper\Lyra\Tests\Lyra\Resources;
 
+use SertxuDeveloper\Lyra\Fields\DateTime;
+use SertxuDeveloper\Lyra\Fields\ID;
+use SertxuDeveloper\Lyra\Fields\Text;
 use SertxuDeveloper\Lyra\Resources\Resource;
+use SertxuDeveloper\Lyra\Tests\Models\User;
 
 class Users extends Resource {
+
+  public static string $model = User::class;
+
+  public static array $search = [
+    'id', 'name', 'email',
+  ];
 
   /**
    * The actions' resource definition
@@ -35,7 +45,16 @@ class Users extends Resource {
    */
   public function fields(): array {
     return [
-      //
+      ID::make('Id'),
+
+      Text::make('Name')->rules('required', 'max:255')->sortable(),
+
+      Text::make('Email')->creationRules('required', 'email', 'unique:users,email')
+        ->updatingRules('required', 'email', 'unique:users,email,{{resourceId}}'),
+
+      Text::make('Password')->hideOnIndex(),
+
+      DateTime::make('Email verified at'),
     ];
   }
 }

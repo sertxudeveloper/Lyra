@@ -17,7 +17,7 @@ abstract class Resource extends JsonResource {
   static public string $icon = '';
   static public int $priority = 99;
   static public array $perPageOptions = [10, 50, 100];
-  static public string $orderBy = 'asc'; // 'desc' or 'asc'
+  static public string $orderBy = 'desc'; // 'desc' or 'asc'
 
   /** @var string[] $search Columns where the search is enabled */
   static public array $search = [];
@@ -89,8 +89,8 @@ abstract class Resource extends JsonResource {
    * @return Builder
    */
   static public function sortResource(Request $request, Builder $query): Builder {
-    $sortBy = explode(',', $request->input('sortBy'));
-    $sortOrder = explode(',', $request->input('sortOrder'));
+    $sortBy = explode(',', $request->query('sortBy'));
+    $sortOrder = explode(',', $request->query('sortOrder'));
 
     /** Do not apply the sorting due to invalid params */
     if (count($sortBy) !== count($sortOrder)) return $query;
