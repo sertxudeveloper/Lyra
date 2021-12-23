@@ -104,7 +104,7 @@ class ResourceController extends Controller {
     }
 
     /** Add sort to the resource query */
-    if ($request->has('sortBy') && $request->has('sortOrder')) {
+    if ($request->query('sortBy') && $request->query('sortOrder')) {
       $query = $class::sortResource($request, $query);
     } else {
       /** Add default sorting if defined */

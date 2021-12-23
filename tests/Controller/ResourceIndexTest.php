@@ -133,4 +133,69 @@ class ResourceIndexTest extends IntegrationTest {
     $response->assertJsonCount($userCount, 'data');
   }
 
+  public function test_can_order_resources() {
+    $userA = User::factory()->create(['email' => 'user_a@example.com']);
+    $userB = User::factory()->create(['email' => 'user_b@example.com']);
+    $userC = User::factory()->create(['email' => 'user_c@example.com']);
+
+    $response = $this->withExceptionHandling()
+      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'sortBy=email', 'sortOrder=asc']));
+
+    $response->assertOk();
+
+    $header = $response->json('header');
+    $emailHeader = collect($header)->where('key', 'email')->first();
+    $this->assertEquals('asc', $emailHeader['order']);
+
+    $response->assertJsonCount(3, 'data');
+    $this->assertEquals($userA->id, $response->json('data.0.key'));
+
+    $response = $this->withExceptionHandling()
+      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'sortBy=email', 'sortOrder=desc']));
+
+    $response->assertOk();
+
+    $header = $response->json('header');
+    $emailHeader = collect($header)->where('key', 'email')->first();
+    $this->assertEquals('desc', $emailHeader['order']);
+
+    $response->assertJsonCount(3, 'data');
+    $this->assertEquals($userC->id, $response->json('data.0.key'));
+  }
+
+  public function test_can_limit_resources_per_page() {
+    User::factory(6)->create();
+
+    $response = $this->withExceptionHandling()
+      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'perPage=2']));
+
+    $response->assertOk();
+
+    $response->assertJsonCount(2, 'data');
+
+    $this->assertEquals(1, $response->json('meta.current_page'));
+    $this->assertEquals(1, $response->json('meta.from'));
+    $this->assertEquals(2, $response->json('meta.to'));
+    $this->assertEquals(2, $response->json('meta.per_page'));
+    $this->assertEquals(6, $response->json('meta.total'));
+  }
+
+
+  public function test_can_navigate_resources_per_page() {
+    User::factory(6)->create();
+
+    $response = $this->withExceptionHandling()
+      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'perPage=2', 'page=2']));
+
+    $response->assertOk();
+
+    $response->assertJsonCount(2, 'data');
+
+    $this->assertEquals(2, $response->json('meta.current_page'));
+    $this->assertEquals(3, $response->json('meta.from'));
+    $this->assertEquals(4, $response->json('meta.to'));
+    $this->assertEquals(2, $response->json('meta.per_page'));
+    $this->assertEquals(6, $response->json('meta.total'));
+  }
+
 }
