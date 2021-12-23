@@ -2,7 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
-use Exception;
+use App\Exceptions\ResourceNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,7 +23,7 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @return JsonResponse
-   * @throws Exception
+   * @throws ResourceNotFoundException
    */
   public function create(Request $request, string $resource): JsonResponse {
     /** @var Resource $class */
@@ -44,7 +44,7 @@ class ResourceController extends Controller {
    * @param string $resource
    * @param mixed $id
    * @return Response
-   * @throws Exception
+   * @throws ResourceNotFoundException
    */
   public function destroy(Request $request, string $resource, mixed $id): Response {
     /** @var Resource $class */
@@ -64,7 +64,7 @@ class ResourceController extends Controller {
    * @param string $resource
    * @param mixed $id
    * @return JsonResponse
-   * @throws Exception
+   * @throws ResourceNotFoundException
    */
   public function edit(Request $request, string $resource, mixed $id): JsonResponse {
     /** @var Resource $class */
@@ -84,7 +84,7 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @return JsonResponse
-   * @throws Exception
+   * @throws ResourceNotFoundException
    */
   public function index(Request $request, string $resource): JsonResponse {
     /** @var Resource $class */
@@ -133,7 +133,7 @@ class ResourceController extends Controller {
    * @param string $resource
    * @param mixed $id
    * @return JsonResponse
-   * @throws Exception
+   * @throws ResourceNotFoundException
    */
   public function show(Request $request, string $resource, mixed $id): JsonResponse {
     /** @var Resource $class */
@@ -153,7 +153,7 @@ class ResourceController extends Controller {
    * @param Request $request
    * @param string $resource
    * @return JsonResponse|Response
-   * @throws Exception
+   * @throws ResourceNotFoundException
    */
   public function store(Request $request, string $resource): Response|JsonResponse {
     /** @var Resource $class */
@@ -183,7 +183,7 @@ class ResourceController extends Controller {
    * @param string $resource
    * @param mixed $id
    * @return JsonResponse|Response
-   * @throws Exception
+   * @throws ResourceNotFoundException
    */
   public function update(Request $request, string $resource, mixed $id): Response|JsonResponse {
     /** @var Resource $class */

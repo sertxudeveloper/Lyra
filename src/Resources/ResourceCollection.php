@@ -8,9 +8,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection as JsonResourceCollection;
 
 class ResourceCollection extends JsonResourceCollection {
 
-  /**
-   * @var string
-   */
+  /** @var string */
   public string $class;
 
   /**
@@ -36,7 +34,7 @@ class ResourceCollection extends JsonResourceCollection {
     $resource = new $this->collects($request);
 
     return [
-      'header' => $resource::make($this->collects::newModel())->toTableHeader($request),
+      'header' => $resource::make($resource::newModel())->toTableHeader($request),
       'data' => $resource::collection($this->collection),
       'labels' => ['singular' => $resource::singular(), 'plural' => $resource::label()],
       'perPageOptions' => $resource::$perPageOptions,

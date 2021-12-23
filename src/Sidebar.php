@@ -12,7 +12,7 @@ class Sidebar {
   static public function items(): array {
     $items = collect();
 
-    foreach (Lyra::$resources as $class) {
+    foreach (Lyra::getResources() as $class) {
       $items->push([
         'name' => $class::label(),
         'slug' => $class::slug(),

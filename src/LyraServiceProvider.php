@@ -9,16 +9,22 @@ use Illuminate\Support\ServiceProvider;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
 use SertxuDeveloper\Lyra\Models\LyraUser;
 
+/**
+ * Lyra Service Provider
+ *
+ * @version 2.x
+ * @package SertxuDeveloper\Lyra
+ * @link https://www.github.com/sertxudeveloper/Lyra
+ */
 class LyraServiceProvider extends ServiceProvider {
 
   /**
    * Bootstrap any application services.
    *
    * @param Router $router
-   *
    * @return void
    */
-  public function boot(Router $router) {
+  public function boot(Router $router): void {
     $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lyra');
 
     /** Register configuration files */
@@ -39,7 +45,7 @@ class LyraServiceProvider extends ServiceProvider {
    *
    * @return void
    */
-  public function register() {
+  public function register(): void {
     $loader = AliasLoader::getInstance();
     $loader->alias('Lyra', LyraFacade::class);
 
@@ -52,8 +58,10 @@ class LyraServiceProvider extends ServiceProvider {
 
   /**
    * Get dynamically the Helpers from the /src/Helpers directory and require_once each file.
+   *
+   * @return void
    */
-  protected function loadHelpers() {
+  protected function loadHelpers(): void {
     foreach (glob(__DIR__ . '/Helpers/*.php') as $filename) {
       require_once $filename;
     }
@@ -61,8 +69,10 @@ class LyraServiceProvider extends ServiceProvider {
 
   /**
    * Register the Lyra auth provider and guard
+   *
+   * @return void
    */
-  private function registerAuth() {
+  private function registerAuth(): void {
     /** Register new guard driver */
     Config::set('auth.guards.lyra', [
       'driver' => 'session',
@@ -78,8 +88,10 @@ class LyraServiceProvider extends ServiceProvider {
 
   /**
    * Register the Lyra config file
+   *
+   * @return void
    */
-  private function registerConfig() {
+  private function registerConfig(): void {
     $this->mergeConfigFrom(dirname(__DIR__) . '/publishable/config/lyra.php', 'lyra');
   }
 }

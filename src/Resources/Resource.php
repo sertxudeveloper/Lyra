@@ -9,12 +9,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use JetBrains\PhpStorm\ArrayShape;
 
 abstract class Resource extends JsonResource {
 
   /** @var Model $model */
   static public string $model;
+
   static public string $icon = '';
+
   static public int $priority = 99;
   static public array $perPageOptions = [10, 50, 100];
   static public string $orderBy = 'desc'; // 'desc' or 'asc'

@@ -15,28 +15,36 @@ use Symfony\Component\Finder\Finder;
  *
  * @version 2.x
  * @package SertxuDeveloper\Lyra
+ * @link https://www.github.com/sertxudeveloper/Lyra
  */
 class Lyra {
 
-  public static array $resources = [];
+  static private array $resources = [];
   static private array $callbacks = [];
 
   /**
-   * Generate the URL of the given asset
+   * Generate a URL of the given asset
    *
    * @param $file
-   *
    * @return string
    */
   static public function asset($file): string {
-    return dirname(__DIR__) . '/publishable/assets/' . $file;
+    return dirname(__DIR__) . "/publishable/assets/$file";
+  }
+
+  /**
+   * Get a list of registered resources
+   *
+   * @return array
+   */
+  static public function getResources(): array {
+    return static::$resources;
   }
 
   /**
    * Get the resource class from the given slug
    *
    * @param string $slug
-   *
    * @return string
    * @throws ResourceNotFoundException
    */
@@ -61,11 +69,10 @@ class Lyra {
   /**
    * Register resources in a directory
    *
-   * @param $directory
-   *
+   * @param string $directory Directory to scan for resources
    * @return void
    */
-  static public function resourcesIn($directory): void {
+  static public function resourcesIn(string $directory): void {
     $namespace = app()->getNamespace();
     if (!file_exists($directory))
       return;
@@ -91,14 +98,24 @@ class Lyra {
 
   /**
    * Register Lyra routes
+   *
+   * @param bool $auth Whether to register authentication routes
+   * @return void
    */
-  static public function routes($auth = false): void {
+  static public function routes(bool $auth = false): void {
     require __DIR__ . '/../routes/api.php';
     require __DIR__ . '/../routes/web.php';
 
     if ($auth) require __DIR__ . '/../routes/auth.php';
   }
 
+  /**
+   * Run the registered Lyra callbacks
+   *
+   * This method is called automatically when a Lyra controller is called
+   *
+   * @return void
+   */
   static public function runCallbacks() {
     foreach (static::$callbacks as $callback)
       call_user_func($callback);
