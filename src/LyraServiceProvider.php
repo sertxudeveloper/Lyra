@@ -25,7 +25,11 @@ class LyraServiceProvider extends ServiceProvider {
    * @return void
    */
   public function boot(Router $router): void {
+    /** Load the Lyra views */
     $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lyra');
+
+    /** Register the publishable files */
+    $this->configurePublishing();
 
     /** Register configuration files */
     $this->registerConfig();
@@ -54,6 +58,19 @@ class LyraServiceProvider extends ServiceProvider {
     });
 
     $this->loadHelpers();
+  }
+
+  /**
+   * Configure publishing for the package.
+   *
+   * @return void
+   */
+  protected function configurePublishing() {
+    if ($this->app->runningInConsole()) {
+      $this->publishes([
+        dirname(__DIR__) . '/publishable/config/lyra.php' => config_path('lyra.php'),
+      ], 'lyra-config');
+    }
   }
 
   /**
