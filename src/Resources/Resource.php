@@ -9,7 +9,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use JetBrains\PhpStorm\ArrayShape;
 
 abstract class Resource extends JsonResource {
 
@@ -22,7 +21,11 @@ abstract class Resource extends JsonResource {
   static public array $perPageOptions = [10, 50, 100];
   static public string $orderBy = 'desc'; // 'desc' or 'asc'
 
-  /** @var string[] $search Columns where the search is enabled */
+  /**
+   * Columns where the search is enabled
+   *
+   * @var string[] $search
+   */
   static public array $search = [];
 
   /**

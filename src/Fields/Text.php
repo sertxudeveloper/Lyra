@@ -4,6 +4,8 @@ namespace SertxuDeveloper\Lyra\Fields;
 
 class Text extends Field {
 
+  use Sortable;
+
   public string $component = 'field-text';
   public bool $asHtml = false;
   public string $textAlign = 'left';

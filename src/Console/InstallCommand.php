@@ -2,7 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Console;
 
-use Illuminate\Support\Collection;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 use SertxuDeveloper\Lyra\LyraServiceProvider;
 
 class InstallCommand extends Command {
@@ -13,8 +14,7 @@ class InstallCommand extends Command {
    * @var string
    */
   protected $signature = 'lyra:install
-    {--force : Overwrite existing files by default}
-    {--auth= : Set the authentication provider ("default" or "lyra")}';
+    {--force : Overwrite existing files by default}';
 
   /**
    * The console command description.
@@ -41,7 +41,14 @@ class InstallCommand extends Command {
     $this->info('Installing Lyra...');
     $this->call('vendor:publish', ['--provider' => LyraServiceProvider::class, '--tag' => 'lyra-config']);
 
+    $this->info('Creating required directories...');
+    File::makeDirectory(app_path('Lyra'));
+    File::makeDirectory(app_path('Lyra/Actions'));
+    File::makeDirectory(app_path('Lyra/Cards'));
+    File::makeDirectory(app_path('Lyra/Resources'));
 
+    $this->info('Generating User resource...');
+    $this->callSilent('lyra:resource', ['name' => 'Users']);
 
     $this->info('Lyra installed successfully.');
   }

@@ -12,7 +12,6 @@ abstract class Field {
 
   public string $name = '';
   public object|string $column = '';
-  public bool $sortable = false;
   public array $creationRules = [];
   public array $updatingRules = [];
 
@@ -133,17 +132,6 @@ abstract class Field {
   }
 
   /**
-   * Set the field as sortable
-   *
-   * @return $this
-   */
-  public function sortable(): self {
-    $this->sortable = true;
-
-    return $this;
-  }
-
-  /**
    * Transform the field into an array.
    *
    * @param Model $model
@@ -176,7 +164,7 @@ abstract class Field {
     return [
       'key' => $this->getKey(),
       'name' => $this->name,
-      'sortable' => $this->sortable,
+      'sortable' => $this->sortable ?? false,
       'order' => $order ?? null,
     ];
   }

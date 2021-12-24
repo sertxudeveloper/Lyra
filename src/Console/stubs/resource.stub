@@ -1,0 +1,52 @@
+<?php
+
+namespace {{ namespace }};
+
+use SertxuDeveloper\Lyra\Resources\Resource;
+
+class {{ class }} extends Resource {
+
+  public static string $model = {{ model }}::class;
+
+  /**
+   * Columns where the search is enabled
+   *
+   * @var string[] $search
+   */
+  static public array $search = [
+    //
+  ];
+
+  /**
+   * The actions' resource definition
+   *
+   * @return array
+   */
+  public function actions(): array {
+    return [
+      //
+    ];
+  }
+
+  /**
+   * The cards' resource definition
+   *
+   * @return array
+   */
+  public function cards(): array {
+    return [
+      //
+    ];
+  }
+
+  /**
+   * The fields' resource definition
+   *
+   * @return array
+   */
+  public function fields(): array {
+    return [
+      //
+    ];
+  }
+}

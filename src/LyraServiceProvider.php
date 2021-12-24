@@ -7,6 +7,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use SertxuDeveloper\Lyra\Console\InstallCommand;
+use SertxuDeveloper\Lyra\Console\ResourceCommand;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
 use SertxuDeveloper\Lyra\Models\LyraUser;
 
@@ -97,6 +98,7 @@ class LyraServiceProvider extends ServiceProvider {
     if ($this->app->runningInConsole()) {
       $this->commands([
         InstallCommand::class,
+        ResourceCommand::class,
       ]);
     }
   }
