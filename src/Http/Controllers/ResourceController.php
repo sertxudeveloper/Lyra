@@ -198,8 +198,9 @@ class ResourceController extends Controller {
     if (Carbon::make($request->input('updated_at'))->notEqualTo($model->{$model->getUpdatedAtColumn()}))
       return response()->noContent(SymfonyResponse::HTTP_CONFLICT);
 
-    foreach ($validated as $key => $value) {
-      $model->$key = $value;
+    foreach ($resource->fields() as $field) {
+      if (!isset($validated[$field->getKey()])) continue;
+      $field->save($model, $validated);
     }
 
     abort_if(!$model->save(), SymfonyResponse::HTTP_NOT_ACCEPTABLE);

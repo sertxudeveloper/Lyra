@@ -2,6 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
 
 class DateTime extends Field {
@@ -9,25 +10,27 @@ class DateTime extends Field {
   use Sortable;
 
   public string $component = 'field-datetime';
-  public string $forceLocale = '';
+  public string $timezone = '';
+  public string $locale = '';
 
   /**
    * Add field-specific data to the response
    */
   public function additional(): array {
     return [
-      'forceLocale' => $this->forceLocale ?: false,
+      'timezone' => $this->timezone ?: false,
+      'locale' => $this->locale ?: false,
     ];
   }
 
   /**
-   * Force the field to the provided locale
+   * Set the locale of the field
    *
-   * @param string $locale Example: 'es-ES', 'en-US'
+   * @param string $locale Example: 'es', 'en'
    * @return $this
    */
-  public function forceLocale(string $locale): static {
-    $this->forceLocale = $locale;
+  public function locale(string $locale): static {
+    $this->locale = $locale;
 
     return $this;
   }

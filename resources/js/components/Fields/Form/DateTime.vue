@@ -1,6 +1,6 @@
 <template>
   <div class="col-span-3 md:col-span-2 xl:col-span-1">
-    <label class="block text-sm font-medium text-gray-600" :for="field.key">{{ field.name }}</label>
+    <label class="block text-sm font-medium text-gray-600">{{ field.name }}</label>
     <div class="flex mt-1 rounded-md shadow-sm">
       <input class="block border flex-1 focus:border-blue-500 focus:ring-blue-500 outline-none px-3 py-2 rounded-md sm:text-sm w-full text-gray-700"
              :class="[ errors?.length ? errorClass : defaultClass ]"

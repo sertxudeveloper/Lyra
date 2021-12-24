@@ -215,7 +215,7 @@ abstract class Resource extends JsonResource {
 
     foreach ($this->fields() as $field) {
       if (!$field->canShow($request)) continue;
-      $fieldRules = $isUpdating ? $field->updatingRules : $field->creationRules;
+      $fieldRules = $isUpdating ? $field->updateRules : $field->creationRules;
       $rules[$field->column] = str_replace('{{resourceId}}', $this->resource->getKey(), $fieldRules);
     }
 

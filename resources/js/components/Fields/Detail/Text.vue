@@ -1,6 +1,6 @@
 <template>
   <div class="col-span-3 xl:col-span-2">
-    <label class="block text-sm font-medium text-gray-600" :for="field.key">{{ field.name }}</label>
+    <label class="block text-sm font-medium text-gray-600">{{ field.name }}</label>
     <div v-if="field.value" class="flex mt-1 sm:text-sm text-gray-700 w-full">
       <span class="whitespace-no-wrap">{{ field.value }}</span>
     </div>

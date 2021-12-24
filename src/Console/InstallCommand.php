@@ -39,18 +39,45 @@ class InstallCommand extends Command {
     }
 
     $this->info('Installing Lyra...');
-    $this->call('vendor:publish', ['--provider' => LyraServiceProvider::class, '--tag' => 'lyra-config']);
+    $this->call('vendor:publish', [
+      '--provider' => LyraServiceProvider::class, '--tag' => 'lyra-config', '--force' => $this->option('force'),
+    ]);
+
+    $this->configureDateLocales();
 
     $this->info('Creating required directories...');
-    File::makeDirectory(app_path('Lyra'));
-    File::makeDirectory(app_path('Lyra/Actions'));
-    File::makeDirectory(app_path('Lyra/Cards'));
-    File::makeDirectory(app_path('Lyra/Resources'));
+    $this->createDirectories();
 
     $this->info('Generating User resource...');
     $this->callSilent('lyra:resource', ['name' => 'Users']);
 
     $this->info('Lyra installed successfully.');
+  }
+
+  /**
+   * Configure the date locales based on the application locale.
+   *
+   * @return void
+   */
+  protected function configureDateLocales() {
+    $config = File::get(config_path('lyra.php'));
+    $config = str_replace('"timezone" => "UTC",', '"timezone" => "' . config('app.timezone') . '",', $config);
+    $config = str_replace('"locale" => "en",', '"locale" => "' . config('app.locale') . '",', $config);
+    File::put(config_path('lyra.php'), $config);
+  }
+
+  protected function createDirectories() {
+    if (!File::isDirectory(app_path('Lyra')))
+      File::makeDirectory(app_path('Lyra'));
+
+    if (!File::isDirectory(app_path('Lyra/Actions')))
+      File::makeDirectory(app_path('Lyra/Actions'));
+
+    if (!File::isDirectory(app_path('Lyra/Cards')))
+      File::makeDirectory(app_path('Lyra/Cards'));
+
+    if (!File::isDirectory(app_path('Lyra/Resources')))
+      File::makeDirectory(app_path('Lyra/Resources'));
   }
 
   /**
