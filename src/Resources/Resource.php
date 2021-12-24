@@ -196,7 +196,7 @@ abstract class Resource extends JsonResource {
    * @return array
    * @throws ValidationException
    */
-  public function validateUpdating(Request $request): array {
+  public function validateUpdate(Request $request): array {
     $validator = Validator::make($request->all(), $this->formatRules($request));
 
     return $validator->validate();

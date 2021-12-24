@@ -5,6 +5,8 @@ namespace SertxuDeveloper\Lyra\Fields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
+use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
 
 abstract class Field {
 
@@ -145,6 +147,11 @@ abstract class Field {
       'value' => $model->{$this->column},
     ];
 
+    /** @see Placeholder */
+    if (isset($this->placeholder)) {
+      $field['placeholder'] = $this->placeholder;
+    }
+
     return array_merge($field, $this->additional());
   }
 
@@ -164,6 +171,7 @@ abstract class Field {
     return [
       'key' => $this->getKey(),
       'name' => $this->name,
+      /** @see Sortable */
       'sortable' => $this->sortable ?? false,
       'order' => $order ?? null,
     ];

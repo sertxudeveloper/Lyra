@@ -192,7 +192,7 @@ class ResourceController extends Controller {
     $model = $class::$model::findOrFail($id);
     $resource = new $class($model);
 
-    $validated = $resource->validateUpdating($request);
+    $validated = $resource->validateUpdate($request);
 
     /** Check if the model has been modified since the retrieval */
     if (Carbon::make($request->input('updated_at'))->notEqualTo($model->{$model->getUpdatedAtColumn()}))
