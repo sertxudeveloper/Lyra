@@ -2,8 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
-use App\Exceptions\ActionNotFoundException;
-use App\Exceptions\ResourceNotFoundException;
+use SertxuDeveloper\Lyra\Exceptions\ActionNotFoundException;
+use SertxuDeveloper\Lyra\Exceptions\ResourceNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use SertxuDeveloper\Lyra\Actions\Action;

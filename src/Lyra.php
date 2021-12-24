@@ -2,7 +2,7 @@
 
 namespace SertxuDeveloper\Lyra;
 
-use App\Exceptions\ResourceNotFoundException;
+use SertxuDeveloper\Lyra\Exceptions\ResourceNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use ReflectionClass;

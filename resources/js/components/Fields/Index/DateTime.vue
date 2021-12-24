@@ -1,23 +1,23 @@
 <template>
   <div>
-    <p v-if="field.value">{{ localizedDateTime }}</p>
+    <p v-if="field.value" :title="timezone">{{ value }}</p>
     <p v-else class="text-gray-300">&mdash;</p>
   </div>
 </template>
 
 <script>
+import moment from "moment-timezone";
+
 export default {
   name: "DateTime",
   props: ['field'],
   computed: {
-    localizedDateTime() {
-      let date = new Date(this.field.value)
-
-      if (!this.field.forceLocale)
-        return date.toLocaleString();
-
-      return date.toLocaleString(this.field.forceLocale);
+    value() {
+      return moment(this.field.value).format('LLL');
     },
-  },
+    timezone() {
+      return moment.tz.guess()
+    },
+  }
 }
 </script>

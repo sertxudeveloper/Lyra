@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace SertxuDeveloper\Lyra\Exceptions;
 
 use Exception;
 

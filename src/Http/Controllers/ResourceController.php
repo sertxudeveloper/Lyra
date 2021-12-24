@@ -2,7 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Http\Controllers;
 
-use App\Exceptions\ResourceNotFoundException;
+use SertxuDeveloper\Lyra\Exceptions\ResourceNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

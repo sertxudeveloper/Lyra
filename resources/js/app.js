@@ -9,6 +9,7 @@ import registerFields from './fields'
 import Dashboard from "./components/sections/Dashboard";
 import MediaManager from "./components/sections/MediaManager";
 
+import Resource from "./components/Resources/Resource";
 import Index from "./components/Resources/Index";
 import Show from "./components/Resources/Show";
 import Create from "./components/Resources/Create";
@@ -20,10 +21,21 @@ const routes = [
   { path: '/', name: 'dashboard', component: Dashboard },
   { path: '/media', name: 'media', component: MediaManager },
 
-  { path: '/resource/:resourceName', name: 'resource-index', component: Index },
-  { path: '/resource/:resourceName/:resourceId', name: 'resource-show', component: Show },
-  { path: '/resource/:resourceName/create', name: 'resource-create', component: Create },
-  { path: '/resource/:resourceName/:resourceId/edit', name: 'resource-edit', component: Edit },
+  {
+    path: '/resource/:resourceName',
+    component: Resource,
+    children: [
+      { path: '', name: 'resource-index', component: Index },
+      { path: ':resourceId', name: 'resource-show', component: Show },
+      { path: 'create', name: 'resource-create', component: Create },
+      { path: ':resourceId/edit', name: 'resource-edit', component: Edit },
+    ]
+  }
+
+  // { path: '/resource/:resourceName', name: 'resource-index', component: Index },
+  // { path: '/resource/:resourceName/:resourceId', name: 'resource-show', component: Show },
+  // { path: '/resource/:resourceName/create', name: 'resource-create', component: Create },
+  // { path: '/resource/:resourceName/:resourceId/edit', name: 'resource-edit', component: Edit },
 ]
 
 axios.defaults.baseURL = window.config.apiRoute
