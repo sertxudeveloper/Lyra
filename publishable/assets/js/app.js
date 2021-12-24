@@ -19604,24 +19604,16 @@ __webpack_require__.r(__webpack_exports__);
   name: "DateTime",
   props: ['field'],
   computed: {
-    localizedDateTime: function localizedDateTime() {
-      var date = new Date(this.field.value);
-
-      if (this.field.locale && this.field.timezone) {
-        return date.toLocaleString(this.field.locale, {
-          timeZone: this.field.timezone
-        });
-      } else if (this.field.locale) {
-        return date.toLocaleString(this.field.locale);
-      } else if (this.field.timezone) {
-        return date.toLocaleString('en-US');
-      } else {
-        return date.toLocaleString();
-      }
+    value: function value() {
+      return new Date(this.field.value).toLocaleString(this.locale, {
+        timeZone: this.timezone
+      });
     },
     timezone: function timezone() {
-      if (!this.field.timezone) return Intl.DateTimeFormat().resolvedOptions().timeZone;
-      return this.field.timezone.replace('_', ' ');
+      return Intl.DateTimeFormat().resolvedOptions().timeZone;
+    },
+    locale: function locale() {
+      return Intl.DateTimeFormat().resolvedOptions().locale;
     }
   }
 });
@@ -19699,20 +19691,35 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       defaultClass: 'border-gray-300',
-      errorClass: 'border-red-400'
+      errorClass: 'border-red-400',
+      changed: false
     };
   },
   computed: {
     value: {
       set: function set(value) {
-        this.field.value = value;
+        this.changed = true; // this.field.value = new Date(new Date(value) - -new Date().getTimezoneOffset() * 60000).toISOString()
+
+        console.log(new Date(value).toISOString());
       },
       get: function get() {
-        if (!this.field.value) return '';
-        var date = new Date(this.field.value);
-        var IsoDate = date.toISOString();
-        return IsoDate.substring(0, IsoDate.length - 1);
+        if (!this.field.value) return null; // let date = null
+        // if (!this.changed) {
+        //   date = new Date(new Date(this.field.value) - new Date().getTimezoneOffset() * 60000).toISOString()
+        // } else {
+        //   date = new Date(new Date(this.field.value) - new Date().getTimezoneOffset() * 60000).toISOString()
+        // }
+        //
+        // return date.slice(0, -1)
+
+        return new Date(this.field.value).toISOString().slice(0, -1);
       }
+    },
+    timezone: function timezone() {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone;
+    },
+    locale: function locale() {
+      return Intl.DateTimeFormat().resolvedOptions().locale;
     }
   }
 });
@@ -20739,7 +20746,7 @@ var _hoisted_5 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.field.name), 1
   /* TEXT */
-  ), $props.field.value ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.localizedDateTime) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.timezone) + ")", 1
+  ), $props.field.value ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.value) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.timezone) + ")", 1
   /* TEXT */
   )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_5, "—"))]);
 }
@@ -20899,14 +20906,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["block border flex-1 focus:border-blue-500 focus:ring-blue-500 outline-none px-3 py-2 rounded-md sm:text-sm w-full text-gray-700", [(_$props$errors = $props.errors) !== null && _$props$errors !== void 0 && _$props$errors.length ? $data.errorClass : $data.defaultClass]]),
+    onChange: _cache[0] || (_cache[0] = function ($event) {
+      return $data.changed = true;
+    }),
     type: "datetime-local",
     name: $props.field.key,
     step: "1",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $options.value = $event;
     })
-  }, null, 10
-  /* CLASS, PROPS */
+  }, null, 42
+  /* CLASS, PROPS, HYDRATE_EVENTS */
   , _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $options.value, void 0, {
     lazy: true
   }]])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.errors, function (error) {
@@ -21038,13 +21048,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $data.mask = false;
     }),
-    "class": "absolute h-full inline-flex items-center px-3 right-0 text-gray-500 top-0"
+    "class": "absolute h-full inline-flex items-center px-3 right-0 text-gray-700 top-0"
   }, _hoisted_6)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 1,
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $data.mask = true;
     }),
-    "class": "absolute h-full inline-flex items-center px-3 right-0 text-gray-500 top-0"
+    "class": "absolute h-full inline-flex items-center px-3 right-0 text-gray-700 top-0"
   }, _hoisted_8))]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.errors, function (error) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(error), 1
     /* TEXT */
