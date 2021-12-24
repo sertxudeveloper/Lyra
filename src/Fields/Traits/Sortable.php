@@ -1,6 +1,6 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Fields;
+namespace SertxuDeveloper\Lyra\Fields\Traits;
 
 trait Sortable {
 
@@ -11,7 +11,7 @@ trait Sortable {
    *
    * @return $this
    */
-  public function sortable() {
+  public function sortable(): static {
     $this->sortable = true;
 
     return $this;

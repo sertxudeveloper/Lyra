@@ -2,7 +2,11 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
+
 class DateTime extends Field {
+
+  use Sortable;
 
   public string $component = 'field-datetime';
   public string $forceLocale = '';
@@ -22,8 +26,9 @@ class DateTime extends Field {
    * @param string $locale Example: 'es-ES', 'en-US'
    * @return $this
    */
-  public function forceLocale(string $locale): self {
+  public function forceLocale(string $locale): static {
     $this->forceLocale = $locale;
+
     return $this;
   }
 }

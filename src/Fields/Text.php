@@ -2,6 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
+
 class Text extends Field {
 
   use Sortable;
