@@ -25,17 +25,17 @@ class Lyra {
   /**
    * Generate a URL of the given asset
    *
-   * @param $file
-   * @return string
+   * @param string $file The asset file name
+   * @return string The URL of the asset
    */
-  static public function asset($file): string {
+  static public function asset(string $file): string {
     return dirname(__DIR__) . "/publishable/assets/$file";
   }
 
   /**
    * Get a list of registered resources
    *
-   * @return array
+   * @return array The list of registered resources
    */
   static public function getResources(): array {
     return static::$resources;
@@ -44,14 +44,13 @@ class Lyra {
   /**
    * Get the resource class from the given slug
    *
-   * @param string $slug
-   * @return string
+   * @param string $slug Slug of the wanted resource
+   * @return string Class name of the resource
    * @throws ResourceNotFoundException
    */
   static public function resourceBySlug(string $slug): string {
     foreach (static::$resources as $class) {
-      if ($class::slug() === $slug)
-        return $class;
+      if ($class::slug() === $slug) return $class;
     }
 
     throw new ResourceNotFoundException;
@@ -60,7 +59,7 @@ class Lyra {
   /**
    * Register given resources
    *
-   * @param string ...$resource
+   * @param string ...$resource The resources to register
    */
   static public function resources(string ...$resource): void {
     static::$resources = array_unique(array_merge(static::$resources, $resource));
@@ -74,8 +73,7 @@ class Lyra {
    */
   static public function resourcesIn(string $directory): void {
     $namespace = app()->getNamespace();
-    if (!file_exists($directory))
-      return;
+    if (!file_exists($directory)) return;
 
     $resources = [];
 
