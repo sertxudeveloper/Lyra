@@ -6,6 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use SertxuDeveloper\Lyra\Console\InstallCommand;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
 use SertxuDeveloper\Lyra\Models\LyraUser;
 
@@ -33,6 +34,9 @@ class LyraServiceProvider extends ServiceProvider {
 
     /** Register configuration files */
     $this->registerConfig();
+
+    /** Register commands */
+    $this->registerCommands();
 
     /** Register Auth provider and guard */
     $this->registerAuth();
@@ -81,6 +85,19 @@ class LyraServiceProvider extends ServiceProvider {
   protected function loadHelpers(): void {
     foreach (glob(__DIR__ . '/Helpers/*.php') as $filename) {
       require_once $filename;
+    }
+  }
+
+  /**
+   * Register the console commands for the package.
+   *
+   * @return void
+   */
+  protected function registerCommands() {
+    if ($this->app->runningInConsole()) {
+      $this->commands([
+        InstallCommand::class,
+      ]);
     }
   }
 
