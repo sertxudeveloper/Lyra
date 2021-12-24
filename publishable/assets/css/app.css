@@ -419,10 +419,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .relative {
   position: relative;
 }
-.inset-y-0 {
-  top: 0px;
-  bottom: 0px;
-}
 .top-0 {
   top: 0px;
 }
@@ -928,6 +924,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .pr-1 {
   padding-right: 0.25rem;
 }
+.pl-3 {
+  padding-left: 0.75rem;
+}
+.pr-10 {
+  padding-right: 2.5rem;
+}
 .pt-0\.5 {
   padding-top: 0.125rem;
 }
@@ -936,15 +938,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .pr-1\.5 {
   padding-right: 0.375rem;
-}
-.pl-3 {
-  padding-left: 0.75rem;
-}
-.pr-8 {
-  padding-right: 2rem;
-}
-.pr-10 {
-  padding-right: 2.5rem;
 }
 .text-left {
   text-align: left;

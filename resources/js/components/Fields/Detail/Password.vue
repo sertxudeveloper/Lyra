@@ -1,5 +1,5 @@
 <template>
-  <div class="col-span-3 xl:col-span-2">
+  <div class="col-span-3">
     <label class="block text-sm font-medium text-gray-600">{{ field.name }}</label>
     <div v-if="field.value" class="flex mt-1 sm:text-sm text-gray-700 w-full">
       <span class="whitespace-no-wrap font-mono">{{ field.value }}</span>

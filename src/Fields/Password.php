@@ -4,28 +4,40 @@ namespace SertxuDeveloper\Lyra\Fields;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 
 class Password extends Field {
+
+  use Placeholder;
 
   public string $component = 'field-password';
 
   public bool $showOnIndex = false;
 
   /**
-   * Transform the field into an array.
+   * Create a new instance of the field
    *
-   * @param Model $model
+   * @param string $name
+   * @param null $column
+   * @return $this
+   */
+  public static function make(string $name, $column = null): Field {
+    $field = parent::make($name, $column);
+
+    $field->placeholder(Str::repeat('*', 12));
+
+    return $field;
+  }
+
+  /**
+   * Add field-specific data to the response
+   *
    * @return array
    */
-  public function toArray(Model $model): array {
-    $field = [
-      'key' => $this->getKey(),
-      'component' => $this->component,
-      'name' => $this->name,
-      'value' => Str::repeat('*', 12),
+  public function additional(): array {
+    return [
+      'value' => null,
     ];
-
-    return array_merge($field, $this->additional());
   }
 
   /**

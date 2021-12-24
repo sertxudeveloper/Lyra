@@ -2,11 +2,12 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
 
 class Text extends Field {
 
-  use Sortable;
+  use Placeholder, Sortable;
 
   public string $component = 'field-text';
   public bool $asHtml = false;

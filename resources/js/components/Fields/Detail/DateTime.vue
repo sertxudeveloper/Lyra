@@ -1,5 +1,5 @@
 <template>
-  <div class="col-span-3 md:col-span-2 xl:col-span-1">
+  <div class="col-span-3">
     <label class="block text-sm font-medium text-gray-600">{{ field.name }}</label>
     <div v-if="field.value" class="flex mt-1 sm:text-sm text-gray-700 w-full">
       <span class="whitespace-no-wrap">{{ value }} ({{ timezone }})</span>
@@ -9,19 +9,18 @@
 </template>
 
 <script>
+import moment from 'moment-timezone';
+
 export default {
   name: "DateTime",
   props: ['field'],
   computed: {
     value() {
-      return new Date(this.field.value).toLocaleString(this.locale, {timeZone: this.timezone})
+      return moment(this.field.value).format('LLL');
     },
     timezone() {
-      return Intl.DateTimeFormat().resolvedOptions().timeZone
+      return moment.tz.guess()
     },
-    locale() {
-      return Intl.DateTimeFormat().resolvedOptions().locale
-    }
   }
 }
 </script>

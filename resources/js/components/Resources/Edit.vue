@@ -15,8 +15,6 @@
 
       <!-- Fields -->
       <form ref="form" @submit.prevent="submit">
-        <input type="hidden" name="updated_at" v-model="resource.data.updated_at">
-
         <div class="md:grid md:grid-cols-4 md:gap-6">
           <div class="md:col-span-1">
             <div class="px-4 sm:px-0">
@@ -70,7 +68,17 @@ export default {
     submit() {
       this.errors = []
 
-      let formData = new FormData(this.$refs.form);
+      let formData = new FormData();
+
+      for (let field of this.resource.data.fields) {
+        // if (field.component === 'file') {
+        //   formData.append(field.key, this.$refs[field.key].files[0])
+        // }
+
+        formData.set(field.key, field.value ?? '')
+      }
+
+      formData.append('updated_at', this.resource.data.updated_at)
 
       this.$http.post(`/resources/${this.$route.params.resourceName}/${this.$route.params.resourceId}`, formData)
           .then(response => {
