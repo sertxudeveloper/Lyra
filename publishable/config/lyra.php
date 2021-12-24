@@ -58,17 +58,4 @@ return [
    |
    */
   "logo_url" => null,
-
-  /*
-   |------------------------------------------------------------
-   | Date timezone & locale
-   |------------------------------------------------------------
-   |
-   | You can specify the date timezone and locale
-   | used by Lyra, this will be used by the
-   | Date and DateTime fields.
-   |
-   */
-  "timezone" => "UTC",
-  "locale" => "en",
 ];

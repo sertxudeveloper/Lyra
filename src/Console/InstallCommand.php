@@ -43,8 +43,6 @@ class InstallCommand extends Command {
       '--provider' => LyraServiceProvider::class, '--tag' => 'lyra-config', '--force' => $this->option('force'),
     ]);
 
-    $this->configureDateLocales();
-
     $this->info('Creating required directories...');
     $this->createDirectories();
 
@@ -55,17 +53,10 @@ class InstallCommand extends Command {
   }
 
   /**
-   * Configure the date locales based on the application locale.
+   * Create the directories required for Lyra classes.
    *
    * @return void
    */
-  protected function configureDateLocales() {
-    $config = File::get(config_path('lyra.php'));
-    $config = str_replace('"timezone" => "UTC",', '"timezone" => "' . config('app.timezone') . '",', $config);
-    $config = str_replace('"locale" => "en",', '"locale" => "' . config('app.locale') . '",', $config);
-    File::put(config_path('lyra.php'), $config);
-  }
-
   protected function createDirectories() {
     if (!File::isDirectory(app_path('Lyra')))
       File::makeDirectory(app_path('Lyra'));
