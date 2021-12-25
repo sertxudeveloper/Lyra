@@ -5,7 +5,7 @@
       <div class="md:grid md:grid-cols-4 md:gap-6">
         <div class="flex justify-between mb-2 md:col-span-3 md:col-start-2">
           <div class="flex">
-            <router-link :to="{ name: 'resource-index', params: { resourceName: $route.params.resourceName } }"
+            <router-link :to="{ name: 'resource-show', params: { resourceName: $route.params.resourceName, resourceId: $route.params.resourceId } }"
                          class="bg-white h-9 hover:text-blue-500 p-2.5 rounded shadow text-gray-700 w-9">
               <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.21071 15.6897L8.91781 14.9826C9.08517 14.8153 9.08517 14.5439 8.91781 14.3765L3.37745 8.83621H15.5714C15.8081 8.83621 16 8.64431 16 8.40763V7.40763C16 7.17095 15.8081 6.97906 15.5714 6.97906H3.37745L8.91781 1.4387C9.08517 1.27134 9.08517 0.999983 8.91781 0.83259L8.21071 0.125518C8.04335 -0.0418393 7.77199 -0.0418393 7.6046 0.125518L0.125518 7.6046C-0.0418393 7.77195 -0.0418393 8.04331 0.125518 8.21071L7.6046 15.6898C7.77195 15.8571 8.04331 15.8571 8.21071 15.6897Z"/></svg>
             </router-link>

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-span-3 xl:col-span-2">
+  <div class="col-span-3 md:col-span-2 xl:col-span-1">
     <label class="block text-sm font-medium text-gray-600">{{ field.name }}</label>
     <div class="flex mt-1 rounded-md shadow-sm relative">
       <input class="block border flex-1 focus:border-blue-500 focus:ring-blue-500 outline-none pl-3 pr-10 py-2 rounded-md sm:text-sm w-full text-gray-700"
