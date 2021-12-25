@@ -150,7 +150,6 @@ abstract class Resource extends JsonResource {
       'key' => $this->resource->getKey(),
       'trashed' => (method_exists($this->resource, 'trashed')) ? $this->resource->trashed() : false,
       'fields' => $fields,
-
     ];
 
     $route = Lyra::getRouteName($request);

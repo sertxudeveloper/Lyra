@@ -38,7 +38,8 @@ class ResourceCollection extends JsonResourceCollection {
       'data' => $resource::collection($this->collection),
       'labels' => ['singular' => $resource::singular(), 'plural' => $resource::label()],
       'perPageOptions' => $resource::$perPageOptions,
-      'actions' => ActionResource::collection($resource->actions())
+      'actions' => ActionResource::collection($resource->actions()),
+      'softDeletes' => method_exists($resource::newModel(), 'trashed'),
     ];
   }
 

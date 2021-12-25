@@ -96,8 +96,8 @@ class ResourceController extends Controller {
 
     $query = $class::$model::query();
 
-    /** Add soft deleted if requested */
-    switch ($request->query('trashed')) {
+    /** Add soft deleted if requested and it's supported */
+    switch ($request->query('trashed') && method_exists($class::$model, 'trashed')) {
       case 'with':
         $query->withTrashed();
         break;

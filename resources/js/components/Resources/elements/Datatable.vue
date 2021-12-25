@@ -37,6 +37,7 @@
         <FilterMenu
             :per-page="resources.meta.per_page"
             :per-page-options="resources.perPageOptions"
+            :soft-deletes="resources.softDeletes"
             @per-page-changed="updatePerPageChanged"
             @trashed-changed="trashedChanged"
         />

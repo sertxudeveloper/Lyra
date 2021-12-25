@@ -20097,14 +20097,21 @@ __webpack_require__.r(__webpack_exports__);
     DropdownMenu: _Dropdown_DropdownMenu__WEBPACK_IMPORTED_MODULE_1__["default"],
     Dropdown: _Dropdown_Dropdown__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  props: ['perPage', 'perPageOptions', 'trashed'],
+  props: ['perPage', 'perPageOptions', 'softDeletes'],
   emits: ['perPageChanged', 'trashedChanged'],
   methods: {
-    trashedChanged: function trashedChanged(event) {
-      this.$emit('trashedChanged', event.target.value);
-    },
     perPageChanged: function perPageChanged(event) {
+      console.log('perPageChanged', event.target.value);
       this.$emit('perPageChanged', event.target.value);
+    },
+    trashedChanged: function trashedChanged(event) {
+      console.log('trashedChanged', event.target.value);
+      this.$emit('trashedChanged', event.target.value);
+    }
+  },
+  computed: {
+    trashed: function trashed() {
+      return this.$route.query.trashed;
     }
   }
 });
@@ -20892,7 +20899,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "trigger", {
     toggle: $options.toggle
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-    name: "fade"
+    "enter-from-class": "transform opacity-0 scale-95",
+    "enter-to-class": "transform opacity-100 scale-100",
+    "enter-active-class": "transition ease-out duration-100",
+    "leave-from-class": "transform opacity-100 scale-100",
+    "leave-to-class": "transform opacity-0 scale-95",
+    "leave-active-class": "transition ease-in duration-75"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [$data.visible ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default", {
@@ -21787,44 +21799,48 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_6 = {
-  "class": "border border-gray-200 flex m-2 rounded-md"
+  "class": "border border-gray-200 flex m-2 rounded-md focus-within:ring-1 focus-within:ring-blue-500"
 };
-var _hoisted_7 = {
-  "class": "bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full"
-};
-var _hoisted_8 = ["value"];
+var _hoisted_7 = ["value"];
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" > ");
+
+var _hoisted_9 = ["value"];
+var _hoisted_10 = {
+  key: 0
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "bg-gray-100 block font-medium px-4 py-2 text-gray-600 text-xs tracking-wider uppercase"
 }, "Trashed", -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_12 = {
   "class": "border border-gray-200 flex m-2 rounded-md"
 };
-var _hoisted_11 = ["value"];
+var _hoisted_13 = ["value"];
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
   value: "",
   selected: ""
 }, "—", -1
 /* HOISTED */
 );
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
   value: "only"
 }, "Only Trashed", -1
 /* HOISTED */
 );
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
   value: "with"
 }, "With Trashed", -1
 /* HOISTED */
 );
 
-var _hoisted_15 = [_hoisted_12, _hoisted_13, _hoisted_14];
+var _hoisted_17 = [_hoisted_14, _hoisted_15, _hoisted_16];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DropdownMenu = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DropdownMenu");
 
@@ -21843,23 +21859,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DropdownMenu, null, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.perPageOptions, function (option) {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Per Page "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+            value: $props.perPage,
+            onChange: _cache[0] || (_cache[0] = function () {
+              return $options.perPageChanged && $options.perPageChanged.apply($options, arguments);
+            }),
+            "class": "bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full focus:outline-none"
+          }, [_hoisted_8, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.perPageOptions, function (option) {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
               value: option
             }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 9
             /* TEXT, PROPS */
-            , _hoisted_8);
+            , _hoisted_9);
           }), 256
           /* UNKEYED_FRAGMENT */
-          ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-            "class": "bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full",
-            value: $props.trashed,
-            onChange: _cache[0] || (_cache[0] = function () {
-              return $options.trashedChanged && $options.trashedChanged.apply($options, arguments);
-            })
-          }, _hoisted_15, 40
+          ))], 40
           /* PROPS, HYDRATE_EVENTS */
-          , _hoisted_11)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("      <div class=\"py-1\" role=\"none\">\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-2\">Archive</a>\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-3\">Move</a>\n      </div>\n      <div class=\"py-1\" role=\"none\">\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-4\">Share</a>\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-5\">Add to favorites</a>\n      </div>\n      <div class=\"py-1\" role=\"none\">\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-6\">Delete</a>\n      </div>")];
+          , _hoisted_7)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Soft Deletes "), $props.softDeletes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+            value: $options.trashed,
+            onChange: _cache[1] || (_cache[1] = function () {
+              return $options.trashedChanged && $options.trashedChanged.apply($options, arguments);
+            }),
+            "class": "bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full"
+          }, _hoisted_17, 40
+          /* PROPS, HYDRATE_EVENTS */
+          , _hoisted_13)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("      <div class=\"py-1\" role=\"none\">\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-2\">Archive</a>\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-3\">Move</a>\n      </div>\n      <div class=\"py-1\" role=\"none\">\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-4\">Share</a>\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-5\">Add to favorites</a>\n      </div>\n      <div class=\"py-1\" role=\"none\">\n        <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-6\">Delete</a>\n      </div>")];
         }),
         _: 1
         /* STABLE */
@@ -22095,11 +22119,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FilterMenu, {
     "per-page": $props.resources.meta.per_page,
     "per-page-options": $props.resources.perPageOptions,
+    "soft-deletes": $props.resources.softDeletes,
     onPerPageChanged: $options.updatePerPageChanged,
     onTrashedChanged: $options.trashedChanged
   }, null, 8
   /* PROPS */
-  , ["per-page", "per-page-options", "onPerPageChanged", "onTrashedChanged"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <div class=\"relative inline-block text-left h-full\">\n          <button @click=\"filterDropdownOpen = !filterDropdownOpen\"\n              class=\"bg-gray-200 cursor-pointer inline-flex focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 gap-1.5 gap-x-2 h-full items-center px-3 rounded text-gray-700\">\n            <svg width=\"19\" height=\"19\" viewBox=\"0 0 22 22\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M20.6236 0H1.37663C0.155245 0 -0.461013 1.48186 0.404334 2.34725L8.25 10.1946V18.2187C8.24999 18.4147 8.29188 18.6085 8.37287 18.7869C8.45385 18.9654 8.57206 19.1245 8.71956 19.2535L11.4696 21.659C12.3478 22.4275 13.75 21.8172 13.75 20.6243V10.1946L21.5959 2.34725C22.4595 1.48362 21.8475 0 20.6236 0ZM12.375 9.625V20.625L9.625 18.2187V9.625L1.375 1.375H20.625L12.375 9.625Z\"/></svg>\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M15.8729 4.24957L15.1589 3.5337C14.9894 3.36377 14.7154 3.36377 14.5459 3.5337L8.01562 10.0669L1.48533 3.5337C1.31585 3.36377 1.0418 3.36377 0.872327 3.5337L0.158358 4.24957C-0.0111194 4.41949 -0.0111194 4.69427 0.158358 4.8642L7.70912 12.4351C7.8786 12.605 8.15265 12.605 8.32213 12.4351L15.8729 4.8642C16.0424 4.69427 16.0424 4.41949 15.8729 4.24957Z\"/></svg>\n          </button>\n\n\n          <div v-show=\"filterDropdownOpen\" v-click-away=\"() => {if (filterDropdownOpen) filterDropdownOpen = false}\"\n              class=\"origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none\" role=\"menu\" aria-orientation=\"vertical\" aria-labelledby=\"menu-button\" tabindex=\"-1\">\n            <div class=\"py-1\" role=\"none\">\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-0\">Edit</a>\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-1\">Duplicate</a>\n            </div>\n            <div class=\"py-1\" role=\"none\">\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-2\">Archive</a>\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-3\">Move</a>\n            </div>\n            <div class=\"py-1\" role=\"none\">\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-4\">Share</a>\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-5\">Add to favorites</a>\n            </div>\n            <div class=\"py-1\" role=\"none\">\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-6\">Delete</a>\n            </div>\n          </div>\n        </div>")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Resource Table"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableHeader, {
+  , ["per-page", "per-page-options", "soft-deletes", "onPerPageChanged", "onTrashedChanged"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <div class=\"relative inline-block text-left h-full\">\n          <button @click=\"filterDropdownOpen = !filterDropdownOpen\"\n              class=\"bg-gray-200 cursor-pointer inline-flex focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 gap-1.5 gap-x-2 h-full items-center px-3 rounded text-gray-700\">\n            <svg width=\"19\" height=\"19\" viewBox=\"0 0 22 22\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M20.6236 0H1.37663C0.155245 0 -0.461013 1.48186 0.404334 2.34725L8.25 10.1946V18.2187C8.24999 18.4147 8.29188 18.6085 8.37287 18.7869C8.45385 18.9654 8.57206 19.1245 8.71956 19.2535L11.4696 21.659C12.3478 22.4275 13.75 21.8172 13.75 20.6243V10.1946L21.5959 2.34725C22.4595 1.48362 21.8475 0 20.6236 0ZM12.375 9.625V20.625L9.625 18.2187V9.625L1.375 1.375H20.625L12.375 9.625Z\"/></svg>\n            <svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M15.8729 4.24957L15.1589 3.5337C14.9894 3.36377 14.7154 3.36377 14.5459 3.5337L8.01562 10.0669L1.48533 3.5337C1.31585 3.36377 1.0418 3.36377 0.872327 3.5337L0.158358 4.24957C-0.0111194 4.41949 -0.0111194 4.69427 0.158358 4.8642L7.70912 12.4351C7.8786 12.605 8.15265 12.605 8.32213 12.4351L15.8729 4.8642C16.0424 4.69427 16.0424 4.41949 15.8729 4.24957Z\"/></svg>\n          </button>\n\n\n          <div v-show=\"filterDropdownOpen\" v-click-away=\"() => {if (filterDropdownOpen) filterDropdownOpen = false}\"\n              class=\"origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none\" role=\"menu\" aria-orientation=\"vertical\" aria-labelledby=\"menu-button\" tabindex=\"-1\">\n            <div class=\"py-1\" role=\"none\">\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-0\">Edit</a>\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-1\">Duplicate</a>\n            </div>\n            <div class=\"py-1\" role=\"none\">\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-2\">Archive</a>\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-3\">Move</a>\n            </div>\n            <div class=\"py-1\" role=\"none\">\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-4\">Share</a>\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-5\">Add to favorites</a>\n            </div>\n            <div class=\"py-1\" role=\"none\">\n              <a href=\"#\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900\" role=\"menuitem\" tabindex=\"-1\" id=\"menu-item-6\">Delete</a>\n            </div>\n          </div>\n        </div>")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Resource Table"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TableHeader, {
     header: $props.resources.header,
     onUpdated: _cache[4] || (_cache[4] = function ($event) {
       return _ctx.$emit('updated', $event);

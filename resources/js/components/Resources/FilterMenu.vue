@@ -10,21 +10,29 @@
     </template>
 
     <DropdownMenu>
+      <!-- Per Page -->
       <div>
         <div class="bg-gray-100 block font-medium px-4 py-2 text-gray-600 text-xs tracking-wider uppercase">Items per page</div>
-        <div class="border border-gray-200 flex m-2 rounded-md">
-          <select class="bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full">
+        <div class="border border-gray-200 flex m-2 rounded-md focus-within:ring-1 focus-within:ring-blue-500">
+          <select
+              :value="perPage"
+              @change="perPageChanged"
+              class="bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full focus:outline-none">
+          >
             <option v-for="option in perPageOptions" :value="option">{{ option }}</option>
           </select>
         </div>
       </div>
-      <div>
+
+      <!-- Soft Deletes -->
+      <div v-if="softDeletes">
         <div class="bg-gray-100 block font-medium px-4 py-2 text-gray-600 text-xs tracking-wider uppercase">Trashed</div>
         <div class="border border-gray-200 flex m-2 rounded-md">
           <select
-              class="bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full"
               :value="trashed"
-              @change="trashedChanged">
+              @change="trashedChanged"
+              class="bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full"
+          >
             <option value="" selected>&mdash;</option>
             <option value="only">Only Trashed</option>
             <option value="with">With Trashed</option>
@@ -52,15 +60,22 @@ import DropdownMenu from "../Dropdown/DropdownMenu";
 
 export default {
   components: {DropdownMenu, Dropdown},
-  props: ['perPage', 'perPageOptions', 'trashed'],
+  props: ['perPage', 'perPageOptions', 'softDeletes'],
   emits: ['perPageChanged', 'trashedChanged'],
   methods: {
-    trashedChanged(event) {
-      this.$emit('trashedChanged', event.target.value)
-    },
     perPageChanged(event) {
+      console.log('perPageChanged', event.target.value)
       this.$emit('perPageChanged', event.target.value)
     },
+    trashedChanged(event) {
+      console.log('trashedChanged', event.target.value)
+      this.$emit('trashedChanged', event.target.value)
+    },
+  },
+  computed: {
+    trashed() {
+      return this.$route.query.trashed
+    }
   }
 }
 </script>
