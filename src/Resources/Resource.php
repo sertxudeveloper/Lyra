@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use SertxuDeveloper\Lyra\Lyra;
 
 abstract class Resource extends JsonResource {
 
@@ -149,9 +150,10 @@ abstract class Resource extends JsonResource {
       'key' => $this->resource->getKey(),
       'trashed' => (method_exists($this->resource, 'trashed')) ? $this->resource->trashed() : false,
       'fields' => $fields,
+
     ];
 
-    $route = str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
+    $route = Lyra::getRouteName($request);
     if ($route === 'resources.edit' || $route === 'resources.update') {
       $updated_at = (new $this->resource)->getUpdatedAtColumn();
       $response['updated_at'] = $this->resource->$updated_at;
@@ -210,8 +212,7 @@ abstract class Resource extends JsonResource {
    */
   protected function formatRules(Request $request): array {
     $rules = [];
-    $route = str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
-    $isUpdating = $route == 'resources.update';
+    $isUpdating = Lyra::getRouteName($request) == 'resources.update';
 
     foreach ($this->fields() as $field) {
       if (!$field->canShow($request)) continue;

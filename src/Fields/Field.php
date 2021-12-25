@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
+use SertxuDeveloper\Lyra\Lyra;
 
 abstract class Field {
 
@@ -53,10 +54,7 @@ abstract class Field {
    * @return bool
    */
   public function canShow(Request $request): bool {
-    $route = $request->route()->getName();
-    $route = str_replace(config('lyra.routes.api.name'), '', $route);
-
-    return match ($route) {
+    return match (Lyra::getRouteName($request)) {
       'resources.index' => $this->showOnIndex,
       'resources.create', 'resources.store' => $this->showOnCreate,
       'resources.show' => $this->showOnShow,
@@ -128,9 +126,20 @@ abstract class Field {
    */
   public function rules(string ...$rules): self {
     $this->creationRules = $rules;
-    $this->updatingRules = $rules;
+    $this->updateRules = $rules;
 
     return $this;
+  }
+
+  /**
+   * Update the field value using the given data
+   *
+   * @param Model $model The model to be updated
+   * @param array $data The new validated data
+   * @return void
+   */
+  public function save(Model $model, array $data): void {
+    $model->{$this->getKey()} = $data[$this->getKey()];
   }
 
   /**
@@ -187,16 +196,5 @@ abstract class Field {
     $this->updateRules = $rules;
 
     return $this;
-  }
-
-  /**
-   * Update the field value using the given data
-   *
-   * @param Model $model The model to be updated
-   * @param array $data The new validated data
-   * @return void
-   */
-  public function save(Model $model, array $data): void {
-    $model->{$this->getKey()} = $data[$this->getKey()];
   }
 }

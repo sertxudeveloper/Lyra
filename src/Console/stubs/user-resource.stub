@@ -59,7 +59,7 @@ class {{ class }} extends Resource {
       Text::make('Name')->rules('required', 'max:255')->sortable(),
 
       Text::make('Email')->creationRules('required', 'email', 'unique:users,email')
-        ->updatingRules('required', 'email', 'unique:users,email,{{resourceId}}'),
+        ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}'),
 
       Password::make('Password')->hideOnIndex(),
 

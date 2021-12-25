@@ -97,10 +97,14 @@ class ResourceController extends Controller {
     $query = $class::$model::query();
 
     /** Add soft deleted if requested */
-    if ($request->query('withTrashed') === 'include') {
-      $query->withTrashed();
-    } else if ($request->query('withTrashed') === 'only') {
-      $query->onlyTrashed();
+    switch ($request->query('trashed')) {
+      case 'with':
+        $query->withTrashed();
+        break;
+
+      case 'only':
+        $query->onlyTrashed();
+        break;
     }
 
     /** Add sort to the resource query */

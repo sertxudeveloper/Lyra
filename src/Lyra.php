@@ -2,11 +2,12 @@
 
 namespace SertxuDeveloper\Lyra;
 
-use SertxuDeveloper\Lyra\Exceptions\ResourceNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionException;
+use SertxuDeveloper\Lyra\Exceptions\ResourceNotFoundException;
 use SertxuDeveloper\Lyra\Resources\Resource;
 use Symfony\Component\Finder\Finder;
 
@@ -39,6 +40,16 @@ class Lyra {
    */
   static public function getResources(): array {
     return static::$resources;
+  }
+
+  /**
+   * Extract Lyra named route from the given request
+   *
+   * @param Request $request
+   * @return string
+   */
+  static public function getRouteName(Request $request): string {
+    return (string)str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
   }
 
   /**

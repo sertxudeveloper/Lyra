@@ -1,9 +1,9 @@
 <template>
   <div v-click-away="close" class="relative inline-block text-left h-full">
-    <slot :toggle="toggle" />
+    <slot name="trigger" :toggle="toggle" />
 
     <transition name="fade">
-      <slot v-if="visible" name="menu" />
+      <slot v-if="visible" />
     </transition>
   </div>
 </template>

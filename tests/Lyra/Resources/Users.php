@@ -50,7 +50,7 @@ class Users extends Resource {
       Text::make('Name')->rules('required', 'max:255')->sortable(),
 
       Text::make('Email')->creationRules('required', 'email', 'unique:users,email')
-        ->updatingRules('required', 'email', 'unique:users,email,{{resourceId}}')->sortable(),
+        ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}')->sortable(),
 
       Text::make('Password')->hideOnIndex(),
 

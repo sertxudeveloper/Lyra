@@ -107,7 +107,7 @@ class ResourceIndexTest extends IntegrationTest {
     $userCount = User::withTrashed()->count();
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'withTrashed=include']));
+      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'trashed=with']));
 
     $response->assertOk();
 
@@ -124,7 +124,7 @@ class ResourceIndexTest extends IntegrationTest {
     $userCount = User::onlyTrashed()->count();
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'withTrashed=only']));
+      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'trashed=only']));
 
     $response->assertOk();
 
