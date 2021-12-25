@@ -32,7 +32,7 @@
 
 <script>
 import { debounce } from 'lodash'
-import Datatable from "./elements/Datatable";
+import Datatable from "../../components/Resources/elements/Datatable";
 
 export default {
   name: "Index",
@@ -82,7 +82,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

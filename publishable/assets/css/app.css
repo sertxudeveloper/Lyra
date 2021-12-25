@@ -413,6 +413,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .pointer-events-auto {
   pointer-events: auto;
 }
+.visible {
+  visibility: visible;
+}
 .absolute {
   position: absolute;
 }
@@ -433,9 +436,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .col-span-3 {
   grid-column: span 3 / span 3;
-}
-.col-span-2 {
-  grid-column: span 2 / span 2;
 }
 .m-3 {
   margin: 0.75rem;
@@ -512,6 +512,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .block {
   display: block;
+}
+.inline-block {
+  display: inline-block;
 }
 .flex {
   display: flex;
@@ -624,6 +627,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .flex-grow-0 {
   flex-grow: 0;
 }
+.origin-top-right {
+  transform-origin: top right;
+}
 .translate-y-2 {
   --tw-translate-y: 0.5rem;
   transform: var(--tw-transform);
@@ -721,6 +727,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+}
+.divide-gray-100 > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1;
+  border-color: rgb(243 244 246 / var(--tw-divide-opacity));
 }
 .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
@@ -1223,6 +1233,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
+.hover\:bg-gray-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
 .hover\:bg-opacity-50:hover {
   --tw-bg-opacity: 0.5;
 }
@@ -1241,6 +1255,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:text-gray-500:hover {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
+}
+.hover\:text-gray-900:hover {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
 }
 .hover\:underline:hover {
   -webkit-text-decoration-line: underline;

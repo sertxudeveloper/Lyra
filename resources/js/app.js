@@ -9,11 +9,10 @@ import registerFields from './fields'
 import Dashboard from "./components/sections/Dashboard";
 import MediaManager from "./components/sections/MediaManager";
 
-import Resource from "./components/Resources/Resource";
-import Index from "./components/Resources/Index";
-import Show from "./components/Resources/Show";
-import Create from "./components/Resources/Create";
-import Edit from "./components/Resources/Edit";
+import Index from "./views/Resources";
+import Show from "./views/Resources/Show";
+import Create from "./views/Resources/Create";
+import Edit from "./views/Resources/Edit";
 
 import NotificationWrapper from "./components/Notifications/Wrapper";
 
@@ -21,16 +20,17 @@ const routes = [
   { path: '/', name: 'dashboard', component: Dashboard },
   { path: '/media', name: 'media', component: MediaManager },
 
+  /** Resource routes */
   {
     path: '/resource/:resourceName',
-    component: Resource,
+    component: { template: '<router-view></router-view>' },
     children: [
       { path: '', name: 'resource-index', component: Index },
       { path: ':resourceId', name: 'resource-show', component: Show },
       { path: 'create', name: 'resource-create', component: Create },
       { path: ':resourceId/edit', name: 'resource-edit', component: Edit },
     ]
-  }
+  },
 
   // { path: '/resource/:resourceName', name: 'resource-index', component: Index },
   // { path: '/resource/:resourceName/:resourceId', name: 'resource-show', component: Show },
