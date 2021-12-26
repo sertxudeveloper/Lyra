@@ -18,7 +18,6 @@
               :value="perPage"
               @change="perPageChanged"
               class="bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full focus:outline-none">
-          >
             <option v-for="option in perPageOptions" :value="option">{{ option }}</option>
           </select>
         </div>
@@ -31,44 +30,26 @@
           <select
               :value="trashed"
               @change="trashedChanged"
-              class="bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full"
-          >
+              class="bg-transparent mr-2 px-2 py-1 text-gray-700 text-sm w-full">
             <option value="" selected>&mdash;</option>
             <option value="only">Only Trashed</option>
             <option value="with">With Trashed</option>
           </select>
         </div>
       </div>
-<!--      <div class="py-1" role="none">
-        <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-2">Archive</a>
-        <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-3">Move</a>
-      </div>
-      <div class="py-1" role="none">
-        <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-4">Share</a>
-        <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-5">Add to favorites</a>
-      </div>
-      <div class="py-1" role="none">
-        <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-6">Delete</a>
-      </div>-->
     </DropdownMenu>
   </Dropdown>
 </template>
 
 <script>
-import Dropdown from "../Dropdown/Dropdown";
-import DropdownMenu from "../Dropdown/DropdownMenu";
-
 export default {
-  components: {DropdownMenu, Dropdown},
   props: ['perPage', 'perPageOptions', 'softDeletes'],
   emits: ['perPageChanged', 'trashedChanged'],
   methods: {
     perPageChanged(event) {
-      console.log('perPageChanged', event.target.value)
       this.$emit('perPageChanged', event.target.value)
     },
     trashedChanged(event) {
-      console.log('trashedChanged', event.target.value)
       this.$emit('trashedChanged', event.target.value)
     },
   },
@@ -79,7 +60,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

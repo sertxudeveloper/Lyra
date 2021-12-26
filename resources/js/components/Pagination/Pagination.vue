@@ -4,7 +4,6 @@
     <nav v-if="meta.links" class="-space-x-px inline-flex rounded-md shadow-sm">
       <div v-for="link in meta.links">
         <div class="h-full" @click="$emit('changePage', link.page)">
-
           <!-- Page links -->
           <div class="bg-white inline-flex items-center border text-sm font-medium relative cursor-pointer select-none px-4 py-2"
                :class="[ link.active ? activeClass : notActiveClass ]"
@@ -25,7 +24,6 @@
                v-else-if="link.label === 'Last'">
             <svg class="w-3 h-3" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1.95642 0.127357L9.52196 7.6929C9.69177 7.86271 9.69177 8.13729 9.52196 8.3071L1.95642 15.8726C1.78661 16.0425 1.51202 16.0425 1.34222 15.8726L0.626848 15.1573C0.457039 14.9875 0.457039 14.7129 0.626848 14.5431L7.15547 8L0.626848 1.45693C0.457039 1.28712 0.457039 1.01253 0.626848 0.842723L1.34222 0.127357C1.51202 -0.0424522 1.78661 -0.0424522 1.95642 0.127357V0.127357ZM7.12295 0.127357L6.40759 0.842723C6.23778 1.01253 6.23778 1.28712 6.40759 1.45693L12.9362 8L6.40759 14.5431C6.23778 14.7129 6.23778 14.9875 6.40759 15.1573L7.12295 15.8726C7.29276 16.0425 7.56735 16.0425 7.73716 15.8726L15.3027 8.3071C15.4725 8.13729 15.4725 7.86271 15.3027 7.6929L7.73716 0.127357C7.56735 -0.0424522 7.29276 -0.0424522 7.12295 0.127357Z"/></svg>
           </div>
-
         </div>
       </div>
     </nav>
@@ -34,7 +32,6 @@
 
 <script>
 export default {
-  name: "Pagination",
   props: ['meta'],
   emits: ['changePage'],
   data() {

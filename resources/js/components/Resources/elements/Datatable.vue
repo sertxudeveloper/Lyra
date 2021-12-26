@@ -82,7 +82,7 @@
         </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 text-gray-600">
-        <tr v-for="resource in resources.data">
+        <tr v-for="resource in resources.data" :key="resource.key">
           <td class="px-6 py-4 whitespace-nowrap">
             <input type="checkbox" name="select" v-model="selected" :value="resource.key" class="cursor-pointer h-4 w-4">
           </td>
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import Pagination from "./Pagination";
+import Pagination from "../../Pagination/Pagination";
 import TableHeader from "./TableHeader";
 import Dropdown from "../../Dropdown/Dropdown";
 import DropdownTrigger from "../../Dropdown/DropdownTrigger";

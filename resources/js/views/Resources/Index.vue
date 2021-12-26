@@ -1,6 +1,9 @@
 <template>
+  <!-- Resource Index -->
   <div class="xl:px-4 xl:pb-4" v-if="resources?.data">
     <h1 class="capitalize mb-4 text-2xl text-gray-800">{{ resources.labels.plural }}</h1>
+
+    <!-- Cards -->
     <div v-if="cards.length" class="gap-4 grid grid-cols-1 md:grid-cols-2 mb-4 xl:grid-cols-4">
       <component v-for="card in cards" :is="card.component" :card="card"></component>
     </div>
@@ -25,23 +28,91 @@
       </router-link>
     </div>
 
-    <Datatable :resources="resources" @updated="getResources" />
+    <!-- Datatable -->
+    <div class="bg-white flex flex-col max-w-0 min-w-full rounded-lg shadow w-full">
+      <!-- Datatable tools -->
+      <div class="flex items-center justify-between h-9 m-4">
+        <!-- Tools left -->
+        <div class="flex items-center space-x-4 h-full">
+          <!-- Selection tool -->
+          <div class="flex items-center px-2">
+            <input type="checkbox" name="selectAll" v-model="selectAll" class="cursor-pointer h-4 w-4">
+            <button class="ml-1 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <svg class="h-5 p-1 w-5" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.8729 4.24957L15.1589 3.5337C14.9894 3.36377 14.7154 3.36377 14.5459 3.5337L8.01562 10.0669L1.48533 3.5337C1.31585 3.36377 1.0418 3.36377 0.872327 3.5337L0.158358 4.24957C-0.0111194 4.41949 -0.0111194 4.69427 0.158358 4.8642L7.70912 12.4351C7.8786 12.605 8.15265 12.605 8.32213 12.4351L15.8729 4.8642C16.0424 4.69427 16.0424 4.41949 15.8729 4.24957Z"></path></svg>
+            </button>
+          </div>
+        </div>
 
+        <!-- Tools right -->
+        <div class="flex items-center space-x-4 h-full">
+          <!-- Actions tool -->
+          <div class="flex h-full space-x-2" v-if="selectedResources.length">
+            <div class="bg-white border border-gray-300 focus-within:border-blue-500 focus-within:outline-none focus-within:ring-blue-500 rounded-md shadow-sm pr-1.5">
+              <select v-model="selectedAction" class="bg-transparent block h-full outline-none px-2 py-1 sm:text-sm text-gray-600 w-56">
+                <option value="" hidden selected>Select an action</option>
+                <option v-for="action in resources.actions" :value="action.key">{{ action.name }}</option>
+                <option v-if="!resources.actions.length" disabled>No actions available</option>
+              </select>
+            </div>
+            <button @click="runSelectedAction"
+                    class="bg-gray-200 h-full flex focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 items-center px-3 rounded text-gray-700">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M14.2629 6.7081L3.26256 0.20524C2.36879 -0.322864 1 0.189616 1 1.49581V14.4984C1 15.6702 2.27191 16.3765 3.26256 15.789L14.2629 9.28925C15.2441 8.71115 15.2473 7.2862 14.2629 6.7081V6.7081Z"/></svg>
+            </button>
+          </div>
+
+          <!-- Reload tool -->
+          <button class="bg-gray-200 h-full flex focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 items-center px-3 rounded text-gray-700"
+                  @click="$emit('updated', { notify: true })">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.3392 0.660806L13.6565 2.34355C12.2089 0.89571 10.2092 0 8 0C3.71703 0 0.220129 3.36574 0.01 7.59655C-0.00093547 7.81648 0.176613 8 0.396806 8H1.30148C1.50642 8 1.6761 7.84026 1.68771 7.63568C1.87616 4.31126 4.62752 1.67742 8 1.67742C9.74719 1.67742 11.3276 2.38461 12.4714 3.52858L10.7254 5.27468C10.4815 5.51855 10.6542 5.93548 10.9991 5.93548H15.6129C15.8267 5.93548 16 5.76216 16 5.54839V0.934548C16 0.589677 15.583 0.416968 15.3392 0.660806V0.660806ZM15.6032 8H14.6985C14.4936 8 14.3239 8.15974 14.3123 8.36432C14.1238 11.6887 11.3725 14.3226 8 14.3226C6.25281 14.3226 4.67235 13.6154 3.52858 12.4714L5.27465 10.7253C5.51852 10.4815 5.34581 10.0645 5.00094 10.0645H0.387097C0.173323 10.0645 0 10.2378 0 10.4516V15.0655C0 15.4103 0.416968 15.583 0.660806 15.3392L2.34355 13.6565C3.79113 15.1043 5.79084 16 8 16C12.283 16 15.7799 12.6343 15.99 8.40345C16.0009 8.18352 15.8234 8 15.6032 8Z"/></svg>
+          </button>
+
+          <FilterMenu
+              :per-page="resources.meta.per_page"
+              :per-page-options="resources.perPageOptions"
+              :soft-deletes="resources.softDeletes"
+              @per-page-changed="updatePerPageChanged"
+              @trashed-changed="trashedChanged"
+          />
+        </div>
+      </div>
+
+      <!-- Datatable entries -->
+      <div class="overflow-hidden overflow-x-auto relative">
+        <Datatable
+          :resources="resources"
+          @order="orderByField"
+          @select="selectResource"
+          @deselect="deselectResource"
+          @delete="deleteResource"
+          @restore="restoreResource"
+        />
+      </div>
+
+      <!-- Datatable pagination -->
+      <div class="flex justify-between p-2 items-center">
+        <div>&nbsp;</div>
+        <div class="flex items-center gap-x-4">
+          <Pagination :meta="resources.meta" @changePage="changePage" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { debounce } from 'lodash'
-import Datatable from "../../components/Resources/elements/Datatable";
 
 export default {
   name: "Index",
-  components: {Datatable},
   data() {
     return {
       query: null,
       resources: {},
       cards: [],
+
+      // Selected resources
+      selectedResources: [],
+      selectedAction: '',
     }
   },
   mounted() {
@@ -53,32 +124,119 @@ export default {
     this.getCards()
   },
   methods: {
-    getResources(options = {}) {
-      let query = new URLSearchParams({ ...this.$route.query, ...options })
+    /**
+     * Get the resources based on the current page, search, filters, etc.
+     */
+    getResources() {
+      this.loading = true
 
-      this.$http.get(`/resources/${this.$route.params.resourceName}?${decodeURIComponent(query.toString())}`)
-          .then(response => {
-            if (options.notify) this.$notify({ type: 'success', title: 'Table reloaded', text: 'The table is showing the last updated data.', timeout: 2000 })
-            this.resources = response.data
+      this.$nextTick(() => {
+        this.selectedResources = []
 
-            this.$router.push({ query: { ...this.$route.query, perPage: this.resources.meta.per_page, page: this.resources.meta.current_page }})
-          })
+        this.$http.get(`/resources/${this.$route.params.resourceName}`, {
+          params: this.$route.query,
+        }).then(({ data }) => {
+          this.resources = data
+          this.loading = false
+        })
+      })
     },
+
+    /**
+     * Get the cards for the current resource.
+     */
     getCards() {
       this.$http.get(`/cards/${this.$route.params.resourceName}`)
-          .then(response => this.cards = response.data)
+          .then(({ data }) => this.cards = data)
     },
-    remove(index) {
-      this.$http.delete(`/resources/${this.$route.params.resourceName}/${index}`)
-          .then(response => {
-            this.$notify({ type: 'success', title: 'Resource removed', text: 'The resource has been deleted correctly.', timeout: 4000 })
+
+    /**
+     * Delete the specified resource.
+     */
+    deleteResource(resource) {
+      this.$http.delete(`/resources/${this.$route.params.resourceName}/${resource.id}`)
+          .then(() => {
             this.getResources()
+            this.getCards()
           })
     },
-    search: debounce(function() {
-      this.$router.push({ query: { ...this.$route.query, q: this.query }})
-      this.getResources({ q: this.query })
-    }, 1000)
+
+    /**
+     * Restore the specified resource.
+     */
+    restoreResource(resource) {
+      this.$http.post(`/resources/${this.$route.params.resourceName}/${resource.id}/restore`)
+          .then(() => {
+            this.getResources()
+            this.getCards()
+          })
+    },
+
+    /**
+     * Search resources based on the current query.
+     */
+    search() {
+      debounce(() => {
+        this.$router.push({ query: { ...this.$route.query, q: this.query }})
+      }, 1000)()
+    },
+
+    /**
+     * Run the selected action on the selected resources.
+     */
+    runSelectedAction() {
+      if (!this.selectedAction) return
+
+      this.$notify({ type: 'success', title: 'Action requested', text: 'The action has been scheduled.', timeout: 2000 })
+
+      this.axios.post(`/actions/${this.$route.params.resourceName}`, {
+        action: this.selectedAction,
+        models: this.selected,
+      }).then(() => {
+        this.$notify({ type: 'success', title: 'Action executed', text: 'The action has been executed successfully.', timeout: 4000 })
+      })
+    },
+
+    /**
+     * Update the trashed constraint for the resource listing.
+     */
+    trashedChanged(trashedStatus) {
+      this.$router.push({ query: { ...this.$route.query, trashed: trashedStatus } })
+    },
+
+    /**
+     * Update the per page parameter in the query string
+     */
+    updatePerPageChanged(perPage) {
+      this.$router.push({ query: { ...this.$route.query, perPage: perPage }})
+    },
+
+    /**
+     * Change the page in the query string
+     */
+    changePage(page) {
+      this.$router.push({ query: { ...this.$route.query, page: page }})
+    },
+  },
+  computed: {
+    selectAll: {
+      get() {
+        return this.selectedResources.length === this.resources.data.length;
+      },
+      set(value) {
+        let selected = []
+        if (value) this.resources.data.forEach(resource => selected.push(resource.key))
+        this.selectedResources = selected
+      }
+    }
+  },
+  watch: {
+    '$route.query': {
+      handler() {
+        this.getResources()
+      },
+      deep: true
+    }
   }
 }
 </script>
