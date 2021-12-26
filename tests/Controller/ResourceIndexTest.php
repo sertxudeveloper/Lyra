@@ -80,17 +80,6 @@ class ResourceIndexTest extends IntegrationTest {
 
     $response->assertOk();
 
-    $this->assertIsArray($response->json('header'));
-    $this->assertIsArray($response->json('data'));
-    $this->assertIsArray($response->json('meta'));
-    $this->assertIsArray($response->json('labels'));
-    $this->assertIsArray($response->json('perPageOptions'));
-    $this->assertIsArray($response->json('actions'));
-    $this->assertIsArray($response->json('meta'));
-
-    $this->assertEquals(Users::label(), $response->json('labels.plural'));
-    $this->assertEquals(Users::singular(), $response->json('labels.singular'));
-
     $this->assertEquals($userCount, $response->json('meta.total'));
     $this->assertEquals(Users::$perPageOptions, $response->json('perPageOptions'));
 
