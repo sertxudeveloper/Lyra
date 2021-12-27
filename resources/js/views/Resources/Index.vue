@@ -317,7 +317,7 @@ export default {
   watch: {
     '$route.query': {
       handler() {
-        if (this.loading) return
+        if (this.$route.name !== 'resource-index') return
 
         this.getResources()
       },

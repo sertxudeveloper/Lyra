@@ -20629,7 +20629,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   watch: {
     '$route.query': {
       handler: function handler() {
-        if (this.loading) return;
+        if (this.$route.name !== 'resource-index') return;
         this.getResources();
       },
       deep: true
