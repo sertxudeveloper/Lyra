@@ -8,10 +8,10 @@
         <!-- Resource columns -->
         <th v-for="field in resources.header"
             class="px-6 py-4 font-medium"
-            :class="{ 'cursor-pointer': field.sortable }"
+            :class="[{ 'cursor-pointer': field.sortable }, `text-${field.align}`]"
             scope="col"
             @click="$emit('order', field)">
-          <div class="flex space-x-2 items-center">
+          <div class="inline-flex space-x-2 items-center">
             <span>{{ field.name }}</span>
             <div v-if="field.sortable" class="text-gray-400">
 

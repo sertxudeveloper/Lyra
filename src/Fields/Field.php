@@ -174,8 +174,8 @@ abstract class Field {
     }
 
     /** @see Align */
-    if (isset($this->textAlign)) {
-      $field['textAlign'] = $this->textAlign;
+    if (isset($this->align)) {
+      $field['align'] = $this->align;
     }
 
     return array_merge($field, $this->additional($model));
@@ -197,8 +197,13 @@ abstract class Field {
     return [
       'key' => $this->getKey(),
       'name' => $this->name,
+
       /** @see Sortable */
       'sortable' => $this->sortable ?? false,
+
+      /** @see Aling */
+      'align' => $this->align ?? 'left',
+
       'order' => $order ?? null,
     ];
   }

@@ -4,7 +4,7 @@ namespace SertxuDeveloper\Lyra\Fields\Traits;
 
 trait Align {
 
-  public string $textAlign = 'left';
+  public string $align = 'left';
 
   /**
    * Set the text align to center
@@ -12,7 +12,7 @@ trait Align {
    * @return $this
    */
   public function textCenter(): self {
-    $this->textAlign = 'center';
+    $this->align = 'center';
 
     return $this;
   }
@@ -23,7 +23,7 @@ trait Align {
    * @return $this
    */
   public function textJustify(): self {
-    $this->textAlign = 'justify';
+    $this->align = 'justify';
 
     return $this;
   }
@@ -34,7 +34,7 @@ trait Align {
    * @return $this
    */
   public function textLeft(): self {
-    $this->textAlign = 'left';
+    $this->align = 'left';
 
     return $this;
   }
@@ -45,7 +45,7 @@ trait Align {
    * @return $this
    */
   public function textRight(): self {
-    $this->textAlign = 'right';
+    $this->align = 'right';
 
     return $this;
   }
