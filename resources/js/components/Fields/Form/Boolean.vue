@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "Text",
+  name: "Boolean",
   props: ['field', 'errors'],
   data() {
     return {

@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  name: "Text",
+  name: "Boolean",
   props: ['field'],
 }
 </script>
