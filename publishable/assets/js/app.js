@@ -21838,45 +21838,37 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_10 = [_hoisted_9];
-var _hoisted_11 = {
-  key: 1,
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   height: "12",
   viewBox: "0 0 16 16",
   fill: "currentColor",
   xmlns: "http://www.w3.org/2000/svg"
-};
-
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
   d: "M3.26727 9.28613H12.8327C13.6928 9.28613 14.1228 10.3271 13.516 10.934L8.73323 15.7167C8.35544 16.0945 7.74454 16.0945 7.37076 15.7167L2.58403 10.934C1.97714 10.3271 2.40719 9.28613 3.26727 9.28613Z"
-}, null, -1
+})], -1
 /* HOISTED */
 );
 
-var _hoisted_13 = [_hoisted_12];
-var _hoisted_14 = {
-  key: 2,
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   height: "12",
   viewBox: "0 0 16 16",
   fill: "currentColor",
   xmlns: "http://www.w3.org/2000/svg"
-};
-
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
   d: "M3.26727 9.28611H12.8327C13.6928 9.28611 14.1228 10.3271 13.516 10.9339L8.73323 15.7167C8.35544 16.0944 7.74454 16.0944 7.37076 15.7167L2.58403 10.9339C1.97714 10.3271 2.40719 9.28611 3.26727 9.28611ZM13.516 5.06606L8.73323 0.283346C8.35544 -0.0944486 7.74454 -0.0944486 7.37076 0.283346L2.58403 5.06606C1.97714 5.67295 2.40719 6.71389 3.26727 6.71389H12.8327C13.6928 6.71389 14.1228 5.67295 13.516 5.06606Z"
-}, null, -1
+})], -1
 /* HOISTED */
 );
 
-var _hoisted_16 = [_hoisted_15];
-
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "px-6 py-4",
   scope: "col"
 }, " ", -1
 /* HOISTED */
 );
 
-var _hoisted_18 = {
+var _hoisted_14 = {
   "class": "divide-y divide-gray-200 text-gray-600"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -21884,19 +21876,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("table", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Checkbox "), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Resource columns "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.resources.header, function (field) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", {
-      "class": "px-6 py-4 font-medium",
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["px-6 py-4 font-medium", {
+        'cursor-pointer': field.sortable
+      }]),
       scope: "col",
       onClick: function onClick($event) {
         return _ctx.$emit('order', field);
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(field.name), 1
     /* TEXT */
-    ), field.sortable ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [field.order === 'asc' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", _hoisted_8, _hoisted_10)) : field.order === 'desc' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", _hoisted_11, _hoisted_13)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", _hoisted_14, _hoisted_16))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 8
-    /* PROPS */
+    ), field.sortable ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sort asc icon "), field.order === 'asc' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", _hoisted_8, _hoisted_10)) : field.order === 'desc' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      key: 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sort desc icon "), _hoisted_11], 2112
+    /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+    )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      key: 2
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sort none icon "), _hoisted_12], 2112
+    /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+    ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10
+    /* CLASS, PROPS */
     , _hoisted_5);
   }), 256
   /* UNKEYED_FRAGMENT */
-  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Actions "), _hoisted_17])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.resources.data, function (resource) {
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Actions "), _hoisted_13])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.resources.data, function (resource) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DatatableRow, {
       key: resource.key,
       resource: resource,
@@ -21974,6 +21976,18 @@ var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_7 = [_hoisted_6];
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+  viewBox: "0 0 16 16",
+  fill: "currentColor",
+  xmlns: "http://www.w3.org/2000/svg"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+  d: "M0.660806 0.660806L2.34355 2.34355C3.79113 0.89571 5.79081 0 7.99997 0C12.4084 0 16.0032 3.59758 16 8.00597C15.9968 12.4215 12.4163 16 8 16C5.93787 16 4.058 15.2198 2.63942 13.9385C2.47448 13.7895 2.46674 13.5333 2.62387 13.3761L3.26058 12.7394C3.40568 12.5943 3.63971 12.585 3.79287 12.7216C4.9101 13.7176 6.38371 14.3226 8 14.3226C11.4942 14.3226 14.3226 11.4948 14.3226 8C14.3226 4.50577 11.4948 1.67742 8 1.67742C6.25281 1.67742 4.67235 2.38461 3.52858 3.52858L5.27465 5.27468C5.51852 5.51855 5.34581 5.93548 5.00094 5.93548H0.387097C0.173323 5.93548 0 5.76216 0 5.54839V0.934548C0 0.589677 0.416968 0.416968 0.660806 0.660806V0.660806Z"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_9 = [_hoisted_8];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
@@ -22005,7 +22019,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         resourceId: $props.resource.key
       }
     },
-    "class": "focus:outline-none focus:ring-2 focus:ring-gray-400 rounded h-9 hover:text-blue-500 p-2 w-9"
+    "class": "focus:outline-none focus:ring-2 focus:ring-blue-500 rounded h-9 hover:text-blue-500 p-2 w-9"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_4];
@@ -22023,7 +22037,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         resourceId: $props.resource.key
       }
     },
-    "class": "focus:outline-none focus:ring-2 focus:ring-gray-400 rounded h-9 hover:text-blue-500 p-2.5 w-9"
+    "class": "focus:outline-none focus:ring-2 focus:ring-blue-500 rounded h-9 hover:text-blue-500 p-2.5 w-9"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_5];
@@ -22033,12 +22047,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["to"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Remove button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  , ["to"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Remove button "), !$props.resource.trashed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     onClick: _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.remove($props.resource.key);
+      return _ctx.$emit('delete');
     }),
-    "class": "focus:outline-none focus:ring-2 focus:ring-gray-400 rounded h-9 hover:text-red-500 p-2.5 w-9"
-  }, _hoisted_7)])]);
+    "class": "focus:outline-none focus:ring-2 focus:ring-blue-500 rounded h-9 hover:text-red-500 p-2.5 w-9"
+  }, _hoisted_7)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Restore button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.$emit('restore');
+    }),
+    "class": "focus:outline-none focus:ring-2 focus:ring-blue-500 rounded h-9 hover:text-blue-500 p-2.5 w-9"
+  }, _hoisted_9)], 2112
+  /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+  ))])]);
 }
 
 /***/ }),
