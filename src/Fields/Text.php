@@ -11,7 +11,6 @@ class Text extends Field {
 
   public string $component = 'field-text';
   public bool $asHtml = false;
-  public string $textAlign = 'left';
 
   /**
    * Add field-specific data to the response
@@ -19,7 +18,6 @@ class Text extends Field {
   public function additional(): array {
     return [
       'asHtml' => $this->asHtml,
-      'textAlign' => $this->textAlign,
     ];
   }
 
@@ -30,46 +28,7 @@ class Text extends Field {
    */
   public function asHtml(): self {
     $this->asHtml = true;
-    return $this;
-  }
 
-  /**
-   * Set the text align to left
-   *
-   * @return $this
-   */
-  public function textLeft(): self {
-    $this->textAlign = 'left';
-    return $this;
-  }
-
-  /**
-   * Set the text align to right
-   *
-   * @return $this
-   */
-  public function textRight(): self {
-    $this->textAlign = 'right';
-    return $this;
-  }
-
-  /**
-   * Set the text align to center
-   *
-   * @return $this
-   */
-  public function textCenter(): self {
-    $this->textAlign = 'center';
-    return $this;
-  }
-
-  /**
-   * Set the text align to justify
-   *
-   * @return $this
-   */
-  public function textJustify(): self {
-    $this->textAlign = 'justify';
     return $this;
   }
 }

@@ -10,5 +10,4 @@ class Date extends Field {
   use Placeholder, Sortable;
 
   public string $component = 'field-date';
-
 }

@@ -5,16 +5,20 @@ namespace SertxuDeveloper\Lyra\Fields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use SertxuDeveloper\Lyra\Fields\Traits\Align;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
 use SertxuDeveloper\Lyra\Lyra;
 
 abstract class Field {
 
+  use Align;
+
   public string $component = '';
 
   public string $name = '';
   public object|string $column = '';
+
   public array $creationRules = [];
   public array $updateRules = [];
 
@@ -159,6 +163,11 @@ abstract class Field {
     /** @see Placeholder */
     if (isset($this->placeholder)) {
       $field['placeholder'] = $this->placeholder;
+    }
+
+    /** @see Align */
+    if (isset($this->textAlign)) {
+      $field['textAlign'] = $this->textAlign;
     }
 
     return array_merge($field, $this->additional());
