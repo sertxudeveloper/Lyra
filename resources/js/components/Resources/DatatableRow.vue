@@ -6,7 +6,7 @@
     <td v-for="field in resource.fields" class="px-6 py-4 whitespace-nowrap">
       <component :is="`index-${field.component}`" :field="field" />
     </td>
-    <td class="flex px-2 py-2.5 text-gray-400 whitespace-nowrap">
+    <td class="flex justify-end px-2 py-2.5 text-gray-400 whitespace-nowrap">
       <!-- Details link -->
       <router-link
           :to="{ name: 'resource-show', params: { resourceName: $route.params.resourceName, resourceId: resource.key } }"

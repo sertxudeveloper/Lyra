@@ -3,7 +3,7 @@
     <thead class="bg-gray-100">
       <tr class="uppercase text-left text-xs tracking-wider text-gray-500">
         <!-- Checkbox -->
-        <th class="px-6 py-4" scope="col">&nbsp;</th>
+        <th class="px-6 py-4 w-0" scope="col">&nbsp;</th>
 
         <!-- Resource columns -->
         <th v-for="field in resources.header"
@@ -34,7 +34,7 @@
         </th>
 
         <!-- Actions -->
-        <th class="px-6 py-4" scope="col">&nbsp;</th>
+        <th class="px-6 py-4 w-0" scope="col">&nbsp;</th>
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200 text-gray-600">

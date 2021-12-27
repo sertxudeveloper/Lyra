@@ -2,6 +2,7 @@
 
 namespace {{ namespace }};
 
+use SertxuDeveloper\Lyra\Fields\ID;
 use SertxuDeveloper\Lyra\Resources\Resource;
 
 class {{ class }} extends Resource {
@@ -46,6 +47,7 @@ class {{ class }} extends Resource {
    */
   public function fields(): array {
     return [
+      ID::make('Id'),
       //
     ];
   }
