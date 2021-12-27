@@ -50,9 +50,10 @@ abstract class Field {
   /**
    * Add field-specific data to the response
    *
+   * @param Model $model
    * @return array
    */
-  public function additional(): array {
+  public function additional(Model $model): array {
     return [];
   }
 
@@ -177,7 +178,7 @@ abstract class Field {
       $field['textAlign'] = $this->textAlign;
     }
 
-    return array_merge($field, $this->additional());
+    return array_merge($field, $this->additional($model));
   }
 
   /**
