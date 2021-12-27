@@ -5,13 +5,15 @@ namespace SertxuDeveloper\Lyra\Resources;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\DelegatesToResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use SertxuDeveloper\Lyra\Lyra;
 
-abstract class Resource extends JsonResource {
+abstract class Resource {
+
+  use DelegatesToResource;
 
   /** @var Model $model */
   static public string $model;
@@ -19,8 +21,15 @@ abstract class Resource extends JsonResource {
   static public string $icon = '';
 
   static public int $priority = 99;
-  static public array $perPageOptions = [10, 50, 100];
+  static public array $perPageOptions = [25, 50, 100];
   static public string $orderBy = 'desc'; // 'desc' or 'asc'
+
+  /**
+   * The relationships that should be eager loaded on index queries.
+   *
+   * @var array
+   */
+  static public array $with = [];
 
   /**
    * Columns where the search is enabled
@@ -28,6 +37,16 @@ abstract class Resource extends JsonResource {
    * @var string[] $search
    */
   static public array $search = [];
+
+  /**
+   * Create a new resource instance.
+   *
+   * @param Model $resource
+   * @return void
+   */
+  public function __construct(Model $resource) {
+    $this->resource = $resource;
+  }
 
   /**
    * Get related model primary key name
@@ -48,11 +67,21 @@ abstract class Resource extends JsonResource {
   }
 
   /**
+   * Create a new resource instance.
+   *
+   * @param mixed ...$parameters
+   * @return $this
+   */
+  static public function make(...$parameters): self {
+    return new static(...$parameters);
+  }
+
+  /**
    * Create a new instance of the provided model
    *
-   * @return mixed
+   * @return Model
    */
-  public static function newModel(): mixed {
+  static public function newModel(): Model {
     $model = static::$model;
 
     return new $model;
@@ -167,7 +196,7 @@ abstract class Resource extends JsonResource {
    * @param $request
    * @return array
    */
-  public function toTableHeader($request): array {
+  public function getHeader($request): array {
     $fields = [];
     foreach ($this->fields() as $field) {
       if (!$field->canShow($request)) continue;

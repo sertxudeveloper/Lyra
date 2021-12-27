@@ -94,7 +94,7 @@ class ResourceController extends Controller {
     $perPage = $request->query('perPage') ?: Arr::first($class::$perPageOptions);
     $options = ['path' => '/', 'pageName' => 'page'];
 
-    $query = $class::$model::query();
+    $query = $class::$model::query()->with($class::$with);
 
     /** Add soft deleted if requested and it's supported */
     if (method_exists($class::newModel(), 'trashed')) {
@@ -127,7 +127,7 @@ class ResourceController extends Controller {
     $items = $total ? $query->forPage($currentPage, $perPage)->get('*') : (new $class::$model)->newCollection();
 
     $pagination = new LengthAwarePaginator($items, $total, $perPage, $currentPage, $options);
-    $response = ResourceCollection::make($class, $pagination);
+    $response = ResourceCollection::make($pagination, $class);
 
     return $response->toResponse($request);
   }

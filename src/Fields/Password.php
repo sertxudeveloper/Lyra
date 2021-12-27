@@ -18,10 +18,10 @@ class Password extends Field {
    * Create a new instance of the field
    *
    * @param string $name
-   * @param null $column
+   * @param object|string|null $column
    * @return $this
    */
-  public static function make(string $name, $column = null): Field {
+  public static function make(string $name, object|string $column = null): Field {
     $field = parent::make($name, $column);
 
     $field->placeholder(Str::repeat('*', 12));

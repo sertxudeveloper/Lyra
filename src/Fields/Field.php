@@ -31,10 +31,10 @@ abstract class Field {
    * Create a new instance of the field
    *
    * @param string $name
-   * @param null $column
+   * @param object|string|null $column
    * @return $this
    */
-  static public function make(string $name, $column = null): self {
+  static public function make(string $name, object|string $column = null): self {
     $field = new static();
     $field->name = $name;
     $field->column = $column ?? Str::snake(Str::lower($name));
@@ -143,6 +143,8 @@ abstract class Field {
    * @return void
    */
   public function save(Model $model, array $data): void {
+    if (is_callable($this->column)) return;
+
     $model->{$this->getKey()} = $data[$this->getKey()];
   }
 
@@ -157,7 +159,7 @@ abstract class Field {
       'key' => $this->getKey(),
       'component' => $this->component,
       'name' => $this->name,
-      'value' => $model->{$this->column},
+      'value' => is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column},
     ];
 
     /** @see Placeholder */

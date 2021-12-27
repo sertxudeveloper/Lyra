@@ -8,19 +8,15 @@ use Illuminate\Http\Resources\Json\ResourceCollection as JsonResourceCollection;
 
 class ResourceCollection extends JsonResourceCollection {
 
-  /** @var string */
-  public string $class;
-
   /**
    * Create a new resource instance.
    *
-   * @param string $collects
-   * @param mixed $resource
-   * @return void
+   * @param mixed $collection
+   * @param string $class
    */
-  public function __construct(string $collects, mixed $resource) {
-    $this->collects = $collects;
-    parent::__construct($resource);
+  public function __construct(mixed $collection, string $class) {
+    $this->collects = $class;
+    parent::__construct($collection);
   }
 
   /**
@@ -31,11 +27,12 @@ class ResourceCollection extends JsonResourceCollection {
    */
   public function toArray($request): array {
     /** @var Resource $resource */
-    $resource = new $this->collects($request);
+    $resource = $this->collects();
+    $resource = $resource::make($resource::newModel());
 
     return [
-      'header' => $resource::make($resource::newModel())->toTableHeader($request),
-      'data' => $resource::collection($this->collection),
+      'header' => $resource->getHeader($request),
+      'data' => $this->collection->map->toArray($request),
       'labels' => ['singular' => $resource::singular(), 'plural' => $resource::label()],
       'perPageOptions' => $resource::$perPageOptions,
       'actions' => ActionResource::collection($resource->actions()),
