@@ -1,4 +1,7 @@
 import FilterMenu from "./components/Resources/FilterMenu";
+import Datatable from "./components/Resources/Datatable";
+import DatatableRow from "./components/Resources/DatatableRow";
+
 import NotificationWrapper from "./components/Notifications/Wrapper";
 
 import Dropdown from "./components/Dropdown/Dropdown";
@@ -8,6 +11,9 @@ import Pagination from "./components/Pagination/Pagination";
 
 export default function (app) {
   app.component('FilterMenu', FilterMenu)
+  app.component('Datatable', Datatable)
+  app.component('DatatableRow', DatatableRow)
+
   app.component('notification-wrapper', NotificationWrapper)
 
   app.component('Dropdown', Dropdown)

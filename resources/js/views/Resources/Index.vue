@@ -80,9 +80,9 @@
       <div class="overflow-hidden overflow-x-auto relative">
         <Datatable
           :resources="resources"
+          :selected-resources="selectedResources"
           @order="orderByField"
           @select="selectResource"
-          @deselect="deselectResource"
           @delete="deleteResource"
           @restore="restoreResource"
         />
@@ -148,6 +148,53 @@ export default {
     getCards() {
       this.$http.get(`/cards/${this.$route.params.resourceName}`)
           .then(({ data }) => this.cards = data)
+    },
+
+    /**
+     * Select a resource.
+     */
+    selectResource(key) {
+      if (this.selectedResources.includes(key)) {
+        this.selectedResources = this.selectedResources.filter(r => r !== key)
+      } else {
+        this.selectedResources.push(key)
+      }
+    },
+
+    /**
+     * Order the resources by a given field.
+     */
+    orderByField(field) {
+      if (!field.sortable) return null
+
+      const URLSearch = new URLSearchParams(location.search)
+
+      if (!URLSearch.has('sortBy') || !URLSearch.has('sortOrder')) {
+        URLSearch.delete('sortBy')
+        URLSearch.delete('sortOrder')
+      }
+
+      let sortBy = URLSearch.get('sortBy')
+      sortBy = (sortBy) ? sortBy.split(',') : []
+
+      let sortOrder = URLSearch.get('sortOrder')
+      sortOrder = (sortOrder) ? sortOrder.split(',') : []
+
+      let index = sortBy.findIndex(element => element === field.key)
+      if (index !== -1) {
+        let order = sortOrder[index]
+        if (order === 'desc') {
+          sortBy.splice(index, 1)
+          sortOrder.splice(index, 1)
+        } else {
+          sortOrder[index] = 'desc'
+        }
+      } else {
+        sortBy.push(field.key)
+        sortOrder.push('asc')
+      }
+
+      this.$router.push({ query: { ...this.$route.query, sortBy: sortBy.join(','), sortOrder: sortOrder.join(',') }})
     },
 
     /**
