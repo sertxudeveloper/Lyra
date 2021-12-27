@@ -22726,6 +22726,32 @@ var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_27 = {
   "class": "flex items-center gap-x-4"
 };
+var _hoisted_28 = {
+  key: 1,
+  "class": "flex flex-col items-center justify-center pb-20 pt-10 text-gray-400"
+};
+
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+  "class": "w-16",
+  viewBox: "0 0 34 30",
+  fill: "currentColor",
+  xmlns: "http://www.w3.org/2000/svg"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+  "fill-rule": "evenodd",
+  "clip-rule": "evenodd",
+  d: "M3 0H29C30.6569 0 32 1.34312 32 3V16.0225C31.429 15.3456 30.7541 14.7591 30 14.2876V12H22V13.7517C21.273 14.0806 20.6006 14.5088 20 15.019V12H12V18H17.7517C17.4669 18.6295 17.2566 19.2999 17.1319 20H12V26H18.2876C18.7591 26.7541 19.3456 27.429 20.0225 28H3C1.34312 28 0 26.6569 0 25V3C0 1.34312 1.34312 0 3 0ZM3 26H10V20H2V25C2 25.5523 2.44769 26 3 26ZM2 18H10V12H2V18ZM2 10H10V4H2V10ZM12 10H20V4H12V10ZM22 10H30V4H22V10Z"
+}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+  d: "M29.5 21.3125V21.6875C29.5 21.8937 29.3312 22.0625 29.125 22.0625H26.0625V25.125C26.0625 25.3312 25.8937 25.5 25.6875 25.5H25.3125C25.1063 25.5 24.9375 25.3312 24.9375 25.125V22.0625H21.875C21.6688 22.0625 21.5 21.8937 21.5 21.6875V21.3125C21.5 21.1063 21.6688 20.9375 21.875 20.9375H24.9375V17.875C24.9375 17.6688 25.1063 17.5 25.3125 17.5H25.6875C25.8937 17.5 26.0625 17.6688 26.0625 17.875V20.9375H29.125C29.3312 20.9375 29.5 21.1063 29.5 21.3125ZM33.25 21.5C33.25 25.7812 29.7812 29.25 25.5 29.25C21.2188 29.25 17.75 25.7812 17.75 21.5C17.75 17.2188 21.2188 13.75 25.5 13.75C29.7812 13.75 33.25 17.2188 33.25 21.5ZM32.25 21.5C32.25 17.7531 29.2094 14.75 25.5 14.75C21.7531 14.75 18.75 17.7906 18.75 21.5C18.75 25.2469 21.7906 28.25 25.5 28.25C29.2469 28.25 32.25 25.2094 32.25 21.5Z"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_30 = {
+  "class": "mt-4 text-gray-500"
+};
+var _hoisted_31 = {
+  "class": "text-base text-blue-600 font-medium"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$resources$labe, _$data$resources$labe2, _$data$resources;
 
@@ -22830,7 +22856,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     loading: $data.loading
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Datatable entries "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Datatable, {
+      return [$data.resources.data.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+        key: 0
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Datatable entries "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Datatable, {
         resources: $data.resources,
         "selected-resources": $data.selectedResources,
         onOrder: $options.orderByField,
@@ -22844,7 +22872,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onChangePage: $options.changePage
       }, null, 8
       /* PROPS */
-      , ["meta", "onChangePage"])])])];
+      , ["meta", "onChangePage"])])])], 64
+      /* STABLE_FRAGMENT */
+      )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, "No " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.resources.labels.plural.toLowerCase()) + " matched the given criteria.", 1
+      /* TEXT */
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" New resource button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+        to: {
+          name: 'resource-create',
+          params: {
+            resourceName: _ctx.$route.params.resourceName
+          }
+        },
+        "class": "border border-blue-600 flex focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 h-full items-center px-3 py-1.5 rounded mt-4"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, "New " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.resources.labels.singular), 1
+          /* TEXT */
+          )];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["to"])]))];
     }),
     _: 1
     /* STABLE */
