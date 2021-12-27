@@ -145,7 +145,14 @@ class ResourceController extends Controller {
     /** @var Resource $class */
     $class = Lyra::resourceBySlug($resource);
 
-    $model = $class::$model::findOrFail($id);
+    $query = $class::$model::query()->with($class::$with);
+
+    /** Include soft deleted if it's supported */
+    if (method_exists($class::newModel(), 'trashed')) {
+      $query->withTrashed();
+    }
+
+    $model = $query->findOrFail($id);
 
     return response()->json([
       'data' => $class::make($model)->toArray($request),
