@@ -235,8 +235,8 @@ export default {
     /**
      * Delete the specified resource.
      */
-    deleteResource(resource) {
-      this.$http.delete(`/resources/${this.$route.params.resourceName}/${resource.id}`)
+    deleteResource(key) {
+      this.$http.delete(`/resources/${this.$route.params.resourceName}/${key}`)
           .then(() => {
             this.getResources()
             this.getCards()
@@ -246,8 +246,8 @@ export default {
     /**
      * Restore the specified resource.
      */
-    restoreResource(resource) {
-      this.$http.post(`/resources/${this.$route.params.resourceName}/${resource.id}/restore`)
+    restoreResource(key) {
+      this.$http.post(`/resources/${this.$route.params.resourceName}/${key}/restore`)
           .then(() => {
             this.getResources()
             this.getCards()

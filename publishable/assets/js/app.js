@@ -20514,10 +20514,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     /**
      * Delete the specified resource.
      */
-    deleteResource: function deleteResource(resource) {
+    deleteResource: function deleteResource(key) {
       var _this3 = this;
 
-      this.$http["delete"]("/resources/".concat(this.$route.params.resourceName, "/").concat(resource.id)).then(function () {
+      this.$http["delete"]("/resources/".concat(this.$route.params.resourceName, "/").concat(key)).then(function () {
         _this3.getResources();
 
         _this3.getCards();
@@ -20527,10 +20527,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     /**
      * Restore the specified resource.
      */
-    restoreResource: function restoreResource(resource) {
+    restoreResource: function restoreResource(key) {
       var _this4 = this;
 
-      this.$http.post("/resources/".concat(this.$route.params.resourceName, "/").concat(resource.id, "/restore")).then(function () {
+      this.$http.post("/resources/".concat(this.$route.params.resourceName, "/").concat(key, "/restore")).then(function () {
         _this4.getResources();
 
         _this4.getCards();
@@ -22104,7 +22104,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "focus:outline-none focus:ring-2 focus:ring-blue-500 rounded hover:text-blue-500 p-1.5"
   }, _hoisted_10)], 2112
   /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    <div class=\"flex justify-end pl-2 pr-4 text-gray-400 whitespace-nowrap space-x-2\">\n\n    </div>")]);
+  ))])])]);
 }
 
 /***/ }),

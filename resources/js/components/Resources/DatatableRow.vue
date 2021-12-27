@@ -39,9 +39,6 @@
         </button>
       </div>
     </td>
-<!--    <div class="flex justify-end pl-2 pr-4 text-gray-400 whitespace-nowrap space-x-2">
-
-    </div>-->
   </tr>
 </template>
 
