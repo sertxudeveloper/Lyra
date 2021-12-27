@@ -1,6 +1,7 @@
 import FilterMenu from "./components/Resources/FilterMenu";
 import Datatable from "./components/Resources/Datatable";
 import DatatableRow from "./components/Resources/DatatableRow";
+import Loading from "./components/Resources/Loading";
 
 import NotificationWrapper from "./components/Notifications/Wrapper";
 
@@ -13,6 +14,7 @@ export default function (app) {
   app.component('FilterMenu', FilterMenu)
   app.component('Datatable', Datatable)
   app.component('DatatableRow', DatatableRow)
+  app.component('Loading', Loading)
 
   app.component('notification-wrapper', NotificationWrapper)
 

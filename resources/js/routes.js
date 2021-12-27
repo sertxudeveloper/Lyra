@@ -12,7 +12,7 @@ export default [
 
   /** Resource routes */
   {
-    path: '/resource/:resourceName',
+    path: '/resources/:resourceName',
     component: {template: '<router-view></router-view>'},
     children: [
       {path: '', name: 'resource-index', component: Index},

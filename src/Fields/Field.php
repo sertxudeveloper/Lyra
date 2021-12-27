@@ -39,6 +39,11 @@ abstract class Field {
     $field->name = $name;
     $field->column = $column ?? Str::snake(Str::lower($name));
 
+    if (is_callable($field->column)) {
+      $field->showOnCreate = false;
+      $field->showOnUpdate = false;
+    }
+
     return $field;
   }
 

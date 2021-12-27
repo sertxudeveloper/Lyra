@@ -529,6 +529,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mb-1 {
   margin-bottom: 0.25rem;
 }
+.-ml-1 {
+  margin-left: -0.25rem;
+}
 .block {
   display: block;
 }
@@ -690,6 +693,22 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .transform {
   transform: var(--tw-transform);
+}
+@-webkit-keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin {
+  -webkit-animation: spin 1s linear infinite;
+          animation: spin 1s linear infinite;
 }
 .cursor-pointer {
   cursor: pointer;
@@ -989,6 +1008,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 0.625rem;
   padding-bottom: 0.625rem;
 }
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
 .pt-2 {
   padding-top: 0.5rem;
 }
@@ -1172,6 +1195,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .opacity-100 {
   opacity: 1;
+}
+.opacity-25 {
+  opacity: 0.25;
+}
+.opacity-75 {
+  opacity: 0.75;
 }
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
