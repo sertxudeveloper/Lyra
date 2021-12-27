@@ -4,6 +4,6 @@
 
   <!-- Content --->
   <div class="h-full overflow-y-auto p-4 w-full">
-    <router-view :key="$route.path"></router-view>
+    <router-view></router-view>
   </div>
 </div>
