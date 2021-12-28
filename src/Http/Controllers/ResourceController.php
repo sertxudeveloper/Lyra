@@ -223,4 +223,25 @@ class ResourceController extends Controller {
       'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
     ], SymfonyResponse::HTTP_ACCEPTED);
   }
+
+
+  /**
+   * Restore the specified resource.
+   *
+   * @param Request $request
+   * @param string $resource
+   * @param mixed $id
+   * @return Response
+   * @throws ResourceNotFoundException
+   */
+  public function restore(Request $request, string $resource, mixed $id): Response {
+    /** @var Resource $class */
+    $class = Lyra::resourceBySlug($resource);
+
+    $model = $class::$model::onlyTrashed()->findOrFail($id);
+
+    abort_if(!$model->restore(), SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+
+    return response()->noContent(SymfonyResponse::HTTP_NO_CONTENT);
+  }
 }

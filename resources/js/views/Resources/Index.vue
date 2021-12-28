@@ -238,6 +238,8 @@ export default {
     deleteResource(key) {
       this.$http.delete(`/resources/${this.$route.params.resourceName}/${key}`)
           .then(() => {
+            this.$notify({ type: 'success', title: 'Resource removed', text: 'The resource has been deleted correctly.', timeout: 4000 })
+
             this.getResources()
             this.getCards()
           })
@@ -249,6 +251,8 @@ export default {
     restoreResource(key) {
       this.$http.post(`/resources/${this.$route.params.resourceName}/${key}/restore`)
           .then(() => {
+            this.$notify({ type: 'success', title: 'Resource restored', text: 'The resource has been restored correctly.', timeout: 4000 })
+
             this.getResources()
             this.getCards()
           })
