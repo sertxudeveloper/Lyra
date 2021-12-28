@@ -79,21 +79,25 @@ export default {
       let formData = new FormData();
 
       for (let field of this.resource.data.fields) {
-        console.log('field', field.component, field.key)
         if (field.component === 'field-image') {
-          console.log('field-image', this.$refs)
-          // for (let index of this.$refs[field.key].files) {
-          //   console.log(`${field.key}-${index}`, this.$refs[field.key].files[index])
-          //   formData.append(`${field.key}-${index}`, this.$refs[field.key].files[index])
-          // }
+          for (const image of field.value) {
+            console.log('image', image)
+            formData.append(`${field.key}[]`, image)
+          }
+        } else {
+          formData.set(field.key, field.value ?? '')
         }
-
-        formData.set(field.key, field.value ?? '')
       }
 
       formData.append('updated_at', this.resource.data.updated_at)
 
-      this.$http.post(`/resources/${this.$route.params.resourceName}/${this.$route.params.resourceId}`, formData)
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }
+
+      this.$http.post(`/resources/${this.$route.params.resourceName}/${this.$route.params.resourceId}`, formData, config)
           .then(response => {
             this.$notify({ type: 'success', title: 'Resource saved', text: 'The resource has been saved correctly.', timeout: 4000 })
             this.resource = response.data
