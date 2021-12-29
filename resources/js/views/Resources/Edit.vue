@@ -35,7 +35,7 @@
               <div class="bg-gray-50 flex space-x-2 justify-end px-4 py-3 sm:px-6 text-right">
                 <router-link
                     :to="{ name: 'resource-index', params: { resourceName: $route.params.resourceName } }"
-                    class="bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:bg-gray-50 leading-4 px-3 py-2 rounded-md shadow-sm text-gray-700 text-sm">Cancel</router-link>
+                    class="bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:bg-gray-50 px-3 py-2 rounded-md shadow-sm text-gray-700 text-sm">Cancel</router-link>
                 <button type="submit"
                     class="bg-blue-600 border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:bg-blue-700 inline-flex justify-center px-4 py-2 rounded-md shadow-sm text-sm text-white">Save</button>
               </div>
