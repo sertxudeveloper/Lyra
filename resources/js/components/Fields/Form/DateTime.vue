@@ -33,7 +33,6 @@ export default {
       },
       set(value) {
         this.field.value = moment(value).tz(this.field.timezone).format()
-        console.log(this.field.value)
       }
     },
     timezone() {

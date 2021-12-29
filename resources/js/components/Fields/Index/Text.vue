@@ -1,6 +1,6 @@
 <template>
   <div :class="`text-${field.textAlign}`">
-    <template v-if="hasValue">
+    <template v-if="field.value">
       <div v-if="field.asHtml" v-html="field.value"></div>
       <span v-else class="whitespace-no-wrap">{{ field.value }}</span>
     </template>
@@ -12,10 +12,5 @@
 export default {
   name: "Text",
   props: ['field'],
-  computed: {
-    hasValue() {
-      return this.field.value !== null
-    },
-  },
 }
 </script>
