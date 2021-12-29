@@ -23,6 +23,7 @@
 
       <!-- New resource button -->
       <router-link
+          v-if="resources.labels.singular"
           :to="{ name: 'resource-create', params: { resourceName: $route.params.resourceName } }"
           class="bg-blue-600 flex focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 h-full items-center px-3 rounded">
         <span class="text-base text-white">New {{ resources.labels.singular }}</span>

@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "moment-timezone": "^0.5.34",
+    "slugify": "^1.6.4",
     "vue3-click-away": "^1.2.1"
   }
 }

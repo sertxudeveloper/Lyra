@@ -25,6 +25,11 @@ abstract class Resource {
   static public string $orderBy = 'desc'; // 'desc' or 'asc'
 
   /**
+   * 
+   */
+  public string $description = '';
+
+  /**
    * The relationships that should be eager loaded on index queries.
    *
    * @var array

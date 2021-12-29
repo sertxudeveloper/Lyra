@@ -12,6 +12,7 @@ import FormDateTime from "./components/Fields/Form/DateTime"
 import FormBoolean from "./components/Fields/Form/Boolean"
 import FormImage from "./components/Fields/Form/Image"
 import FormSlug from "./components/Fields/Form/Slug"
+import FormTextarea from "./components/Fields/Form/Textarea"
 
 import DetailId from "./components/Fields/Detail/Id"
 import DetailText from "./components/Fields/Detail/Text"
@@ -20,6 +21,7 @@ import DetailDateTime from "./components/Fields/Detail/DateTime"
 import DetailBoolean from "./components/Fields/Detail/Boolean"
 import DetailImage from "./components/Fields/Detail/Image"
 import DetailSlug from "./components/Fields/Detail/Slug"
+import DetailTextarea from "./components/Fields/Detail/Textarea"
 
 export default function (app) {
   /**
@@ -42,6 +44,7 @@ export default function (app) {
   app.component('form-field-boolean', FormBoolean)
   app.component('form-field-image', FormImage)
   app.component('form-field-slug', FormSlug)
+  app.component('form-field-textarea', FormTextarea)
 
   /**
    * Details fields
@@ -53,4 +56,5 @@ export default function (app) {
   app.component('detail-field-boolean', DetailBoolean)
   app.component('detail-field-image', DetailImage)
   app.component('detail-field-slug', DetailSlug)
+  app.component('detail-field-textarea', DetailTextarea)
 }
