@@ -25,11 +25,6 @@ abstract class Resource {
   static public string $orderBy = 'desc'; // 'desc' or 'asc'
 
   /**
-   * 
-   */
-  public string $description = '';
-
-  /**
    * The relationships that should be eager loaded on index queries.
    *
    * @var array
@@ -42,6 +37,11 @@ abstract class Resource {
    * @var string[] $search
    */
   static public array $search = [];
+
+  /**
+   *
+   */
+  public string $description = '';
 
   /**
    * Create a new resource instance.
@@ -168,6 +168,22 @@ abstract class Resource {
   abstract public function fields(): array;
 
   /**
+   * Transform the resource into an array for the table header.
+   *
+   * @param $request
+   * @return array
+   */
+  public function getHeader($request): array {
+    $fields = [];
+    foreach ($this->fields() as $field) {
+      if (!$field->canShow($request)) continue;
+      $fields[] = $field->toTableHeader($request);
+    }
+
+    return $fields;
+  }
+
+  /**
    * Transform the resource into an array.
    *
    * @param Request $request
@@ -193,22 +209,6 @@ abstract class Resource {
     }
 
     return $response;
-  }
-
-  /**
-   * Transform the resource into an array for the table header.
-   *
-   * @param $request
-   * @return array
-   */
-  public function getHeader($request): array {
-    $fields = [];
-    foreach ($this->fields() as $field) {
-      if (!$field->canShow($request)) continue;
-      $fields[] = $field->toTableHeader($request);
-    }
-
-    return $fields;
   }
 
   /**

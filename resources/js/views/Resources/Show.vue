@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-screen-lg mx-auto py-6">
+  <div class="max-w-screen-lg mx-auto py-4">
     <div class="flex flex-col">
       <!-- Toolbar -->
       <div class="flex justify-between mb-4 md:col-span-3 md:col-start-2">
@@ -38,8 +38,8 @@
 
       <!-- Resource title --->
       <div v-if="resource.labels.singular" class="mb-4">
-        <h3 class="text-xl font-medium leading-6 text-gray-900">{{ resource.labels.singular }} details</h3>
-        <p class="mt-2 text-sm text-gray-600">{{ resource.description }}</p>
+        <h3 class="capitalize text-2xl text-gray-800">{{ resource.labels.singular }} details</h3>
+        <p v-if="resource.description" class="mt-2 text-sm text-gray-600">{{ resource.description }}</p>
       </div>
 
       <!-- Fields -->
