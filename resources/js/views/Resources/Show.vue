@@ -44,7 +44,7 @@
 
       <!-- Fields -->
       <div class="shadow rounded-md bg-white">
-        <Loading :loading="loading">
+        <Loading :loading="loading" class="py-32">
           <div class="mt-5 md:mt-0">
             <div class="shadow sm:rounded-md sm:overflow-hidden">
               <div class="px-4 py-5 bg-white space-y-6 sm:p-6">

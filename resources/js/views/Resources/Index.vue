@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <Loading :loading="loading">
+      <Loading :loading="loading" class="pb-32 pt-24">
         <template v-if="resources.data.length">
           <!-- Datatable entries -->
           <div class="overflow-hidden overflow-x-auto relative">
