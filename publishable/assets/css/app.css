@@ -654,9 +654,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .max-w-screen-lg {
   max-width: 1024px;
 }
-.max-w-screen-md {
-  max-width: 768px;
-}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -996,6 +993,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
+.py-32 {
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
@@ -1008,21 +1009,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
 }
-.py-32 {
-  padding-top: 8rem;
-  padding-bottom: 8rem;
-}
 .pt-2 {
   padding-top: 0.5rem;
 }
 .pr-1 {
   padding-right: 0.25rem;
-}
-.pb-32 {
-  padding-bottom: 8rem;
-}
-.pt-20 {
-  padding-top: 5rem;
 }
 .pr-2 {
   padding-right: 0.5rem;
@@ -1050,6 +1041,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .pt-0 {
   padding-top: 0px;
+}
+.pb-32 {
+  padding-bottom: 8rem;
+}
+.pt-24 {
+  padding-top: 6rem;
 }
 .text-left {
   text-align: left;
