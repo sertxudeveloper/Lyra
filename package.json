@@ -12,7 +12,7 @@
   "devDependencies": {
     "@vue/compiler-sfc": "^3.2.19",
     "autoprefixer": "^10.3",
-    "axios": "^0.24.0",
+    "axios": "^0.25.0",
     "cross-env": "^7.0.3",
     "laravel-mix": "^6.0.31",
     "path": "^0.12.7",
