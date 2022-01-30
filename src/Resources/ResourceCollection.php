@@ -4,9 +4,12 @@ namespace SertxuDeveloper\Lyra\Resources;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\CollectsResources;
 use Illuminate\Http\Resources\Json\ResourceCollection as JsonResourceCollection;
 
 class ResourceCollection extends JsonResourceCollection {
+
+  use CollectsResources;
 
   /**
    * Create a new resource instance.

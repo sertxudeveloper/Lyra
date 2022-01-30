@@ -17,9 +17,7 @@ abstract class Resource {
 
   /** @var Model $model */
   static public string $model;
-
   static public string $icon = '';
-
   static public int $priority = 99;
   static public array $perPageOptions = [25, 50, 100];
   static public string $orderBy = 'desc'; // 'desc' or 'asc'
@@ -37,6 +35,13 @@ abstract class Resource {
    * @var string[] $search
    */
   static public array $search = [];
+
+  /**
+   * The resource instance.
+   *
+   * @var mixed
+   */
+  public $resource;
 
   /**
    *
@@ -184,12 +189,21 @@ abstract class Resource {
   }
 
   /**
+   * Get the JSON serialization options that should be applied to the resource response.
+   *
+   * @return int
+   */
+  public function jsonOptions(): int {
+    return 0;
+  }
+
+  /**
    * Transform the resource into an array.
    *
    * @param Request $request
    * @return array
    */
-  public function toArray($request): array {
+  public function toArray(Request $request): array {
     $fields = [];
     foreach ($this->fields() as $field) {
       if (!$field->canShow($request)) continue;
