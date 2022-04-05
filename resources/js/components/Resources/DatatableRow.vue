@@ -1,12 +1,16 @@
 <template>
   <tr>
     <td class="px-6 py-4 whitespace-nowrap">
-      <input type="checkbox" name="select" v-model="checked" @input="$emit('select')" class="block cursor-pointer h-4 w-4">
+      <input type="checkbox" name="select"
+             class="block cursor-pointer h-4 w-4"
+             v-model="checked" @input="$emit('select')">
     </td>
     <td v-for="field in resource.fields"
         class="px-6 py-4 whitespace-nowrap"
         :class="[`text-${field.align}`]">
-      <component :is="`index-${field.component}`" :field="field" />
+      <component
+        :is="`index-${field.component}`"
+        :field="field" />
     </td>
     <td class="px-4 whitespace-nowrap">
       <div class="flex text-gray-500 space-x-1">
