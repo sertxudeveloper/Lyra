@@ -12,10 +12,8 @@
     </div>
   </div>
   <div class="md:flex hidden flex-shrink-0 h-full items-center justify-end ml-4 mr-8 text-gray-700 cursor-pointer">
-    <div class="h-full overflow-hidden p-3 rounded-full">
-      <img src="{{ asset(config('lyra.routes.api.prefix').'/assets/images/avatar.png') }}" alt="Sergio Peris" class="h-full rounded-full">
-    </div>
-    <div>Sergio Peris</div>
+    <img src="{{ asset(config('lyra.routes.api.prefix').'/assets/images/avatar.png') }}" alt="Sergio Peris" class="h-8 w-8 rounded-full">
+    <div class="ml-3">Sergio Peris</div>
     <div class="m-3">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.8729 4.24957L15.1589 3.5337C14.9894 3.36377 14.7154 3.36377 14.5459 3.5337L8.01562 10.0669L1.48533 3.5337C1.31585 3.36377 1.0418 3.36377 0.872327 3.5337L0.158358 4.24957C-0.0111194 4.41949 -0.0111194 4.69427 0.158358 4.8642L7.70912 12.4351C7.8786 12.605 8.15265 12.605 8.32213 12.4351L15.8729 4.8642C16.0424 4.69427 16.0424 4.41949 15.8729 4.24957Z"/></svg>
     </div>
