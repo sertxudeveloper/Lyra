@@ -2,11 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Tests;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Hash;
-use Mockery;
-use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\TestCase;
 use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\LyraServiceProvider;
@@ -14,7 +11,7 @@ use SertxuDeveloper\Lyra\Tests\Lyra\Resources;
 
 abstract class IntegrationTest extends TestCase {
 
-  public string $API_PREXIX = '';
+  public string $API_PREFIX = '';
 
   /**
    * Setup the test environment.
@@ -26,7 +23,7 @@ abstract class IntegrationTest extends TestCase {
 
     Hash::driver('bcrypt')->setRounds(4);
 
-    $this->API_PREXIX = config('lyra.routes.api.prefix');
+    $this->API_PREFIX = config('lyra.routes.api.prefix');
 
     $this->loadMigrations();
 
@@ -44,7 +41,7 @@ abstract class IntegrationTest extends TestCase {
    * @param Application $app
    * @return void
    */
-  protected function getEnvironmentSetUp($app) {
+  protected function getEnvironmentSetUp($app): void {
     $app['config']->set('database.default', 'sqlite');
 
     $app['config']->set('database.connections.sqlite', [
@@ -62,7 +59,6 @@ abstract class IntegrationTest extends TestCase {
    */
   protected function getPackageProviders($app): array {
     return [
-      ConsoleServiceProvider::class,
       LyraServiceProvider::class,
       TestServiceProvider::class,
     ];

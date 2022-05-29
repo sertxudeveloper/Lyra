@@ -26,7 +26,7 @@ class ResourceIndexTest extends IntegrationTest {
     $userCount = User::count();
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users']));
+      ->getJson(route("$this->API_PREFIX.resources.index", ['users']));
 
     $response->assertOk();
 
@@ -58,7 +58,7 @@ class ResourceIndexTest extends IntegrationTest {
     $user = User::factory()->create();
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users', "q=$user->email"]));
+      ->getJson(route("$this->API_PREFIX.resources.index", ['users', "q=$user->email"]));
 
     $response->assertOk();
 
@@ -76,7 +76,7 @@ class ResourceIndexTest extends IntegrationTest {
     $userCount = User::count();
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users']));
+      ->getJson(route("$this->API_PREFIX.resources.index", ['users']));
 
     $response->assertOk();
 
@@ -96,7 +96,7 @@ class ResourceIndexTest extends IntegrationTest {
     $userCount = User::withTrashed()->count();
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'trashed=with']));
+      ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'trashed=with']));
 
     $response->assertOk();
 
@@ -113,7 +113,7 @@ class ResourceIndexTest extends IntegrationTest {
     $userCount = User::onlyTrashed()->count();
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'trashed=only']));
+      ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'trashed=only']));
 
     $response->assertOk();
 
@@ -128,7 +128,7 @@ class ResourceIndexTest extends IntegrationTest {
     $userC = User::factory()->create(['email' => 'user_c@example.com']);
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'sortBy=email', 'sortOrder=asc']));
+      ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'sortBy=email', 'sortOrder=asc']));
 
     $response->assertOk();
 
@@ -140,7 +140,7 @@ class ResourceIndexTest extends IntegrationTest {
     $this->assertEquals($userA->id, $response->json('data.0.key'));
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'sortBy=email', 'sortOrder=desc']));
+      ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'sortBy=email', 'sortOrder=desc']));
 
     $response->assertOk();
 
@@ -156,7 +156,7 @@ class ResourceIndexTest extends IntegrationTest {
     User::factory(6)->create();
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'perPage=2']));
+      ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'perPage=2']));
 
     $response->assertOk();
 
@@ -174,7 +174,7 @@ class ResourceIndexTest extends IntegrationTest {
     User::factory(6)->create();
 
     $response = $this->withExceptionHandling()
-      ->getJson(route("$this->API_PREXIX.resources.index", ['users', 'perPage=2', 'page=2']));
+      ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'perPage=2', 'page=2']));
 
     $response->assertOk();
 

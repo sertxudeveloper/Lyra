@@ -12,7 +12,7 @@ class TestServiceProvider extends ServiceProvider {
    *
    * @return void
    */
-  public function boot() {
+  public function boot(): void {
     Lyra::routes(auth: true);
   }
 
@@ -21,7 +21,7 @@ class TestServiceProvider extends ServiceProvider {
    *
    * @return void
    */
-  public function register() {
+  public function register(): void {
     //
   }
 }

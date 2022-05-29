@@ -17,4 +17,12 @@
   <php>
     <env name="APP_KEY" value="base64:vWaO27NZEgPFQcaGo5d2Pk0wh20WsD5sAAhOl589MyA="/>
   </php>
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+    <report>
+      <html outputDirectory="reports/coverage"/>
+    </report>
+  </coverage>
 </phpunit>
