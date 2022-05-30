@@ -2,33 +2,28 @@
 
 namespace SertxuDeveloper\Lyra\Tests\Controller;
 
-use SertxuDeveloper\Lyra\Tests\IntegrationTest;
 use SertxuDeveloper\Lyra\Tests\Lyra\Resources\Users;
 use SertxuDeveloper\Lyra\Tests\Models\User;
+use SertxuDeveloper\Lyra\Tests\TestCase;
 
-class ResourceIndexTest extends IntegrationTest {
+class ResourceIndexTest extends TestCase {
 
   /**
-   * Setup the test environment.
+   * Check can list a resource.
+   * The last inserted will be the first one.
    *
    * @return void
    */
-  public function setUp(): void {
-    parent::setUp();
-
-    $this->authenticate();
-  }
-
-  public function test_can_list_a_resource() {
+  public function test_can_list_a_resource(): void {
     User::factory(2)->create();
     $user = User::factory()->create();
-
-    $userCount = User::count();
+    $userCount = User::query()->count();
 
     $response = $this->withExceptionHandling()
+      ->actingAs($user)
       ->getJson(route("$this->API_PREFIX.resources.index", ['users']));
 
-    $response->assertOk();
+    $response->assertSuccessful();
 
     $this->assertIsArray($response->json('header'));
     $this->assertIsArray($response->json('data'));
@@ -53,32 +48,44 @@ class ResourceIndexTest extends IntegrationTest {
     $response->assertJsonCount($userCount, 'data');
   }
 
-  public function test_can_search_for_resources() {
+  /**
+   * Check can search for resources.
+   *
+   * @return void
+   */
+  public function test_can_search_for_resources(): void {
     User::factory(2)->create();
     $user = User::factory()->create();
 
     $response = $this->withExceptionHandling()
       ->getJson(route("$this->API_PREFIX.resources.index", ['users', "q=$user->email"]));
 
-    $response->assertOk();
+    $response->assertSuccessful();
 
     $this->assertEquals(1, $response->json('meta.total'));
     $this->assertEquals($user->id, $response->json('data.0.key'));
     $response->assertJsonCount(1, 'data');
   }
 
-  public function test_hides_resources_that_are_soft_deleted() {
+  /**
+   * Check a resource is not shown if it has been soft-deleted.
+   *
+   * @return void
+   */
+  public function test_hides_resources_that_are_soft_deleted(): void {
     User::factory(2)->create();
     $user = User::factory()->create();
+
     $deletedUser = User::factory()->create();
     $deletedUser->delete();
 
-    $userCount = User::count();
+    $userCount = User::query()->count();
 
     $response = $this->withExceptionHandling()
+      ->actingAs($user)
       ->getJson(route("$this->API_PREFIX.resources.index", ['users']));
 
-    $response->assertOk();
+    $response->assertSuccessful();
 
     $this->assertEquals($userCount, $response->json('meta.total'));
     $this->assertEquals(Users::$perPageOptions, $response->json('perPageOptions'));
@@ -88,77 +95,113 @@ class ResourceIndexTest extends IntegrationTest {
     $response->assertJsonCount($userCount, 'data');
   }
 
-  public function test_includes_soft_deleted_resources_when_requested() {
+  /**
+   * Check a soft-deleted resource is shown if requested.
+   *
+   * @return void
+   */
+  public function test_includes_soft_deleted_resources_if_requested(): void {
+    $user = User::factory()->create();
     User::factory(2)->create();
+
     $deletedUser = User::factory()->create();
     $deletedUser->delete();
 
     $userCount = User::withTrashed()->count();
 
     $response = $this->withExceptionHandling()
+      ->actingAs($user)
       ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'trashed=with']));
 
-    $response->assertOk();
+    $response->assertSuccessful();
 
     $this->assertEquals($userCount, $response->json('meta.total'));
     $this->assertEquals($deletedUser->id, $response->json('data.0.key'));
     $response->assertJsonCount($userCount, 'data');
   }
 
-  public function test_show_only_soft_deleted_resources_when_requested() {
+  /**
+   * Check only soft-deleted resources are shown if requested.
+   *
+   * @return void
+   */
+  public function test_show_only_soft_deleted_resources_if_requested(): void {
+    $user = User::factory()->create();
     User::factory(2)->create();
+
     $deletedUser = User::factory()->create();
     $deletedUser->delete();
 
     $userCount = User::onlyTrashed()->count();
 
     $response = $this->withExceptionHandling()
+      ->actingAs($user)
       ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'trashed=only']));
 
-    $response->assertOk();
+    $response->assertSuccessful();
 
     $this->assertEquals($userCount, $response->json('meta.total'));
     $this->assertEquals($deletedUser->id, $response->json('data.0.key'));
     $response->assertJsonCount($userCount, 'data');
   }
 
-  public function test_can_order_resources() {
+  /**
+   * Check can order resources.
+   *
+   * @return void
+   */
+  public function test_can_order_resources(): void {
     $userA = User::factory()->create(['email' => 'user_a@example.com']);
     $userB = User::factory()->create(['email' => 'user_b@example.com']);
     $userC = User::factory()->create(['email' => 'user_c@example.com']);
+    $userCount = User::query()->count();
 
     $response = $this->withExceptionHandling()
+      ->actingAs($userA)
       ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'sortBy=email', 'sortOrder=asc']));
 
-    $response->assertOk();
+    $response->assertSuccessful();
+
+    $this->assertEquals($userCount, $response->json('meta.total'));
 
     $header = $response->json('header');
     $emailHeader = collect($header)->where('key', 'email')->first();
     $this->assertEquals('asc', $emailHeader['order']);
 
-    $response->assertJsonCount(3, 'data');
+    $response->assertJsonCount($userCount, 'data');
     $this->assertEquals($userA->id, $response->json('data.0.key'));
 
     $response = $this->withExceptionHandling()
       ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'sortBy=email', 'sortOrder=desc']));
 
-    $response->assertOk();
+    $response->assertSuccessful();
 
     $header = $response->json('header');
     $emailHeader = collect($header)->where('key', 'email')->first();
     $this->assertEquals('desc', $emailHeader['order']);
 
-    $response->assertJsonCount(3, 'data');
+    $response->assertJsonCount($userCount, 'data');
     $this->assertEquals($userC->id, $response->json('data.0.key'));
   }
 
-  public function test_can_limit_resources_per_page() {
-    User::factory(6)->create();
+  /**
+   * Check can limit resources shown per page.
+   *
+   * @return void
+   */
+  public function test_can_limit_resources_per_page(): void {
+    $user = User::factory()->create();
+    User::factory(5)->create();
+
+    $userCount = User::query()->count();
 
     $response = $this->withExceptionHandling()
+      ->actingAs($user)
       ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'perPage=2']));
 
-    $response->assertOk();
+    $response->assertSuccessful();
+
+    $this->assertEquals(6, $userCount);
 
     $response->assertJsonCount(2, 'data');
 
@@ -169,14 +212,24 @@ class ResourceIndexTest extends IntegrationTest {
     $this->assertEquals(6, $response->json('meta.total'));
   }
 
+  /**
+   * Check can navigate to next page.
+   *
+   * @return void
+   */
+  public function test_can_navigate_resources_per_page(): void {
+    $user = User::factory()->create();
+    User::factory(5)->create();
 
-  public function test_can_navigate_resources_per_page() {
-    User::factory(6)->create();
+    $userCount = User::query()->count();
 
     $response = $this->withExceptionHandling()
+      ->actingAs($user)
       ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'perPage=2', 'page=2']));
 
-    $response->assertOk();
+    $response->assertSuccessful();
+
+    $this->assertEquals(6, $userCount);
 
     $response->assertJsonCount(2, 'data');
 
@@ -186,5 +239,4 @@ class ResourceIndexTest extends IntegrationTest {
     $this->assertEquals(2, $response->json('meta.per_page'));
     $this->assertEquals(6, $response->json('meta.total'));
   }
-
 }

@@ -13,7 +13,6 @@ use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\Pagination\LengthAwarePaginator;
 use SertxuDeveloper\Lyra\Resources\Resource;
 use SertxuDeveloper\Lyra\Resources\ResourceCollection;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class ResourceController extends Controller {
 
@@ -52,9 +51,9 @@ class ResourceController extends Controller {
 
     $model = $class::$model::findOrFail($id);
 
-    abort_if(!$model->delete(), SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+    abort_if(!$model->delete(), Response::HTTP_NOT_ACCEPTABLE);
 
-    return response()->noContent(SymfonyResponse::HTTP_NO_CONTENT);
+    return response()->noContent(Response::HTTP_NO_CONTENT);
   }
 
   /**
@@ -147,9 +146,9 @@ class ResourceController extends Controller {
 
     $model = $class::$model::onlyTrashed()->findOrFail($id);
 
-    abort_if(!$model->restore(), SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+    abort_if(!$model->restore(), Response::HTTP_NOT_ACCEPTABLE);
 
-    return response()->noContent(SymfonyResponse::HTTP_NO_CONTENT);
+    return response()->noContent(Response::HTTP_NO_CONTENT);
   }
 
   /**
@@ -201,12 +200,12 @@ class ResourceController extends Controller {
       $model->$key = $value;
     }
 
-    abort_if(!$model->save(), SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+    abort_if(!$model->save(), Response::HTTP_NOT_ACCEPTABLE);
 
     return response()->json([
       'data' => $class::make($model->fresh())->toArray($request),
       'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
-    ], SymfonyResponse::HTTP_CREATED);
+    ], Response::HTTP_CREATED);
   }
 
   /**
@@ -229,18 +228,18 @@ class ResourceController extends Controller {
 
     /** Check if the model has been modified since the retrieval */
     if (Carbon::make($request->input('updated_at'))->notEqualTo($model->{$model->getUpdatedAtColumn()}))
-      return response()->noContent(SymfonyResponse::HTTP_CONFLICT);
+      return response()->noContent(Response::HTTP_CONFLICT);
 
     foreach ($resource->fields() as $field) {
       if (!isset($validated[$field->getKey()])) continue;
       $field->save($model, $validated);
     }
 
-    abort_if(!$model->save(), SymfonyResponse::HTTP_NOT_ACCEPTABLE);
+    abort_if(!$model->save(), Response::HTTP_NOT_ACCEPTABLE);
 
     return response()->json([
       'data' => $class::make($model->fresh())->toArray($request),
       'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
-    ], SymfonyResponse::HTTP_ACCEPTED);
+    ], Response::HTTP_ACCEPTED);
   }
 }

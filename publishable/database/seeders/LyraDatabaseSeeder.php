@@ -12,7 +12,7 @@ class LyraDatabaseSeeder extends Seeder {
    *
    * @return void
    */
-  public function run() {
+  public function run(): void {
     LyraUser::factory(1)->create();
   }
 }

@@ -20,7 +20,7 @@ class UserFactory extends Factory {
    *
    * @return array
    */
-  public function definition() {
+  public function definition(): array {
     return [
       'name' => $this->faker->name(),
       'email' => $this->faker->unique()->safeEmail(),
@@ -35,7 +35,7 @@ class UserFactory extends Factory {
    *
    * @return Factory
    */
-  public function unverified() {
+  public function unverified(): Factory {
     return $this->state(function (array $attributes) {
       return [
         'email_verified_at' => null,
