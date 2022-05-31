@@ -10,7 +10,7 @@ class ResourceIndexTest extends TestCase {
 
   /**
    * Check can list a resource.
-   * The last inserted will be the first one.
+   * By default, the last inserted will be the first one.
    *
    * @return void
    */
@@ -156,6 +156,9 @@ class ResourceIndexTest extends TestCase {
     $userC = User::factory()->create(['email' => 'user_c@example.com']);
     $userCount = User::query()->count();
 
+    /**
+     * Check email in ascending order.
+     */
     $response = $this->withExceptionHandling()
       ->actingAs($userA)
       ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'sortBy=email', 'sortOrder=asc']));
@@ -171,6 +174,11 @@ class ResourceIndexTest extends TestCase {
     $response->assertJsonCount($userCount, 'data');
     $this->assertEquals($userA->id, $response->json('data.0.key'));
 
+    $response->assertSeeTextInOrder([$userA->email, $userB->email, $userC->email]);
+
+    /**
+     * Check email in descending order.
+     */
     $response = $this->withExceptionHandling()
       ->getJson(route("$this->API_PREFIX.resources.index", ['users', 'sortBy=email', 'sortOrder=desc']));
 
@@ -182,6 +190,8 @@ class ResourceIndexTest extends TestCase {
 
     $response->assertJsonCount($userCount, 'data');
     $this->assertEquals($userC->id, $response->json('data.0.key'));
+
+    $response->assertSeeTextInOrder([$userC->email, $userB->email, $userA->email]);
   }
 
   /**

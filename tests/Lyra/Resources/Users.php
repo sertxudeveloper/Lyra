@@ -47,12 +47,18 @@ class Users extends Resource {
     return [
       ID::make('Id'),
 
-      Text::make('Name')->rules('required', 'max:255')->sortable(),
+      Text::make('Name')
+        ->rules('required', 'max:255')
+        ->sortable(),
 
-      Text::make('Email')->creationRules('required', 'email', 'unique:users,email')
-        ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}')->sortable(),
+      Text::make('Email')
+        ->creationRules('required', 'email', 'unique:users,email')
+        ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}')
+        ->sortable(),
 
-      Text::make('Password')->hideOnIndex(),
+      Text::make('Password')
+        ->rules('required', 'max:255', 'min:8')
+        ->hideOnIndex(),
 
       DateTime::make('Email verified at'),
     ];
