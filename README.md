@@ -3,13 +3,16 @@
 </p>
 
 <h3 align="center">Boost your application and turn your ideas into reality</h3>
+
 <p align="center">
-<img src="https://img.shields.io/github/v/release/sertxudeveloper/Lyra">
+<img src="https://img.shields.io/packagist/v/sertxudeveloper/lyra.svg">
+<img src="https://img.shields.io/github/workflow/status/sertxudeveloper/lyra/run-tests?label=tests">
+<img src="https://img.shields.io/github/workflow/status/sertxudeveloper/lyra/Check%20&%20fix%20styling?label=code%20style">
 <img src="https://img.shields.io/github/license/sertxudeveloper/Lyra">
 <img src="https://img.shields.io/github/repo-size/sertxudeveloper/Lyra">
 <img src="https://img.shields.io/github/stars/sertxudeveloper/Lyra">
-<img src="https://img.shields.io/packagist/dt/sertxudeveloper/Lyra">
-<img src="https://img.shields.io/github/issues/sertxudeveloper/Lyra">
+<img src="https://img.shields.io/packagist/dt/sertxudeveloper/lyra.svg">
+<img src="https://img.shields.io/github/issues/sertxudeveloper/lyra">
 </p>
 
 ## About Lyra
@@ -20,24 +23,30 @@ With Lyra you can manage your project's database, this is achieved by defining t
 <p align="center">
 <img src="https://lyraadmin.dev/img/lyra_dashboard.png" width="700">
 </p>
+php artisan lyra:install
 
-<h3 align="center">There's an online demo available. Try it now!</h3>
+## Testing
 
-<a href="https://lyra.sertxudeveloper.com/lyra" align="center">
-<p align="center"><img src="/.github/demo.png"></p>
-</a>
+```bash
+composer test
+```
 
-## Documentation
-To check out the documentation and try the demo, visit our [website](https://lyraadmin.dev).
+## Contributing
 
-## Versioning
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags](https://github.com/sertxudeveloper/Lyra/tags) on this repository.
+Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
 
-## Authors
-- Sergio Peris - Author - [Sertxu Developer](https://github.com/sertxudeveloper)
+## Security Vulnerabilities
 
-See also the [list of contributors](https://github.com/sertxudeveloper/Lyra/contributors) who participated in this project.
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
+## Credits
+
+- [Sergio Peris](https://github.com/sertxudev)
+- [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
 <br><br>
 Copyright © 2021 Sertxu Developer
-

@@ -4,10 +4,9 @@ namespace SertxuDeveloper\Lyra\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use SertxuDeveloper\Lyra\Tests\Factories\UserFactory;
+use SertxuDeveloper\Lyra\Tests\Database\Factories\UserFactory;
 
 class User extends Authenticatable
 {

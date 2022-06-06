@@ -2,50 +2,24 @@
 
 namespace SertxuDeveloper\Lyra\Tests;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Hash;
-use SertxuDeveloper\Lyra\Lyra;
+use Orchestra\Testbench\TestCase as Orchestra;
+use SertxuDeveloper\Lyra\Facades\Lyra;
 use SertxuDeveloper\Lyra\LyraServiceProvider;
-use SertxuDeveloper\Lyra\Tests\Lyra\Resources;
-use SertxuDeveloper\Lyra\Tests\Models\User;
 
-abstract class TestCase extends \Orchestra\Testbench\TestCase
+abstract class TestCase extends Orchestra
 {
-    public string $API_PREFIX = '';
+    protected string $API_PREFIX = '';
 
     /**
-     * Setup the test environment.
+     * Define database migrations.
      *
      * @return void
      */
-    public function setUp(): void {
-        parent::setUp();
-
-        Hash::driver('bcrypt')->setRounds(4);
-
-        $this->API_PREFIX = config('lyra.routes.api.prefix');
-
-        $this->loadMigrations();
-
-        Lyra::resources(
-      Resources\Users::class,
-      Resources\Posts::class,
-      Resources\Tags::class,
-      Resources\Categories::class,
-    );
-    }
-
-    /**
-     * Get package providers.
-     *
-     * @param  Application  $app
-     * @return array<int, class-string>
-     */
-    protected function getPackageProviders($app): array {
-        return [
-            LyraServiceProvider::class,
-        ];
+    protected function defineDatabaseMigrations(): void
+    {
+        $this->loadLaravelMigrations();
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
     }
 
     /**
@@ -54,93 +28,31 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      * @param  Application  $app
      * @return void
      */
-    protected function getEnvironmentSetUp($app): void {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-        ]);
+    protected function getEnvironmentSetUp($app): void
+    {
+        $this->API_PREFIX = config('lyra.routes.api.prefix');
     }
 
     /**
-     * Load the migrations for the test environment.
+     * Get package providers.
+     *
+     * @param  Application  $app
+     * @return array<int, class-string>
+     */
+    protected function getPackageProviders($app): array
+    {
+        return [
+            LyraServiceProvider::class,
+        ];
+    }
+
+    /**
+     * Register the default testing resources.
      *
      * @return void
      */
-    protected function loadMigrations(): void {
-        $this->loadMigrationsFrom(realpath(__DIR__.'/migrations'));
-    }
-
-//
-    //  public string $API_PREFIX = '';
-//
-    //  /**
-    //   * Setup the test environment.
-    //   *
-    //   * @return void
-    //   */
-    //  protected function setUp(): void {
-//    parent::setUp();
-//
-//    Hash::driver('bcrypt')->setRounds(4);
-//
-//    $this->API_PREFIX = config('lyra.routes.api.prefix');
-//
-//    $this->loadMigrations();
-//
-//    Lyra::resources(
-//      Resources\Users::class,
-//      Resources\Posts::class,
-//      Resources\Tags::class,
-//      Resources\Categories::class,
-//    );
-    //  }
-//
-    //  /**
-    //   * Define environment setup.
-    //   *
-    //   * @param Application $app
-    //   * @return void
-    //   */
-    //  protected function getEnvironmentSetUp($app): void {
-//    $app['config']->set('database.default', 'sqlite');
-//
-//    $app['config']->set('database.connections.sqlite', [
-//      'driver' => 'sqlite',
-//      'database' => ':memory:',
-//      'prefix' => '',
-//    ]);
-    //  }
-//
-    //  /**
-    //   * Get package providers.
-    //   *
-    //   * @param Application $app
-    //   * @return array<int, class-string>
-    //   */
-    //  protected function getPackageProviders($app): array {
-//    return [
-//      LyraServiceProvider::class,
-//      TestServiceProvider::class,
-//    ];
-    //  }
-//
-    //  /**
-    //   * Load the migrations for the test environment.
-    //   *
-    //   * @return void
-    //   */
-    //  protected function loadMigrations(): void {
-//    $this->loadMigrationsFrom([
-//      '--database' => 'sqlite',
-//      '--realpath' => true,
-//      '--path' => realpath(__DIR__ . '/migrations'),
-//    ]);
-    //  }
-
-    protected function authenticate(?Authenticatable $user = null): Authenticatable {
-        $this->actingAs($user ??= User::factory()->create());
-
-        return $user;
+    protected function registerDefaultResources(): void
+    {
+        Lyra::resourcesIn(__DIR__.'/Resources');
     }
 }

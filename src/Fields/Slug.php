@@ -22,7 +22,8 @@ class Slug extends Field
      * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
+    public function additional(Model $model): array
+    {
         return [
             'from' => $this->from,
             'separator' => $this->separator,
@@ -35,7 +36,8 @@ class Slug extends Field
      * @param  string  $from
      * @return $this
      */
-    public function from(string $from): self {
+    public function from(string $from): self
+    {
         $this->from = $from;
 
         return $this;
@@ -47,7 +49,8 @@ class Slug extends Field
      * @param  string  $separator
      * @return $this
      */
-    public function separator(string $separator): self {
+    public function separator(string $separator): self
+    {
         $this->separator = $separator;
 
         return $this;

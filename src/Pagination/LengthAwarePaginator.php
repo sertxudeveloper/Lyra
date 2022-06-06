@@ -19,7 +19,8 @@ class LengthAwarePaginator extends IlluminateLengthAwarePaginator
      *
      * @return Collection
      */
-    public function linkCollection(): Collection {
+    public function linkCollection(): Collection
+    {
         $middlePage = min(max($this->onEachSide, $this->currentPage()), $this->lastPage() - $this->onEachSide + 1);
         $fromPage = max($middlePage - $this->onEachSide + 1, 1);
         $toPage = min($middlePage + $this->onEachSide - 1, $this->lastPage());
@@ -27,9 +28,9 @@ class LengthAwarePaginator extends IlluminateLengthAwarePaginator
         $elements = ['first' => $this->getUrlRange($fromPage, $toPage)];
 
         return collect($elements)->flatMap(function ($item) {
-            if (!is_array($item)) {
-                return [['url' => null, 'label' => '...', 'active' => false]];
-            }
+//      if (!is_array($item)) {
+//        return [['url' => null, 'label' => '...', 'active' => false]];
+//      }
 
             return collect($item)->map(function ($url, $page) {
                 return [

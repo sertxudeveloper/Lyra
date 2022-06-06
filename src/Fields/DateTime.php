@@ -13,12 +13,13 @@ class DateTime extends Field
     public string $component = 'field-datetime';
 
     /**
-     * Add field-specific data to the response
+     * Add field-specific data to the response.
      *
      * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
+    public function additional(Model $model): array
+    {
         return [
             'timezone' => config('app.timezone'),
             'locale' => config('app.locale'),

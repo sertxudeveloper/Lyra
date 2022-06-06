@@ -11,7 +11,8 @@ Route::group(['middleware' => ['api']], function () {
             /**
              * Resources routes
              *
-             * index, create, store, show, edit, update, destroy
+             * Available methods:
+             * index, create, store, show, edit, update, destroy, restore
              *
              * @see https://laravel.com/docs/8.x/controllers#actions-handled-by-resource-controller
              */
@@ -39,18 +40,34 @@ Route::group(['middleware' => ['api']], function () {
             Route::post('/resources/{resource}/{id}/restore', [Controllers\ResourceController::class, 'restore'])
                 ->name('resources.restore');
 
-            Route::post('/actions/{resource}', [Controllers\ResourceActionController::class, 'exec'])
-                ->name('resources.action');
+            /**
+             * Action routes
+             *
+             * Available methods:
+             * exec
+             */
+//            Route::post('/actions/{resource}', [Controllers\ResourceActionController::class, 'exec'])
+//                ->name('resources.action');
 
-            /** Cards routes */
-            Route::get('/cards/{resource}', [Controllers\CardsController::class, 'index'])
-                ->name('cards.index');
+            /**
+             * Cards routes
+             *
+             * Available methods:
+             * index, show
+             */
+//            Route::get('/cards/{resource}', [Controllers\CardsController::class, 'index'])
+//                ->name('cards.index');
+//
+//            Route::get('/cards/{resource}/{card}', [Controllers\CardsController::class, 'show'])
+//                ->name('cards.show');
 
-            Route::get('/cards/{resource}/{card}', [Controllers\CardsController::class, 'show'])
-                ->name('cards.show');
-
-            /** Assets routes */
-            Route::get('/assets/{any}', [Controllers\AssetsController::class, 'show'])
-                ->where('any', '.*');
+            /**
+             * Assets routes
+             *
+             * Available methods:
+             * show
+             */
+//            Route::get('/assets/{any}', [Controllers\AssetsController::class, 'show'])
+//                ->where('any', '.*');
         });
 });

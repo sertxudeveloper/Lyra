@@ -5,10 +5,10 @@ namespace SertxuDeveloper\Lyra\Fields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use SertxuDeveloper\Lyra\Facades\Lyra;
 use SertxuDeveloper\Lyra\Fields\Traits\Align;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
-use SertxuDeveloper\Lyra\Lyra;
 
 abstract class Field
 {
@@ -39,8 +39,9 @@ abstract class Field
      * @param  object|string|null  $column
      * @return $this
      */
-    public static function make(string $name, object|string $column = null): self {
-        $field = new static;
+    public static function make(string $name, object|string $column = null): self
+    {
+        $field = new static();
         $field->name = $name;
         $field->column = $column ?? Str::snake(Str::lower($name));
 
@@ -58,7 +59,8 @@ abstract class Field
      * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
+    public function additional(Model $model): array
+    {
         return [];
     }
 
@@ -68,13 +70,14 @@ abstract class Field
      * @param  Request  $request
      * @return bool
      */
-    public function canShow(Request $request): bool {
+    public function canShow(Request $request): bool
+    {
         return match (Lyra::getRouteName($request)) {
             'resources.index' => $this->showOnIndex,
-      'resources.create', 'resources.store' => $this->showOnCreate,
-      'resources.show' => $this->showOnShow,
-      'resources.edit', 'resources.update' => $this->showOnUpdate,
-      default => false,
+            'resources.create', 'resources.store' => $this->showOnCreate,
+            'resources.show' => $this->showOnShow,
+            'resources.edit', 'resources.update' => $this->showOnUpdate,
+            default => false,
         };
     }
 
@@ -84,7 +87,8 @@ abstract class Field
      * @param  string[]  $rules
      * @return $this
      */
-    public function creationRules(string ...$rules): self {
+    public function creationRules(string ...$rules): self
+    {
         $this->creationRules = $rules;
 
         return $this;
@@ -95,7 +99,8 @@ abstract class Field
      *
      * @return string
      */
-    public function getKey(): string {
+    public function getKey(): string
+    {
         return is_string($this->column) ? $this->column : Str::snake($this->name);
     }
 
@@ -104,7 +109,8 @@ abstract class Field
      *
      * @return $this
      */
-    public function hideOnForms(): self {
+    public function hideOnForms(): self
+    {
         $this->showOnCreate = false;
         $this->showOnUpdate = false;
 
@@ -116,7 +122,8 @@ abstract class Field
      *
      * @return $this
      */
-    public function hideOnIndex(): self {
+    public function hideOnIndex(): self
+    {
         $this->showOnIndex = false;
 
         return $this;
@@ -127,7 +134,8 @@ abstract class Field
      *
      * @return $this
      */
-    public function hideOnShow(): self {
+    public function hideOnShow(): self
+    {
         $this->showOnShow = false;
 
         return $this;
@@ -139,7 +147,8 @@ abstract class Field
      * @param  string[]  $rules
      * @return $this
      */
-    public function rules(string ...$rules): self {
+    public function rules(string ...$rules): self
+    {
         $this->creationRules = $rules;
         $this->updateRules = $rules;
 
@@ -153,7 +162,8 @@ abstract class Field
      * @param  array  $data The new validated data
      * @return void
      */
-    public function save(Model $model, array $data): void {
+    public function save(Model $model, array $data): void
+    {
         if (is_callable($this->column)) {
             return;
         }
@@ -167,7 +177,8 @@ abstract class Field
      * @param  Model  $model
      * @return array
      */
-    public function toArray(Model $model): array {
+    public function toArray(Model $model): array
+    {
         $field = [
             'key' => $this->getKey(),
             'component' => $this->component,
@@ -194,7 +205,8 @@ abstract class Field
      * @param  Request  $request
      * @return array
      */
-    public function toTableHeader(Request $request): array {
+    public function toTableHeader(Request $request): array
+    {
         $sortBy = explode(',', $request->query('sortBy'));
         $sortOrder = explode(',', $request->query('sortOrder'));
 
@@ -223,7 +235,8 @@ abstract class Field
      * @param  string[]  $rules
      * @return $this
      */
-    public function updateRules(string ...$rules): self {
+    public function updateRules(string ...$rules): self
+    {
         $this->updateRules = $rules;
 
         return $this;

@@ -6,16 +6,21 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\DelegatesToResource;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
-use SertxuDeveloper\Lyra\Lyra;
+use SertxuDeveloper\Lyra\Facades\Lyra;
 
+/**
+ * Resource class.
+ */
 abstract class Resource
 {
     use DelegatesToResource;
 
-    /** @var Model */
+    /**
+     * The model related to the resource.
+     *
+     * @var class-string<Model>
+     */
     public static string $model;
 
     public static string $icon = '';
@@ -31,23 +36,25 @@ abstract class Resource
      *
      * @var array
      */
-    public static array $with = [];
+    public static array $with = [
+        //
+    ];
 
     /**
-     * Columns where the search is enabled
+     * Columns where the search is enabled.
      *
      * @var string[]
      */
-    public static array $search = [];
+    public static array $search = [
+        //
+    ];
 
     /**
      * The resource instance.
      *
      * @var mixed
      */
-    public $resource;
-
-    public string $description = '';
+    protected $resource;
 
     /**
      * Create a new resource instance.
@@ -55,25 +62,28 @@ abstract class Resource
      * @param  Model  $resource
      * @return void
      */
-    public function __construct(Model $resource) {
+    public function __construct(Model $resource)
+    {
         $this->resource = $resource;
     }
 
     /**
-     * Get related model primary key name
+     * Get related model primary key name.
      *
      * @return string
      */
-    public static function getKeyName(): string {
-        return (new static::$model)->getKeyName();
+    public static function getKeyName(): string
+    {
+        return static::newModel()->getKeyName();
     }
 
     /**
-     * Get the label of the resource
+     * Get the label of the resource.
      *
      * @return string
      */
-    public static function label(): string {
+    public static function label(): string
+    {
         return Str::title(Str::snake(class_basename(get_called_class()), ' '));
     }
 
@@ -83,27 +93,35 @@ abstract class Resource
      * @param  mixed  ...$parameters
      * @return $this
      */
-    public static function make(...$parameters): self {
+    public static function make(...$parameters): self
+    {
         return new static(...$parameters);
     }
 
     /**
-     * Create a new instance of the provided model
+     * Create a new instance of the provided model.
      *
      * @return Model
      */
-    public static function newModel(): Model {
-        $model = static::$model;
-
-        return new $model;
+    public static function newModel(): Model
+    {
+        return new static::$model;
     }
 
-    public static function searchInResource(Request $request, Builder $query): Builder {
+    /**
+     * Search inside the resource using the available search columns.
+     *
+     * @param  Request  $request
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public static function searchInResource(Request $request, Builder $query): Builder
+    {
         $searchTerm = $request->input('q');
 
         $query->where(function (Builder $query) use ($searchTerm) {
             foreach (static::$search as $column) {
-                $query->orWhere($column, 'LIKE', "%{$searchTerm}%");
+                $query->orWhere($column, 'LIKE', "%$searchTerm%");
             }
         });
 
@@ -111,31 +129,34 @@ abstract class Resource
     }
 
     /**
-     * Get the singular label of the resource
+     * Get the singular label of the resource.
      *
      * @return string
      */
-    public static function singular(): string {
+    public static function singular(): string
+    {
         return Str::singular(static::label());
     }
 
     /**
-     * Get the slug of the resource
+     * Get the slug of the resource.
      *
      * @return string
      */
-    public static function slug(): string {
+    public static function slug(): string
+    {
         return Str::kebab(class_basename(get_called_class()));
     }
 
     /**
-     * Add the requested sorting method to the query
+     * Add the requested sorting method to the query.
      *
      * @param  Request  $request
      * @param  Builder  $query
      * @return Builder
      */
-    public static function sortResource(Request $request, Builder $query): Builder {
+    public static function sortResource(Request $request, Builder $query): Builder
+    {
         $sortBy = explode(',', $request->query('sortBy'));
         $sortOrder = explode(',', $request->query('sortOrder'));
 
@@ -150,6 +171,7 @@ abstract class Resource
             if ($direction !== 'asc' && $direction !== 'desc') {
                 continue;
             }
+
             $query->orderBy($column, $direction);
         }
 
@@ -157,21 +179,21 @@ abstract class Resource
     }
 
     /**
-     * The actions' resource definition
+     * The actions' resource definition.
      *
      * @return array
      */
     abstract public function actions(): array;
 
     /**
-     * The cards' resource definition
+     * The cards' resource definition.
      *
      * @return array
      */
     abstract public function cards(): array;
 
     /**
-     * The fields' resource definition
+     * The fields' resource definition.
      *
      * @return array
      */
@@ -183,10 +205,11 @@ abstract class Resource
      * @param $request
      * @return array
      */
-    public function getHeader($request): array {
+    public function getHeader($request): array
+    {
         $fields = [];
         foreach ($this->fields() as $field) {
-            if (!$field->canShow($request)) {
+            if (! $field->canShow($request)) {
                 continue;
             }
             $fields[] = $field->toTableHeader($request);
@@ -200,7 +223,8 @@ abstract class Resource
      *
      * @return int
      */
-    public function jsonOptions(): int {
+    public function jsonOptions(): int
+    {
         return 0;
     }
 
@@ -210,10 +234,11 @@ abstract class Resource
      * @param  Request  $request
      * @return array
      */
-    public function toArray(Request $request): array {
+    public function toArray(Request $request): array
+    {
         $fields = [];
         foreach ($this->fields() as $field) {
-            if (!$field->canShow($request)) {
+            if (! $field->canShow($request)) {
                 continue;
             }
             $fields[] = $field->toArray($this->resource);
@@ -232,54 +257,5 @@ abstract class Resource
         }
 
         return $response;
-    }
-
-    /**
-     * Validate the update request received.
-     *
-     * @param  Request  $request
-     * @return array
-     *
-     * @throws ValidationException
-     */
-    public function validateCreation(Request $request): array {
-        $validator = Validator::make($request->all(), $this->formatRules($request));
-
-        return $validator->validate();
-    }
-
-    /**
-     * Validate the update request received.
-     *
-     * @param  Request  $request
-     * @return array
-     *
-     * @throws ValidationException
-     */
-    public function validateUpdate(Request $request): array {
-        $validator = Validator::make($request->all(), $this->formatRules($request));
-
-        return $validator->validate();
-    }
-
-    /**
-     * Format the rules for the validation
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    protected function formatRules(Request $request): array {
-        $rules = [];
-        $isUpdating = Lyra::getRouteName($request) == 'resources.update';
-
-        foreach ($this->fields() as $field) {
-            if (!$field->canShow($request)) {
-                continue;
-            }
-            $fieldRules = $isUpdating ? $field->updateRules : $field->creationRules;
-            $rules[$field->column] = str_replace('{{resourceId}}', $this->resource->getKey(), $fieldRules);
-        }
-
-        return $rules;
     }
 }

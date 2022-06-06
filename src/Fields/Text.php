@@ -20,7 +20,8 @@ class Text extends Field
      * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
+    public function additional(Model $model): array
+    {
         return [
             'asHtml' => $this->asHtml,
         ];
@@ -31,7 +32,8 @@ class Text extends Field
      *
      * @return $this
      */
-    public function asHtml(): self {
+    public function asHtml(): self
+    {
         $this->asHtml = true;
 
         return $this;
