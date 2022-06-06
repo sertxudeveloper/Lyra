@@ -3,22 +3,10 @@
 namespace SertxuDeveloper\Lyra\Tests;
 
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Hash;
 use Orchestra\Testbench\TestCase as Orchestra;
 use SertxuDeveloper\Lyra\LyraServiceProvider;
 
 abstract class TestCase extends Orchestra {
-
-    /**
-     * Setup the test environment.
-     *
-     * @return void
-     */
-    protected function setUp(): void {
-        parent::setUp();
-
-        Hash::driver('bcrypt')->setRounds(4);
-    }
 
     /**
      * Define database migrations.
