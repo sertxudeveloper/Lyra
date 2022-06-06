@@ -2,8 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Fields\Traits;
 
-trait Sortable
-{
+trait Sortable {
+
     public bool $sortable = false;
 
     /**

@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\DelegatesToResource;
 use Illuminate\Support\Str;
-use SertxuDeveloper\Lyra\Lyra;
+use SertxuDeveloper\Lyra\Facades\Lyra;
 
+/**
+ * Resource class.
+ *
+ * @package SertxuDeveloper\Lyra
+ */
 abstract class Resource {
 
     use DelegatesToResource;
@@ -19,32 +24,28 @@ abstract class Resource {
      * @var class-string<Model>
      */
     static public string $model;
-
     static public string $icon = '';
     static public int $priority = 99;
     static public array $perPageOptions = [25, 50, 100];
-    static public string $orderBy = 'desc'; // 'desc' or 'asc'
-
-    /**
+static public string $orderBy = 'desc';
+        /**
      * The relationships that should be eager loaded on index queries.
      *
      * @var array
      */
-    static public array $with = [];
-
+    static public array $with = []; // 'desc' or 'asc'
     /**
      * Columns where the search is enabled.
      *
      * @var string[] $search
      */
     static public array $search = [];
-
     /**
      * The resource instance.
      *
      * @var mixed
      */
-    protected Model $resource;
+    protected $resource;
 
     /**
      * Create a new resource instance.
@@ -54,6 +55,15 @@ abstract class Resource {
      */
     public function __construct(Model $resource) {
         $this->resource = $resource;
+    }
+
+    /**
+     * Get related model primary key name.
+     *
+     * @return string
+     */
+    public static function getKeyName(): string {
+        return static::newModel()->getKeyName();
     }
 
     /**
@@ -149,34 +159,6 @@ abstract class Resource {
     }
 
     /**
-     * Transform the resource into an array.
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function toArray(Request $request): array {
-        $fields = [];
-        foreach ($this->fields() as $field) {
-            if (!$field->canShow($request)) continue;
-            $fields[] = $field->toArray($this->resource);
-        }
-
-        $response = [
-            'key' => $this->resource->getKey(),
-            'trashed' => (method_exists($this->resource, 'trashed')) ? $this->resource->trashed() : false,
-            'fields' => $fields,
-        ];
-
-        $route = Lyra::getRouteName($request);
-        if ($route === 'resources.edit' || $route === 'resources.update') {
-            $updated_at = (new $this->resource)->getUpdatedAtColumn();
-            $response['updated_at'] = $this->resource->$updated_at;
-        }
-
-        return $response;
-    }
-
-    /**
      * The actions' resource definition.
      *
      * @return array
@@ -211,5 +193,42 @@ abstract class Resource {
         }
 
         return $fields;
+    }
+
+    /**
+     * Get the JSON serialization options that should be applied to the resource response.
+     *
+     * @return int
+     */
+    public function jsonOptions(): int {
+        return 0;
+    }
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function toArray(Request $request): array {
+        $fields = [];
+        foreach ($this->fields() as $field) {
+            if (!$field->canShow($request)) continue;
+            $fields[] = $field->toArray($this->resource);
+        }
+
+        $response = [
+            'key' => $this->resource->getKey(),
+            'trashed' => (method_exists($this->resource, 'trashed')) ? $this->resource->trashed() : false,
+            'fields' => $fields,
+        ];
+
+        $route = Lyra::getRouteName($request);
+        if ($route === 'resources.edit' || $route === 'resources.update') {
+            $updated_at = (new $this->resource)->getUpdatedAtColumn();
+            $response['updated_at'] = $this->resource->$updated_at;
+        }
+
+        return $response;
     }
 }

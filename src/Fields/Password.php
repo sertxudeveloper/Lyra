@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 
-class Password extends Field
-{
+class Password extends Field {
+
     use Placeholder;
 
     public string $component = 'field-password';
@@ -17,8 +17,8 @@ class Password extends Field
     /**
      * Create a new instance of the field
      *
-     * @param  string  $name
-     * @param  object|string|null  $column
+     * @param string $name
+     * @param object|string|null $column
      * @return $this
      */
     public static function make(string $name, object|string $column = null): Field {
@@ -32,7 +32,7 @@ class Password extends Field
     /**
      * Add field-specific data to the response
      *
-     * @param  Model  $model
+     * @param Model $model
      * @return array
      */
     public function additional(Model $model): array {
@@ -44,8 +44,8 @@ class Password extends Field
     /**
      * Update the field value using the given data
      *
-     * @param  Model  $model The model to be updated
-     * @param  array  $data The new validated data
+     * @param Model $model The model to be updated
+     * @param array $data The new validated data
      * @return void
      */
     public function save(Model $model, array $data): void {

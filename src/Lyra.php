@@ -10,7 +10,7 @@ use SertxuDeveloper\Lyra\Resources\Resource;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Main Lyra package class
+ * Main Lyra package class.
  *
  * @version 2.x
  * @package SertxuDeveloper\Lyra
@@ -25,17 +25,7 @@ class Lyra {
     private array $callbacks = [];
 
     /**
-     * Extract Lyra named route from the given request
-     *
-     * @param Request $request
-     * @return string
-     */
-    static public function getRouteName(Request $request): string {
-        return (string)str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
-    }
-
-    /**
-     * Get a list of registered resources
+     * Get a list of registered resources.
      *
      * @return array
      */
@@ -44,10 +34,20 @@ class Lyra {
     }
 
     /**
-     * Get the resource class of the given slug
+     * Extract Lyra named route from the given request.
      *
-     * @param string $slug Slug of the wanted resource
-     * @return string Class name of the resource
+     * @param Request $request
+     * @return string
+     */
+    public function getRouteName(Request $request): string {
+        return (string)str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
+    }
+
+    /**
+     * Get the resource class of the given slug.
+     *
+     * @param string $slug Slug of the wanted resource.
+     * @return string Class name of the resource.
      * @throws ResourceNotFoundException
      */
     public function resourceBySlug(string $slug): string {
@@ -60,18 +60,18 @@ class Lyra {
     }
 
     /**
-     * Register given resources
+     * Register given resources.
      *
-     * @param string ...$resource The resources to register
+     * @param string ...$resource The resources to register.
      */
     public function resources(string ...$resource): void {
         $this->resources = array_unique(array_merge($this->resources, $resource));
     }
 
     /**
-     * Register resources in a directory
+     * Register resources in a directory.
      *
-     * @param string $directory Directory to scan for resources
+     * @param string $directory Directory to scan for resources.
      * @return void
      */
     public function resourcesIn(string $directory): void {
@@ -97,5 +97,16 @@ class Lyra {
         }
 
         $this->resources(...$resources);
+    }
+
+    /**
+     * Run the registered Lyra callbacks.
+     * This method is called automatically when a Lyra controller is called.
+     *
+     * @return void
+     */
+    public function runCallbacks(): void {
+        foreach ($this->callbacks as $callback)
+            call_user_func($callback);
     }
 }

@@ -4,11 +4,12 @@ namespace SertxuDeveloper\Lyra\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use SertxuDeveloper\Lyra\Tests\Database\Factories\PostFactory;
 
 class Post extends Model {
 
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that aren't mass assignable.
@@ -29,7 +30,7 @@ class Post extends Model {
     /**
      * Create a new factory instance for the model.
      *
-     * @return \SertxuDeveloper\Lyra\Tests\database\factories\PostFactory
+     * @return PostFactory
      */
     protected static function newFactory(): PostFactory {
         return new PostFactory();

@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Tests\Models\Category;
 
-class CategoryFactory extends Factory
-{
+class CategoryFactory extends Factory {
+
     /**
      * The name of the factory's corresponding model.
      *

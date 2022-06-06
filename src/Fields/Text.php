@@ -6,18 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
 
-class Text extends Field
-{
+class Text extends Field {
+
     use Placeholder, Sortable;
 
     public string $component = 'field-text';
-
     public bool $asHtml = false;
 
     /**
      * Add field-specific data to the response
      *
-     * @param  Model  $model
+     * @param Model $model
      * @return array
      */
     public function additional(Model $model): array {

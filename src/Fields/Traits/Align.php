@@ -2,8 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Fields\Traits;
 
-trait Align
-{
+trait Align {
+
     public string $align = 'left';
 
     /**
