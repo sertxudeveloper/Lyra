@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+
     /**
      * Run the migrations.
      *
@@ -21,7 +22,6 @@ return new class extends Migration {
             $table->dateTime('published_at')->nullable();
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
-            $table->dateTime('deleted_at')->nullable();
         });
     }
 

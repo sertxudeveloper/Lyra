@@ -12,23 +12,14 @@ use SertxuDeveloper\Lyra\Fields\Textarea;
 use SertxuDeveloper\Lyra\Resources\Resource;
 use SertxuDeveloper\Lyra\Tests\Models\Post;
 
-class Posts extends Resource
-{
+class Posts extends Resource {
+
     /**
      * The model related to the resource.
      *
      * @var class-string<Model>
      */
-    public static string $model = Post::class;
-
-    /**
-     * Columns where the search is enabled.
-     *
-     * @var string[]
-     */
-    public static array $search = [
-        'name', 'email',
-    ];
+    static public string $model = Post::class;
 
     /**
      * The actions' resource definition.
@@ -62,8 +53,7 @@ class Posts extends Resource
             ID::make('id'),
 
             Text::make('title')
-                ->rules('required', 'max:255')
-                ->sortable(),
+                ->rules('required', 'max:255'),
 
             Slug::make('slug')
                 ->rules('required', 'max:255'),

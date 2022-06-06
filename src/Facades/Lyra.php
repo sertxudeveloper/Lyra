@@ -2,7 +2,6 @@
 
 namespace SertxuDeveloper\Lyra\Facades;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Facade;
 use RuntimeException;
 
@@ -10,18 +9,16 @@ use RuntimeException;
  * Lyra facade.
  *
  * @version 2.x
+ * @package SertxuDeveloper\Lyra
+ * @see \SertxuDeveloper\Lyra\Lyra
  *
- * @method static string getRouteName(Request $request)
  * @method static array getResources()
  * @method static string resourceBySlug(string $slug)
  * @method static void resources(string ...$resource)
  * @method static void resourcesIn(string $directory)
- * @method static void runCallbacks()
- *
- * @see \SertxuDeveloper\Lyra\Lyra
  */
-class Lyra extends Facade
-{
+class Lyra extends Facade {
+
     /**
      * Get the registered name of the component.
      *

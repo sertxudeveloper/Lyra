@@ -9,8 +9,8 @@ use SertxuDeveloper\Lyra\Tests\Resources\Tags;
 use SertxuDeveloper\Lyra\Tests\Resources\Users;
 use SertxuDeveloper\Lyra\Tests\TestCase;
 
-class LyraTest extends TestCase
-{
+class LyraTest extends TestCase {
+
     /**
      * Check can get a resource by slug.
      *
