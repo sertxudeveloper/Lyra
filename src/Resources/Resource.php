@@ -11,7 +11,6 @@ use SertxuDeveloper\Lyra\Facades\Lyra;
 
 /**
  * Resource class.
- *
  * @package SertxuDeveloper\Lyra
  */
 abstract class Resource {
@@ -27,19 +26,26 @@ abstract class Resource {
     static public string $icon = '';
     static public int $priority = 99;
     static public array $perPageOptions = [25, 50, 100];
-static public string $orderBy = 'desc';
-        /**
+    static public string $orderBy = 'desc'; // asc, desc
+
+    /**
      * The relationships that should be eager loaded on index queries.
      *
      * @var array
      */
-    static public array $with = []; // 'desc' or 'asc'
+    static public array $with = [
+        //
+    ];
+
     /**
      * Columns where the search is enabled.
      *
      * @var string[] $search
      */
-    static public array $search = [];
+    static public array $search = [
+        //
+    ];
+
     /**
      * The resource instance.
      *

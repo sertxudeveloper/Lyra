@@ -18,6 +18,15 @@ class Users extends Resource {
     static public string $model = User::class;
 
     /**
+     * Columns where the search is enabled.
+     *
+     * @var string[] $search
+     */
+    static public array $search = [
+        'name', 'email',
+    ];
+
+    /**
      * The actions' resource definition.
      *
      * @return array

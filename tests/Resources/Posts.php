@@ -22,6 +22,15 @@ class Posts extends Resource {
     static public string $model = Post::class;
 
     /**
+     * Columns where the search is enabled.
+     *
+     * @var string[] $search
+     */
+    static public array $search = [
+        'name', 'email',
+    ];
+
+    /**
      * The actions' resource definition.
      *
      * @return array
@@ -53,7 +62,8 @@ class Posts extends Resource {
             ID::make('id'),
 
             Text::make('title')
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->sortable(),
 
             Slug::make('slug')
                 ->rules('required', 'max:255'),

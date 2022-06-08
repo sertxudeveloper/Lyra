@@ -9,6 +9,13 @@ use Illuminate\Http\Resources\Json\ResourceCollection as JsonResourceCollection;
 class ResourceCollection extends JsonResourceCollection {
 
     /**
+     * Indicates if all existing request query parameters should be added to pagination links.
+     *
+     * @var bool
+     */
+    protected $preserveAllQueryParameters = true;
+
+    /**
      * Create a new resource instance.
      *
      * @param mixed $collection
@@ -56,11 +63,7 @@ class ResourceCollection extends JsonResourceCollection {
      * @return JsonResponse
      */
     protected function preparePaginatedResponse($request): JsonResponse {
-        if ($this->preserveAllQueryParameters) {
-            $this->resource->appends($request->query());
-        } else if (!is_null($this->queryParameters)) {
-            $this->resource->appends($this->queryParameters);
-        }
+        parent::preparePaginatedResponse($request);
 
         return (new Pagination($this))->toResponse($request);
     }
