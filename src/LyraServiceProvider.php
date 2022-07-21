@@ -15,119 +15,119 @@ use SertxuDeveloper\Lyra\Models\LyraUser;
  * Lyra Service Provider
  *
  * @version 2.x
- * @package SertxuDeveloper\Lyra
+ *
  * @link https://www.github.com/sertxudeveloper/Lyra
  */
-class LyraServiceProvider extends ServiceProvider {
+class LyraServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @param  Router  $router
+     * @return void
+     */
+    public function boot(Router $router): void {
+        /** Load the Lyra views */
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'lyra');
 
-  /**
-   * Bootstrap any application services.
-   *
-   * @param Router $router
-   * @return void
-   */
-  public function boot(Router $router): void {
-    /** Load the Lyra views */
-    $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lyra');
+        /** Register the publishable files */
+        $this->configurePublishing();
 
-    /** Register the publishable files */
-    $this->configurePublishing();
+        /** Register configuration files */
+        $this->registerConfig();
 
-    /** Register configuration files */
-    $this->registerConfig();
+        /** Register commands */
+        $this->registerCommands();
 
-    /** Register commands */
-    $this->registerCommands();
+        /** Register Auth provider and guard */
+        $this->registerAuth();
 
-    /** Register Auth provider and guard */
-    $this->registerAuth();
+        /** Register routes */
+        Lyra::routes();
 
-    /** Register routes */
-    Lyra::routes();
-
-    /** Register resources in app/Lyra/Resources folder */
-    Lyra::resourcesIn(app_path('Lyra/Resources'));
-  }
-
-  /**
-   * Register any application services.
-   *
-   * @return void
-   */
-  public function register(): void {
-    $loader = AliasLoader::getInstance();
-    $loader->alias('Lyra', LyraFacade::class);
-
-    $this->app->singleton('lyra', function () {
-      return new Lyra();
-    });
-
-    $this->loadHelpers();
-  }
-
-  /**
-   * Configure publishing for the package.
-   *
-   * @return void
-   */
-  protected function configurePublishing() {
-    if ($this->app->runningInConsole()) {
-      $this->publishes([
-        dirname(__DIR__) . '/publishable/config/lyra.php' => config_path('lyra.php'),
-      ], 'lyra-config');
+        /** Register resources in app/Lyra/Resources folder */
+        Lyra::resourcesIn(app_path('Lyra/Resources'));
     }
-  }
 
-  /**
-   * Get dynamically the Helpers from the /src/Helpers directory and require_once each file.
-   *
-   * @return void
-   */
-  protected function loadHelpers(): void {
-    foreach (glob(__DIR__ . '/Helpers/*.php') as $filename) {
-      require_once $filename;
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register(): void {
+        $loader = AliasLoader::getInstance();
+        $loader->alias('Lyra', LyraFacade::class);
+
+        $this->app->singleton('lyra', function () {
+            return new Lyra;
+        });
+
+        $this->loadHelpers();
     }
-  }
 
-  /**
-   * Register the console commands for the package.
-   *
-   * @return void
-   */
-  protected function registerCommands() {
-    if ($this->app->runningInConsole()) {
-      $this->commands([
-        InstallCommand::class,
-        ResourceCommand::class,
-      ]);
+    /**
+     * Configure publishing for the package.
+     *
+     * @return void
+     */
+    protected function configurePublishing() {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                dirname(__DIR__).'/publishable/config/lyra.php' => config_path('lyra.php'),
+            ], 'lyra-config');
+        }
     }
-  }
 
-  /**
-   * Register the Lyra auth provider and guard
-   *
-   * @return void
-   */
-  private function registerAuth(): void {
-    /** Register new guard driver */
-    Config::set('auth.guards.lyra', [
-      'driver' => 'session',
-      'provider' => 'lyra',
-    ]);
+    /**
+     * Get dynamically the Helpers from the /src/Helpers directory and require_once each file.
+     *
+     * @return void
+     */
+    protected function loadHelpers(): void {
+        foreach (glob(__DIR__.'/Helpers/*.php') as $filename) {
+            require_once $filename;
+        }
+    }
 
-    /** Register new user provider */
-    Config::set('auth.providers.lyra', [
-      'driver' => 'eloquent',
-      'model' => LyraUser::class,
-    ]);
-  }
+    /**
+     * Register the console commands for the package.
+     *
+     * @return void
+     */
+    protected function registerCommands() {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallCommand::class,
+                ResourceCommand::class,
+            ]);
+        }
+    }
 
-  /**
-   * Register the Lyra config file
-   *
-   * @return void
-   */
-  private function registerConfig(): void {
-    $this->mergeConfigFrom(dirname(__DIR__) . '/publishable/config/lyra.php', 'lyra');
-  }
+    /**
+     * Register the Lyra auth provider and guard
+     *
+     * @return void
+     */
+    private function registerAuth(): void {
+        /** Register new guard driver */
+        Config::set('auth.guards.lyra', [
+            'driver' => 'session',
+            'provider' => 'lyra',
+        ]);
+
+        /** Register new user provider */
+        Config::set('auth.providers.lyra', [
+            'driver' => 'eloquent',
+            'model' => LyraUser::class,
+        ]);
+    }
+
+    /**
+     * Register the Lyra config file
+     *
+     * @return void
+     */
+    private function registerConfig(): void {
+        $this->mergeConfigFrom(dirname(__DIR__).'/publishable/config/lyra.php', 'lyra');
+    }
 }

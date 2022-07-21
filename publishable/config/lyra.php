@@ -1,7 +1,7 @@
 <?php
 
 return [
-  /*
+    /*
    |------------------------------------------------------------
    | Lyra routes configuration
    |------------------------------------------------------------
@@ -9,18 +9,18 @@ return [
    | You can customize the routes used by Lyra.
    |
    */
-  "routes" => [
-    "web" => [
-      "prefix" => "lyra",
-      "name" => "lyra.",
+    'routes' => [
+        'web' => [
+            'prefix' => 'lyra',
+            'name' => 'lyra.',
+        ],
+        'api' => [
+            'prefix' => 'lyra-api',
+            'name' => 'lyra-api.',
+        ],
     ],
-    "api" => [
-      "prefix" => "lyra-api",
-      "name" => "lyra-api."
-    ]
-  ],
 
-  /*
+    /*
    | -----------------------------------------------------------
    | Authentication provider
    | -----------------------------------------------------------
@@ -30,9 +30,9 @@ return [
    | - lyra: Use the Lyra authentication provider
    |
    */
-  "auth" => "default",
+    'auth' => 'default',
 
-  /*
+    /*
    |------------------------------------------------------------
    | Authorized Email addresses
    |------------------------------------------------------------
@@ -44,11 +44,11 @@ return [
    | access the Lyra functionality.
    |
    */
-  "authorized_emails" => [
-    //
-  ],
+    'authorized_emails' => [
+        //
+    ],
 
-  /*
+    /*
    |------------------------------------------------------------
    | Lyra logo URL
    |------------------------------------------------------------
@@ -57,5 +57,5 @@ return [
    | Lyra dashboard instead of the default logo.
    |
    */
-  "logo_url" => null,
+    'logo_url' => null,
 ];

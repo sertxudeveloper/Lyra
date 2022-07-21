@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Exceptions;
 
 use Exception;
 
-class ActionNotFoundException extends Exception {
-  //
+class ActionNotFoundException extends Exception
+{
+    //
 }

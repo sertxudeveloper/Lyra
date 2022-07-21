@@ -2,10 +2,11 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-class ID extends Field {
+class ID extends Field
+{
+    public string $component = 'field-id';
 
-  public string $component = 'field-id';
-  public bool $sortable = true;
+    public bool $sortable = true;
 
-  public bool $showOnCreate = false;
+    public bool $showOnCreate = false;
 }

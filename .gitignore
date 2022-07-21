@@ -2,3 +2,4 @@
 /vendor
 phpunit
 composer.lock
+reports/

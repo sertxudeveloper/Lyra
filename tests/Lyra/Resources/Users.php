@@ -8,59 +8,59 @@ use SertxuDeveloper\Lyra\Fields\Text;
 use SertxuDeveloper\Lyra\Resources\Resource;
 use SertxuDeveloper\Lyra\Tests\Models\User;
 
-class Users extends Resource {
+class Users extends Resource
+{
+    public static string $model = User::class;
 
-  public static string $model = User::class;
-
-  public static array $search = [
-    'id', 'name', 'email',
-  ];
-
-  /**
-   * The actions' resource definition
-   *
-   * @return array
-   */
-  public function actions(): array {
-    return [
-      //
+    public static array $search = [
+        'id', 'name', 'email',
     ];
-  }
 
-  /**
-   * The cards' resource definition
-   *
-   * @return array
-   */
-  public function cards(): array {
-    return [
-      //
-    ];
-  }
+    /**
+     * The actions' resource definition
+     *
+     * @return array
+     */
+    public function actions(): array {
+        return [
+            //
+        ];
+    }
 
-  /**
-   * The fields' resource definition
-   *
-   * @return array
-   */
-  public function fields(): array {
-    return [
-      ID::make('Id'),
+    /**
+     * The cards' resource definition
+     *
+     * @return array
+     */
+    public function cards(): array {
+        return [
+            //
+        ];
+    }
 
-      Text::make('Name')
-        ->rules('required', 'max:255')
-        ->sortable(),
+    /**
+     * The fields' resource definition
+     *
+     * @return array
+     */
+    public function fields(): array {
+        return [
+            ID::make('Id'),
 
-      Text::make('Email')
-        ->creationRules('required', 'email', 'unique:users,email')
-        ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}')
-        ->sortable(),
+            Text::make('Name')
+              ->rules('required', 'max:255')
+              ->sortable(),
 
-      Text::make('Password')
-        ->rules('required', 'max:255', 'min:8')
-        ->hideOnIndex(),
+            Text::make('Email')
+              ->creationRules('required', 'email', 'unique:users,email')
+              ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}')
+              ->sortable(),
 
-      DateTime::make('Email verified at'),
-    ];
-  }
+            Text::make('Password')
+              ->rules('required', 'max:255', 'min:8')
+              ->hideOnIndex(),
+
+            DateTime::make('Email verified at'),
+        ];
+    }
 }

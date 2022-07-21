@@ -2,51 +2,51 @@
 
 namespace SertxuDeveloper\Lyra\Fields\Traits;
 
-trait Align {
+trait Align
+{
+    public string $align = 'left';
 
-  public string $align = 'left';
+    /**
+     * Set the text align to center
+     *
+     * @return $this
+     */
+    public function textCenter(): self {
+        $this->align = 'center';
 
-  /**
-   * Set the text align to center
-   *
-   * @return $this
-   */
-  public function textCenter(): self {
-    $this->align = 'center';
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Set the text align to justify
+     *
+     * @return $this
+     */
+    public function textJustify(): self {
+        $this->align = 'justify';
 
-  /**
-   * Set the text align to justify
-   *
-   * @return $this
-   */
-  public function textJustify(): self {
-    $this->align = 'justify';
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Set the text align to left
+     *
+     * @return $this
+     */
+    public function textLeft(): self {
+        $this->align = 'left';
 
-  /**
-   * Set the text align to left
-   *
-   * @return $this
-   */
-  public function textLeft(): self {
-    $this->align = 'left';
+        return $this;
+    }
 
-    return $this;
-  }
+    /**
+     * Set the text align to right
+     *
+     * @return $this
+     */
+    public function textRight(): self {
+        $this->align = 'right';
 
-  /**
-   * Set the text align to right
-   *
-   * @return $this
-   */
-  public function textRight(): self {
-    $this->align = 'right';
-
-    return $this;
-  }
+        return $this;
+    }
 }

@@ -10,43 +10,46 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Str;
 
-abstract class Action implements ShouldQueue {
-  use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+abstract class Action implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-  /** @var Model $model */
-  public Model $model;
+    /** @var Model */
+    public Model $model;
 
-  /**
-   * Create a new job instance.
-   *
-   * @return void
-   */
-  public function __construct($model = null) {
-    if (!empty($model)) $this->model = $model;
-  }
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public function __construct($model = null) {
+        if (!empty($model)) {
+            $this->model = $model;
+        }
+    }
 
-  /**
-   * Get the label of the resource
-   *
-   * @return string
-   */
-  static public function label(): string {
-    return Str::title(Str::snake(class_basename(get_called_class()), ' '));
-  }
+    /**
+     * Get the label of the resource
+     *
+     * @return string
+     */
+    public static function label(): string {
+        return Str::title(Str::snake(class_basename(get_called_class()), ' '));
+    }
 
-  /**
-   * Get the slug of the resource
-   *
-   * @return string
-   */
-  static public function slug(): string {
-    return Str::kebab(class_basename(get_called_class()));
-  }
+    /**
+     * Get the slug of the resource
+     *
+     * @return string
+     */
+    public static function slug(): string {
+        return Str::kebab(class_basename(get_called_class()));
+    }
 
-  /**
-   * Execute the action.
-   *
-   * @return void
-   */
-  abstract public function handle();
+    /**
+     * Execute the action.
+     *
+     * @return void
+     */
+    abstract public function handle();
 }
