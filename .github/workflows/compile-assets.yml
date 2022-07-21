@@ -1,0 +1,8 @@
+name: Compile Assets
+
+on:
+  push:
+
+jobs:
+  compile:
+    uses: sertxudeveloper/.github/.github/workflows/compile-assets.yml@main
