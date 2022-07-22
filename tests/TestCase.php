@@ -16,8 +16,7 @@ abstract class TestCase extends Orchestra
      *
      * @return void
      */
-    protected function defineDatabaseMigrations(): void
-    {
+    protected function defineDatabaseMigrations(): void {
         $this->loadLaravelMigrations();
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
     }
@@ -28,8 +27,7 @@ abstract class TestCase extends Orchestra
      * @param  Application  $app
      * @return void
      */
-    protected function getEnvironmentSetUp($app): void
-    {
+    protected function getEnvironmentSetUp($app): void {
         $this->API_PREFIX = config('lyra.routes.api.prefix');
     }
 
@@ -39,8 +37,7 @@ abstract class TestCase extends Orchestra
      * @param  Application  $app
      * @return array<int, class-string>
      */
-    protected function getPackageProviders($app): array
-    {
+    protected function getPackageProviders($app): array {
         return [
             LyraServiceProvider::class,
         ];
@@ -51,8 +48,7 @@ abstract class TestCase extends Orchestra
      *
      * @return void
      */
-    protected function registerDefaultResources(): void
-    {
+    protected function registerDefaultResources(): void {
         Lyra::resourcesIn(__DIR__.'/Resources');
     }
 }

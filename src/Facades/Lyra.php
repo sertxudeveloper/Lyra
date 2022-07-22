@@ -29,8 +29,7 @@ class Lyra extends Facade
      *
      * @throws RuntimeException
      */
-    protected static function getFacadeAccessor(): string
-    {
+    protected static function getFacadeAccessor(): string {
         return 'lyra';
     }
 }

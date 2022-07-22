@@ -13,8 +13,7 @@ class Pagination extends PaginatedResourceResponse
      * @param  Request  $request
      * @return array
      */
-    protected function paginationInformation($request): array
-    {
+    protected function paginationInformation($request): array {
         $paginated = $this->resource->resource->toArray();
 
         return [

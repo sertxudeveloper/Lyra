@@ -21,8 +21,7 @@ class ResourceCollection extends JsonResourceCollection
      * @param  mixed  $collection
      * @param  string  $class
      */
-    public function __construct(mixed $collection, string $class)
-    {
+    public function __construct(mixed $collection, string $class) {
         $this->collects = $class;
         parent::__construct($collection);
     }
@@ -33,8 +32,7 @@ class ResourceCollection extends JsonResourceCollection
      * @param  Request  $request
      * @return array
      */
-    public function toArray($request): array
-    {
+    public function toArray($request): array {
         /** @var resource $resource */
         $resource = $this->collects();
         $resource = $resource::make($resource::newModel());
@@ -54,8 +52,7 @@ class ResourceCollection extends JsonResourceCollection
      *
      * @return string|null
      */
-    protected function collects(): ?string
-    {
+    protected function collects(): ?string {
         return $this->collects;
     }
 
@@ -65,8 +62,7 @@ class ResourceCollection extends JsonResourceCollection
      * @param  Request  $request
      * @return JsonResponse
      */
-    protected function preparePaginatedResponse($request): JsonResponse
-    {
+    protected function preparePaginatedResponse($request): JsonResponse {
         parent::preparePaginatedResponse($request);
 
         return (new Pagination($this))->toResponse($request);

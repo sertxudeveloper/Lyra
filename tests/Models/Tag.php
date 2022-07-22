@@ -22,8 +22,7 @@ class Tag extends Model
      *
      * @return TagFactory
      */
-    protected static function newFactory(): TagFactory
-    {
-        return new TagFactory();
+    protected static function newFactory(): TagFactory {
+        return new TagFactory;
     }
 }

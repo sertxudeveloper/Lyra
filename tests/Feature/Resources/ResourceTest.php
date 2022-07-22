@@ -15,8 +15,7 @@ class ResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_a_resource_can_be_initialized_with_a_new_model(): void
-    {
+    public function test_a_resource_can_be_initialized_with_a_new_model(): void {
         $class = Posts::class;
         $model = new $class::$model;
         $resource = $class::make($model);
@@ -29,8 +28,7 @@ class ResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_a_resource_can_be_initialized_with_an_existing_model(): void
-    {
+    public function test_a_resource_can_be_initialized_with_an_existing_model(): void {
         $post = Post::factory()->create();
 
         $class = Posts::class;
@@ -44,8 +42,7 @@ class ResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_a_resource_can_be_initialized_with_a_collection(): void
-    {
+    public function test_a_resource_can_be_initialized_with_a_collection(): void {
         Post::factory(5)->create();
         $class = Posts::class;
 
@@ -81,8 +78,7 @@ class ResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_get_the_resource_label(): void
-    {
+    public function test_it_can_get_the_resource_label(): void {
         $class = Posts::class;
         $this->assertEquals('Posts', $class::label());
     }
@@ -92,8 +88,7 @@ class ResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_get_a_new_instance_of_the_provided_model(): void
-    {
+    public function test_it_can_get_a_new_instance_of_the_provided_model(): void {
         $class = Posts::class;
         $this->assertInstanceOf($class::$model, $class::newModel());
     }
@@ -103,8 +98,7 @@ class ResourceTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_get_the_singular_label_of_the_resource(): void
-    {
+    public function test_it_can_get_the_singular_label_of_the_resource(): void {
         $class = Posts::class;
         $this->assertEquals('Post', $class::singular());
     }

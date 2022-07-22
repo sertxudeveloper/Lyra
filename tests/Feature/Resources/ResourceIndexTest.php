@@ -14,8 +14,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
 
         $this->registerDefaultResources();
@@ -27,8 +26,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_list_a_resource(): void
-    {
+    public function test_can_list_a_resource(): void {
         User::factory(2)->create();
         $user = User::factory()->create();
 
@@ -66,8 +64,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_search_for_resources(): void
-    {
+    public function test_can_search_for_resources(): void {
         User::factory(2)->create();
         $user = User::factory()->create();
 
@@ -86,8 +83,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_hides_resources_that_are_soft_deleted(): void
-    {
+    public function test_hides_resources_that_are_soft_deleted(): void {
         $user = User::factory()->create();
         $posts = Post::factory(2)->create();
 
@@ -110,8 +106,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_includes_soft_deleted_resources_if_requested(): void
-    {
+    public function test_includes_soft_deleted_resources_if_requested(): void {
         $user = User::factory()->create();
         Post::factory(2)->create();
 
@@ -134,8 +129,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_only_soft_deleted_resources_if_requested(): void
-    {
+    public function test_only_soft_deleted_resources_if_requested(): void {
         $user = User::factory()->create();
         Post::factory(2)->create();
 
@@ -158,8 +152,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_order_resources_default(): void
-    {
+    public function test_can_order_resources_default(): void {
         $user = User::factory()->create();
 
         $postA = Post::factory()->create(['title' => 'This is the post A']);
@@ -183,8 +176,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_order_resources_asc(): void
-    {
+    public function test_can_order_resources_asc(): void {
         $user = User::factory()->create();
 
         $postA = Post::factory()->create(['title' => 'This is the post A']);
@@ -208,8 +200,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_order_resources_desc(): void
-    {
+    public function test_can_order_resources_desc(): void {
         $user = User::factory()->create();
 
         $postA = Post::factory()->create(['title' => 'This is the post A']);
@@ -233,8 +224,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_not_order_resources_if_sort_parameters_are_not_valid(): void
-    {
+    public function test_can_not_order_resources_if_sort_parameters_are_not_valid(): void {
         $user = User::factory()->create();
 
         $postA = Post::factory()->create(['title' => 'This is the post A']);
@@ -258,8 +248,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_not_order_resources_if_direction_is_not_valid(): void
-    {
+    public function test_can_not_order_resources_if_direction_is_not_valid(): void {
         $user = User::factory()->create();
 
         $postA = Post::factory()->create(['title' => 'This is the post A']);
@@ -283,8 +272,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_limit_resources_per_page(): void
-    {
+    public function test_can_limit_resources_per_page(): void {
         $user = User::factory()->create();
 
         Post::factory(5)->create();
@@ -308,8 +296,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_navigate_to_next_page(): void
-    {
+    public function test_can_navigate_to_next_page(): void {
         $user = User::factory()->create();
 
         Post::factory(5)->create();
@@ -333,8 +320,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_get_pagination_with_multiple_pages(): void
-    {
+    public function test_can_get_pagination_with_multiple_pages(): void {
         $user = User::factory()->create();
 
         Post::factory(1)->create();
@@ -358,8 +344,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_get_pagination_with_no_resources(): void
-    {
+    public function test_can_get_pagination_with_no_resources(): void {
         $user = User::factory()->create();
 
         $response = $this->withExceptionHandling()
@@ -381,8 +366,7 @@ class ResourceIndexTest extends TestCase
      *
      * @return void
      */
-    public function test_can_pagination_preserves_other_query_parameters(): void
-    {
+    public function test_can_pagination_preserves_other_query_parameters(): void {
         $user = User::factory()->create();
 
         Post::factory(5)->create();

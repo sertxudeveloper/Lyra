@@ -11,8 +11,7 @@ trait Sortable
      *
      * @return $this
      */
-    public function sortable(): static
-    {
+    public function sortable(): static {
         $this->sortable = true;
 
         return $this;

@@ -18,8 +18,7 @@ class DateTime extends Field
      * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array
-    {
+    public function additional(Model $model): array {
         return [
             'timezone' => config('app.timezone'),
             'locale' => config('app.locale'),
