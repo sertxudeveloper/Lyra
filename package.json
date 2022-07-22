@@ -1,0 +1,23 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.3",
+        "axios": "^0.26.1",
+        "cross-env": "^7.0.3",
+        "laravel-mix": "^6.0.31",
+        "path": "^0.12.7",
+        "postcss": "^8.3",
+        "sass": "^1.42",
+        "sass-loader": "^12.1",
+        "tailwindcss": "^3.0.7"
+    }
+}
