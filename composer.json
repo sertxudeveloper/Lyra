@@ -1,58 +1,65 @@
 {
-  "name": "sertxudeveloper/lyra",
-  "description": "Lyra is an administration panel for Laravel for bootstrap your app and turn ideas into reality.",
-  "type": "library",
-  "license": "MIT",
-  "keywords": ["laravel", "admin", "panel", "lyra", "sertxudeveloper"],
-  "support": {
-    "issues": "https://github.com/sertxudeveloper/Lyra/issues",
-    "source": "https://github.com/sertxudeveloper/Lyra"
-  },
-  "autoload": {
-    "psr-4": {
-      "SertxuDeveloper\\Lyra\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "SertxuDeveloper\\Lyra\\Tests\\": "tests/"
-    }
-  },
-  "suggest": {
-    "sertxudeveloper/laravel-translatable": "Needed to add multilanguage support"
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "SertxuDeveloper\\Lyra\\LyraServiceProvider"
-      ]
-    }
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "authors": [
-    {
-      "name": "Sertxu Developer",
-      "email": "dev.sertxu@gmail.com"
-    }
-  ],
-  "scripts": {
-    "test": "vendor/bin/phpunit"
-  },
-  "minimum-stability": "dev",
-  "require": {
-    "php": "^8.1",
-    "illuminate/database": "^9.11",
-    "illuminate/support": "^9.11",
-    "ext-json": "*",
-    "ext-zip": "*",
-    "ext-fileinfo": "*"
-  },
-  "require-dev": {
-    "laravel/pint": "^1.0",
-    "mockery/mockery": "^1.5",
-    "orchestra/testbench": "^7.5"
-  },
-  "prefer-stable": true
+    "name": "sertxudeveloper/lyra",
+    "description": "Lyra is an administration panel for Laravel for bootstrap your app and turn ideas into reality.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "admin",
+        "panel",
+        "lyra",
+        "sertxudeveloper"
+    ],
+    "support": {
+        "issues": "https://github.com/sertxudeveloper/Lyra/issues",
+        "source": "https://github.com/sertxudeveloper/Lyra"
+    },
+    "autoload": {
+        "psr-4": {
+            "SertxuDeveloper\\Lyra\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SertxuDeveloper\\Lyra\\Tests\\": "tests/",
+            "SertxuDeveloper\\Lyra\\Tests\\Database\\Factories\\": "tests/database/factories"
+        }
+    },
+    "suggest": {
+        "sertxudeveloper/laravel-translatable": "Needed to add multilanguage support"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SertxuDeveloper\\Lyra\\LyraServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "authors": [
+        {
+            "name": "Sertxu Developer",
+            "email": "dev.sertxu@gmail.com"
+        }
+    ],
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.1",
+        "illuminate/database": "^9.11",
+        "illuminate/support": "^9.11",
+        "ext-json": "*",
+        "ext-zip": "*",
+        "ext-fileinfo": "*"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "mockery/mockery": "^1.5",
+        "orchestra/testbench": "^7.5"
+    },
+    "prefer-stable": true
 }
