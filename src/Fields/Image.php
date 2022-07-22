@@ -73,8 +73,12 @@ class Image extends Field
      * @param  string  $folder
      * @return $this
      */
+    public function folder(string $folder): self
+    {
+        $this->folder = $folder;
 
         return $this;
+    }
 
     /**
      * Keep original name
@@ -105,8 +109,12 @@ class Image extends Field
      *
      * @return $this
      */
+    public function prunable(): self
+    {
+        $this->prunable = true;
 
         return $this;
+    }
 
     /**
      * Save the images to the disk and update the model
