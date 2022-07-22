@@ -22,8 +22,7 @@ class Category extends Model
      *
      * @return CategoryFactory
      */
-    protected static function newFactory(): CategoryFactory
-    {
-        return new CategoryFactory();
+    protected static function newFactory(): CategoryFactory {
+        return new CategoryFactory;
     }
 }

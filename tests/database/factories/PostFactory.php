@@ -20,10 +20,9 @@ class PostFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
+    public function definition(): array {
         $path = storage_path('app/public/images');
-        if (! is_dir($path)) {
+        if (!is_dir($path)) {
             mkdir($path, recursive: true);
         }
 

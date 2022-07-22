@@ -62,8 +62,7 @@ abstract class Resource
      * @param  Model  $resource
      * @return void
      */
-    public function __construct(Model $resource)
-    {
+    public function __construct(Model $resource) {
         $this->resource = $resource;
     }
 
@@ -72,8 +71,7 @@ abstract class Resource
      *
      * @return string
      */
-    public static function getKeyName(): string
-    {
+    public static function getKeyName(): string {
         return static::newModel()->getKeyName();
     }
 
@@ -82,8 +80,7 @@ abstract class Resource
      *
      * @return string
      */
-    public static function label(): string
-    {
+    public static function label(): string {
         return Str::title(Str::snake(class_basename(get_called_class()), ' '));
     }
 
@@ -93,8 +90,7 @@ abstract class Resource
      * @param  mixed  ...$parameters
      * @return $this
      */
-    public static function make(...$parameters): self
-    {
+    public static function make(...$parameters): self {
         return new static(...$parameters);
     }
 
@@ -103,8 +99,7 @@ abstract class Resource
      *
      * @return Model
      */
-    public static function newModel(): Model
-    {
+    public static function newModel(): Model {
         return new static::$model;
     }
 
@@ -115,8 +110,7 @@ abstract class Resource
      * @param  Builder  $query
      * @return Builder
      */
-    public static function searchInResource(Request $request, Builder $query): Builder
-    {
+    public static function searchInResource(Request $request, Builder $query): Builder {
         $searchTerm = $request->input('q');
 
         $query->where(function (Builder $query) use ($searchTerm) {
@@ -133,8 +127,7 @@ abstract class Resource
      *
      * @return string
      */
-    public static function singular(): string
-    {
+    public static function singular(): string {
         return Str::singular(static::label());
     }
 
@@ -143,8 +136,7 @@ abstract class Resource
      *
      * @return string
      */
-    public static function slug(): string
-    {
+    public static function slug(): string {
         return Str::kebab(class_basename(get_called_class()));
     }
 
@@ -155,8 +147,7 @@ abstract class Resource
      * @param  Builder  $query
      * @return Builder
      */
-    public static function sortResource(Request $request, Builder $query): Builder
-    {
+    public static function sortResource(Request $request, Builder $query): Builder {
         $sortBy = explode(',', $request->query('sortBy'));
         $sortOrder = explode(',', $request->query('sortOrder'));
 
@@ -205,11 +196,10 @@ abstract class Resource
      * @param $request
      * @return array
      */
-    public function getHeader($request): array
-    {
+    public function getHeader($request): array {
         $fields = [];
         foreach ($this->fields() as $field) {
-            if (! $field->canShow($request)) {
+            if (!$field->canShow($request)) {
                 continue;
             }
             $fields[] = $field->toTableHeader($request);
@@ -223,8 +213,7 @@ abstract class Resource
      *
      * @return int
      */
-    public function jsonOptions(): int
-    {
+    public function jsonOptions(): int {
         return 0;
     }
 
@@ -234,11 +223,10 @@ abstract class Resource
      * @param  Request  $request
      * @return array
      */
-    public function toArray(Request $request): array
-    {
+    public function toArray(Request $request): array {
         $fields = [];
         foreach ($this->fields() as $field) {
-            if (! $field->canShow($request)) {
+            if (!$field->canShow($request)) {
                 continue;
             }
             $fields[] = $field->toArray($this->resource);

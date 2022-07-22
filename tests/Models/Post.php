@@ -32,8 +32,7 @@ class Post extends Model
      *
      * @return PostFactory
      */
-    protected static function newFactory(): PostFactory
-    {
-        return new PostFactory();
+    protected static function newFactory(): PostFactory {
+        return new PostFactory;
     }
 }

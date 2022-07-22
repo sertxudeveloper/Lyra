@@ -24,8 +24,7 @@ class LyraServiceProvider extends ServiceProvider
      * @param  Router  $router
      * @return void
      */
-    public function boot(Router $router): void
-    {
+    public function boot(Router $router): void {
         $this->loadRoutesFrom(dirname(__DIR__).'/routes/api.php');
         $this->loadRoutesFrom(dirname(__DIR__).'/routes/web.php');
 
@@ -39,11 +38,10 @@ class LyraServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register(): void
-    {
+    public function register(): void {
         $loader = AliasLoader::getInstance();
         $loader->alias('Lyra', LyraFacade::class);
-        $this->app->singleton('lyra', fn () => new Lyra());
+        $this->app->singleton('lyra', fn () => new Lyra);
 
         /** Register configuration files */
         $this->registerConfig();
@@ -76,8 +74,7 @@ class LyraServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function registerConfig(): void
-    {
+    private function registerConfig(): void {
         $this->mergeConfigFrom(dirname(__DIR__).'/config/lyra.php', 'lyra');
     }
 }

@@ -12,8 +12,7 @@ trait Placeholder
      * @param  string  $placeholder
      * @return $this
      */
-    public function placeholder(string $placeholder): static
-    {
+    public function placeholder(string $placeholder): static {
         $this->placeholder = $placeholder;
 
         return $this;

@@ -16,8 +16,7 @@ class LyraTest extends TestCase
      *
      * @return void
      */
-    public function test_can_get_a_resource_by_slug(): void
-    {
+    public function test_can_get_a_resource_by_slug(): void {
         $this->assertEmpty(Lyra::getResources());
 
         Lyra::resources(Users::class, Posts::class);
@@ -31,8 +30,7 @@ class LyraTest extends TestCase
      *
      * @return void
      */
-    public function test_can_manually_register_a_resource(): void
-    {
+    public function test_can_manually_register_a_resource(): void {
         $this->assertEmpty(Lyra::getResources());
 
         Lyra::resources(Users::class);
@@ -48,8 +46,7 @@ class LyraTest extends TestCase
      *
      * @return void
      */
-    public function test_can_register_multiple_resources(): void
-    {
+    public function test_can_register_multiple_resources(): void {
         $this->assertEmpty(Lyra::getResources());
 
         Lyra::resources(Users::class, Posts::class);
@@ -65,8 +62,7 @@ class LyraTest extends TestCase
      *
      * @return void
      */
-    public function test_can_register_resources_inside_folder(): void
-    {
+    public function test_can_register_resources_inside_folder(): void {
         $this->assertEmpty(Lyra::getResources());
 
         Lyra::resourcesIn('tests/Resources');
@@ -82,8 +78,7 @@ class LyraTest extends TestCase
      *
      * @return void
      */
-    public function test_cannot_get_a_resource_by_slug_if_it_doesnt_exist(): void
-    {
+    public function test_cannot_get_a_resource_by_slug_if_it_doesnt_exist(): void {
         $this->assertEmpty(Lyra::getResources());
 
         Lyra::resources(Users::class, Posts::class);

@@ -20,8 +20,7 @@ class CategoryFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
+    public function definition(): array {
         return [
             'title' => $this->faker->word,
             'slug' => $this->faker->slug,

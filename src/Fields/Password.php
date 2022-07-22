@@ -21,8 +21,7 @@ class Password extends Field
      * @param  object|string|null  $column
      * @return $this
      */
-    public static function make(string $name, object|string $column = null): Field
-    {
+    public static function make(string $name, object|string $column = null): Field {
         $field = parent::make($name, $column);
 
         $field->placeholder(Str::repeat('*', 12));
@@ -36,8 +35,7 @@ class Password extends Field
      * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array
-    {
+    public function additional(Model $model): array {
         return [
             'value' => null,
         ];
@@ -50,8 +48,7 @@ class Password extends Field
      * @param  array  $data The new validated data
      * @return void
      */
-    public function save(Model $model, array $data): void
-    {
+    public function save(Model $model, array $data): void {
         if ($data[$this->getKey()]) {
             $model->{$this->getKey()} = $data[$this->getKey()];
         }

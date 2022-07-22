@@ -26,8 +26,7 @@ class Image extends Field
      * @param  object|string|null  $column
      * @return $this
      */
-    public static function make(string $name, object|string $column = null): Field
-    {
+    public static function make(string $name, object|string $column = null): Field {
         $field = parent::make($name, $column);
 
         $field->folder = $field->getKey();
@@ -42,8 +41,7 @@ class Image extends Field
      * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array
-    {
+    public function additional(Model $model): array {
         $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
         $value = collect($value)->map(fn ($item) => Storage::disk($this->disk)->url($this->folder.'/'.$item));
 
@@ -60,8 +58,7 @@ class Image extends Field
      * @param  string  $disk
      * @return $this
      */
-    public function disk(string $disk): self
-    {
+    public function disk(string $disk): self {
         $this->disk = $disk;
 
         return $this;
@@ -73,8 +70,7 @@ class Image extends Field
      * @param  string  $folder
      * @return $this
      */
-    public function folder(string $folder): self
-    {
+    public function folder(string $folder): self {
         $this->folder = $folder;
 
         return $this;
@@ -85,8 +81,7 @@ class Image extends Field
      *
      * @return $this
      */
-    public function keepOriginalName(): self
-    {
+    public function keepOriginalName(): self {
         $this->keepOriginalName = true;
 
         return $this;
@@ -97,8 +92,7 @@ class Image extends Field
      *
      * @return $this
      */
-    public function multiple(): self
-    {
+    public function multiple(): self {
         $this->multiple = true;
 
         return $this;
@@ -109,8 +103,7 @@ class Image extends Field
      *
      * @return $this
      */
-    public function prunable(): self
-    {
+    public function prunable(): self {
         $this->prunable = true;
 
         return $this;
@@ -123,8 +116,7 @@ class Image extends Field
      * @param  array  $data
      * @return void
      */
-    public function save(Model $model, array $data): void
-    {
+    public function save(Model $model, array $data): void {
         $files = collect($data[$this->getKey()]);
         if ($files->isEmpty()) {
             return;

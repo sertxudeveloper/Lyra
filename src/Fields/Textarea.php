@@ -21,15 +21,13 @@ class Textarea extends Field
      * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array
-    {
+    public function additional(Model $model): array {
         return [
             'rows' => $this->rows,
         ];
     }
 
-    public function rows(int $rows): self
-    {
+    public function rows(int $rows): self {
         $this->rows = $rows;
 
         return $this;

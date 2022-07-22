@@ -20,8 +20,7 @@ class Tags extends Resource
      *
      * @return array
      */
-    public function actions(): array
-    {
+    public function actions(): array {
         return [
             //
         ];
@@ -32,8 +31,7 @@ class Tags extends Resource
      *
      * @return array
      */
-    public function cards(): array
-    {
+    public function cards(): array {
         return [
             //
         ];
@@ -44,8 +42,7 @@ class Tags extends Resource
      *
      * @return array
      */
-    public function fields(): array
-    {
+    public function fields(): array {
         return [
             //
         ];

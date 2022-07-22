@@ -12,8 +12,7 @@ class TextTest extends TestCase
      *
      * @return void
      */
-    public function test_field_can_be_initialized(): void
-    {
+    public function test_field_can_be_initialized(): void {
         $field = Text::make('Title');
 
         $this->assertInstanceOf(Text::class, $field);
@@ -32,8 +31,7 @@ class TextTest extends TestCase
      *
      * @return void
      */
-    public function test_field_can_be_initialized_with_a_custom_column(): void
-    {
+    public function test_field_can_be_initialized_with_a_custom_column(): void {
         $field = Text::make('Title', 'name');
 
         $this->assertInstanceOf(Text::class, $field);
@@ -48,8 +46,7 @@ class TextTest extends TestCase
      *
      * @return void
      */
-    public function test_field_can_be_initialized_as_computed_field(): void
-    {
+    public function test_field_can_be_initialized_as_computed_field(): void {
         $field = Text::make('Title', fn () => 'Custom value');
 
         $this->assertInstanceOf(Text::class, $field);
@@ -68,8 +65,7 @@ class TextTest extends TestCase
      *
      * @return void
      */
-    public function test_field_can_contain_html_data(): void
-    {
+    public function test_field_can_contain_html_data(): void {
         $field = Text::make('Title')
             ->asHtml();
 
@@ -86,8 +82,7 @@ class TextTest extends TestCase
      *
      * @return void
      */
-    public function test_field_can_be_hidden_on_index(): void
-    {
+    public function test_field_can_be_hidden_on_index(): void {
         $field = Text::make('Title')
             ->hideOnIndex();
 
@@ -104,8 +99,7 @@ class TextTest extends TestCase
      *
      * @return void
      */
-    public function test_field_can_be_hidden_on_show(): void
-    {
+    public function test_field_can_be_hidden_on_show(): void {
         $field = Text::make('Title')
             ->hideOnShow();
 
@@ -122,8 +116,7 @@ class TextTest extends TestCase
      *
      * @return void
      */
-    public function test_field_can_be_hidden_on_forms(): void
-    {
+    public function test_field_can_be_hidden_on_forms(): void {
         $field = Text::make('Title')
             ->hideOnForms();
 
