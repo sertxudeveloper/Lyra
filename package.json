@@ -18,6 +18,8 @@
         "postcss": "^8.3",
         "sass": "^1.42",
         "sass-loader": "^12.1",
-        "tailwindcss": "^3.0.7"
+        "tailwindcss": "^3.0.7",
+        "vue": "^3.2.31",
+        "vue-loader": "17.0"
     }
 }
