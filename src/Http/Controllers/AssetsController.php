@@ -16,6 +16,8 @@ class AssetsController extends Controller
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
+     * Get the requested asset from the internal vendor folder.
+     *
      * @param  Request  $request
      * @param $any string|null Asset path
      * @return Response
@@ -26,14 +28,14 @@ class AssetsController extends Controller
         $file = Lyra::asset($any);
         abort_if(!file_exists($file), Response::HTTP_NOT_FOUND);
 
-        if (Str::afterLast($file, '.') == 'css') {
-            $mime = 'text/css';
-        }
+        $mime = match (Str::afterLast($file, '.')) {
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            default => mime_content_type($file),
+        };
 
-        if (Str::afterLast($file, '.') == 'js') {
-            $mime = 'application/javascript';
-        }
-
-        return response(file_get_contents($file), 200, ['Content-Type' => $mime ?? mime_content_type($file)]);
+        return response(file_get_contents($file), 200, [
+            'Content-Type' => $mime,
+        ]);
     }
 }
