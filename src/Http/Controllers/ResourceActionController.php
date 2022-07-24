@@ -18,7 +18,7 @@ class ResourceActionController extends Controller
      * @throws ActionNotFoundException
      */
     public function exec(Request $request, string $resource): Response {
-        /** @var resource $class */
+        /** @var Resource $class */
         $class = Lyra::resourceBySlug($resource);
 
         abort_if(!$request->has('models'), SymfonyResponse::HTTP_BAD_REQUEST);

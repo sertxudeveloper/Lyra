@@ -23,7 +23,7 @@ class ResourceController extends Controller
      * @throws ResourceNotFoundException
      */
     public function index(Request $request, string $resource): JsonResponse {
-        /** @var resource $class */
+        /** @var Resource $class */
         $class = Lyra::resourceBySlug($resource);
 
         $currentPage = $request->query('page') ?: Paginator::resolveCurrentPage();

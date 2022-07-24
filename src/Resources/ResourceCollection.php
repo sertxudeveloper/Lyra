@@ -33,7 +33,7 @@ class ResourceCollection extends JsonResourceCollection
      * @return array
      */
     public function toArray($request): array {
-        /** @var resource $resource */
+        /** @var Resource $resource */
         $resource = $this->collects();
         $resource = $resource::make($resource::newModel());
 
