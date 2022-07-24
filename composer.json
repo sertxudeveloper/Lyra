@@ -45,7 +45,8 @@
         }
     ],
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "format": "vendor/bin/pint -v"
     },
     "minimum-stability": "dev",
     "require": {
