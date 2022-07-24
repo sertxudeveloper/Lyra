@@ -15,7 +15,12 @@ class AssetsController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function show(Request $request, $any = null): Response {
+    /**
+     * @param  Request  $request
+     * @param $any string|null Asset path
+     * @return Response
+     */
+    public function show(Request $request, string $any = null): Response {
         abort_if(!$any, Response::HTTP_NOT_FOUND);
 
         $file = Lyra::asset($any);

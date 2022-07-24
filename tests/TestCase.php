@@ -29,23 +29,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->loadMigrations();
 
         Lyra::resources(
-      Resources\Users::class,
-      Resources\Posts::class,
-      Resources\Tags::class,
-      Resources\Categories::class,
-    );
+            Resources\Users::class,
+            Resources\Posts::class,
+            Resources\Tags::class,
+            Resources\Categories::class,
+        );
     }
 
-    /**
-     * Get package providers.
-     *
-     * @param  Application  $app
-     * @return array<int, class-string>
-     */
-    protected function getPackageProviders($app): array {
-        return [
-            LyraServiceProvider::class,
-        ];
+    protected function authenticate(?Authenticatable $user = null): Authenticatable {
+        $this->actingAs($user ??= User::factory()->create());
+
+        return $user;
     }
 
     /**
@@ -63,12 +57,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * Load the migrations for the test environment.
+     * Get package providers.
      *
-     * @return void
+     * @param  Application  $app
+     * @return array<int, class-string>
      */
-    protected function loadMigrations(): void {
-        $this->loadMigrationsFrom(realpath(__DIR__.'/migrations'));
+    protected function getPackageProviders($app): array {
+        return [
+            LyraServiceProvider::class,
+        ];
     }
 
 //
@@ -138,9 +135,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 //    ]);
     //  }
 
-    protected function authenticate(?Authenticatable $user = null): Authenticatable {
-        $this->actingAs($user ??= User::factory()->create());
-
-        return $user;
+    /**
+     * Load the migrations for the test environment.
+     *
+     * @return void
+     */
+    protected function loadMigrations(): void {
+        $this->loadMigrationsFrom(realpath(__DIR__.'/migrations'));
     }
 }

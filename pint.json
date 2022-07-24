@@ -16,6 +16,11 @@
             "allow_single_line_empty_anonymous_classes": true,
             "allow_single_line_anonymous_functions": true
         },
+        "phpdoc_types": {
+            "groups": [
+                "simple"
+            ]
+        },
         "no_useless_else": true,
         "not_operator_with_successor_space": false
     }

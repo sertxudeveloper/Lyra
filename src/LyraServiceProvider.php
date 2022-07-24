@@ -57,10 +57,7 @@ class LyraServiceProvider extends ServiceProvider
     public function register(): void {
         $loader = AliasLoader::getInstance();
         $loader->alias('Lyra', LyraFacade::class);
-
-        $this->app->singleton('lyra', function () {
-            return new Lyra;
-        });
+        $this->app->singleton('lyra', fn () => new Lyra);
 
         $this->loadHelpers();
     }
@@ -70,7 +67,7 @@ class LyraServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configurePublishing() {
+    protected function configurePublishing(): void {
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 dirname(__DIR__).'/publishable/config/lyra.php' => config_path('lyra.php'),
@@ -84,6 +81,9 @@ class LyraServiceProvider extends ServiceProvider
      * @return void
      */
     protected function loadHelpers(): void {
+        /**
+         * @TODO Change the way helpers are registered.
+         */
         foreach (glob(__DIR__.'/Helpers/*.php') as $filename) {
             require_once $filename;
         }
@@ -94,7 +94,7 @@ class LyraServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerCommands() {
+    protected function registerCommands(): void {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,
