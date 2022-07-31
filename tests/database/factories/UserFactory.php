@@ -1,6 +1,6 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Tests\Factories;
+namespace SertxuDeveloper\Lyra\Tests\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;

@@ -21,7 +21,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SertxuDeveloper\\Lyra\\Tests\\": "tests/"
+            "SertxuDeveloper\\Lyra\\Tests\\": "tests/",
+            "SertxuDeveloper\\Lyra\\Tests\\Database\\Factories\\": "tests/database/factories"
         }
     },
     "suggest": {
