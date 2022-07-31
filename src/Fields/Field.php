@@ -71,10 +71,10 @@ abstract class Field
     public function canShow(Request $request): bool {
         return match (Lyra::getRouteName($request)) {
             'resources.index' => $this->showOnIndex,
-      'resources.create', 'resources.store' => $this->showOnCreate,
-      'resources.show' => $this->showOnShow,
-      'resources.edit', 'resources.update' => $this->showOnUpdate,
-      default => false,
+            'resources.create', 'resources.store' => $this->showOnCreate,
+            'resources.show' => $this->showOnShow,
+            'resources.edit', 'resources.update' => $this->showOnUpdate,
+            default => false,
         };
     }
 

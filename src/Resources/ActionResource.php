@@ -12,10 +12,10 @@ class ActionResource extends JsonResource
      * @return array
      */
     #[ArrayShape(['key' => 'string', 'name' => 'string'])]
-  public function toArray($request): array {
-      return [
-          'key' => $this->resource::slug(),
-          'name' => $this->resource::label(),
-      ];
-  }
+    public function toArray($request): array {
+        return [
+            'key' => $this->resource::slug(),
+            'name' => $this->resource::label(),
+        ];
+    }
 }

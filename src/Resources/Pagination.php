@@ -15,11 +15,11 @@ class Pagination extends PaginatedResourceResponse
      * @return array
      */
     #[ArrayShape(['meta' => 'array'])]
-  protected function paginationInformation($request): array {
-      $paginated = $this->resource->resource->toArray();
+    protected function paginationInformation($request): array {
+        $paginated = $this->resource->resource->toArray();
 
-      return [
-          'meta' => $this->meta($paginated),
-      ];
-  }
+        return [
+            'meta' => $this->meta($paginated),
+        ];
+    }
 }
