@@ -27,6 +27,12 @@ class Textarea extends Field
         ];
     }
 
+    /**
+     * Set the rows of the textarea
+     *
+     * @param  int  $rows
+     * @return $this
+     */
     public function rows(int $rows): self {
         $this->rows = $rows;
 

@@ -25,6 +25,9 @@ export default {
       dirty: false,
     }
   },
+  mounted() {
+    if (this.field.value) this.dirty = true
+  },
   computed: {
     from() {
       return this.$parent.resource.data.fields.find(field => field.key === this.field.from)

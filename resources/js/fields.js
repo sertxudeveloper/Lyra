@@ -22,39 +22,41 @@ import DetailBoolean from "./components/Fields/Detail/Boolean"
 import DetailImage from "./components/Fields/Detail/Image"
 import DetailSlug from "./components/Fields/Detail/Slug"
 import DetailTextarea from "./components/Fields/Detail/Textarea"
+import DetailMarkdown from "./components/Fields/Detail/Markdown"
 
 export default function (app) {
-  /**
-   * Index fields
-   */
-  app.component('index-field-id', IndexId)
-  app.component('index-field-text', IndexText)
-  app.component('index-field-datetime', IndexDateTime)
-  app.component('index-field-boolean', IndexBoolean)
-  app.component('index-field-image', IndexImage)
-  app.component('index-field-slug', IndexSlug)
+    /**
+     * Index fields
+     */
+    app.component('index-field-id', IndexId)
+    app.component('index-field-text', IndexText)
+    app.component('index-field-datetime', IndexDateTime)
+    app.component('index-field-boolean', IndexBoolean)
+    app.component('index-field-image', IndexImage)
+    app.component('index-field-slug', IndexSlug)
 
-  /**
-   * Forms' fields
-   */
-  app.component('form-field-id', FormId)
-  app.component('form-field-text', FormText)
-  app.component('form-field-password', FormPassword)
-  app.component('form-field-datetime', FormDateTime)
-  app.component('form-field-boolean', FormBoolean)
-  app.component('form-field-image', FormImage)
-  app.component('form-field-slug', FormSlug)
-  app.component('form-field-textarea', FormTextarea)
+    /**
+     * Forms' fields
+     */
+    app.component('form-field-id', FormId)
+    app.component('form-field-text', FormText)
+    app.component('form-field-password', FormPassword)
+    app.component('form-field-datetime', FormDateTime)
+    app.component('form-field-boolean', FormBoolean)
+    app.component('form-field-image', FormImage)
+    app.component('form-field-slug', FormSlug)
+    app.component('form-field-textarea', FormTextarea)
 
-  /**
-   * Details fields
-   */
-  app.component('detail-field-id', DetailId)
-  app.component('detail-field-text', DetailText)
-  app.component('detail-field-password', DetailPassword)
-  app.component('detail-field-datetime', DetailDateTime)
-  app.component('detail-field-boolean', DetailBoolean)
-  app.component('detail-field-image', DetailImage)
-  app.component('detail-field-slug', DetailSlug)
-  app.component('detail-field-textarea', DetailTextarea)
+    /**
+     * Details fields
+     */
+    app.component('detail-field-id', DetailId)
+    app.component('detail-field-text', DetailText)
+    app.component('detail-field-password', DetailPassword)
+    app.component('detail-field-datetime', DetailDateTime)
+    app.component('detail-field-boolean', DetailBoolean)
+    app.component('detail-field-image', DetailImage)
+    app.component('detail-field-slug', DetailSlug)
+    app.component('detail-field-textarea', DetailTextarea)
+    app.component('detail-field-markdown', DetailMarkdown)
 }

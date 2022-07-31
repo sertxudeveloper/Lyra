@@ -18,6 +18,7 @@
     window.config = {
       base: '/{{ config('lyra.routes.web.prefix') }}',
       apiRoute: '{{ asset(config('lyra.routes.api.prefix')) }}',
+      lang: '{{ app()->getLocale() }}',
     }
   </script>
   <script src="{{ asset(config('lyra.routes.api.prefix').'/assets/js/app.js') }}"></script>
