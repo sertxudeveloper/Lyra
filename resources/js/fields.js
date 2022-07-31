@@ -22,7 +22,6 @@ import DetailBoolean from "./components/Fields/Detail/Boolean"
 import DetailImage from "./components/Fields/Detail/Image"
 import DetailSlug from "./components/Fields/Detail/Slug"
 import DetailTextarea from "./components/Fields/Detail/Textarea"
-import DetailMarkdown from "./components/Fields/Detail/Markdown"
 
 export default function (app) {
     /**
@@ -58,5 +57,4 @@ export default function (app) {
     app.component('detail-field-image', DetailImage)
     app.component('detail-field-slug', DetailSlug)
     app.component('detail-field-textarea', DetailTextarea)
-    app.component('detail-field-markdown', DetailMarkdown)
 }
