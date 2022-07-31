@@ -141,6 +141,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      * @return void
      */
     protected function loadMigrations(): void {
-        $this->loadMigrationsFrom(realpath(__DIR__.'/migrations'));
+        $this->loadMigrationsFrom(realpath(__DIR__.'/database/migrations'));
     }
 }
