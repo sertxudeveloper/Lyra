@@ -11,5 +11,4 @@ class Markdown extends Field
     public string $component = 'field-markdown';
 
     public bool $showOnIndex = false;
-
 }
