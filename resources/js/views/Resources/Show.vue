@@ -90,7 +90,10 @@ export default {
 
       resource: {
         key: null,
-        labels: [],
+        labels: {
+          singular: null,
+          plural: null,
+        },
         data: [],
       },
     }

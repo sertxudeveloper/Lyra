@@ -16,10 +16,7 @@
 </template>
 
 <script>
-import {mixin as VueClickAway} from "vue3-click-away";
-
 export default {
-  mixins: [VueClickAway],
   data() {
     return {
       visible: false

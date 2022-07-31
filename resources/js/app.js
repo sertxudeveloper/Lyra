@@ -9,6 +9,8 @@ import registerComponents from './components'
 
 import routes from "./routes";
 
+import VueClickAway from "vue3-click-away";
+
 axios.defaults.baseURL = window.config.apiRoute
 
 const router = createRouter({
@@ -25,6 +27,7 @@ registerComponents(app)
 /** Register plugins */
 app.use(router)
 app.use(VueAxios, axios)
+app.use(VueClickAway)
 
 app.mount('#app')
 
