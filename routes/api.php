@@ -15,28 +15,28 @@ Route::group(['middleware' => ['api']], function () {
              *
              * @see https://laravel.com/docs/8.x/controllers#actions-handled-by-resource-controller
              */
-            Route::get('/resources/{resource}', [Controllers\ResourceController::class, 'index'])
+            Route::get('/resources/{resource}', [Controllers\ResourceIndexController::class, 'index'])
                 ->name('resources.index');
 
-            Route::get('/resources/{resource}/create', [Controllers\ResourceController::class, 'create'])
+            Route::get('/resources/{resource}/create', [Controllers\ResourceCreateController::class, 'create'])
                 ->name('resources.create');
 
-            Route::post('/resources/{resource}', [Controllers\ResourceController::class, 'store'])
+            Route::post('/resources/{resource}', [Controllers\ResourceCreateController::class, 'store'])
                 ->name('resources.store');
 
-            Route::get('/resources/{resource}/{id}', [Controllers\ResourceController::class, 'show'])
+            Route::get('/resources/{resource}/{id}', [Controllers\ResourceShowController::class, 'show'])
                 ->name('resources.show');
 
-            Route::get('/resources/{resource}/{id}/edit', [Controllers\ResourceController::class, 'edit'])
+            Route::get('/resources/{resource}/{id}/edit', [Controllers\ResourceEditController::class, 'edit'])
                 ->name('resources.edit');
 
-            Route::post('/resources/{resource}/{id}', [Controllers\ResourceController::class, 'update'])
+            Route::post('/resources/{resource}/{id}', [Controllers\ResourceEditController::class, 'update'])
                 ->name('resources.update'); // The PUT method doesn't work with form-data
 
-            Route::delete('/resources/{resource}/{id}', [Controllers\ResourceController::class, 'destroy'])
+            Route::delete('/resources/{resource}/{id}', [Controllers\ResourceDeleteController::class, 'destroy'])
                 ->name('resources.destroy');
 
-            Route::post('/resources/{resource}/{id}/restore', [Controllers\ResourceController::class, 'restore'])
+            Route::post('/resources/{resource}/{id}/restore', [Controllers\ResourceDeleteController::class, 'restore'])
                 ->name('resources.restore');
 
             Route::post('/actions/{resource}', [Controllers\ResourceActionController::class, 'exec'])
