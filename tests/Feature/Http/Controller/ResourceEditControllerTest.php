@@ -118,7 +118,6 @@ class ResourceEditControllerTest extends TestCase
         ]);
     }
 
-
     /**
      * Check can get the create form data.
      *
