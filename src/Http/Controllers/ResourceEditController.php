@@ -62,6 +62,7 @@ class ResourceEditController extends Controller
             if (!isset($validated[$field->getKey()])) {
                 continue;
             }
+
             $field->save($model, $validated);
         }
 

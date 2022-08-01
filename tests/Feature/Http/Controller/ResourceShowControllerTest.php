@@ -1,12 +1,12 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Tests\Controller;
+namespace SertxuDeveloper\Lyra\Tests\Feature\Http\Controller;
 
 use SertxuDeveloper\Lyra\Tests\Lyra\Resources\Users;
 use SertxuDeveloper\Lyra\Tests\Models\User;
 use SertxuDeveloper\Lyra\Tests\TestCase;
 
-class ResourceShowTest extends TestCase
+class ResourceShowControllerTest extends TestCase
 {
     /**
      * Check can show a resource.
@@ -17,8 +17,8 @@ class ResourceShowTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->withExceptionHandling()
-      ->actingAs($user)
-      ->getJson(route("$this->API_PREFIX.resources.show", ['users', $user]));
+            ->actingAs($user)
+            ->getJson(route("$this->API_PREFIX.resources.show", ['users', $user]));
 
         $response->assertSuccessful();
 
@@ -47,8 +47,8 @@ class ResourceShowTest extends TestCase
         $trashed->delete();
 
         $response = $this->withExceptionHandling()
-      ->actingAs($user)
-      ->getJson(route("$this->API_PREFIX.resources.show", ['users', $trashed]));
+            ->actingAs($user)
+            ->getJson(route("$this->API_PREFIX.resources.show", ['users', $trashed]));
 
         $response->assertSuccessful();
 

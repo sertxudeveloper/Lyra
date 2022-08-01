@@ -4,6 +4,7 @@ namespace SertxuDeveloper\Lyra\Tests\Lyra\Resources;
 
 use SertxuDeveloper\Lyra\Fields\DateTime;
 use SertxuDeveloper\Lyra\Fields\ID;
+use SertxuDeveloper\Lyra\Fields\Password;
 use SertxuDeveloper\Lyra\Fields\Text;
 use SertxuDeveloper\Lyra\Resources\Resource;
 use SertxuDeveloper\Lyra\Tests\Models\User;
@@ -56,9 +57,9 @@ class Users extends Resource
               ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}')
               ->sortable(),
 
-            Text::make('Password')
-              ->rules('required', 'max:255', 'min:8')
-              ->hideOnIndex(),
+            Password::make('Password')
+                ->creationRules('required', 'string', 'min:6')
+                ->updateRules('nullable', 'string', 'min:6'),
 
             DateTime::make('Email verified at'),
         ];

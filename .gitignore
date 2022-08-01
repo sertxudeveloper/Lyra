@@ -3,3 +3,4 @@
 phpunit
 composer.lock
 reports/
+package-lock.json

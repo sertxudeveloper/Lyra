@@ -1,12 +1,12 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Tests\Controller;
+namespace SertxuDeveloper\Lyra\Tests\Feature\Http\Controller;
 
 use SertxuDeveloper\Lyra\Tests\Lyra\Resources\Users;
 use SertxuDeveloper\Lyra\Tests\Models\User;
 use SertxuDeveloper\Lyra\Tests\TestCase;
 
-class ResourceCreateTest extends TestCase
+class ResourceCreateControllerTest extends TestCase
 {
     /**
      * Check can create a resource.
@@ -17,13 +17,13 @@ class ResourceCreateTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->withExceptionHandling()
-      ->actingAs($user)
-      ->from(route("$this->API_PREFIX.resources.create", ['users']))
-      ->post(route("$this->API_PREFIX.resources.store", ['users']), [
-          'name' => 'John Doe',
-          'email' => 'john.doe@example.com',
-          'password' => 'password',
-      ]);
+            ->actingAs($user)
+            ->from(route("$this->API_PREFIX.resources.create", ['users']))
+            ->post(route("$this->API_PREFIX.resources.store", ['users']), [
+                'name' => 'John Doe',
+                'email' => 'john.doe@example.com',
+                'password' => 'password',
+            ]);
 
         $response->assertCreated();
 
@@ -46,8 +46,8 @@ class ResourceCreateTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->withExceptionHandling()
-      ->actingAs($user)
-      ->get(route("$this->API_PREFIX.resources.create", ['users']));
+            ->actingAs($user)
+            ->get(route("$this->API_PREFIX.resources.create", ['users']));
 
         $response->assertSuccessful();
 
