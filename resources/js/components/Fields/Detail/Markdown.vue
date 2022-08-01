@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "Body",
+  name: "Markdown",
   props: ['field'],
 }
 </script>

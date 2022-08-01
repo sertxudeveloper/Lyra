@@ -17,7 +17,7 @@
 import MarkdownEditor from '@sertxudeveloper/markdown-editor'
 
 export default {
-  name: "Textarea",
+  name: "Markdown",
   props: ['field', 'errors'],
   data() {
     return {
