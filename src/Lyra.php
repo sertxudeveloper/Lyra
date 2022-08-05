@@ -104,6 +104,7 @@ class Lyra
                 }
             } catch (ReflectionException $e) {
                 Log::error($e->getMessage());
+
                 continue;
             }
         }
