@@ -29,7 +29,11 @@ export default {
   computed: {
     value: {
       get() {
-        return moment(this.field.value).format('YYYY-MM-DDTHH:mm:ss');
+        if (this.field.value) {
+          return moment.tz(this.field.value, this.timezone).format('YYYY-MM-DDTHH:mm:ss');
+        }
+
+        return '';
       },
       set(value) {
         this.field.value = moment(value).tz(this.field.timezone).format()
