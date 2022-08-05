@@ -26,7 +26,7 @@
           v-if="resources.labels.singular"
           :to="{ name: 'resource-create', params: { resourceName: $route.params.resourceName } }"
           class="bg-blue-600 flex outline-none focus:ring-2 ring-blue-500 ring-offset-2 ring-offset-gray-200 h-full items-center px-3 rounded">
-        <span class="text-sm text-white">New {{ resources.labels.singular }}</span>
+        <span class="text-sm text-white lowercase first-letter:uppercase">New {{ resources.labels.singular }}</span>
       </router-link>
     </div>
 
