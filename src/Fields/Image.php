@@ -19,6 +19,8 @@ class Image extends Field
 
     public bool $keepOriginalName = false;
 
+    public string $accept = 'image/*';
+
     /**
      * Create a new instance of the field
      *
@@ -36,6 +38,18 @@ class Image extends Field
     }
 
     /**
+     * Set the accept attribute for the input
+     *
+     * @param  string  $accept
+     * @return $this
+     */
+    public function accept(string $accept): self {
+        $this->accept = $accept;
+
+        return $this;
+    }
+
+    /**
      * Add field-specific data to the response
      *
      * @param  Model  $model
@@ -43,12 +57,13 @@ class Image extends Field
      */
     public function additional(Model $model): array {
         $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
-        $value = collect($value)->map(fn ($item) => Storage::disk($this->disk)->url($this->folder.'/'.$item));
+        $value = collect($value)->map(fn($item) => Storage::disk($this->disk)->url($this->folder.'/'.$item));
 
         return [
             'value' => [],
             'multiple' => $this->multiple,
             'files' => $value,
+            'accept' => $this->accept,
         ];
     }
 
@@ -127,7 +142,7 @@ class Image extends Field
          */
         if ($this->prunable) {
             $oldFiles = collect($model->{$this->getKey()});
-            $oldFiles->each(fn ($file) => Storage::disk($this->disk)->delete($this->folder.'/'.$file));
+            $oldFiles->each(fn($file) => Storage::disk($this->disk)->delete($this->folder.'/'.$file));
         }
 
         /**

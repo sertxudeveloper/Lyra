@@ -8,9 +8,9 @@
       </div>
     </div>
     <div class="flex rounded-md shadow-sm">
-      <input class="block border flex-1 focus:border-blue-500 focus:ring-blue-500 outline-none pl-3 pr-2 py-2 rounded-md sm:text-sm w-full text-gray-700"
+      <input class="appearance-none bg-gray-50 block border border-gray-300 cursor-pointer focus:outline-none rounded-lg text-gray-900 text-sm w-full"
              :class="[ errors?.length ? errorClass : defaultClass ]"
-             :multiple="field.multiple"
+             :multiple="field.multiple" :accept="field.accept"
              type="file" :name="field.key" @change="onChange">
     </div>
     <div class="mt-1 px-1 text-red-500 text-xs" v-for="error in errors">{{ error }}</div>
