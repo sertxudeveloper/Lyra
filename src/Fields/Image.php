@@ -57,7 +57,7 @@ class Image extends Field
      */
     public function additional(Model $model): array {
         $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
-        $value = collect($value)->map(fn($item) => Storage::disk($this->disk)->url($this->folder.'/'.$item));
+        $value = collect($value)->map(fn ($item) => Storage::disk($this->disk)->url($this->folder.'/'.$item));
 
         return [
             'value' => [],
@@ -142,7 +142,7 @@ class Image extends Field
          */
         if ($this->prunable) {
             $oldFiles = collect($model->{$this->getKey()});
-            $oldFiles->each(fn($file) => Storage::disk($this->disk)->delete($this->folder.'/'.$file));
+            $oldFiles->each(fn ($file) => Storage::disk($this->disk)->delete($this->folder.'/'.$file));
         }
 
         /**
