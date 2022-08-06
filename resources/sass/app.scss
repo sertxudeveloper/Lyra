@@ -40,3 +40,17 @@
     height: calc(100% - 64px);
   }
 }
+
+input[type=file]::file-selector-button,
+input[type=file]::-webkit-file-upload-button {
+    @apply bg-gray-800 border-0 text-white text-sm font-medium;
+    @apply cursor-pointer;
+    @apply py-2 pl-8 pr-4;
+    margin-inline-end: 1rem;
+    margin-inline-start: -1rem;
+}
+
+input[type=file]::file-selector-button:hover,
+input[type=file]::-webkit-file-upload-button:hover {
+    @apply bg-gray-700;
+}

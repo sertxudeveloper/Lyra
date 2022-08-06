@@ -19,6 +19,8 @@ class Image extends Field
 
     public bool $keepOriginalName = false;
 
+    public string $accept = 'image/*';
+
     /**
      * Create a new instance of the field
      *
@@ -36,6 +38,18 @@ class Image extends Field
     }
 
     /**
+     * Set the accept attribute for the input
+     *
+     * @param  string  $accept
+     * @return $this
+     */
+    public function accept(string $accept): self {
+        $this->accept = $accept;
+
+        return $this;
+    }
+
+    /**
      * Add field-specific data to the response
      *
      * @param  Model  $model
@@ -49,6 +63,7 @@ class Image extends Field
             'value' => [],
             'multiple' => $this->multiple,
             'files' => $value,
+            'accept' => $this->accept,
         ];
     }
 
