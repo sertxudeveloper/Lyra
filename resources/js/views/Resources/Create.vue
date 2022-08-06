@@ -28,11 +28,6 @@
                   type="button" @click.prevent="cancel">Cancel
                 </button>
 
-<!--                <button
-                  class="bg-blue-600 border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:bg-blue-700 inline-flex justify-center px-4 py-2 rounded-md shadow-sm text-sm text-white"
-                  type="submit" name="create">Create
-                </button>-->
-
                 <div class="relative z-0 inline-flex shadow-sm rounded-md">
                   <button v-show="saveMode === 'create'" @click="changeMode = false"
                           name="create" type="submit"
