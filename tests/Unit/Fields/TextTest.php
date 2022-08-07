@@ -58,7 +58,7 @@ class TextTest extends TestCase
      */
     public function test_cannot_be_shown_at_forms(): void {
         /** @var User $this */
-        $field = Text::make('Fullname', fn() => "$this->name $this->surname");
+        $field = Text::make('Fullname', fn () => "$this->name $this->surname");
 
         $this->assertTrue($field->showOnIndex);
         $this->assertTrue($field->showOnShow);
@@ -73,7 +73,7 @@ class TextTest extends TestCase
      */
     public function test_cannot_be_saved(): void {
         /** @var User $this */
-        $field = Text::make('Fullname', fn() => "$this->name $this->surname");
+        $field = Text::make('Fullname', fn () => "$this->name $this->surname");
 
         $model = new User([
             'name' => 'Sertxu',
