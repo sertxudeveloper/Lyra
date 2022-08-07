@@ -11,7 +11,7 @@ trait Align
      *
      * @return $this
      */
-    public function textCenter(): self {
+    public function textCenter(): static {
         $this->align = 'center';
 
         return $this;
@@ -22,7 +22,7 @@ trait Align
      *
      * @return $this
      */
-    public function textJustify(): self {
+    public function textJustify(): static {
         $this->align = 'justify';
 
         return $this;
@@ -33,7 +33,7 @@ trait Align
      *
      * @return $this
      */
-    public function textLeft(): self {
+    public function textLeft(): static {
         $this->align = 'left';
 
         return $this;
@@ -44,7 +44,7 @@ trait Align
      *
      * @return $this
      */
-    public function textRight(): self {
+    public function textRight(): static {
         $this->align = 'right';
 
         return $this;

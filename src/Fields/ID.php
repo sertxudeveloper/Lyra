@@ -2,11 +2,14 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use SertxuDeveloper\Lyra\Fields\Traits\Align;
+use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
+
 class ID extends Field
 {
-    public string $component = 'field-id';
+    use Sortable, Align;
 
-    public bool $sortable = true;
+    public string $component = 'field-id';
 
     public bool $showOnCreate = false;
 }

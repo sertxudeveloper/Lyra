@@ -12,8 +12,6 @@ use SertxuDeveloper\Lyra\Lyra;
 
 abstract class Field
 {
-    use Align;
-
     public string $component = '';
 
     public string $name = '';
@@ -55,10 +53,9 @@ abstract class Field
     /**
      * Add field-specific data to the response
      *
-     * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
+    public function additional(): array {
         return [];
     }
 
@@ -147,7 +144,7 @@ abstract class Field
     }
 
     /**
-     * Update the field value using the given data
+     * Update the field value using the given data.
      *
      * @param  Model  $model The model to be updated
      * @param  array  $data The new validated data
@@ -162,6 +159,16 @@ abstract class Field
     }
 
     /**
+     * Get the field value.
+     *
+     * @param  Model  $model The model to be displayed
+     * @return mixed
+     */
+    public function get(Model $model): mixed {
+        return is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
+    }
+
+    /**
      * Transform the field into an array.
      *
      * @param  Model  $model
@@ -172,7 +179,7 @@ abstract class Field
             'key' => $this->getKey(),
             'component' => $this->component,
             'name' => $this->name,
-            'value' => is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column},
+            'value' => $this->get($model),
         ];
 
         /** @see Placeholder */
@@ -185,7 +192,7 @@ abstract class Field
             $field['align'] = $this->align;
         }
 
-        return array_merge($field, $this->additional($model));
+        return array_merge($field, $this->additional());
     }
 
     /**

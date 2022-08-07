@@ -18,10 +18,9 @@ class Textarea extends Field
     /**
      * Add field-specific data to the response
      *
-     * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
+    public function additional(): array {
         return [
             'rows' => $this->rows,
         ];

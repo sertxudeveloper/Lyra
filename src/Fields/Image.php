@@ -52,18 +52,17 @@ class Image extends Field
     /**
      * Add field-specific data to the response
      *
-     * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
-        $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
-        $value = collect($value)->map(fn ($item) => Storage::disk($this->disk)->url($this->folder.'/'.$item));
+    public function additional(): array {
+//        $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
+//        $value = collect($value)->map(fn ($item) => Storage::disk($this->disk)->url($this->folder.'/'.$item));
 
         return [
-            'value' => [],
-            'multiple' => $this->multiple,
-            'files' => $value,
-            'accept' => $this->accept,
+//            'value' => [],
+//            'multiple' => $this->multiple,
+//            'files' => $value,
+//            'accept' => $this->accept,
         ];
     }
 

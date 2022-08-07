@@ -32,17 +32,16 @@ class Password extends Field
     /**
      * Add field-specific data to the response
      *
-     * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
+    public function additional(): array {
         return [
-            'value' => null,
+
         ];
     }
 
     /**
-     * Update the field value using the given data
+     * Update the field value using the given data.
      *
      * @param  Model  $model The model to be updated
      * @param  array  $data The new validated data
@@ -52,5 +51,16 @@ class Password extends Field
         if ($data[$this->getKey()]) {
             $model->{$this->getKey()} = $data[$this->getKey()];
         }
+    }
+
+
+    /**
+     * Get the field value.
+     *
+     * @param  Model  $model The model to be displayed
+     * @return mixed
+     */
+    public function get(Model $model): mixed {
+        return null;
     }
 }

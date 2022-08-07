@@ -17,14 +17,13 @@ class Boolean extends Field
     /**
      * Add field-specific data to the response
      *
-     * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
-        $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
+    public function additional(): array {
+//        $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
 
         return [
-            'value' => $value == $this->trueValue,
+//            'value' => $value == $this->trueValue,
         ];
     }
 
@@ -48,7 +47,7 @@ class Boolean extends Field
      * @return void
      */
     public function save(Model $model, array $data): void {
-        $model->{$this->getKey()} = $data[$this->getKey()] == true ? $this->trueValue : $this->falseValue;
+        $model->{$this->getKey()} = $data[$this->getKey()] ? $this->trueValue : $this->falseValue;
     }
 
     /**

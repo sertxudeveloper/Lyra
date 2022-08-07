@@ -3,12 +3,13 @@
 namespace SertxuDeveloper\Lyra\Fields;
 
 use Illuminate\Database\Eloquent\Model;
+use SertxuDeveloper\Lyra\Fields\Traits\Align;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
 
 class Text extends Field
 {
-    use Placeholder, Sortable;
+    use Placeholder, Sortable, Align;
 
     public string $component = 'field-text';
 
@@ -17,10 +18,9 @@ class Text extends Field
     /**
      * Add field-specific data to the response
      *
-     * @param  Model  $model
      * @return array
      */
-    public function additional(Model $model): array {
+    public function additional(): array {
         return [
             'asHtml' => $this->asHtml,
         ];
