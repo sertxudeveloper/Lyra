@@ -23,7 +23,7 @@ class Boolean extends Field
 //        $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
 
         return [
-//            'value' => $value == $this->trueValue,
+            //            'value' => $value == $this->trueValue,
         ];
     }
 

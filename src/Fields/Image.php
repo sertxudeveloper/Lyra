@@ -59,10 +59,10 @@ class Image extends Field
 //        $value = collect($value)->map(fn ($item) => Storage::disk($this->disk)->url($this->folder.'/'.$item));
 
         return [
-//            'value' => [],
-//            'multiple' => $this->multiple,
-//            'files' => $value,
-//            'accept' => $this->accept,
+            //            'value' => [],
+            //            'multiple' => $this->multiple,
+            //            'files' => $value,
+            //            'accept' => $this->accept,
         ];
     }
 

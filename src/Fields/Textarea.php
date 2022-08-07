@@ -2,7 +2,6 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 
 class Textarea extends Field

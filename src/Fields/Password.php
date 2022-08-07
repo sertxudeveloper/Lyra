@@ -53,7 +53,6 @@ class Password extends Field
         }
     }
 
-
     /**
      * Get the field value.
      *

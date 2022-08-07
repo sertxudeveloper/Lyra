@@ -2,7 +2,6 @@
 
 namespace SertxuDeveloper\Lyra\Tests\Unit\Fields;
 
-use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\TestCase;
 use SertxuDeveloper\Lyra\Fields\Password;
 use SertxuDeveloper\Lyra\Tests\Models\User;

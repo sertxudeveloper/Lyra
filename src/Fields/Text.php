@@ -2,7 +2,6 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Fields\Traits\Align;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
