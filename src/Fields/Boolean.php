@@ -15,16 +15,15 @@ class Boolean extends Field
     protected mixed $falseValue = false;
 
     /**
-     * Add field-specific data to the response
+     * Get the field value.
      *
-     * @return array
+     * @param  Model  $model The model to be displayed
+     * @return bool
      */
-    public function additional(): array {
-//        $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
+    public function get(Model $model): bool {
+        $value = parent::get($model);
 
-        return [
-            //            'value' => $value == $this->trueValue,
-        ];
+        return $value === $this->trueValue;
     }
 
     /**
