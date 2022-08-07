@@ -4,7 +4,6 @@ namespace SertxuDeveloper\Lyra\Tests\Unit\Fields;
 
 use PHPUnit\Framework\TestCase;
 use SertxuDeveloper\Lyra\Fields\Boolean;
-
 use SertxuDeveloper\Lyra\Tests\Models\User;
 
 class BooleanTest extends TestCase
