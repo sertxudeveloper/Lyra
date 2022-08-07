@@ -2,6 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -165,7 +166,7 @@ abstract class Field
      * @return mixed
      */
     public function get(Model $model): mixed {
-        return is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
+        return is_callable($this->column) ? Closure::bind($this->column, $model)() : $model->{$this->column};
     }
 
     /**

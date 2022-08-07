@@ -31,7 +31,6 @@ class PasswordTest extends TestCase
 
         $model = new User([
             'name' => 'Sertxu Dev',
-            'email' => 'dev.sertxu@gmail.com',
             'password' => 'password',
         ]);
 
@@ -42,7 +41,6 @@ class PasswordTest extends TestCase
         $field = Password::make('Password');
         $model = new User([
             'name' => 'Sertxu Dev',
-            'email' => 'dev.sertxu@gmail.com',
             'password' => 'password',
         ]);
 
@@ -58,7 +56,6 @@ class PasswordTest extends TestCase
         $field = Password::make('Password');
         $model = new User([
             'name' => 'Sertxu Dev',
-            'email' => 'dev.sertxu@gmail.com',
             'password' => 'password',
         ]);
 
