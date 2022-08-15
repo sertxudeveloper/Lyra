@@ -16,7 +16,7 @@ abstract class Resource
 {
     use DelegatesToResource;
 
-    /** @var $model class-string<Model> */
+    /** @var class-string<Model> */
     public static string $model;
 
     public static string $icon = '';
