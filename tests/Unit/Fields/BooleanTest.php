@@ -34,7 +34,7 @@ class BooleanTest extends TestCase
             'active' => true,
         ]);
 
-        $this->assertTrue($field->get($model));
+        $this->assertTrue($field->getValue($model));
     }
 
     /**
@@ -50,7 +50,7 @@ class BooleanTest extends TestCase
             'active' => false,
         ]);
 
-        $this->assertFalse($field->get($model));
+        $this->assertFalse($field->getValue($model));
     }
 
     /**
@@ -110,14 +110,14 @@ class BooleanTest extends TestCase
             'active' => 'Yes',
         ]);
 
-        $this->assertTrue($field->get($model));
+        $this->assertTrue($field->getValue($model));
 
         $model = new User([
             'name' => 'Sertxu Dev',
             'active' => 'No',
         ]);
 
-        $this->assertFalse($field->get($model));
+        $this->assertFalse($field->getValue($model));
     }
 
     /**

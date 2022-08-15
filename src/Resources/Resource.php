@@ -9,13 +9,14 @@ use Illuminate\Http\Resources\DelegatesToResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use SertxuDeveloper\Lyra\Fields\Field;
 use SertxuDeveloper\Lyra\Lyra;
 
 abstract class Resource
 {
     use DelegatesToResource;
 
-    /** @var Model */
+    /** @var $model class-string<Model> */
     public static string $model;
 
     public static string $icon = '';
@@ -243,7 +244,7 @@ abstract class Resource
      * @throws ValidationException
      */
     public function validateCreation(Request $request): array {
-        $validator = Validator::make($request->all(), $this->formatRules($request));
+        $validator = Validator::make($request->all(), $this->getCreationRules($request));
 
         return $validator->validate();
     }
@@ -257,27 +258,48 @@ abstract class Resource
      * @throws ValidationException
      */
     public function validateUpdate(Request $request): array {
-        $validator = Validator::make($request->all(), $this->formatRules($request));
+        $validator = Validator::make($request->all(), $this->getUpdateRules($request));
 
         return $validator->validate();
     }
 
     /**
-     * Format the rules for the validation
+     * Get the creation rules for the resource.
      *
      * @param  Request  $request
      * @return array
      */
-    protected function formatRules(Request $request): array {
+    protected function getCreationRules(Request $request): array {
         $rules = [];
-        $isUpdating = Lyra::getRouteName($request) == 'resources.update';
 
         foreach ($this->fields() as $field) {
+            /** @var $field Field */
             if (!$field->canShow($request)) {
                 continue;
             }
-            $fieldRules = $isUpdating ? $field->updateRules : $field->creationRules;
-            $rules[$field->column] = str_replace('{{resourceId}}', $this->resource->getKey(), $fieldRules);
+
+            $rules[$field->getKey()] = $field->getCreationRules($this->resource);
+        }
+
+        return $rules;
+    }
+
+    /**
+     * Get the update rules for the resource.
+     *
+     * @param  Request  $request
+     * @return array
+     */
+    protected function getUpdateRules(Request $request): array {
+        $rules = [];
+
+        foreach ($this->fields() as $field) {
+            /** @var $field Field */
+            if (!$field->canShow($request)) {
+                continue;
+            }
+
+            $rules[$field->getKey()] = $field->getUpdateRules($this->resource);
         }
 
         return $rules;

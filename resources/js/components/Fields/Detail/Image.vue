@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <p v-else class="text-gray-300">&mdash;</p>
+    <p v-else class="text-gray-400">&mdash;</p>
   </div>
 </template>
 

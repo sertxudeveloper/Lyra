@@ -4,7 +4,7 @@
     <div class="flex mt-1 sm:text-sm text-gray-700 w-full">
       <span class="whitespace-no-wrap">{{ field.value }}</span>
     </div>
-    <div class="mt-1 px-1 text-red-500 text-xs" v-for="error in errors">{{ error }}</div>
+    <div class="mt-1 px-1 text-red-500 text-sm" v-for="error in errors">{{ error }}</div>
   </div>
 </template>
 

@@ -2,31 +2,20 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-use SertxuDeveloper\Lyra\Fields\Traits\Align;
-use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
-use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
+use SertxuDeveloper\Lyra\Fields\Concerns\Align;
+use SertxuDeveloper\Lyra\Fields\Concerns\Placeholder;
+use SertxuDeveloper\Lyra\Fields\Concerns\Sortable;
 
 class Text extends Field
 {
     use Placeholder, Sortable, Align;
 
-    public string $component = 'field-text';
+    protected string $component = 'field-text';
 
     public bool $asHtml = false;
 
     /**
-     * Add field-specific data to the response
-     *
-     * @return array
-     */
-    public function additional(): array {
-        return [
-            'asHtml' => $this->asHtml,
-        ];
-    }
-
-    /**
-     * Display the field's data as HTML
+     * Display the field's data as HTML.
      *
      * @return $this
      */

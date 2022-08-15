@@ -3,7 +3,7 @@
     <template v-if="field.value">
       <span class="whitespace-no-wrap">{{ field.value }}</span>
     </template>
-    <p v-else class="text-gray-300">&mdash;</p>
+    <p v-else class="text-gray-400">&mdash;</p>
   </div>
 </template>
 

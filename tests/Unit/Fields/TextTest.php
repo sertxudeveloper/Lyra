@@ -45,10 +45,8 @@ class TextTest extends TestCase
     public function test_can_retrieve_additional_data(): void {
         $field = Text::make('Title');
 
-        $this->assertIsArray($field->additional());
-
-        $this->assertArrayHasKey('asHtml', $field->additional());
-        $this->assertFalse($field->additional()['asHtml']);
+        $this->assertObjectHasAttribute('asHtml', $field);
+        $this->assertFalse($field->asHtml);
     }
 
     /**
@@ -81,7 +79,7 @@ class TextTest extends TestCase
             'fullname' => 'Sertxu Dev',
         ]);
 
-        $this->assertEquals('Sertxu Dev', $field->get($model));
+        $this->assertEquals('Sertxu Dev', $field->getValue($model));
 
         $field->save($model, [
             'name' => 'Sertxu',

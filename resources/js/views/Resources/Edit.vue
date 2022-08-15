@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:px-8 max-w-screen-xl mx-auto py-6 sm:px-6">
+  <div class="lg:px-8 max-w-screen-xl mx-auto pt-6 pb-28 sm:px-6">
     <div class="flex flex-col" v-if="resource?.data">
       <!-- Toolbar -->
       <div class="md:grid md:grid-cols-4 md:gap-6">

@@ -2,7 +2,7 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
+use SertxuDeveloper\Lyra\Fields\Concerns\Placeholder;
 
 class Textarea extends Field
 {

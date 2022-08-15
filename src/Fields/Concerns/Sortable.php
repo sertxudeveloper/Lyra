@@ -1,13 +1,13 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Fields\Traits;
+namespace SertxuDeveloper\Lyra\Fields\Concerns;
 
 trait Sortable
 {
     public bool $sortable = false;
 
     /**
-     * Set the field as sortable
+     * Set the field as sortable.
      *
      * @return $this
      */

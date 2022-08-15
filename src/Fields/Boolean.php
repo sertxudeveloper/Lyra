@@ -8,11 +8,11 @@ class Boolean extends Field
 {
     public string $component = 'field-boolean';
 
-    public string $align = 'center';
-
     protected mixed $trueValue = true;
 
     protected mixed $falseValue = false;
+
+    public string $align = 'center';
 
     /**
      * Get the field value.
@@ -20,8 +20,8 @@ class Boolean extends Field
      * @param  Model  $model The model to be displayed
      * @return bool
      */
-    public function get(Model $model): bool {
-        $value = parent::get($model);
+    public function getValue(Model $model): bool {
+        $value = parent::getValue($model);
 
         return $value === $this->trueValue;
     }

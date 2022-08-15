@@ -9,7 +9,7 @@
       </div>
       <span class="ml-4 text-sm text-gray-700">({{ timezone }})</span>
     </div>
-    <div class="mt-1 px-1 text-red-500 text-xs" v-for="error in errors">{{ error }}</div>
+    <div class="mt-1 px-1 text-red-500 text-sm" v-for="error in errors">{{ error }}</div>
   </div>
 </template>
 

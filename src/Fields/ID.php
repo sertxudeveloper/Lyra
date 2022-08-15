@@ -2,8 +2,8 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
-use SertxuDeveloper\Lyra\Fields\Traits\Align;
-use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
+use SertxuDeveloper\Lyra\Fields\Concerns\Align;
+use SertxuDeveloper\Lyra\Fields\Concerns\Sortable;
 
 class ID extends Field
 {

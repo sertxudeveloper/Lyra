@@ -4,7 +4,7 @@ namespace SertxuDeveloper\Lyra\Fields;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
+use SertxuDeveloper\Lyra\Fields\Concerns\Placeholder;
 
 class Password extends Field
 {

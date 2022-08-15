@@ -1,13 +1,13 @@
 <?php
 
-namespace SertxuDeveloper\Lyra\Fields\Traits;
+namespace SertxuDeveloper\Lyra\Fields\Concerns;
 
 trait Align
 {
     public string $align = 'left';
 
     /**
-     * Set the text align to center
+     * Set the text align to center.
      *
      * @return $this
      */
@@ -18,7 +18,7 @@ trait Align
     }
 
     /**
-     * Set the text align to justify
+     * Set the text align to justify.
      *
      * @return $this
      */
@@ -29,7 +29,7 @@ trait Align
     }
 
     /**
-     * Set the text align to left
+     * Set the text align to left.
      *
      * @return $this
      */
@@ -40,7 +40,7 @@ trait Align
     }
 
     /**
-     * Set the text align to right
+     * Set the text align to right.
      *
      * @return $this
      */
