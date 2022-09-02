@@ -7,7 +7,6 @@ Route::group(['middleware' => ['api']], function () {
     Route::prefix(config('lyra.routes.api.prefix'))
         ->name(config('lyra.routes.api.name'))
         ->group(function () {
-
             /**
              * Resources routes
              *
