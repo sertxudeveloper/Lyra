@@ -14,18 +14,6 @@ const tailwindcss = require('tailwindcss')
  */
 mix.setPublicPath('publishable/assets')
 
-// mix.js('resources/js/app.js', 'js').vue()
-//   .sass('resources/sass/app.scss', 'css', {}, [ tailwindcss('./tailwind.config.js') ])
-//   .options({ processCssUrls: false })
-//   .version()
-//   .webpackConfig({
-//     resolve: {
-//       alias: {
-//         '@': path.resolve(__dirname, 'resources/js/'),
-//       },
-//     },
-//   })
-
 mix.sass('resources/sass/app.scss', 'css');
 mix.js('resources/js/app.js', 'js').vue();
 
