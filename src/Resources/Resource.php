@@ -23,9 +23,13 @@ abstract class Resource {
      * @var class-string<Model>
      */
     static public string $model;
+
     static public string $icon = '';
+
     static public int $priority = 99;
+
     static public array $perPageOptions = [25, 50, 100];
+
     static public string $orderBy = 'desc'; // asc, desc
 
     /**
@@ -218,6 +222,7 @@ abstract class Resource {
      */
     public function toArray(Request $request): array {
         $fields = [];
+
         foreach ($this->fields() as $field) {
             if (!$field->canShow($request)) continue;
             $fields[] = $field->toArray($this->resource);

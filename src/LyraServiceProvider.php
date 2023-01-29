@@ -3,11 +3,10 @@
 namespace SertxuDeveloper\Lyra;
 
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
-
-//use SertxuDeveloper\Lyra\Models\LyraUser;
 
 /**
  * Lyra Service Provider
@@ -21,15 +20,61 @@ class LyraServiceProvider extends ServiceProvider {
     /**
      * Bootstrap any application services.
      *
-     * @param Router $router
      * @return void
      */
-    public function boot(Router $router): void {
-        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/api.php');
-        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
+    public function boot(): void {
+        $this->registerRoutes();
+        $this->registerResources();
+        $this->defineAssetPublishing();
+        $this->offerPublishing();
+        $this->registerCommands();
+    }
 
-        if (config('lyra.auth') === 'lyra')
-            $this->loadRoutesFrom(dirname(__DIR__) . '/routes/auth.php');
+    /**
+     * Register the Lyra routes.
+     *
+     * @return void
+     */
+    protected function registerRoutes(): void {
+        Route::group([
+            'prefix' => config('lyra.path') . '/api',
+            'namespace' => 'SertxuDeveloper\Lyra\Http\Controllers',
+            'middleware' => config('lyra.middleware', 'web'),
+            'as' => 'lyra-api.',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        });
+
+        Route::group([
+            'prefix' => config('lyra.path'),
+            'namespace' => 'SertxuDeveloper\Lyra\Http\Controllers',
+            'middleware' => config('lyra.middleware', 'web'),
+            'as' => 'lyra.',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        });
+    }
+
+    /**
+     * Register the Lyra resources.
+     *
+     * @return void
+     */
+    protected function registerResources(): void {
+        $this->loadViewsFrom(dirname(__DIR__) . '/resources/views', 'lyra');
+
+        Blade::componentNamespace('Lyra\\View\\Components', 'lyra');
+    }
+
+    /**
+     * Define the asset publishing configuration.
+     *
+     * @return void
+     */
+    public function defineAssetPublishing(): void {
+        $this->publishes([
+            dirname(__DIR__) . '/public' => public_path('vendor/lyra'),
+        ], ['lyra-assets', 'laravel-assets']);
     }
 
     /**
@@ -38,42 +83,55 @@ class LyraServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register(): void {
-        $loader = AliasLoader::getInstance();
-        $loader->alias('Lyra', LyraFacade::class);
-        $this->app->singleton('lyra', fn() => new Lyra());
-
-        /** Register configuration files */
-        $this->registerConfig();
-
-//        /** Register Auth provider and guard */
-//        $this->registerAuth();
+        $this->configure();
+        $this->registerService();
     }
 
-//    /**
-//     * Register the Lyra auth provider and guard
-//     *
-//     * @return void
-//     */
-//    private function registerAuth(): void {
-//        /** Register new guard driver */
-//        Config::set('auth.guards.lyra', [
-//            'driver' => 'session',
-//            'provider' => 'lyra',
-//        ]);
-//
-//        /** Register new user provider */
-//        Config::set('auth.providers.lyra', [
-//            'driver' => 'eloquent',
-//            'model' => LyraUser::class,
-//        ]);
-//    }
-
     /**
-     * Register the Lyra config file
+     * Set up the configuration for Lyra.
      *
      * @return void
      */
-    private function registerConfig(): void {
-        $this->mergeConfigFrom(dirname(__DIR__) . '/config/lyra.php', 'lyra');
+    protected function configure(): void {
+        $this->mergeConfigFrom(
+            dirname(__DIR__) . '/config/lyra.php', 'lyra'
+        );
+    }
+
+    /**
+     * Set up the resource publishing groups for Lyra.
+     *
+     * @return void
+     */
+    protected function offerPublishing(): void {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/lyra.php' => config_path('lyra.php'),
+            ], 'lyra-config');
+        }
+    }
+
+    /**
+     * Register the Lyra Artisan commands.
+     *
+     * @return void
+     */
+    protected function registerCommands(): void {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\InstallCommand::class,
+            ]);
+        }
+    }
+
+    /**
+     * Register Lyra service.
+     *
+     * @return void
+     */
+    protected function registerService(): void {
+        $loader = AliasLoader::getInstance();
+        $loader->alias('Lyra', LyraFacade::class);
+        $this->app->singleton('lyra', fn() => new Lyra());
     }
 }

@@ -40,7 +40,7 @@ class Lyra {
      * @return string
      */
     public function getRouteName(Request $request): string {
-        return (string)str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
+        return (string) str_replace('lyra-api.', '', $request->route()->getName());
     }
 
     /**
@@ -108,5 +108,16 @@ class Lyra {
     public function runCallbacks(): void {
         foreach ($this->callbacks as $callback)
             call_user_func($callback);
+    }
+
+    /**
+     * Get the requested Lyra asset.
+     *
+     * @param  string  $path
+     * @return bool|string
+     */
+    static public function asset(string $path): bool|string {
+        //return file_get_contents(dirname(__DIR__) . "/public/$path");
+        return route('lyra-api.asset', ['path' => $path]);
     }
 }

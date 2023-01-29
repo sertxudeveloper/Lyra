@@ -35,7 +35,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['users']));
+            ->getJson("$this->API_PREFIX/resources/users");
 
         $response->assertSuccessful();
 
@@ -72,7 +72,7 @@ class ResourceIndexTest extends TestCase {
         $user = User::factory()->create();
 
         $response = $this->withExceptionHandling()
-            ->getJson(route("$this->API_PREFIX.resources.index", ['users', "q=$user->email"]));
+            ->getJson("$this->API_PREFIX/resources/users?q=$user->email");
 
         $response->assertSuccessful();
 
@@ -95,7 +95,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts']));
+            ->getJson("$this->API_PREFIX/resources/posts");
 
         $response->assertSuccessful();
 
@@ -118,7 +118,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'trashed=with']));
+            ->getJson("$this->API_PREFIX/resources/posts?trashed=with");
 
         $response->assertSuccessful();
 
@@ -141,7 +141,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'trashed=only']));
+            ->getJson("$this->API_PREFIX/resources/posts?trashed=only");
 
         $response->assertSuccessful();
 
@@ -164,7 +164,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts']));
+            ->getJson("$this->API_PREFIX/resources/posts");
 
         $response->assertSuccessful();
 
@@ -188,7 +188,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'sortBy=title', 'sortOrder=asc']));
+            ->getJson("$this->API_PREFIX/resources/posts?sortBy=title&sortOrder=asc");
 
         $response->assertSuccessful();
 
@@ -212,7 +212,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'sortBy=title', 'sortOrder=desc']));
+            ->getJson("$this->API_PREFIX/resources/posts?sortBy=title&sortOrder=desc");
 
         $response->assertSuccessful();
 
@@ -236,7 +236,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'sortBy=title,subtitle', 'sortOrder=asc']));
+            ->getJson("$this->API_PREFIX/resources/posts?sortBy=title,subtitle&sortOrder=asc");
 
         $response->assertSuccessful();
 
@@ -260,7 +260,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'sortBy=title', 'sortOrder=ascd']));
+            ->getJson("$this->API_PREFIX/resources/posts?sortBy=title&sortOrder=ascd");
 
         $response->assertSuccessful();
 
@@ -282,7 +282,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'perPage=2']));
+            ->getJson("$this->API_PREFIX/resources/posts?perPage=2");
 
         $response->assertSuccessful();
 
@@ -306,7 +306,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'perPage=2', 'page=2']));
+            ->getJson("$this->API_PREFIX/resources/posts?perPage=2&page=2");
 
         $response->assertSuccessful();
 
@@ -330,7 +330,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'perPage=1']));
+            ->getJson("$this->API_PREFIX/resources/posts?perPage=1");
 
         $response->assertSuccessful();
 
@@ -352,7 +352,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index", ['posts', 'perPage=1']));
+            ->getJson("$this->API_PREFIX/resources/posts?perPage=1");
 
         $response->assertSuccessful();
 
@@ -376,8 +376,7 @@ class ResourceIndexTest extends TestCase {
 
         $response = $this->withExceptionHandling()
             ->actingAs($user)
-            ->getJson(route("$this->API_PREFIX.resources.index",
-                ['posts', 'perPage=2', 'sortBy=title', 'sortOrder=asc']));
+            ->getJson("$this->API_PREFIX/resources/posts?perPage=2&sortBy=title&sortOrder=asc");
 
         $response->assertSuccessful();
 

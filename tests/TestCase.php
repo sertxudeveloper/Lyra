@@ -3,6 +3,7 @@
 namespace SertxuDeveloper\Lyra\Tests;
 
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Artisan;
 use Orchestra\Testbench\TestCase as Orchestra;
 use SertxuDeveloper\Lyra\Facades\Lyra;
 use SertxuDeveloper\Lyra\LyraServiceProvider;
@@ -28,7 +29,11 @@ abstract class TestCase extends Orchestra {
      * @return void
      */
     protected function getEnvironmentSetUp($app): void {
-        $this->API_PREFIX = config('lyra.routes.api.prefix');
+        $this->API_PREFIX = '/' . config('lyra.path') . '/api';
+
+//        $this->afterApplicationCreated(function () {
+//            $this->artisan('lyra:install');
+//        });
     }
 
     /**
