@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Tests\Models\Tag;
 
-class TagFactory extends Factory {
-
+class TagFactory extends Factory
+{
     /**
      * The name of the factory's corresponding model.
      *

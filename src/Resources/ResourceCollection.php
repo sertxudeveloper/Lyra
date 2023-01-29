@@ -6,8 +6,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection as JsonResourceCollection;
 
-class ResourceCollection extends JsonResourceCollection {
-
+class ResourceCollection extends JsonResourceCollection
+{
     /**
      * Indicates if all existing request query parameters should be added to pagination links.
      *
@@ -18,8 +18,8 @@ class ResourceCollection extends JsonResourceCollection {
     /**
      * Create a new resource instance.
      *
-     * @param mixed $collection
-     * @param string $class
+     * @param  mixed  $collection
+     * @param  string  $class
      */
     public function __construct(mixed $collection, string $class) {
         $this->collects = $class;
@@ -29,7 +29,7 @@ class ResourceCollection extends JsonResourceCollection {
     /**
      * Transform the resource into a JSON array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request): array {
@@ -59,7 +59,7 @@ class ResourceCollection extends JsonResourceCollection {
     /**
      * Create a paginate-aware HTTP response.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     protected function preparePaginatedResponse($request): JsonResponse {

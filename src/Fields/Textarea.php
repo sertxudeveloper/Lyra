@@ -5,8 +5,8 @@ namespace SertxuDeveloper\Lyra\Fields;
 use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 
-class Textarea extends Field {
-
+class Textarea extends Field
+{
     use Placeholder;
 
     public string $component = 'field-textarea';
@@ -18,7 +18,7 @@ class Textarea extends Field {
     /**
      * Add field-specific data to the response
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return array
      */
     public function additional(Model $model): array {

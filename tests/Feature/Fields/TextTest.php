@@ -5,8 +5,8 @@ namespace SertxuDeveloper\Lyra\Tests\Feature\Fields;
 use SertxuDeveloper\Lyra\Fields\Text;
 use SertxuDeveloper\Lyra\Tests\TestCase;
 
-class TextTest extends TestCase {
-
+class TextTest extends TestCase
+{
     /**
      * Check text field can be initialized.
      *
@@ -47,7 +47,7 @@ class TextTest extends TestCase {
      * @return void
      */
     public function test_field_can_be_initialized_as_computed_field(): void {
-        $field = Text::make('Title', fn() => 'Custom value');
+        $field = Text::make('Title', fn () => 'Custom value');
 
         $this->assertInstanceOf(Text::class, $field);
         $this->assertEquals('Title', $field->name);

@@ -8,8 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use SertxuDeveloper\Lyra\Tests\Database\Factories\UserFactory;
 
-class User extends Authenticatable {
-
+class User extends Authenticatable
+{
     use HasFactory, Notifiable;
 
     /**
@@ -22,6 +22,7 @@ class User extends Authenticatable {
         'email',
         'password',
     ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -31,6 +32,7 @@ class User extends Authenticatable {
         'password',
         'remember_token',
     ];
+
     /**
      * The attributes that should be cast.
      *

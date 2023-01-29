@@ -5,23 +5,25 @@ namespace SertxuDeveloper\Lyra\Fields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class Image extends Field {
-
+class Image extends Field
+{
     public string $component = 'field-image';
 
     public ?string $folder = null;
+
     public ?string $disk = null;
 
     public bool $prunable = false;
 
     public bool $multiple = false;
+
     public bool $keepOriginalName = false;
 
     /**
      * Create a new instance of the field
      *
-     * @param string $name
-     * @param object|string|null $column
+     * @param  string  $name
+     * @param  object|string|null  $column
      * @return $this
      */
     public static function make(string $name, object|string $column = null): Field {
@@ -36,12 +38,12 @@ class Image extends Field {
     /**
      * Add field-specific data to the response
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return array
      */
     public function additional(Model $model): array {
         $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
-        $value = collect($value)->map(fn($item) => Storage::disk($this->disk)->url($this->folder . '/' . $item));
+        $value = collect($value)->map(fn ($item) => Storage::disk($this->disk)->url($this->folder.'/'.$item));
 
         return [
             'value' => [],
@@ -53,7 +55,7 @@ class Image extends Field {
     /**
      * Set the disk where the images will be stored
      *
-     * @param string $disk
+     * @param  string  $disk
      * @return $this
      */
     public function disk(string $disk): self {
@@ -65,7 +67,7 @@ class Image extends Field {
     /**
      * Set the folder where the images will be stored
      *
-     * @param string $folder
+     * @param  string  $folder
      * @return $this
      */
     public function folder(string $folder): self {
@@ -110,20 +112,22 @@ class Image extends Field {
     /**
      * Save the images to the disk and update the model
      *
-     * @param Model $model
-     * @param array $data
+     * @param  Model  $model
+     * @param  array  $data
      * @return void
      */
     public function save(Model $model, array $data): void {
         $files = collect($data[$this->getKey()]);
-        if ($files->isEmpty()) return;
+        if ($files->isEmpty()) {
+            return;
+        }
 
         /**
          * If the field is prunable, delete the old images
          */
         if ($this->prunable) {
             $oldFiles = collect($model->{$this->getKey()});
-            $oldFiles->each(fn($file) => Storage::disk($this->disk)->delete($this->folder . '/' . $file));
+            $oldFiles->each(fn ($file) => Storage::disk($this->disk)->delete($this->folder.'/'.$file));
         }
 
         /**

@@ -13,11 +13,11 @@ use Symfony\Component\Finder\Finder;
  * Main Lyra package class.
  *
  * @version 2.x
- * @package SertxuDeveloper\Lyra
+ *
  * @link https://www.github.com/sertxudeveloper/Lyra
  */
-class Lyra {
-
+class Lyra
+{
     /** Registered resources */
     private array $resources = [];
 
@@ -36,7 +36,7 @@ class Lyra {
     /**
      * Extract Lyra named route from the given request.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return string
      */
     public function getRouteName(Request $request): string {
@@ -46,14 +46,16 @@ class Lyra {
     /**
      * Get the resource class of the given slug.
      *
-     * @param string $slug Slug of the wanted resource.
+     * @param  string  $slug Slug of the wanted resource.
      * @return string Class name of the resource.
+     *
      * @throws ResourceNotFoundException
      */
     public function resourceBySlug(string $slug): string {
         foreach ($this->resources as $class) {
-            if ($class::slug() === $slug)
+            if ($class::slug() === $slug) {
                 return $class;
+            }
         }
 
         throw new ResourceNotFoundException;
@@ -62,7 +64,7 @@ class Lyra {
     /**
      * Register given resources.
      *
-     * @param string ...$resource The resources to register.
+     * @param  string  ...$resource The resources to register.
      */
     public function resources(string ...$resource): void {
         $this->resources = array_unique(array_merge($this->resources, $resource));
@@ -71,11 +73,13 @@ class Lyra {
     /**
      * Register resources in a directory.
      *
-     * @param string $directory Directory to scan for resources.
+     * @param  string  $directory Directory to scan for resources.
      * @return void
      */
     public function resourcesIn(string $directory): void {
-        if (!file_exists($directory)) return;
+        if (!file_exists($directory)) {
+            return;
+        }
 
         $resources = [];
 
@@ -87,7 +91,9 @@ class Lyra {
             $resource = "$namespace\\$class";
 
             // Check if the namespace exists
-            if (!class_exists($resource)) continue;
+            if (!class_exists($resource)) {
+                continue;
+            }
 
             // Check if the class is a Resource and is not abstract
             $reflection = new ReflectionClass($resource);
@@ -106,8 +112,9 @@ class Lyra {
      * @return void
      */
     public function runCallbacks(): void {
-        foreach ($this->callbacks as $callback)
+        foreach ($this->callbacks as $callback) {
             call_user_func($callback);
+        }
     }
 
     /**
@@ -116,7 +123,7 @@ class Lyra {
      * @param  string  $path
      * @return bool|string
      */
-    static public function asset(string $path): bool|string {
+    public static function asset(string $path): bool|string {
         //return file_get_contents(dirname(__DIR__) . "/public/$path");
         return route('lyra-api.asset', ['path' => $path]);
     }

@@ -10,7 +10,6 @@ use RuntimeException;
  * Lyra facade.
  *
  * @version 2.x
- * @package SertxuDeveloper\Lyra
  *
  * @method static string getRouteName(Request $request)
  * @method static array getResources()
@@ -21,12 +20,13 @@ use RuntimeException;
  *
  * @see \SertxuDeveloper\Lyra\Lyra
  */
-class Lyra extends Facade {
-
+class Lyra extends Facade
+{
     /**
      * Get the registered name of the component.
      *
      * @return string
+     *
      * @throws RuntimeException
      */
     protected static function getFacadeAccessor(): string {

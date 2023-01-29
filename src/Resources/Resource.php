@@ -11,10 +11,9 @@ use SertxuDeveloper\Lyra\Facades\Lyra;
 
 /**
  * Resource class.
- * @package SertxuDeveloper\Lyra
  */
-abstract class Resource {
-
+abstract class Resource
+{
     use DelegatesToResource;
 
     /**
@@ -22,31 +21,31 @@ abstract class Resource {
      *
      * @var class-string<Model>
      */
-    static public string $model;
+    public static string $model;
 
-    static public string $icon = '';
+    public static string $icon = '';
 
-    static public int $priority = 99;
+    public static int $priority = 99;
 
-    static public array $perPageOptions = [25, 50, 100];
+    public static array $perPageOptions = [25, 50, 100];
 
-    static public string $orderBy = 'desc'; // asc, desc
+    public static string $orderBy = 'desc'; // asc, desc
 
     /**
      * The relationships that should be eager loaded on index queries.
      *
      * @var array
      */
-    static public array $with = [
+    public static array $with = [
         //
     ];
 
     /**
      * Columns where the search is enabled.
      *
-     * @var string[] $search
+     * @var string[]
      */
-    static public array $search = [
+    public static array $search = [
         //
     ];
 
@@ -60,7 +59,7 @@ abstract class Resource {
     /**
      * Create a new resource instance.
      *
-     * @param Model $resource
+     * @param  Model  $resource
      * @return void
      */
     public function __construct(Model $resource) {
@@ -81,17 +80,17 @@ abstract class Resource {
      *
      * @return string
      */
-    static public function label(): string {
+    public static function label(): string {
         return Str::title(Str::snake(class_basename(get_called_class()), ' '));
     }
 
     /**
      * Create a new resource instance.
      *
-     * @param mixed ...$parameters
+     * @param  mixed  ...$parameters
      * @return $this
      */
-    static public function make(...$parameters): self {
+    public static function make(...$parameters): self {
         return new static(...$parameters);
     }
 
@@ -100,18 +99,18 @@ abstract class Resource {
      *
      * @return Model
      */
-    static public function newModel(): Model {
+    public static function newModel(): Model {
         return new static::$model;
     }
 
     /**
      * Search inside the resource using the available search columns.
      *
-     * @param Request $request
-     * @param Builder $query
+     * @param  Request  $request
+     * @param  Builder  $query
      * @return Builder
      */
-    static public function searchInResource(Request $request, Builder $query): Builder {
+    public static function searchInResource(Request $request, Builder $query): Builder {
         $searchTerm = $request->input('q');
 
         $query->where(function (Builder $query) use ($searchTerm) {
@@ -128,7 +127,7 @@ abstract class Resource {
      *
      * @return string
      */
-    static public function singular(): string {
+    public static function singular(): string {
         return Str::singular(static::label());
     }
 
@@ -137,30 +136,32 @@ abstract class Resource {
      *
      * @return string
      */
-    static public function slug(): string {
+    public static function slug(): string {
         return Str::kebab(class_basename(get_called_class()));
     }
 
     /**
      * Add the requested sorting method to the query.
      *
-     * @param Request $request
-     * @param Builder $query
+     * @param  Request  $request
+     * @param  Builder  $query
      * @return Builder
      */
-    static public function sortResource(Request $request, Builder $query): Builder {
+    public static function sortResource(Request $request, Builder $query): Builder {
         $sortBy = explode(',', $request->query('sortBy'));
         $sortOrder = explode(',', $request->query('sortOrder'));
 
         /** Do not apply the sorting due to invalid params */
-        if (count($sortBy) !== count($sortOrder))
+        if (count($sortBy) !== count($sortOrder)) {
             return $query;
+        }
 
         $sort = collect($sortBy)->combine($sortOrder)->toArray();
 
         foreach ($sort as $column => $direction) {
-            if ($direction !== 'asc' && $direction !== 'desc')
+            if ($direction !== 'asc' && $direction !== 'desc') {
                 continue;
+            }
 
             $query->orderBy($column, $direction);
         }
@@ -198,7 +199,9 @@ abstract class Resource {
     public function getHeader($request): array {
         $fields = [];
         foreach ($this->fields() as $field) {
-            if (!$field->canShow($request)) continue;
+            if (!$field->canShow($request)) {
+                continue;
+            }
             $fields[] = $field->toTableHeader($request);
         }
 
@@ -217,14 +220,16 @@ abstract class Resource {
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray(Request $request): array {
         $fields = [];
 
         foreach ($this->fields() as $field) {
-            if (!$field->canShow($request)) continue;
+            if (!$field->canShow($request)) {
+                continue;
+            }
             $fields[] = $field->toArray($this->resource);
         }
 

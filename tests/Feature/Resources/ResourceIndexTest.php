@@ -2,16 +2,13 @@
 
 namespace SertxuDeveloper\Lyra\Tests\Feature\Resources;
 
-use Illuminate\Support\Facades\Route;
-use SertxuDeveloper\Lyra\Facades\Lyra;
 use SertxuDeveloper\Lyra\Tests\Models\Post;
 use SertxuDeveloper\Lyra\Tests\Models\User;
-use SertxuDeveloper\Lyra\Tests\Resources\Posts;
 use SertxuDeveloper\Lyra\Tests\Resources\Users;
 use SertxuDeveloper\Lyra\Tests\TestCase;
 
-class ResourceIndexTest extends TestCase {
-
+class ResourceIndexTest extends TestCase
+{
     /**
      * Setup the test environment.
      *

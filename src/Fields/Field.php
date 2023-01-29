@@ -10,32 +10,37 @@ use SertxuDeveloper\Lyra\Fields\Traits\Align;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
 
-abstract class Field {
-
+abstract class Field
+{
     use Align;
 
     public string $component = '';
 
     public string $name = '';
+
     public object|string $column = '';
 
     public array $creationRules = [];
+
     public array $updateRules = [];
 
     public bool $showOnIndex = true;
+
     public bool $showOnShow = true;
+
     public bool $showOnCreate = true;
+
     public bool $showOnUpdate = true;
 
     /**
      * Create a new instance of the field
      *
-     * @param string $name
-     * @param object|string|null $column
+     * @param  string  $name
+     * @param  object|string|null  $column
      * @return $this
      */
-    static public function make(string $name, object|string $column = null): self {
-        $field = new static();
+    public static function make(string $name, object|string $column = null): self {
+        $field = new static;
         $field->name = $name;
         $field->column = $column ?? Str::snake(Str::lower($name));
 
@@ -50,7 +55,7 @@ abstract class Field {
     /**
      * Add field-specific data to the response
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return array
      */
     public function additional(Model $model): array {
@@ -60,7 +65,7 @@ abstract class Field {
     /**
      * Check if the field can be displayed in the current view
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return bool
      */
     public function canShow(Request $request): bool {
@@ -76,7 +81,7 @@ abstract class Field {
     /**
      * Set the rules for the creation
      *
-     * @param string[] $rules
+     * @param  string[]  $rules
      * @return $this
      */
     public function creationRules(string ...$rules): self {
@@ -131,7 +136,7 @@ abstract class Field {
     /**
      * Set the rules for creation and update
      *
-     * @param string[] $rules
+     * @param  string[]  $rules
      * @return $this
      */
     public function rules(string ...$rules): self {
@@ -144,12 +149,14 @@ abstract class Field {
     /**
      * Update the field value using the given data
      *
-     * @param Model $model The model to be updated
-     * @param array $data The new validated data
+     * @param  Model  $model The model to be updated
+     * @param  array  $data The new validated data
      * @return void
      */
     public function save(Model $model, array $data): void {
-        if (is_callable($this->column)) return;
+        if (is_callable($this->column)) {
+            return;
+        }
 
         $model->{$this->getKey()} = $data[$this->getKey()];
     }
@@ -157,7 +164,7 @@ abstract class Field {
     /**
      * Transform the field into an array.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return array
      */
     public function toArray(Model $model): array {
@@ -184,7 +191,7 @@ abstract class Field {
     /**
      * Transform the resource into an array for the table header.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function toTableHeader(Request $request): array {
@@ -192,7 +199,9 @@ abstract class Field {
         $sortOrder = explode(',', $request->query('sortOrder'));
 
         $sortIndex = array_search($this->getKey(), $sortBy);
-        if ($sortIndex !== false) $order = $sortOrder[$sortIndex];
+        if ($sortIndex !== false) {
+            $order = $sortOrder[$sortIndex];
+        }
 
         return [
             'key' => $this->getKey(),
@@ -211,7 +220,7 @@ abstract class Field {
     /**
      * Set the rules for the update
      *
-     * @param string[] $rules
+     * @param  string[]  $rules
      * @return $this
      */
     public function updateRules(string ...$rules): self {

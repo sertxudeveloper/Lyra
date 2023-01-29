@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Tests\Database\Factories\TagFactory;
 
-class Tag extends Model {
-
+class Tag extends Model
+{
     use HasFactory;
 
     /**
@@ -23,6 +23,6 @@ class Tag extends Model {
      * @return TagFactory
      */
     protected static function newFactory(): TagFactory {
-        return new TagFactory();
+        return new TagFactory;
     }
 }

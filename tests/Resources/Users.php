@@ -8,21 +8,21 @@ use SertxuDeveloper\Lyra\Fields\Text;
 use SertxuDeveloper\Lyra\Resources\Resource;
 use SertxuDeveloper\Lyra\Tests\Models\User;
 
-class Users extends Resource {
-
+class Users extends Resource
+{
     /**
      * The model related to the resource.
      *
      * @var class-string<Model>
      */
-    static public string $model = User::class;
+    public static string $model = User::class;
 
     /**
      * Columns where the search is enabled.
      *
-     * @var string[] $search
+     * @var string[]
      */
-    static public array $search = [
+    public static array $search = [
         'name', 'email',
     ];
 

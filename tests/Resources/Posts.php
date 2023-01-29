@@ -12,21 +12,21 @@ use SertxuDeveloper\Lyra\Fields\Textarea;
 use SertxuDeveloper\Lyra\Resources\Resource;
 use SertxuDeveloper\Lyra\Tests\Models\Post;
 
-class Posts extends Resource {
-
+class Posts extends Resource
+{
     /**
      * The model related to the resource.
      *
      * @var class-string<Model>
      */
-    static public string $model = Post::class;
+    public static string $model = Post::class;
 
     /**
      * Columns where the search is enabled.
      *
-     * @var string[] $search
+     * @var string[]
      */
-    static public array $search = [
+    public static array $search = [
         'name', 'email',
     ];
 

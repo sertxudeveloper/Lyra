@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use SertxuDeveloper\Lyra\Tests\Database\Factories\PostFactory;
 
-class Post extends Model {
-
+class Post extends Model
+{
     use HasFactory, SoftDeletes;
 
     /**
@@ -33,6 +33,6 @@ class Post extends Model {
      * @return PostFactory
      */
     protected static function newFactory(): PostFactory {
-        return new PostFactory();
+        return new PostFactory;
     }
 }

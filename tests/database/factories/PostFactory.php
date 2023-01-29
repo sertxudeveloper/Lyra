@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Tests\Models\Post;
 
-class PostFactory extends Factory {
-
+class PostFactory extends Factory
+{
     /**
      * The name of the factory's corresponding model.
      *
@@ -22,7 +22,9 @@ class PostFactory extends Factory {
      */
     public function definition(): array {
         $path = storage_path('app/public/images');
-        if (!is_dir($path)) mkdir($path, recursive: true);
+        if (!is_dir($path)) {
+            mkdir($path, recursive: true);
+        }
 
         return [
             'title' => $this->faker->sentence,

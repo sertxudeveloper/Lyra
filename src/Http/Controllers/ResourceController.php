@@ -11,14 +11,15 @@ use SertxuDeveloper\Lyra\Facades\Lyra;
 use SertxuDeveloper\Lyra\Pagination\LengthAwarePaginator;
 use SertxuDeveloper\Lyra\Resources\ResourceCollection;
 
-class ResourceController extends Controller {
-
+class ResourceController extends Controller
+{
     /**
      * Return a collection of resources.
      *
-     * @param Request $request
-     * @param string $resource
+     * @param  Request  $request
+     * @param  string  $resource
      * @return JsonResponse
+     *
      * @throws ResourceNotFoundException
      */
     public function index(Request $request, string $resource): JsonResponse {
@@ -49,8 +50,9 @@ class ResourceController extends Controller {
             $query = $class::sortResource($request, $query);
         } else {
             /** Add default sorting if defined */
-            if ($class::$orderBy)
+            if ($class::$orderBy) {
                 $query->orderBy($class::getKeyName(), $class::$orderBy);
+            }
         }
 
         if ($request->has('q')) {

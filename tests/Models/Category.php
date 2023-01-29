@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Tests\Database\Factories\CategoryFactory;
 
-class Category extends Model {
-
+class Category extends Model
+{
     use HasFactory;
 
     /**
@@ -23,6 +23,6 @@ class Category extends Model {
      * @return CategoryFactory
      */
     protected static function newFactory(): CategoryFactory {
-        return new CategoryFactory();
+        return new CategoryFactory;
     }
 }

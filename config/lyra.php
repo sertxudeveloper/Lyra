@@ -9,16 +9,16 @@ return [
      | You can customize the routes used by Lyra.
      |
      */
-//    "routes" => [
-//        "web" => [
-//            "prefix" => "lyra",
-//            "name" => "lyra.",
-//        ],
-//        "api" => [
-//            "prefix" => "lyra-api",
-//            "name" => "lyra-api."
-//        ]
-//    ],
+    //    "routes" => [
+    //        "web" => [
+    //            "prefix" => "lyra",
+    //            "name" => "lyra.",
+    //        ],
+    //        "api" => [
+    //            "prefix" => "lyra-api",
+    //            "name" => "lyra-api."
+    //        ]
+    //    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
      | - lyra: Use the Lyra authentication provider
      |
      */
-    "auth" => "default",
+    'auth' => 'default',
 
     /*
      |------------------------------------------------------------
@@ -68,7 +68,7 @@ return [
      | access the Lyra functionality.
      |
      */
-    "authorized_emails" => [
+    'authorized_emails' => [
         //
     ],
 
@@ -81,5 +81,5 @@ return [
      | Lyra dashboard instead of the default logo.
      |
      */
-    "logo_url" => null,
+    'logo_url' => null,
 ];

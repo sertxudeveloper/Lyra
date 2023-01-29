@@ -8,8 +8,8 @@ use SertxuDeveloper\Lyra\Tests\Models\Post;
 use SertxuDeveloper\Lyra\Tests\Resources\Posts;
 use SertxuDeveloper\Lyra\Tests\TestCase;
 
-class ResourceTest extends TestCase {
-
+class ResourceTest extends TestCase
+{
     /**
      * Check if a resources can be initialized with a new model.
      *

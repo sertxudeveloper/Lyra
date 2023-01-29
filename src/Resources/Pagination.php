@@ -5,13 +5,12 @@ namespace SertxuDeveloper\Lyra\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\PaginatedResourceResponse;
 
-class Pagination extends PaginatedResourceResponse {
-
+class Pagination extends PaginatedResourceResponse
+{
     /**
      * Add the pagination information to the response.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return array
      */
     protected function paginationInformation($request): array {

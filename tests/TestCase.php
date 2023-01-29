@@ -8,8 +8,8 @@ use Orchestra\Testbench\TestCase as Orchestra;
 use SertxuDeveloper\Lyra\Facades\Lyra;
 use SertxuDeveloper\Lyra\LyraServiceProvider;
 
-abstract class TestCase extends Orchestra {
-
+abstract class TestCase extends Orchestra
+{
     protected string $API_PREFIX = '';
 
     /**
@@ -19,17 +19,17 @@ abstract class TestCase extends Orchestra {
      */
     protected function defineDatabaseMigrations(): void {
         $this->loadLaravelMigrations();
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
     }
 
     /**
      * Define environment setup.
      *
-     * @param Application $app
+     * @param  Application  $app
      * @return void
      */
     protected function getEnvironmentSetUp($app): void {
-        $this->API_PREFIX = '/' . config('lyra.path') . '/api';
+        $this->API_PREFIX = '/'.config('lyra.path').'/api';
 
 //        $this->afterApplicationCreated(function () {
 //            $this->artisan('lyra:install');
@@ -39,7 +39,7 @@ abstract class TestCase extends Orchestra {
     /**
      * Get package providers.
      *
-     * @param Application $app
+     * @param  Application  $app
      * @return array<int, class-string>
      */
     protected function getPackageProviders($app): array {
@@ -54,6 +54,6 @@ abstract class TestCase extends Orchestra {
      * @return void
      */
     protected function registerDefaultResources(): void {
-        Lyra::resourcesIn(__DIR__ . '/Resources');
+        Lyra::resourcesIn(__DIR__.'/Resources');
     }
 }

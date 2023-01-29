@@ -12,11 +12,11 @@ use SertxuDeveloper\Lyra\Facades\Lyra as LyraFacade;
  * Lyra Service Provider
  *
  * @version 2.x
- * @package SertxuDeveloper\Lyra
+ *
  * @link https://www.github.com/sertxudeveloper/Lyra
  */
-class LyraServiceProvider extends ServiceProvider {
-
+class LyraServiceProvider extends ServiceProvider
+{
     /**
      * Bootstrap any application services.
      *
@@ -37,12 +37,12 @@ class LyraServiceProvider extends ServiceProvider {
      */
     protected function registerRoutes(): void {
         Route::group([
-            'prefix' => config('lyra.path') . '/api',
+            'prefix' => config('lyra.path').'/api',
             'namespace' => 'SertxuDeveloper\Lyra\Http\Controllers',
             'middleware' => config('lyra.middleware', 'web'),
             'as' => 'lyra-api.',
         ], function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+            $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
         });
 
         Route::group([
@@ -51,7 +51,7 @@ class LyraServiceProvider extends ServiceProvider {
             'middleware' => config('lyra.middleware', 'web'),
             'as' => 'lyra.',
         ], function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         });
     }
 
@@ -61,7 +61,7 @@ class LyraServiceProvider extends ServiceProvider {
      * @return void
      */
     protected function registerResources(): void {
-        $this->loadViewsFrom(dirname(__DIR__) . '/resources/views', 'lyra');
+        $this->loadViewsFrom(dirname(__DIR__).'/resources/views', 'lyra');
 
         Blade::componentNamespace('Lyra\\View\\Components', 'lyra');
     }
@@ -73,7 +73,7 @@ class LyraServiceProvider extends ServiceProvider {
      */
     public function defineAssetPublishing(): void {
         $this->publishes([
-            dirname(__DIR__) . '/public' => public_path('vendor/lyra'),
+            dirname(__DIR__).'/public' => public_path('vendor/lyra'),
         ], ['lyra-assets', 'laravel-assets']);
     }
 
@@ -94,7 +94,7 @@ class LyraServiceProvider extends ServiceProvider {
      */
     protected function configure(): void {
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/config/lyra.php', 'lyra'
+            dirname(__DIR__).'/config/lyra.php', 'lyra'
         );
     }
 
@@ -132,6 +132,6 @@ class LyraServiceProvider extends ServiceProvider {
     protected function registerService(): void {
         $loader = AliasLoader::getInstance();
         $loader->alias('Lyra', LyraFacade::class);
-        $this->app->singleton('lyra', fn() => new Lyra());
+        $this->app->singleton('lyra', fn () => new Lyra);
     }
 }

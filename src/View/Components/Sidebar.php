@@ -27,6 +27,7 @@ class Sidebar extends Component
     public function render(): View {
         dd('render');
         dd($this->items);
+
         return view('lyra::components.sidebar');
     }
 
@@ -37,6 +38,7 @@ class Sidebar extends Component
      */
     protected function getSidebarItems(): array {
         dd('getSidebarItems');
+
         return [];
     }
 }

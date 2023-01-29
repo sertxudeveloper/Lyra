@@ -6,19 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
 use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
 
-class Slug extends Field {
-
+class Slug extends Field
+{
     use Placeholder, Sortable;
 
     public string $component = 'field-slug';
 
     public string $from = '';
+
     public string $separator = '-';
 
     /**
      * Add field-specific data to the response
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return array
      */
     public function additional(Model $model): array {
@@ -31,7 +32,7 @@ class Slug extends Field {
     /**
      * Set the parent field for the slug
      *
-     * @param string $from
+     * @param  string  $from
      * @return $this
      */
     public function from(string $from): self {
@@ -43,7 +44,7 @@ class Slug extends Field {
     /**
      * Set the separator for the slug
      *
-     * @param string $separator
+     * @param  string  $separator
      * @return $this
      */
     public function separator(string $separator): self {
