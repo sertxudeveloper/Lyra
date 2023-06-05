@@ -4,7 +4,7 @@
       <div v-if="field.asHtml" v-html="field.value"></div>
       <span v-else class="whitespace-no-wrap">{{ field.value }}</span>
     </template>
-    <p v-else class="text-gray-300">&mdash;</p>
+    <p v-else class="text-gray-400">&mdash;</p>
   </div>
 </template>
 

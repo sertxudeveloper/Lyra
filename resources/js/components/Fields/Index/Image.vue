@@ -3,7 +3,7 @@
     <template v-if="field.files.length">
       <img :src="field.files[0]" class="h-20">
     </template>
-    <p v-else class="text-gray-300">&mdash;</p>
+    <p v-else class="text-gray-400">&mdash;</p>
   </div>
 </template>
 

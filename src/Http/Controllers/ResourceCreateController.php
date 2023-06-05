@@ -5,6 +5,7 @@ namespace SertxuDeveloper\Lyra\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use SertxuDeveloper\Lyra\Exceptions\ResourceNotFoundException;
 use SertxuDeveloper\Lyra\Lyra;
 use SertxuDeveloper\Lyra\Resources\Resource;
@@ -39,7 +40,7 @@ class ResourceCreateController extends Controller
      * @param  string  $resource
      * @return JsonResponse|Response
      *
-     * @throws ResourceNotFoundException
+     * @throws ResourceNotFoundException|ValidationException
      */
     public function store(Request $request, string $resource): Response|JsonResponse {
         /** @var Resource $class */

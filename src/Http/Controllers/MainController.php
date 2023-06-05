@@ -14,7 +14,6 @@ class MainController extends Controller
      * @return View
      */
     public function index(Request $request): View {
-//    dd($request->user(), $request->user('lyra'), config('lyra.auth'));
         return view('lyra::base');
     }
 }

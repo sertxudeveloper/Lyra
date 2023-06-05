@@ -8,24 +8,22 @@ class Boolean extends Field
 {
     public string $component = 'field-boolean';
 
-    public string $align = 'center';
-
     protected mixed $trueValue = true;
 
     protected mixed $falseValue = false;
 
-    /**
-     * Add field-specific data to the response
-     *
-     * @param  Model  $model
-     * @return array
-     */
-    public function additional(Model $model): array {
-        $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
+    public string $align = 'center';
 
-        return [
-            'value' => $value == $this->trueValue,
-        ];
+    /**
+     * Get the field value.
+     *
+     * @param  Model  $model The model to be displayed
+     * @return bool
+     */
+    public function getValue(Model $model): bool {
+        $value = parent::getValue($model);
+
+        return $value === $this->trueValue;
     }
 
     /**
@@ -48,7 +46,7 @@ class Boolean extends Field
      * @return void
      */
     public function save(Model $model, array $data): void {
-        $model->{$this->getKey()} = $data[$this->getKey()] == true ? $this->trueValue : $this->falseValue;
+        $model->{$this->getKey()} = $data[$this->getKey()] ? $this->trueValue : $this->falseValue;
     }
 
     /**

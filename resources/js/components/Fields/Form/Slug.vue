@@ -7,7 +7,7 @@
         :class="[ errors?.length ? errorClass : defaultClass ]"
         type="text" :name="field.key" v-model="value" :placeholder="field.name">
     </div>
-    <div class="mt-1 px-1 text-red-500 text-xs" v-for="error in errors">{{ error }}</div>
+    <div class="mt-1 px-1 text-red-500 text-sm" v-for="error in errors">{{ error }}</div>
   </div>
 </template>
 

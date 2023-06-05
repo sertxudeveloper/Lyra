@@ -13,7 +13,7 @@
              :multiple="field.multiple" :accept="field.accept"
              type="file" :name="field.key" @change="onChange">
     </div>
-    <div class="mt-1 px-1 text-red-500 text-xs" v-for="error in errors">{{ error }}</div>
+    <div class="mt-1 px-1 text-red-500 text-sm" v-for="error in errors">{{ error }}</div>
   </div>
 </template>
 

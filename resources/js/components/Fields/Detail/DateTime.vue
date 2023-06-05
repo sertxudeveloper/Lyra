@@ -4,7 +4,7 @@
     <div v-if="field.value" class="flex mt-1 sm:text-sm text-gray-700 w-full">
       <span class="whitespace-no-wrap">{{ value }} ({{ timezone }})</span>
     </div>
-    <p v-else class="text-gray-300">&mdash;</p>
+    <p v-else class="text-gray-400">&mdash;</p>
   </div>
 </template>
 

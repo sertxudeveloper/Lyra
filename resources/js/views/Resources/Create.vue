@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:px-8 max-w-screen-xl mx-auto py-6 sm:px-6">
+  <div class="lg:px-8 max-w-screen-xl mx-auto pt-6 pb-28 sm:px-6">
     <div class="flex flex-col" v-if="resource?.data">
       <!-- Toolbar -->
       <div></div>
@@ -16,8 +16,11 @@
           <div class="mt-5 md:mt-0 md:col-span-3">
             <div class="shadow rounded-md">
               <div class="px-4 py-5 bg-white space-y-6 sm:p-6 rounded-t-md">
-                <div v-for="field in resource.data.fields" class="gap-6 grid grid-cols-3">
-                  <component :is="`form-${field.component}`" :field="field"/>
+                <div v-for="field in resource.data.fields" class="grid grid-cols-3">
+                  <component
+                    :is="`form-${field.component}`"
+                    :field="field"
+                    :errors="errors[field.key]"/>
                 </div>
               </div>
 
@@ -106,6 +109,7 @@ export default {
       resource: {},
       changeMode: false,
       saveMode: 'create', // create, create-and-edit
+      errors: {},
     }
   },
   mounted() {
@@ -122,6 +126,8 @@ export default {
       this.$router.push({name: 'resource-index', params: {resourceName: this.$route.params.resourceName}})
     },
     submit() {
+      this.errors = []
+
       let formData = new FormData(this.$refs.form);
       const isCreateAndEdit = document.activeElement.name === 'create-and-edit'
 
@@ -142,6 +148,10 @@ export default {
           } else {
             this.$router.back()
           }
+        })
+        .catch(error => {
+          const data = error.response.data
+          this.errors = data.errors
         })
     }
   }

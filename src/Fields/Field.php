@@ -2,38 +2,70 @@
 
 namespace SertxuDeveloper\Lyra\Fields;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use SertxuDeveloper\Lyra\Fields\Traits\Align;
-use SertxuDeveloper\Lyra\Fields\Traits\Placeholder;
-use SertxuDeveloper\Lyra\Fields\Traits\Sortable;
+use SertxuDeveloper\Lyra\Fields\Concerns\InteractsWithProperties;
+use SertxuDeveloper\Lyra\Fields\Concerns\Sortable;
+use SertxuDeveloper\Lyra\Fields\Concerns\ValidationRules;
 use SertxuDeveloper\Lyra\Lyra;
 
 abstract class Field
 {
-    use Align;
+    use InteractsWithProperties, ValidationRules;
 
-    public string $component = '';
-
+    /**
+     * The field's displayable name.
+     *
+     * @var string
+     */
     public string $name = '';
 
-    public object|string $column = '';
-
-    public array $creationRules = [];
-
-    public array $updateRules = [];
-
+    /**
+     * Whether the field should be displayed in the index view.
+     *
+     * @var bool
+     */
     public bool $showOnIndex = true;
 
+    /**
+     * Whether the field should be displayed in the show view.
+     *
+     * @var bool
+     */
     public bool $showOnShow = true;
 
+    /**
+     * Whether the field should be shown on the create form.
+     *
+     * @var bool
+     */
     public bool $showOnCreate = true;
 
+    /**
+     * Whether the field should be shown on the edit form.
+     *
+     * @var bool
+     */
     public bool $showOnUpdate = true;
 
     /**
-     * Create a new instance of the field
+     * The field component to be used.
+     *
+     * @var string
+     */
+    protected string $component = '';
+
+    /**
+     * The model attribute or a closure to be used to get the field value.
+     *
+     * @var object|string
+     */
+    protected object|string $column = '';
+
+    /**
+     * Create a new instance of the field.
      *
      * @param  string  $name
      * @param  object|string|null  $column
@@ -53,17 +85,7 @@ abstract class Field
     }
 
     /**
-     * Add field-specific data to the response
-     *
-     * @param  Model  $model
-     * @return array
-     */
-    public function additional(Model $model): array {
-        return [];
-    }
-
-    /**
-     * Check if the field can be displayed in the current view
+     * Check if the field can be displayed in the current view.
      *
      * @param  Request  $request
      * @return bool
@@ -79,19 +101,17 @@ abstract class Field
     }
 
     /**
-     * Set the rules for the creation
+     * Get the field's value.
      *
-     * @param  string[]  $rules
-     * @return $this
+     * @param  Model  $model  The model to be displayed
+     * @return mixed
      */
-    public function creationRules(string ...$rules): self {
-        $this->creationRules = $rules;
-
-        return $this;
+    public function getValue(Model $model): mixed {
+        return is_callable($this->column) ? Closure::bind($this->column, $model)() : $model->{$this->column};
     }
 
     /**
-     * Get the key of the field based on it's name
+     * Get the field's key.
      *
      * @return string
      */
@@ -100,7 +120,7 @@ abstract class Field
     }
 
     /**
-     * Hide the field on form views
+     * Hide the field on form views.
      *
      * @return $this
      */
@@ -112,7 +132,7 @@ abstract class Field
     }
 
     /**
-     * Hide the field on the index view
+     * Hide the field on the index view.
      *
      * @return $this
      */
@@ -123,7 +143,7 @@ abstract class Field
     }
 
     /**
-     * Hide the field on the index view
+     * Hide the field on the index view.
      *
      * @return $this
      */
@@ -134,7 +154,7 @@ abstract class Field
     }
 
     /**
-     * Set the rules for creation and update
+     * Set the rules for creation and update.
      *
      * @param  string[]  $rules
      * @return $this
@@ -147,10 +167,10 @@ abstract class Field
     }
 
     /**
-     * Update the field value using the given data
+     * Update the field value using the given data.
      *
-     * @param  Model  $model The model to be updated
-     * @param  array  $data The new validated data
+     * @param  Model  $model  The model to be updated
+     * @param  array  $data  The new validated data
      * @return void
      */
     public function save(Model $model, array $data): void {
@@ -170,22 +190,10 @@ abstract class Field
     public function toArray(Model $model): array {
         $field = [
             'key' => $this->getKey(),
-            'component' => $this->component,
-            'name' => $this->name,
-            'value' => is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column},
+            'value' => $this->getValue($model),
         ];
 
-        /** @see Placeholder */
-        if (isset($this->placeholder)) {
-            $field['placeholder'] = $this->placeholder;
-        }
-
-        /** @see Align */
-        if (isset($this->align)) {
-            $field['align'] = $this->align;
-        }
-
-        return array_merge($field, $this->additional($model));
+        return array_merge($field, $this->getProperties());
     }
 
     /**
@@ -215,17 +223,5 @@ abstract class Field
 
             'order' => $order ?? null,
         ];
-    }
-
-    /**
-     * Set the rules for the update
-     *
-     * @param  string[]  $rules
-     * @return $this
-     */
-    public function updateRules(string ...$rules): self {
-        $this->updateRules = $rules;
-
-        return $this;
     }
 }
