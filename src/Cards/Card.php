@@ -8,8 +8,6 @@ abstract class Card
 {
     /**
      * Get the label of the card
-     *
-     * @return string
      */
     public function label(): string {
         return Str::title(Str::snake(class_basename(get_called_class()), ' '));
@@ -17,8 +15,6 @@ abstract class Card
 
     /**
      * Get the slug of the card
-     *
-     * @return string
      */
     public function slug(): string {
         return Str::kebab(class_basename(get_called_class()));

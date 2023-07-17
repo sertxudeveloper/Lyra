@@ -17,8 +17,6 @@ class Password extends Field
     /**
      * Create a new instance of the field
      *
-     * @param  string  $name
-     * @param  object|string|null  $column
      * @return $this
      */
     public static function make(string $name, object|string $column = null): Field {
@@ -31,9 +29,6 @@ class Password extends Field
 
     /**
      * Add field-specific data to the response
-     *
-     * @param  Model  $model
-     * @return array
      */
     public function additional(Model $model): array {
         return [
@@ -46,7 +41,6 @@ class Password extends Field
      *
      * @param  Model  $model The model to be updated
      * @param  array  $data The new validated data
-     * @return void
      */
     public function save(Model $model, array $data): void {
         if ($data[$this->getKey()]) {

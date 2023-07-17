@@ -10,29 +10,21 @@ abstract class PartitionCard extends Card
 {
     /**
      * The card component
-     *
-     * @var string
      */
     public string $component = 'card-partition';
 
     /**
      * Precision for the rounding method
-     *
-     * @var int
      */
     public int $precision = 0;
 
     /**
      * Limit the quantity of results
-     *
-     * @var int
      */
     public int $limit = 6;
 
     /**
      * Show the quantity instead of the percentage in the items list
-     *
-     * @var bool
      */
     public bool $showQuantity = false;
 
@@ -40,7 +32,6 @@ abstract class PartitionCard extends Card
      * Calculate the value in the specified range
      * Supported 'count', 'min', 'max', 'avg' and 'sum' methods
      *
-     * @param  Request  $request
      * @return array[]
      */
     abstract public function calculate(Request $request): array;
@@ -64,23 +55,15 @@ abstract class PartitionCard extends Card
     /**
      * Count instances of the model
      *
-     * @param  Request  $request
-     * @param  string|Builder  $model
-     * @param  string  $groupBy
-     * @param  string|null  $column
      * @return array[]
      */
-    public function count(Request $request, Builder|string $model, string $groupBy, ?string $column = null): array {
+    public function count(Request $request, Builder|string $model, string $groupBy, string $column = null): array {
         return $this->query($request, $model, 'count', $column, $groupBy);
     }
 
     /**
      * Get the maximum value of the specified column
      *
-     * @param  Request  $request
-     * @param  string|Builder  $model
-     * @param  string  $column
-     * @param  string  $groupBy
      * @return array[]
      */
     public function max(Request $request, Builder|string $model, string $column, string $groupBy): array {
@@ -90,10 +73,6 @@ abstract class PartitionCard extends Card
     /**
      * Get the minimum value of the specified column
      *
-     * @param  Request  $request
-     * @param  string|Builder  $model
-     * @param  string  $column
-     * @param  string  $groupBy
      * @return array[]
      */
     public function min(Request $request, Builder|string $model, string $column, string $groupBy): array {
@@ -103,11 +82,6 @@ abstract class PartitionCard extends Card
     /**
      * Return the result of the query
      *
-     * @param  Request  $request
-     * @param  string|Builder  $model
-     * @param  string  $method
-     * @param  string|null  $column
-     * @param  string  $groupBy
      * @return array[]
      */
     public function query(Request $request, Builder|string $model, string $method, ?string $column, string $groupBy): array {
@@ -119,9 +93,9 @@ abstract class PartitionCard extends Card
         }
 
         $values = $query
-      ->addSelect(DB::raw("$method($column) as value"))
-      ->orderByDesc('value')
-      ->get();
+            ->addSelect(DB::raw("$method($column) as value"))
+            ->orderByDesc('value')
+            ->get();
 
         return $values->toArray();
     }
@@ -129,10 +103,6 @@ abstract class PartitionCard extends Card
     /**
      * Get the aggregate value of the specified column
      *
-     * @param  Request  $request
-     * @param  string|Builder  $model
-     * @param  string  $column
-     * @param  string  $groupBy
      * @return array[]
      */
     public function sum(Request $request, Builder|string $model, string $column, string $groupBy): array {
@@ -141,9 +111,6 @@ abstract class PartitionCard extends Card
 
     /**
      * Transform the card into a JSON array.
-     *
-     * @param  Request  $request
-     * @return array
      */
     public function toArray(Request $request): array {
         $values = collect($this->calculate($request));

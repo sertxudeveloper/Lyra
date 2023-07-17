@@ -17,9 +17,6 @@ class Textarea extends Field
 
     /**
      * Add field-specific data to the response
-     *
-     * @param  Model  $model
-     * @return array
      */
     public function additional(Model $model): array {
         return [
@@ -30,7 +27,6 @@ class Textarea extends Field
     /**
      * Set the rows of the textarea
      *
-     * @param  int  $rows
      * @return $this
      */
     public function rows(int $rows): self {

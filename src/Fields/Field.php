@@ -35,8 +35,6 @@ abstract class Field
     /**
      * Create a new instance of the field
      *
-     * @param  string  $name
-     * @param  object|string|null  $column
      * @return $this
      */
     public static function make(string $name, object|string $column = null): self {
@@ -54,9 +52,6 @@ abstract class Field
 
     /**
      * Add field-specific data to the response
-     *
-     * @param  Model  $model
-     * @return array
      */
     public function additional(Model $model): array {
         return [];
@@ -64,9 +59,6 @@ abstract class Field
 
     /**
      * Check if the field can be displayed in the current view
-     *
-     * @param  Request  $request
-     * @return bool
      */
     public function canShow(Request $request): bool {
         return match (Lyra::getRouteName($request)) {
@@ -92,8 +84,6 @@ abstract class Field
 
     /**
      * Get the key of the field based on it's name
-     *
-     * @return string
      */
     public function getKey(): string {
         return is_string($this->column) ? $this->column : Str::snake($this->name);
@@ -151,7 +141,6 @@ abstract class Field
      *
      * @param  Model  $model The model to be updated
      * @param  array  $data The new validated data
-     * @return void
      */
     public function save(Model $model, array $data): void {
         if (is_callable($this->column)) {
@@ -163,9 +152,6 @@ abstract class Field
 
     /**
      * Transform the field into an array.
-     *
-     * @param  Model  $model
-     * @return array
      */
     public function toArray(Model $model): array {
         $field = [
@@ -190,9 +176,6 @@ abstract class Field
 
     /**
      * Transform the resource into an array for the table header.
-     *
-     * @param  Request  $request
-     * @return array
      */
     public function toTableHeader(Request $request): array {
         $sortBy = explode(',', $request->query('sortBy'));

@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Schema;
 new class extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void {
         Schema::create('lyra_users', function (Blueprint $table) {
@@ -24,8 +22,6 @@ new class extends Migration {
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void {
         Schema::dropIfExists('lyra_users');

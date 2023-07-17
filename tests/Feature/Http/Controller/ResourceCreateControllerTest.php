@@ -10,8 +10,6 @@ class ResourceCreateControllerTest extends TestCase
 {
     /**
      * Check can create a resource.
-     *
-     * @return void
      */
     public function test_can_create_a_resource(): void {
         $user = User::factory()->create();
@@ -39,8 +37,6 @@ class ResourceCreateControllerTest extends TestCase
 
     /**
      * Check can get the create form data.
-     *
-     * @return void
      */
     public function test_can_get_create_form(): void {
         $user = User::factory()->create();

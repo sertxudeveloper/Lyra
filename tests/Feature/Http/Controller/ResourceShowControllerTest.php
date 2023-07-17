@@ -10,8 +10,6 @@ class ResourceShowControllerTest extends TestCase
 {
     /**
      * Check can show a resource.
-     *
-     * @return void
      */
     public function test_can_show_a_resource(): void {
         $user = User::factory()->create();
@@ -38,8 +36,6 @@ class ResourceShowControllerTest extends TestCase
 
     /**
      * Check can show trashed resource.
-     *
-     * @return void
      */
     public function test_can_show_a_trashed_resource(): void {
         $user = User::factory()->create();

@@ -12,7 +12,6 @@ class Pagination extends PaginatedResourceResponse
      * Add the pagination information to the response.
      *
      * @param  Request  $request
-     * @return array
      */
     #[ArrayShape(['meta' => 'array'])]
     protected function paginationInformation($request): array {

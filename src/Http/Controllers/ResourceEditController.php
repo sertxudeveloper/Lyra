@@ -15,10 +15,6 @@ class ResourceEditController extends Controller
     /**
      * Return the specified resource.
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @param  mixed  $id
-     * @return JsonResponse
      *
      * @throws ResourceNotFoundException
      */
@@ -37,10 +33,6 @@ class ResourceEditController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @param  mixed  $id
-     * @return JsonResponse|Response
      *
      * @throws ResourceNotFoundException
      */

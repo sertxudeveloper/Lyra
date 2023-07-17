@@ -11,9 +11,6 @@ class CardsController extends Controller
     /**
      * Get the models from the given resource
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @return object
      *
      * @throws Exception
      */
@@ -32,9 +29,6 @@ class CardsController extends Controller
     /**
      * Get the given card instance data
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @param  string  $card
      * @return object|void
      *
      * @throws Exception

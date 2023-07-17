@@ -16,8 +16,6 @@ class LengthAwarePaginator extends IlluminateLengthAwarePaginator
 
     /**
      * Get the paginator links as a collection (for JSON responses).
-     *
-     * @return Collection
      */
     public function linkCollection(): Collection {
         $middlePage = min(max($this->onEachSide, $this->currentPage()), $this->lastPage() - $this->onEachSide + 1);

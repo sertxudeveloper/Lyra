@@ -9,7 +9,6 @@ trait Placeholder
     /**
      * Set the field placeholder
      *
-     * @param  string  $placeholder
      * @return $this
      */
     public function placeholder(string $placeholder): self {

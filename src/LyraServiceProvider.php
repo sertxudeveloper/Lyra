@@ -22,9 +22,6 @@ class LyraServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @param  Router  $router
-     * @return void
      */
     public function boot(Router $router): void {
         /** Load the Lyra views */
@@ -51,8 +48,6 @@ class LyraServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register(): void {
         $loader = AliasLoader::getInstance();
@@ -64,8 +59,6 @@ class LyraServiceProvider extends ServiceProvider
 
     /**
      * Configure publishing for the package.
-     *
-     * @return void
      */
     protected function configurePublishing(): void {
         if ($this->app->runningInConsole()) {
@@ -77,8 +70,6 @@ class LyraServiceProvider extends ServiceProvider
 
     /**
      * Get dynamically the Helpers from the /src/Helpers directory and require_once each file.
-     *
-     * @return void
      */
     protected function loadHelpers(): void {
         /**
@@ -91,8 +82,6 @@ class LyraServiceProvider extends ServiceProvider
 
     /**
      * Register the console commands for the package.
-     *
-     * @return void
      */
     protected function registerCommands(): void {
         if ($this->app->runningInConsole()) {
@@ -105,8 +94,6 @@ class LyraServiceProvider extends ServiceProvider
 
     /**
      * Register the Lyra auth provider and guard
-     *
-     * @return void
      */
     private function registerAuth(): void {
         /** Register new guard driver */
@@ -124,8 +111,6 @@ class LyraServiceProvider extends ServiceProvider
 
     /**
      * Register the Lyra config file
-     *
-     * @return void
      */
     private function registerConfig(): void {
         $this->mergeConfigFrom(dirname(__DIR__).'/publishable/config/lyra.php', 'lyra');

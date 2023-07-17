@@ -6,8 +6,6 @@ class Sidebar
 {
     /**
      * Get sidebar resource elements
-     *
-     * @return array
      */
     public static function items(): array {
         $items = collect();

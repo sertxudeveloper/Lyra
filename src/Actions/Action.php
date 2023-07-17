@@ -14,7 +14,6 @@ abstract class Action implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /** @var Model */
     public Model $model;
 
     /**
@@ -30,8 +29,6 @@ abstract class Action implements ShouldQueue
 
     /**
      * Get the label of the resource
-     *
-     * @return string
      */
     public static function label(): string {
         return Str::title(Str::snake(class_basename(get_called_class()), ' '));
@@ -39,8 +36,6 @@ abstract class Action implements ShouldQueue
 
     /**
      * Get the slug of the resource
-     *
-     * @return string
      */
     public static function slug(): string {
         return Str::kebab(class_basename(get_called_class()));

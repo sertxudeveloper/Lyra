@@ -45,9 +45,6 @@ class Lyra
 
     /**
      * Extract Lyra named route from the given request
-     *
-     * @param  Request  $request
-     * @return string
      */
     public static function getRouteName(Request $request): string {
         return (string) str_replace(config('lyra.routes.api.name'), '', $request->route()->getName());
@@ -84,7 +81,6 @@ class Lyra
      * Register resources in a directory
      *
      * @param  string  $directory Directory to scan for resources
-     * @return void
      */
     public static function resourcesIn(string $directory): void {
         $namespace = app()->getNamespace();
@@ -116,7 +112,6 @@ class Lyra
      * Register Lyra routes
      *
      * @param  bool  $auth Whether to register authentication routes
-     * @return void
      */
     public static function routes(bool $auth = false): void {
         require __DIR__.'/../routes/api.php';

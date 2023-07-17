@@ -16,8 +16,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     /**
      * Setup the test environment.
-     *
-     * @return void
      */
     public function setUp(): void {
         parent::setUp();
@@ -36,7 +34,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         );
     }
 
-    protected function authenticate(?Authenticatable $user = null): Authenticatable {
+    protected function authenticate(Authenticatable $user = null): Authenticatable {
         $this->actingAs($user ??= User::factory()->create());
 
         return $user;
@@ -46,7 +44,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      * Define environment setup.
      *
      * @param  Application  $app
-     * @return void
      */
     protected function getEnvironmentSetUp($app): void {
         $app['config']->set('database.default', 'sqlite');
@@ -70,8 +67,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     /**
      * Load the migrations for the test environment.
-     *
-     * @return void
      */
     protected function loadMigrations(): void {
         $this->loadMigrationsFrom(realpath(__DIR__.'/database/migrations'));

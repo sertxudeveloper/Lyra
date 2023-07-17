@@ -38,9 +38,6 @@ class ResourceActionController extends Controller
     /**
      * Find the requested action in the provided resource
      *
-     * @param  resource  $resource
-     * @param  string  $actionSlug
-     * @return Action
      *
      * @throws ActionNotFoundException
      */

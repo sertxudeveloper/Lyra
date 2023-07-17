@@ -10,9 +10,6 @@ class ResourceCollection extends JsonResourceCollection
 {
     /**
      * Create a new resource instance.
-     *
-     * @param  mixed  $collection
-     * @param  string  $class
      */
     public function __construct(mixed $collection, string $class) {
         $this->collects = $class;
@@ -21,8 +18,6 @@ class ResourceCollection extends JsonResourceCollection
 
     /**
      * Get the resource that this resource collects.
-     *
-     * @return string|null
      */
     protected function collects(): ?string {
         return $this->collects;
@@ -32,7 +27,6 @@ class ResourceCollection extends JsonResourceCollection
      * Transform the resource into a JSON array.
      *
      * @param  Request  $request
-     * @return array
      */
     public function toArray($request): array {
         /** @var resource $resource */
@@ -53,7 +47,6 @@ class ResourceCollection extends JsonResourceCollection
      * Create a paginate-aware HTTP response.
      *
      * @param  Request  $request
-     * @return JsonResponse
      */
     protected function preparePaginatedResponse($request): JsonResponse {
         if ($this->preserveAllQueryParameters) {

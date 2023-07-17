@@ -13,10 +13,6 @@ class ResourceShowController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @param  mixed  $id
-     * @return JsonResponse
      *
      * @throws ResourceNotFoundException
      */

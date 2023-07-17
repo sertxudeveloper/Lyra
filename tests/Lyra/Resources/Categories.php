@@ -8,8 +8,6 @@ class Categories extends Resource
 {
     /**
      * The actions' resource definition
-     *
-     * @return array
      */
     public function actions(): array {
         return [
@@ -19,8 +17,6 @@ class Categories extends Resource
 
     /**
      * The cards' resource definition
-     *
-     * @return array
      */
     public function cards(): array {
         return [
@@ -30,8 +26,6 @@ class Categories extends Resource
 
     /**
      * The fields' resource definition
-     *
-     * @return array
      */
     public function fields(): array {
         return [

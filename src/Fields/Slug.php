@@ -18,9 +18,6 @@ class Slug extends Field
 
     /**
      * Add field-specific data to the response
-     *
-     * @param  Model  $model
-     * @return array
      */
     public function additional(Model $model): array {
         return [
@@ -32,7 +29,6 @@ class Slug extends Field
     /**
      * Set the parent field for the slug
      *
-     * @param  string  $from
      * @return $this
      */
     public function from(string $from): self {
@@ -44,7 +40,6 @@ class Slug extends Field
     /**
      * Set the separator for the slug
      *
-     * @param  string  $separator
      * @return $this
      */
     public function separator(string $separator): self {

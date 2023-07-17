@@ -13,10 +13,6 @@ class ResourceDeleteController extends Controller
     /**
      * Remove the specified resource.
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @param  mixed  $id
-     * @return Response
      *
      * @throws ResourceNotFoundException
      */
@@ -34,10 +30,6 @@ class ResourceDeleteController extends Controller
     /**
      * Restore the specified resource.
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @param  mixed  $id
-     * @return Response
      *
      * @throws ResourceNotFoundException
      */

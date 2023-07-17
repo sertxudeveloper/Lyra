@@ -28,8 +28,6 @@ abstract class Resource
 
     /**
      * The relationships that should be eager loaded on index queries.
-     *
-     * @var array
      */
     public static array $with = [];
 
@@ -52,7 +50,6 @@ abstract class Resource
     /**
      * Create a new resource instance.
      *
-     * @param  Model  $resource
      * @return void
      */
     public function __construct(Model $resource) {
@@ -61,8 +58,6 @@ abstract class Resource
 
     /**
      * Get related model primary key name
-     *
-     * @return string
      */
     public static function getKeyName(): string {
         return (new static::$model)->getKeyName();
@@ -70,8 +65,6 @@ abstract class Resource
 
     /**
      * Get the label of the resource
-     *
-     * @return string
      */
     public static function label(): string {
         return Str::title(Str::snake(class_basename(get_called_class()), ' '));
@@ -89,8 +82,6 @@ abstract class Resource
 
     /**
      * Create a new instance of the provided model
-     *
-     * @return Model
      */
     public static function newModel(): Model {
         $model = static::$model;
@@ -112,8 +103,6 @@ abstract class Resource
 
     /**
      * Get the singular label of the resource
-     *
-     * @return string
      */
     public static function singular(): string {
         return Str::singular(static::label());
@@ -121,8 +110,6 @@ abstract class Resource
 
     /**
      * Get the slug of the resource
-     *
-     * @return string
      */
     public static function slug(): string {
         return Str::kebab(class_basename(get_called_class()));
@@ -130,10 +117,6 @@ abstract class Resource
 
     /**
      * Add the requested sorting method to the query
-     *
-     * @param  Request  $request
-     * @param  Builder  $query
-     * @return Builder
      */
     public static function sortResource(Request $request, Builder $query): Builder {
         $sortBy = explode(',', $request->query('sortBy'));
@@ -158,30 +141,21 @@ abstract class Resource
 
     /**
      * The actions' resource definition
-     *
-     * @return array
      */
     abstract public function actions(): array;
 
     /**
      * The cards' resource definition
-     *
-     * @return array
      */
     abstract public function cards(): array;
 
     /**
      * The fields' resource definition
-     *
-     * @return array
      */
     abstract public function fields(): array;
 
     /**
      * Transform the resource into an array for the table header.
-     *
-     * @param $request
-     * @return array
      */
     public function getHeader($request): array {
         $fields = [];
@@ -197,8 +171,6 @@ abstract class Resource
 
     /**
      * Get the JSON serialization options that should be applied to the resource response.
-     *
-     * @return int
      */
     public function jsonOptions(): int {
         return 0;
@@ -206,9 +178,6 @@ abstract class Resource
 
     /**
      * Transform the resource into an array.
-     *
-     * @param  Request  $request
-     * @return array
      */
     public function toArray(Request $request): array {
         $fields = [];
@@ -237,8 +206,6 @@ abstract class Resource
     /**
      * Validate the update request received.
      *
-     * @param  Request  $request
-     * @return array
      *
      * @throws ValidationException
      */
@@ -251,8 +218,6 @@ abstract class Resource
     /**
      * Validate the update request received.
      *
-     * @param  Request  $request
-     * @return array
      *
      * @throws ValidationException
      */
@@ -264,9 +229,6 @@ abstract class Resource
 
     /**
      * Format the rules for the validation
-     *
-     * @param  Request  $request
-     * @return array
      */
     protected function formatRules(Request $request): array {
         $rules = [];

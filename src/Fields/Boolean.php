@@ -16,9 +16,6 @@ class Boolean extends Field
 
     /**
      * Add field-specific data to the response
-     *
-     * @param  Model  $model
-     * @return array
      */
     public function additional(Model $model): array {
         $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
@@ -31,7 +28,6 @@ class Boolean extends Field
     /**
      * Define the false value
      *
-     * @param  mixed  $value
      * @return $this
      */
     public function falseValue(mixed $value): self {
@@ -45,7 +41,6 @@ class Boolean extends Field
      *
      * @param  Model  $model The model to be updated
      * @param  array  $data The new validated data
-     * @return void
      */
     public function save(Model $model, array $data): void {
         $model->{$this->getKey()} = $data[$this->getKey()] == true ? $this->trueValue : $this->falseValue;
@@ -54,7 +49,6 @@ class Boolean extends Field
     /**
      * Define the true value
      *
-     * @param  mixed  $value
      * @return $this
      */
     public function trueValue(mixed $value): self {

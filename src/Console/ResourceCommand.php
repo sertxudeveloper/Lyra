@@ -34,7 +34,6 @@ class ResourceCommand extends GeneratorCommand
      * Build the class with the given name.
      *
      * @param  string  $name
-     * @return string
      *
      * @throws FileNotFoundException
      */
@@ -66,7 +65,6 @@ class ResourceCommand extends GeneratorCommand
      * Get the default namespace for the class.
      *
      * @param  string  $rootNamespace
-     * @return string
      */
     protected function getDefaultNamespace($rootNamespace): string {
         return is_dir(app_path('Lyra/Resources')) ? $rootNamespace.'\\Lyra\\Resources' : $rootNamespace;
@@ -74,8 +72,6 @@ class ResourceCommand extends GeneratorCommand
 
     /**
      * Get the console command options.
-     *
-     * @return array
      */
     protected function getOptions(): array {
         return [
@@ -86,8 +82,6 @@ class ResourceCommand extends GeneratorCommand
 
     /**
      * Get the stub file for the generator.
-     *
-     * @return string
      */
     protected function getStub(): string {
         if ($this->getNameInput() === 'Users') {
@@ -102,7 +96,6 @@ class ResourceCommand extends GeneratorCommand
      *
      * @param  string  $stub The stub to replace the class name in
      * @param  string  $name The name of the class
-     * @return string
      */
     protected function replaceModel(string $stub, string $name): string {
         $namespace = is_dir(app_path('Models')) ? $this->rootNamespace()."Models\\$name" : $this->rootNamespace().$name;

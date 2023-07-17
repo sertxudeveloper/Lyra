@@ -77,8 +77,6 @@ class InstallCommand extends Command
 
     /**
      * Check if the Lyra package is already installed.
-     *
-     * @return bool
      */
     protected function isAlreadyInstalled(): bool {
         return file_exists(config_path('lyra.php'));

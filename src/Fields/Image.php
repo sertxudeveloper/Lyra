@@ -24,8 +24,6 @@ class Image extends Field
     /**
      * Create a new instance of the field
      *
-     * @param  string  $name
-     * @param  object|string|null  $column
      * @return $this
      */
     public static function make(string $name, object|string $column = null): Field {
@@ -40,7 +38,6 @@ class Image extends Field
     /**
      * Set the accept attribute for the input
      *
-     * @param  string  $accept
      * @return $this
      */
     public function accept(string $accept): self {
@@ -51,9 +48,6 @@ class Image extends Field
 
     /**
      * Add field-specific data to the response
-     *
-     * @param  Model  $model
-     * @return array
      */
     public function additional(Model $model): array {
         $value = is_callable($this->column) ? call_user_func($this->column, $model) : $model->{$this->column};
@@ -70,7 +64,6 @@ class Image extends Field
     /**
      * Set the disk where the images will be stored
      *
-     * @param  string  $disk
      * @return $this
      */
     public function disk(string $disk): self {
@@ -82,7 +75,6 @@ class Image extends Field
     /**
      * Set the folder where the images will be stored
      *
-     * @param  string  $folder
      * @return $this
      */
     public function folder(string $folder): self {
@@ -126,10 +118,6 @@ class Image extends Field
 
     /**
      * Save the images to the disk and update the model
-     *
-     * @param  Model  $model
-     * @param  array  $data
-     * @return void
      */
     public function save(Model $model, array $data): void {
         $files = collect($data[$this->getKey()]);

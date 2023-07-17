@@ -17,9 +17,6 @@ class ResourceIndexController extends Controller
     /**
      * Return a collection of resources.
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @return JsonResponse
      *
      * @throws ResourceNotFoundException
      */

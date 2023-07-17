@@ -18,9 +18,7 @@ class AssetsController extends Controller
     /**
      * Get the requested asset from the internal vendor folder.
      *
-     * @param  Request  $request
      * @param $any string|null Asset path
-     * @return Response
      */
     public function show(Request $request, string $any = null): Response {
         abort_if(!$any, Response::HTTP_NOT_FOUND);

@@ -19,8 +19,6 @@ class Users extends Resource
 
     /**
      * The actions' resource definition
-     *
-     * @return array
      */
     public function actions(): array {
         return [
@@ -30,8 +28,6 @@ class Users extends Resource
 
     /**
      * The cards' resource definition
-     *
-     * @return array
      */
     public function cards(): array {
         return [
@@ -41,21 +37,19 @@ class Users extends Resource
 
     /**
      * The fields' resource definition
-     *
-     * @return array
      */
     public function fields(): array {
         return [
             ID::make('Id'),
 
             Text::make('Name')
-              ->rules('required', 'max:255')
-              ->sortable(),
+                ->rules('required', 'max:255')
+                ->sortable(),
 
             Text::make('Email')
-              ->creationRules('required', 'email', 'unique:users,email')
-              ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}')
-              ->sortable(),
+                ->creationRules('required', 'email', 'unique:users,email')
+                ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}')
+                ->sortable(),
 
             Password::make('Password')
                 ->creationRules('required', 'string', 'min:6')

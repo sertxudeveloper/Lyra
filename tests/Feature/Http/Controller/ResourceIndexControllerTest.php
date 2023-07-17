@@ -10,8 +10,6 @@ class ResourceIndexControllerTest extends TestCase
 {
     /**
      * Check can limit resources shown per page.
-     *
-     * @return void
      */
     public function test_can_limit_resources_per_page(): void {
         $user = User::factory()->create();
@@ -39,8 +37,6 @@ class ResourceIndexControllerTest extends TestCase
     /**
      * Check can list a resource.
      * By default, the last inserted will be the first one.
-     *
-     * @return void
      */
     public function test_can_list_a_resource(): void {
         User::factory(2)->create();
@@ -78,8 +74,6 @@ class ResourceIndexControllerTest extends TestCase
 
     /**
      * Check can navigate to next page.
-     *
-     * @return void
      */
     public function test_can_navigate_resources_per_page(): void {
         $user = User::factory()->create();
@@ -106,8 +100,6 @@ class ResourceIndexControllerTest extends TestCase
 
     /**
      * Check can order resources.
-     *
-     * @return void
      */
     public function test_can_order_resources(): void {
         $userA = User::factory()->create(['email' => 'user_a@example.com']);
@@ -155,8 +147,6 @@ class ResourceIndexControllerTest extends TestCase
 
     /**
      * Check can search for resources.
-     *
-     * @return void
      */
     public function test_can_search_for_resources(): void {
         User::factory(2)->create();
@@ -174,8 +164,6 @@ class ResourceIndexControllerTest extends TestCase
 
     /**
      * Check a resource is not shown if it has been soft-deleted.
-     *
-     * @return void
      */
     public function test_hides_resources_that_are_soft_deleted(): void {
         User::factory(2)->create();
@@ -202,8 +190,6 @@ class ResourceIndexControllerTest extends TestCase
 
     /**
      * Check a soft-deleted resource is shown if requested.
-     *
-     * @return void
      */
     public function test_includes_soft_deleted_resources_if_requested(): void {
         $user = User::factory()->create();
@@ -227,8 +213,6 @@ class ResourceIndexControllerTest extends TestCase
 
     /**
      * Check only soft-deleted resources are shown if requested.
-     *
-     * @return void
      */
     public function test_show_only_soft_deleted_resources_if_requested(): void {
         $user = User::factory()->create();

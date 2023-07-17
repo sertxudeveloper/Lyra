@@ -14,9 +14,6 @@ class ResourceCreateController extends Controller
     /**
      * Return a new empty resource.
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @return JsonResponse
      *
      * @throws ResourceNotFoundException
      */
@@ -35,9 +32,6 @@ class ResourceCreateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @return JsonResponse|Response
      *
      * @throws ResourceNotFoundException
      */

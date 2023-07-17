@@ -7,10 +7,6 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class ActionResource extends JsonResource
 {
-    /**
-     * @param $request
-     * @return array
-     */
     #[ArrayShape(['key' => 'string', 'name' => 'string'])]
     public function toArray($request): array {
         return [

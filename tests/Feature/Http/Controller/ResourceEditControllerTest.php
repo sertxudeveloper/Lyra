@@ -11,8 +11,6 @@ class ResourceEditControllerTest extends TestCase
 {
     /**
      * Check can edit a resource.
-     *
-     * @return void
      */
     public function test_can_edit_a_resource(): void {
         $user = User::factory()->create();
@@ -63,8 +61,6 @@ class ResourceEditControllerTest extends TestCase
 
     /**
      * Check can't edit a resource if the model has been modified since the retrieval.
-     *
-     * @return void
      */
     public function test_cant_edit_a_resource_that_has_been_modified(): void {
         $user = User::factory()->create();
@@ -120,8 +116,6 @@ class ResourceEditControllerTest extends TestCase
 
     /**
      * Check can get the create form data.
-     *
-     * @return void
      */
     public function test_can_get_edit_form(): void {
         $user = User::factory()->create();
