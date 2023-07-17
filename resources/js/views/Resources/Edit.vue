@@ -6,7 +6,7 @@
         <div class="flex justify-between mb-2 md:col-span-3 md:col-start-2">
           <div class="flex">
             <router-link :to="{ name: 'resource-index', params: { resourceName: $route.params.resourceName } }"
-                         class="bg-white h-9 hover:text-blue-500 p-2.5 rounded shadow text-gray-700 w-9">
+                         class="bg-white h-9 hover:text-blue-600 p-2.5 rounded shadow text-gray-700 w-9">
               <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M8.21071 15.6897L8.91781 14.9826C9.08517 14.8153 9.08517 14.5439 8.91781 14.3765L3.37745 8.83621H15.5714C15.8081 8.83621 16 8.64431 16 8.40763V7.40763C16 7.17095 15.8081 6.97906 15.5714 6.97906H3.37745L8.91781 1.4387C9.08517 1.27134 9.08517 0.999983 8.91781 0.83259L8.21071 0.125518C8.04335 -0.0418393 7.77199 -0.0418393 7.6046 0.125518L0.125518 7.6046C-0.0418393 7.77195 -0.0418393 8.04331 0.125518 8.21071L7.6046 15.6898C7.77195 15.8571 8.04331 15.8571 8.21071 15.6897Z"/>
@@ -39,12 +39,12 @@
 
               <div class="bg-gray-50 flex space-x-2 justify-end px-4 py-3 sm:px-6 text-right">
                 <router-link
-                  class="bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:bg-gray-50 px-3 py-2 rounded-md shadow-sm text-gray-700 text-sm"
+                  class="bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 hover:bg-gray-50 px-3 py-2 rounded-md shadow-sm text-gray-700 text-sm"
                   :to="{ name: 'resource-index', params: { resourceName: $route.params.resourceName } }">Cancel
                 </router-link>
 
                 <button
-                  class="bg-blue-600 border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:bg-blue-700 inline-flex justify-center px-4 py-2 rounded-md shadow-sm text-sm text-white"
+                  class="bg-blue-600 border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 hover:bg-blue-700 inline-flex justify-center px-4 py-2 rounded-md shadow-sm text-sm text-white"
                   type="submit">Save
                 </button>
               </div>

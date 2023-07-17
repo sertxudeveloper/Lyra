@@ -36,7 +36,7 @@ export default {
   emits: ['changePage'],
   data() {
     return {
-      activeClass: 'z-10 bg-blue-50 border-blue-500 text-blue-600',
+      activeClass: 'z-10 bg-blue-50 border-blue-600 text-blue-600',
       notActiveClass: 'z-0 border-gray-300 text-gray-500 hover:bg-gray-50',
     }
   }

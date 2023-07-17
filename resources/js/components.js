@@ -9,21 +9,25 @@ import Dropdown from "./components/Dropdown/Dropdown";
 import DropdownMenu from "./components/Dropdown/DropdownMenu";
 
 import Pagination from "./components/Pagination/Pagination";
+import Panel from "./components/Panel";
 
 export default function (app) {
-  app.component('FilterMenu', FilterMenu)
-  app.component('Datatable', Datatable)
-  app.component('DatatableRow', DatatableRow)
-  app.component('Loading', Loading)
+    app.component('FilterMenu', FilterMenu)
+    app.component('Datatable', Datatable)
+    app.component('DatatableRow', DatatableRow)
+    app.component('Loading', Loading)
 
-  app.component('notification-wrapper', NotificationWrapper)
+    app.component('notification-wrapper', NotificationWrapper)
 
-  app.component('Dropdown', Dropdown)
-  app.component('DropdownMenu', DropdownMenu)
+    app.component('Dropdown', Dropdown)
+    app.component('DropdownMenu', DropdownMenu)
 
-  app.component('Pagination', Pagination)
+    app.component('Pagination', Pagination)
 
-  app.config.globalProperties.$notify = (options) => {
-    app._instance.refs['notification-wrapper'].add(options)
-  }
+    app.config.globalProperties.$notify = (options) => {
+        app._instance.refs['notification-wrapper'].add(options)
+    }
+
+    app.component('Icon', require('./components/Icon.js').default)
+    app.component('Panel', Panel)
 }

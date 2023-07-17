@@ -2,43 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Works on Firefox */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #6B7280 #d4d4d400;
+    scrollbar-width: thin;
+    scrollbar-color: #6B7280 #d4d4d400;
+    @apply ring-blue-600 ring-offset-2 outline-none;
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+    width: 6px;
+    height: 6px;
 }
 
 *::-webkit-scrollbar-track {
-  background: #d4d4d400;
+    background: #d4d4d400;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #6B7280;
-  border-radius: 20px;
-  border: 3px solid #d4d4d400;
+    background-color: #6B7280;
+    border-radius: 20px;
+    border: 3px solid #d4d4d400;
 }
 
 #sidebar {
-  a {
-    @apply flex items-center px-3 py-2 rounded-lg mb-2 cursor-pointer
-  }
+    a {
+        @apply flex items-center px-3 py-2 rounded-lg mb-2 cursor-pointer
+    }
 
-  a.router-link-active {
-    @apply text-gray-100 bg-gray-900
-  }
+    a.router-link-active {
+        @apply text-gray-100 bg-gray-900
+    }
 
-  a:not(.router-link-active) {
-    @apply text-gray-300 hover:text-gray-100 hover:bg-gray-900 hover:bg-opacity-50
-  }
+    a:not(.router-link-active) {
+        @apply text-gray-300 hover:text-gray-100 hover:bg-gray-900 hover:bg-opacity-50
+    }
 
-  #menu {
-    height: calc(100% - 64px);
-  }
+    #menu {
+        height: calc(100% - 64px);
+    }
 }
 
 input[type=file]::file-selector-button,
@@ -53,4 +53,94 @@ input[type=file]::-webkit-file-upload-button {
 input[type=file]::file-selector-button:hover,
 input[type=file]::-webkit-file-upload-button:hover {
     @apply bg-gray-700;
+}
+
+.form-input {
+    @apply w-full rounded-md flex shadow-sm text-sm text-gray-900;
+
+    &:focus {
+        @apply ring-0 border-blue-600;
+    }
+}
+
+.form-select {
+    @apply w-full rounded-md flex shadow-sm text-sm text-gray-600 cursor-pointer border-gray-300;
+
+    &:focus {
+        @apply ring-0 border-blue-600;
+    }
+}
+
+.form-checkbox {
+    @apply rounded text-blue-600;
+}
+
+.btn-toolbar {
+    @apply bg-gray-200 h-full px-3 py-2 rounded-md flex items-center text-sm text-gray-700;
+    @apply focus:ring-2;
+}
+
+.btn-primary {
+    @apply bg-blue-600 h-full px-3 py-2 rounded-md flex items-center text-sm text-white;
+    @apply focus:ring-2;
+}
+
+.btn-secondary {
+    @apply bg-white border border-gray-300 h-full px-3 py-2 rounded-md flex items-center text-sm text-gray-700;
+    @apply focus:ring-2 hover:bg-gray-100;
+}
+
+.btn-group-primary {
+    @apply bg-blue-600 h-full rounded-md flex items-center text-sm text-white;
+    @apply divide-x divide-white divide-opacity-30;
+
+    // First button
+    & > :first-child {
+        @apply px-3 py-2 rounded-l-md;
+
+        &:hover {
+            @apply bg-blue-700;
+        }
+
+        &:focus {
+            @apply focus:ring-2;
+        }
+    }
+
+    // Dropdown button
+    & > :last-child {
+        @apply relative;
+
+        > button {
+            @apply p-3 rounded-r-md;
+
+            &:hover {
+                @apply bg-blue-700;
+            }
+
+            &:focus {
+                @apply focus:ring-2;
+            }
+        }
+    }
+}
+
+.dropdown-menu {
+    @apply origin-top-right absolute right-0 mt-2 -mr-1 w-56 rounded-md shadow-lg bg-white border border-gray-300;
+
+    .dropdown-item {
+        @apply flex items-center space-x-3 px-4 py-2 text-gray-700 text-sm;
+
+        &:hover {
+            @apply bg-blue-100;
+        }
+    }
+}
+
+.dropdown-item {
+    @apply flex items-center space-x-3 px-4 py-2 text-gray-700 text-sm;
+
+    &:hover {
+        @apply bg-blue-100;
+    }
 }

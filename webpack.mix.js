@@ -14,31 +14,34 @@ const tailwindcss = require('tailwindcss')
  */
 mix.setPublicPath('publishable/assets')
 
-// mix.js('resources/js/app.js', 'js').vue()
-//   .sass('resources/sass/app.scss', 'css', {}, [ tailwindcss('./tailwind.config.js') ])
-//   .options({ processCssUrls: false })
-//   .version()
-//   .webpackConfig({
-//     resolve: {
-//       alias: {
-//         '@': path.resolve(__dirname, 'resources/js/'),
-//       },
-//     },
-//   })
-
 mix.sass('resources/sass/app.scss', 'css');
 mix.js('resources/js/app.js', 'js').vue();
 
 mix.webpackConfig({
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'resources/js/'),
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'resources/js/'),
+        },
     },
-  },
 })
 
 mix.options({
-  processCssUrls: false, // Process/optimize relative stylesheet url()'s. Set to false, if you don't want them touched.
-  purifyCss: false, // Remove unused CSS selectors.
-  postCss: [tailwindcss('tailwind.config.js')],
+    processCssUrls: false, // Process/optimize relative stylesheet url()'s. Set to false, if you don't want them touched.
+    purifyCss: false, // Remove unused CSS selectors.
+    postCss: [tailwindcss('tailwind.config.js')],
+});
+
+/**
+ * Make sure to exclude svg files from the default mix rule
+ * and add a new rule along with the html-loader.
+ */
+mix.override(config => {
+    config.module.rules
+        .find(rule => rule.test.test('.svg'))
+        .exclude = /\.svg$/;
+
+    config.module.rules.push({
+        test: /\.svg$/,
+        use: [{ loader: 'html-loader' }]
+    })
 });

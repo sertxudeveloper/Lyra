@@ -4,3 +4,5 @@ phpunit
 composer.lock
 reports/
 package-lock.json
+/.idea
+/.phpunit.result.cache

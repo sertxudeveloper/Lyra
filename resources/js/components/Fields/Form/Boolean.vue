@@ -2,7 +2,7 @@
   <div class="col-span-3 xl:col-span-2">
     <label class="block text-sm font-medium text-gray-600">{{ field.name }}</label>
     <div class="flex mt-1">
-      <input type="checkbox" :name="field.key" v-model.lazy="field.value" class="block cursor-pointer h-4 w-4">
+      <input type="checkbox" :name="field.key" v-model.lazy="field.value" class="block cursor-pointer h-4 w-4 form-checkbox">
     </div>
     <div class="mt-1 px-1 text-red-500 text-xs" v-for="error in errors">{{ error }}</div>
   </div>

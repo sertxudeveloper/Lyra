@@ -10,63 +10,73 @@ use SertxuDeveloper\Lyra\Resources\Resource;
 
 class {{ class }} extends Resource {
 
-  public static string $model = {{ model }}::class;
+    public static string $model = {{ model }}::class;
 
-  public static string $icon = '<svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.875 9C11.3605 9 13.375 6.98555 13.375 4.5C13.375 2.01445 11.3605 0 8.875 0C6.38945 0 4.375 2.01445 4.375 4.5C4.375 6.98555 6.38945 9 8.875 9ZM12.025 10.125H11.4379C10.6574 10.4836 9.78906 10.6875 8.875 10.6875C7.96094 10.6875 7.09609 10.4836 6.31211 10.125H5.725C3.11641 10.125 1 12.2414 1 14.85V16.3125C1 17.2441 1.75586 18 2.6875 18H15.0625C15.9941 18 16.75 17.2441 16.75 16.3125V14.85C16.75 12.2414 14.6336 10.125 12.025 10.125Z"/></svg>';
+    public static string $icon = '<svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.875 9C11.3605 9 13.375 6.98555 13.375 4.5C13.375 2.01445 11.3605 0 8.875 0C6.38945 0 4.375 2.01445 4.375 4.5C4.375 6.98555 6.38945 9 8.875 9ZM12.025 10.125H11.4379C10.6574 10.4836 9.78906 10.6875 8.875 10.6875C7.96094 10.6875 7.09609 10.4836 6.31211 10.125H5.725C3.11641 10.125 1 12.2414 1 14.85V16.3125C1 17.2441 1.75586 18 2.6875 18H15.0625C15.9941 18 16.75 17.2441 16.75 16.3125V14.85C16.75 12.2414 14.6336 10.125 12.025 10.125Z"/></svg>';
 
-  /**
-   * Columns where the search is enabled
-   *
-   * @var string[] $search
-   */
-  static public array $search = [
-    'id',
-    'name',
-    'email',
-  ];
-
-  /**
-   * The actions' resource definition
-   *
-   * @return array
-   */
-  public function actions(): array {
-    return [
-      //
+    /**
+    * Columns where the search is enabled
+    *
+    * @var string[] $search
+    */
+    static public array $search = [
+        'id',
+        'name',
+        'email',
     ];
-  }
 
-  /**
-   * The cards' resource definition
-   *
-   * @return array
-   */
-  public function cards(): array {
-    return [
-      //
-    ];
-  }
+    /**
+    * The actions' resource definition
+    *
+    * @return array
+    */
+    public function actions(): array {
+        return [
+            //
+        ];
+    }
 
-  /**
-   * The fields' resource definition
-   *
-   * @return array
-   */
-  public function fields(): array {
-    return [
-      ID::make('Id'),
+    /**
+    * The cards' resource definition
+    *
+    * @return array
+    */
+    public function cards(): array {
+        return [
+            //
+        ];
+    }
 
-      Text::make('Name')->rules('required', 'max:255')->sortable(),
+    /**
+    * The fields' resource definition
+    *
+    * @return array
+    */
+    public function fields(): array {
+        return [
+            ID::make('Id'),
 
-      Text::make('Email')->creationRules('required', 'email', 'unique:users,email')
-        ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}'),
+            Text::make('Name')
+                ->rules('required', 'max:255')->sortable(),
 
-      Password::make('Password')->hideOnIndex(),
+            Text::make('Email')
+                ->creationRules('required', 'email', 'unique:users,email')
+                ->updateRules('required', 'email', 'unique:users,email,{{resourceId}}'),
 
-      DateTime::make('Email verified at'),
+            Password::make('Password')
+                ->hideOnIndex(),
 
-      DateTime::make('Created at')->hideOnIndex()->hideOnForms(),
-      DateTime::make('Updated at')->hideOnIndex()->hideOnForms(),
-    ];
-  }
+            Boolean::make('Email verified', fn() => $this->email_verified_at !== null)
+                ->hideOnForms(),
+
+            DateTime::make('Email verified at')
+                ->hideOnIndex(),
+
+            DateTime::make('Created at')
+                ->hideOnIndex()->hideOnForms(),
+
+            DateTime::make('Updated at')
+                ->hideOnIndex()->hideOnForms(),
+        ];
+    }
 }

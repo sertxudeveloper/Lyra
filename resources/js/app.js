@@ -14,7 +14,7 @@ import VueClickAway from "vue3-click-away";
 axios.defaults.baseURL = window.config.apiRoute
 
 const router = createRouter({
-  history: createWebHistory(window.config.base), routes,
+    history: createWebHistory(window.config.base), routes,
 })
 
 const app = createApp({})
@@ -34,11 +34,14 @@ app.mount('#app')
 /** Axios error interceptor */
 axios.interceptors.response.use(response => response, error => {
 
-  if (error.response.status === 500) {
-    app.config.globalProperties.$notify({
-      type: 'error', title: 'Error', text: `An internal error occurred.\n${error.response.data.message}`, timeout: 8000
-    })
-  }
+    if (error.response.status === 500) {
+        app.config.globalProperties.$notify({
+            type: 'error',
+            title: 'Error',
+            text: `An internal error occurred.\n${error.response.data.message}`,
+            timeout: 8000
+        })
+    }
 
-  return Promise.reject(error)
+    return Promise.reject(error)
 });

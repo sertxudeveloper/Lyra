@@ -2,7 +2,7 @@
   <div class="col-span-3">
     <label class="block text-sm font-medium text-gray-600">{{ field.name }}</label>
     <div class="flex mt-1 rounded-md shadow-sm">
-<!--      <textarea class="block border flex-1 focus:border-blue-500 focus:ring-blue-500 outline-none pl-3 pr-2 py-2 rounded-md sm:text-sm w-full text-gray-700 min-h-[118px]"
+<!--      <textarea class="block border flex-1 focus:border-blue-600 focus:ring-blue-600 outline-none pl-3 pr-2 py-2 rounded-md sm:text-sm w-full text-gray-700 min-h-[118px]"
                 :class="[ errors?.length ? errorClass : defaultClass ]"
                 rows="5" v-model.lazy="field.value" :placeholder="field.placeholer"></textarea>-->
 

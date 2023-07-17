@@ -7,18 +7,18 @@ import Create from "./views/Resources/Create";
 import Edit from "./views/Resources/Edit";
 
 export default [
-  {path: '/', name: 'dashboard', component: Dashboard},
-  {path: '/media', name: 'media', component: MediaManager},
+    {path: '/', name: 'dashboard', component: Dashboard},
+    {path: '/media', name: 'media', component: MediaManager},
 
-  /** Resource routes */
-  {
-    path: '/resources/:resourceName',
-    component: {template: '<router-view></router-view>'},
-    children: [
-      {path: '', name: 'resource-index', component: Index},
-      {path: ':resourceId', name: 'resource-show', component: Show},
-      {path: 'create', name: 'resource-create', component: Create},
-      {path: ':resourceId/edit', name: 'resource-edit', component: Edit},
-    ]
-  },
+    /** Resource routes */
+    {
+        path: '/resources/:resourceName',
+        component: {template: '<router-view></router-view>'},
+        children: [
+            {path: '', name: 'resource-index', component: Index},
+            {path: ':resourceId', name: 'resource-show', component: Show},
+            {path: 'create', name: 'resource-create', component: Create},
+            {path: ':resourceId/edit', name: 'resource-edit', component: Edit},
+        ]
+    },
 ]
