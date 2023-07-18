@@ -20,7 +20,7 @@ class ResourceIndexController extends Controller
      *
      * @throws ResourceNotFoundException
      */
-    public function index(Request $request, string $resource): JsonResponse {
+    public function __invoke(Request $request, string $resource): JsonResponse {
         /** @var Resource $class */
         $class = Lyra::resourceBySlug($resource);
 

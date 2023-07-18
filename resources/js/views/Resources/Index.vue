@@ -34,7 +34,7 @@
     <!-- Datatable -->
     <div class="bg-white flex flex-col max-w-0 min-w-full rounded-lg shadow w-full">
       <!-- Datatable tools -->
-      <div class="flex items-center justify-between h-9 m-4">
+      <div class="flex items-center justify-between h-9 mx-4 my-2.5">
         <!-- Tools left -->
         <div class="flex items-center space-x-4 h-full">
           <!-- Selection tool -->

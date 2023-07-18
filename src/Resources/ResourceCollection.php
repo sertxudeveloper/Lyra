@@ -33,10 +33,12 @@ class ResourceCollection extends JsonResourceCollection
         $resource = $this->collects();
         $resource = $resource::make($resource::newModel());
 
+//        dd($this->collection, $this->collection->map->serializeForIndex($request));
+
         return [
-            'header' => $resource->getHeader($request),
-            'data' => $this->collection->map->toArray($request),
+//            'header' => $resource->getHeader($request),
             'labels' => ['singular' => $resource::singular(), 'plural' => $resource::label()],
+            'data' => $this->collection->map->serializeForIndex($request),
             'perPageOptions' => $resource::$perPageOptions,
             'actions' => ActionResource::collection($resource->actions()),
             'softDeletes' => method_exists($resource::newModel(), 'trashed'),

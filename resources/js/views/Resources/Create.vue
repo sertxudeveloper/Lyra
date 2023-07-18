@@ -15,8 +15,8 @@
             </div>
 
             <!-- Fields -->
-            <form ref="form" @submit.prevent="submit">
-                <div class="md:grid md:grid-cols-4 md:gap-6">
+            <form ref="form" @submit.prevent="submit" class="space-y-4">
+<!--            <div class="md:grid md:grid-cols-4 md:gap-6">
                     <div class="md:col-span-1">
                         <div class="px-4 sm:px-0">
                             <h3 class="text-xl font-medium leading-6 text-gray-900">
@@ -26,91 +26,78 @@
                         </div>
                     </div>
 
-                    <Panel>
-                        <div v-for="field in resource.data.fields" class="gap-6 grid grid-cols-3">
-                            <Component :is="`form-${field.component}`" :field="field"/>
-                        </div>
 
-                        <template v-slot:footer>
-                            <button class="btn-secondary" type="button" @click.prevent="cancel">Cancel</button>
+                </div>-->
 
-                            <div class="btn-group-primary">
-                                <button v-if="saveMode === 'create'" @click="changeMode = false"
-                                        name="create" type="submit">
-                                    <span>Create {{ resource?.labels?.singular.toLowerCase() }}</span>
-                                </button>
+<!--                <Panel
+                    :title="'Create ' + resource.labels.singular"
+                    :description="'This is the basic information of the resource.'"
+                    :fields="resource.data.fields" />-->
 
-                                <button v-if="saveMode === 'create-and-edit'" @click="changeMode = false"
-                                        name="create-and-edit" type="submit">
-                                    <span>Create & edit</span>
-                                </button>
+                <div class="space-y-6">
+                    <template v-for="panel in resource.data.panels">
+                        <Panel
+                            :title="panel.title"
+                            :description="panel.description"
+                            :fields="panel.fields" />
+                    </template>
+                </div>
 
-                                <div v-click-away="() => this.changeMode = false">
-                                    <button type="button" @click.prevent="changeMode = !changeMode">
-                                        <Icon name="chevron-down" class="w-3"/>
-                                    </button>
+                <div class="flex items-center justify-end space-x-2">
+                    <button class="btn-secondary" type="button" @click.prevent="cancel">Cancel</button>
 
-                                    <Transition
-                                        enter-from-class="transform opacity-0 scale-95"
-                                        enter-to-class="transform opacity-100 scale-100"
-                                        enter-active-class="transition ease-out duration-100"
-                                        leave-from-class="transform opacity-100 scale-100"
-                                        leave-to-class="transform opacity-0 scale-95"
-                                        leave-active-class="transition ease-in duration-75">
+                    <div class="btn-group-primary">
+                        <button v-if="saveMode === 'create'" @click="changeMode = false"
+                                name="create" type="submit">
+                            <span>Create {{ resource?.labels?.singular.toLowerCase() }}</span>
+                        </button>
 
-<!--                                        <div class="dropdown-menu" v-if="changeMode">
-                                            <div class="py-1 flex flex-col">
-                                                &lt;!&ndash; Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" &ndash;&gt;
-                                                <button @click.prevent="saveMode = 'create'" class="dropdown-item">
+                        <button v-if="saveMode === 'create-and-edit'" @click="changeMode = false"
+                                name="create-and-edit" type="submit">
+                            <span>Create & edit</span>
+                        </button>
+
+                        <div v-click-away="() => this.changeMode = false">
+                            <button type="button" @click.prevent="changeMode = !changeMode">
+                                <Icon name="chevron-down" class="w-3"/>
+                            </button>
+
+                            <Transition
+                                enter-from-class="transform opacity-0 scale-95"
+                                enter-to-class="transform opacity-100 scale-100"
+                                enter-active-class="transition ease-out duration-100"
+                                leave-from-class="transform opacity-100 scale-100"
+                                leave-to-class="transform opacity-0 scale-95"
+                                leave-active-class="transition ease-in duration-75">
+
+                                <div class="dropdown-menu" v-if="changeMode">
+                                    <div class="py-1 flex flex-col">
+                                        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                        <button @click.prevent="saveMode = 'create'" class="dropdown-item">
                                                     <span class="text-blue-700 w-3.5">
                                                         <Icon name="check" class="w-3.5"
                                                               v-show="saveMode === 'create'"/>
                                                     </span>
 
-                                                    <span class="lowercase first-letter:uppercase -mt-0.5">
+                                            <span class="lowercase first-letter:uppercase -mt-0.5">
                                                         Create {{ resource?.labels?.singular }}
                                                     </span>
-                                                </button>
+                                        </button>
 
-                                                <button class="dropdown-item"
-                                                        @click.prevent="saveMode = 'create-and-edit'">
+                                        <button class="dropdown-item"
+                                                @click.prevent="saveMode = 'create-and-edit'">
                                                     <span class="text-blue-700 w-3.5">
                                                       <Icon name="check" class="w-3.5"
                                                             v-show="saveMode === 'create-and-edit'"/>
                                                     </span>
 
-                                                    <span class="lowercase first-letter:uppercase">Create & edit</span>
-                                                </button>
-                                            </div>
-                                        </div>-->
-                                        <DropdownMenu>
-                                            <button @click.prevent="saveMode = 'create'"
-                                                    class="flex items-center space-x-3 px-4 py-2 text-gray-700 text-sm w-full">
-                                                    <span class="text-blue-700 w-3.5">
-                                                        <Icon name="check" class="w-3.5"
-                                                              v-show="saveMode === 'create'"/>
-                                                    </span>
-
-                                                <span class="lowercase first-letter:uppercase -mt-0.5">
-                                                        Create {{ resource?.labels?.singular }}
-                                                    </span>
-                                            </button>
-
-                                            <button class="flex items-center space-x-3 px-4 py-2 text-gray-700 text-sm w-full"
-                                                    @click.prevent="saveMode = 'create-and-edit'">
-                                                    <span class="text-blue-700 w-3.5">
-                                                      <Icon name="check" class="w-3.5"
-                                                            v-show="saveMode === 'create-and-edit'"/>
-                                                    </span>
-
-                                                <span class="lowercase first-letter:uppercase">Create & edit</span>
-                                            </button>
-                                        </DropdownMenu>
-                                    </Transition>
+                                            <span class="lowercase first-letter:uppercase">Create & edit</span>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </template>
-                    </Panel>
+                            </Transition>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -133,9 +120,7 @@ export default {
     methods: {
         getResource() {
             this.$http.get(`/resources/${this.$route.params.resourceName}/create`)
-                .then(response => {
-                    this.resource = response.data
-                })
+                .then(response => this.resource = response.data)
         },
         cancel() {
             this.$router.push({name: 'resource-index', params: {resourceName: this.$route.params.resourceName}})
@@ -153,14 +138,14 @@ export default {
                         timeout: 4000
                     })
 
-                    if (isCreateAndEdit) {
-                        this.$router.replace({
-                            name: 'resource-edit',
-                            params: {resourceName: this.$route.params.resourceName, resourceId: response.data.data.key}
-                        })
-                    } else {
-                        this.$router.back()
+                    if (!isCreateAndEdit) {
+                        return this.$router.back()
                     }
+
+                    this.$router.replace({
+                        name: 'resource-edit',
+                        params: {resourceName: this.$route.params.resourceName, resourceId: response.data.data.key}
+                    })
                 })
         }
     }

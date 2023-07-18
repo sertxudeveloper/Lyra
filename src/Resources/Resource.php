@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\DelegatesToResource;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use SertxuDeveloper\Lyra\Fields\Panel;
 use SertxuDeveloper\Lyra\Lyra;
 
 abstract class Resource
@@ -158,11 +159,19 @@ abstract class Resource
      * Transform the resource into an array for the table header.
      */
     public function getHeader($request): array {
+        $allFields = [];
+
+        // Get the fields that are not in a panel
+        $fieldsWithoutPanels = array_filter($this->fields(), fn ($field) => !$field instanceof Panel);
+
+        $allFields = array_merge($allFields, $fieldsWithoutPanels);
+
         $fields = [];
-        foreach ($this->fields() as $field) {
+        foreach ($allFields as $field) {
             if (!$field->canShow($request)) {
                 continue;
             }
+
             $fields[] = $field->toTableHeader($request);
         }
 
@@ -176,22 +185,92 @@ abstract class Resource
         return 0;
     }
 
+    public function serializeForIndex(Request $request) {
+        $fields = collect($this->fields())
+            ->map(fn ($field) => !$field instanceof Panel ? $field : $field->fields())
+            ->flatten()
+            ->filter(fn ($field) => $field->canShow($request))
+            ->values();
+
+        return [
+            'key' => $this->resource->getKey(),
+            'trashed' => (method_exists($this->resource, 'trashed')) ? $this->resource->trashed() : false,
+            'fields' => $fields->map->toArray($request, $this->resource),
+        ];
+    }
+
+    public function serializeForCreate(Request $request) {
+        $panels = [];
+        $fields = $this->fields();
+
+        // Get the fields that are not in a panel and add them to a new panel
+        $fieldsWithoutPanels = array_filter($fields, fn ($field) => !$field instanceof Panel);
+        if (!empty($fieldsWithoutPanels)) {
+            $title = 'Create '.static::singular();
+            $panels[] = Panel::make($title, collect($fieldsWithoutPanels)->values()->toArray())
+                ->description('This is the basic information of the resource.');
+        }
+
+        // Get the fields that are in a panel and add them to the panels array
+        $panels = array_merge($panels, array_filter($fields, fn ($field) => $field instanceof Panel));
+
+        foreach ($panels as $panel) {
+            $panelFields = [];
+            foreach ($panel->fields as $field) {
+                if (!$field->canShow($request)) {
+                    continue;
+                }
+
+                $panelFields[] = $field->toArray($request, $this->resource);
+            }
+
+            $panel->fields = $panelFields;
+        }
+
+        return [
+            'key' => $this->resource->getKey(),
+            'trashed' => (method_exists($this->resource, 'trashed')) ? $this->resource->trashed() : false,
+            'panels' => $panels,
+        ];
+    }
+
     /**
      * Transform the resource into an array.
      */
     public function toArray(Request $request): array {
-        $fields = [];
-        foreach ($this->fields() as $field) {
-            if (!$field->canShow($request)) {
-                continue;
+        dd('Resource toArray');
+        $panels = [];
+
+        $fields = $this->fields();
+
+        // Get the fields that are not in a panel and add them to a new panel
+        $fieldsWithoutPanels = array_filter($fields, fn ($field) => !$field instanceof Panel);
+        if (!empty($fieldsWithoutPanels)) {
+            $title = 'Create '.static::singular();
+            $panels[] = Panel::make($title, collect($fieldsWithoutPanels)->values()->toArray())
+                ->description('This is the basic information of the resource.');
+        }
+
+        // Get the fields that are in a panel and add them to the panels array
+        $panels = array_merge($panels, array_filter($fields, fn ($field) => $field instanceof Panel));
+
+        foreach ($panels as $panel) {
+            $panelFields = [];
+            foreach ($panel->fields as $field) {
+                if (!$field->canShow($request)) {
+                    continue;
+                }
+
+                $panelFields[] = $field->toArray($this->resource);
             }
-            $fields[] = $field->toArray($this->resource);
+
+            $panel->fields = $panelFields;
         }
 
         $response = [
             'key' => $this->resource->getKey(),
             'trashed' => (method_exists($this->resource, 'trashed')) ? $this->resource->trashed() : false,
-            'fields' => $fields,
+            'panels' => $panels,
         ];
 
         $route = Lyra::getRouteName($request);

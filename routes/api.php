@@ -14,13 +14,13 @@ Route::group(['middleware' => ['api']], function () {
              *
              * @see https://laravel.com/docs/8.x/controllers#actions-handled-by-resource-controller
              */
-            Route::get('/resources/{resource}', [Controllers\ResourceIndexController::class, 'index'])
+            Route::get('/resources/{resource}', Controllers\ResourceIndexController::class)
                 ->name('resources.index');
 
-            Route::get('/resources/{resource}/create', [Controllers\ResourceCreateController::class, 'create'])
+            Route::get('/resources/{resource}/create', Controllers\ResourceCreateController::class)
                 ->name('resources.create');
 
-            Route::post('/resources/{resource}', [Controllers\ResourceCreateController::class, 'store'])
+            Route::post('/resources/{resource}', [Controllers\ResourceStoreController::class, 'store'])
                 ->name('resources.store');
 
             Route::get('/resources/{resource}/{id}', [Controllers\ResourceShowController::class, 'show'])

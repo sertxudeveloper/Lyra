@@ -49,7 +49,6 @@ class ResourceIndexControllerTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertIsArray($response->json('header'));
         $this->assertIsArray($response->json('data'));
         $this->assertIsArray($response->json('meta'));
         $this->assertIsArray($response->json('labels'));
@@ -118,9 +117,9 @@ class ResourceIndexControllerTest extends TestCase
 
         $this->assertEquals($userCount, $response->json('meta.total'));
 
-        $header = $response->json('header');
-        $emailHeader = collect($header)->where('key', 'email')->first();
-        $this->assertEquals('asc', $emailHeader['order']);
+        $fields = $response->json('data.0.fields');
+        $emailField = collect($fields)->where('key', 'email')->first();
+        $this->assertEquals('asc', $emailField['order']);
 
         $response->assertJsonCount($userCount, 'data');
         $this->assertEquals($userA->id, $response->json('data.0.key'));
@@ -135,9 +134,9 @@ class ResourceIndexControllerTest extends TestCase
 
         $response->assertSuccessful();
 
-        $header = $response->json('header');
-        $emailHeader = collect($header)->where('key', 'email')->first();
-        $this->assertEquals('desc', $emailHeader['order']);
+        $fields = $response->json('data.0.fields');
+        $emailField = collect($fields)->where('key', 'email')->first();
+        $this->assertEquals('desc', $emailField['order']);
 
         $response->assertJsonCount($userCount, 'data');
         $this->assertEquals($userC->id, $response->json('data.0.key'));

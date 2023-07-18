@@ -153,7 +153,7 @@ abstract class Field
     /**
      * Transform the field into an array.
      */
-    public function toArray(Model $model): array {
+    public function toArray(Request $request, Model $model): array {
         $field = [
             'key' => $this->getKey(),
             'component' => $this->component,
@@ -169,6 +169,21 @@ abstract class Field
         /** @see Align */
         if (isset($this->align)) {
             $field['align'] = $this->align;
+        }
+
+        /** @see Sortable */
+        if (isset($this->sortable)) {
+            $field['sortable'] = $this->sortable;
+        }
+
+        $sortBy = explode(',', $request->query('sortBy'));
+        $sortOrder = explode(',', $request->query('sortOrder'));
+
+        $sortIndex = array_search($this->getKey(), $sortBy);
+        if ($sortIndex !== false) {
+            $order = $sortOrder[$sortIndex];
+
+            $field['order'] = $order;
         }
 
         return array_merge($field, $this->additional($model));
