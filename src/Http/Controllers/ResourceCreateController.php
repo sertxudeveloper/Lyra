@@ -13,9 +13,6 @@ class ResourceCreateController extends Controller
     /**
      * Return a new empty resource.
      *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @return JsonResponse
      *
      * @throws ResourceNotFoundException
      */
