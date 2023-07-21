@@ -302,11 +302,7 @@ abstract class Resource
             ->values();
     }
 
-    /**
-     * @return Collection
-     */
-    protected function getPanels(Request $request): Collection
-    {
+    protected function getPanels(Request $request): Collection {
         $panels = collect();
         $fields = collect($this->fields());
 
