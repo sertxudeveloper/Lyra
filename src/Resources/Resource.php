@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\DelegatesToResource;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -157,6 +158,8 @@ abstract class Resource
 
     /**
      * Transform the resource into an array for the table header.
+     *
+     * @deprecated
      */
     public function getHeader($request): array {
         $allFields = [];
@@ -300,9 +303,10 @@ abstract class Resource
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    protected function getPanels(Request $request) {
+    protected function getPanels(Request $request): Collection
+    {
         $panels = collect();
         $fields = collect($this->fields());
 
@@ -328,7 +332,10 @@ abstract class Resource
         $panels = $panels->merge($fields->filter(fn ($field) => $field instanceof Panel));
 
         return $panels->each(fn ($panel) => $panel->fields = collect($panel->fields)
-            ->filter(fn ($field) => $field->canShow($request))->values()->toArray()
+            ->filter(fn ($field) => $field->canShow($request))
+            ->map(fn ($field) => $field->toArray($request, $this->resource))
+            ->values()
+            ->toArray()
         )->values();
     }
 

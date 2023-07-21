@@ -29,7 +29,7 @@ class ResourceShowControllerTest extends TestCase
         $this->assertEquals($user->id, $response->json('data.key'));
         $this->assertEquals(false, $response->json('data.trashed'));
 
-        $fields = $response->json('data.fields');
+        $fields = collect($response->json('data.panels'))->pluck('fields')->flatten(1);
         $nameField = collect($fields)->where('key', 'name')->first();
         $this->assertEquals($user->name, $nameField['value']);
     }
@@ -57,7 +57,7 @@ class ResourceShowControllerTest extends TestCase
         $this->assertEquals($trashed->id, $response->json('data.key'));
         $this->assertEquals(true, $response->json('data.trashed'));
 
-        $fields = $response->json('data.fields');
+        $fields = collect($response->json('data.panels'))->pluck('fields')->flatten(1);
         $nameField = collect($fields)->where('key', 'name')->first();
         $this->assertEquals($trashed->name, $nameField['value']);
     }

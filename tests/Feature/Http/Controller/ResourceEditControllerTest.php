@@ -140,7 +140,7 @@ class ResourceEditControllerTest extends TestCase
         $this->assertEquals($otherUser->getKey(), $response->json('data.key'));
         $this->assertEquals($otherUser->trashed(), $response->json('data.trashed'));
 
-        $fields = $response->json('data.fields');
+        $fields = collect($response->json('data.panels'))->pluck('fields')->flatten(1);
         $nameField = collect($fields)->where('key', 'name')->first();
         $this->assertEquals($otherUser->name, $nameField['value']);
     }

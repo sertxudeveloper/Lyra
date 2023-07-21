@@ -25,14 +25,13 @@ class ResourceCreateControllerTest extends TestCase
 
         $response->assertCreated();
 
-        $this->assertIsArray($response->json('data'));
-        $this->assertIsArray($response->json('labels'));
+        $this->assertNotNull($key = $response->json('key'));
 
-        $this->assertEquals(Users::label(), $response->json('labels.plural'));
-        $this->assertEquals(Users::singular(), $response->json('labels.singular'));
+        $john = User::query()->latest('id')->first();
 
         $this->assertEquals(2, User::query()->count());
-        $this->assertEquals('John Doe', User::query()->latest('id')->first()->name);
+        $this->assertEquals('John Doe', $john->name);
+        $this->assertEquals($key, $john->id);
     }
 
     /**
@@ -56,7 +55,7 @@ class ResourceCreateControllerTest extends TestCase
         $this->assertEquals(null, $response->json('data.key'));
         $this->assertEquals(false, $response->json('data.trashed'));
 
-        $fields = $response->json('data.fields');
+        $fields = collect($response->json('data.panels'))->pluck('fields')->flatten(1);
         $nameField = collect($fields)->where('key', 'name')->first();
         $this->assertEquals(null, $nameField['value']);
     }

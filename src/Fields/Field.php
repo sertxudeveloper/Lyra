@@ -191,6 +191,8 @@ abstract class Field
 
     /**
      * Transform the resource into an array for the table header.
+     *
+     * @deprecated
      */
     public function toTableHeader(Request $request): array {
         $sortBy = explode(',', $request->query('sortBy'));

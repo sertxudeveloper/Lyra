@@ -25,7 +25,7 @@ class ResourceEditController extends Controller
         $model = $class::$model::findOrFail($id);
 
         return response()->json([
-            'data' => $class::make($model)->toArray($request),
+            'data' => $class::make($model)->serializeForEdit($request),
             'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
         ]);
     }
@@ -61,7 +61,7 @@ class ResourceEditController extends Controller
         abort_if(!$model->save(), Response::HTTP_NOT_ACCEPTABLE);
 
         return response()->json([
-            'data' => $class::make($model->fresh())->toArray($request),
+            'data' => $class::make($model->fresh())->serializeForEdit($request),
             'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
         ], Response::HTTP_ACCEPTED);
     }

@@ -26,9 +26,10 @@ class ResourceCollection extends JsonResourceCollection
     /**
      * Transform the resource into a JSON array.
      *
-     * @param  Request  $request
+     * @param Request $request
+     * @return array
      */
-    public function toArray($request): array {
+    public function toArray(Request $request): array {
         /** @var resource $resource */
         $resource = $this->collects();
         $resource = $resource::make($resource::newModel());
