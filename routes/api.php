@@ -20,10 +20,10 @@ Route::group(['middleware' => ['api']], function () {
             Route::get('/resources/{resource}/create', Controllers\ResourceCreateController::class)
                 ->name('resources.create');
 
-            Route::post('/resources/{resource}', [Controllers\ResourceStoreController::class, 'store'])
+            Route::post('/resources/{resource}', Controllers\ResourceStoreController::class)
                 ->name('resources.store');
 
-            Route::get('/resources/{resource}/{id}', [Controllers\ResourceShowController::class, 'show'])
+            Route::get('/resources/{resource}/{id}', Controllers\ResourceShowController::class)
                 ->name('resources.show');
 
             Route::get('/resources/{resource}/{id}/edit', [Controllers\ResourceEditController::class, 'edit'])

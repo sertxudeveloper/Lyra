@@ -34,4 +34,23 @@ class ResourceShowController extends Controller
             'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
         ]);
     }
+
+    public function __invoke(Request $request, string $resource, mixed $id): JsonResponse {
+        /** @var Resource $class */
+        $class = Lyra::resourceBySlug($resource);
+
+        $query = $class::$model::query()->with($class::$with);
+
+        /** Include soft deleted if it's supported */
+        if (method_exists($class::newModel(), 'trashed')) {
+            $query->withTrashed();
+        }
+
+        $model = $query->findOrFail($id);
+
+        return response()->json([
+            'data' => $class::make($model)->serializeForShow($request),
+            'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
+        ]);
+    }
 }

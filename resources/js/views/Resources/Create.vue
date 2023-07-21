@@ -3,6 +3,7 @@
         <div class="flex flex-col" v-if="resource?.data">
             <!-- Toolbar -->
             <div class="md:grid md:grid-cols-4 md:gap-6">
+                <!-- Back button -->
                 <div class="flex justify-between mb-2 md:col-span-3 md:col-start-2">
                     <div class="flex">
                         <RouterLink
@@ -16,88 +17,31 @@
 
             <!-- Fields -->
             <form ref="form" @submit.prevent="submit" class="space-y-4">
-<!--            <div class="md:grid md:grid-cols-4 md:gap-6">
-                    <div class="md:col-span-1">
-                        <div class="px-4 sm:px-0">
-                            <h3 class="text-xl font-medium leading-6 text-gray-900">
-                                Create {{ resource?.labels?.singular }}
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-600">This is the basic information of the resource.</p>
-                        </div>
-                    </div>
-
-
-                </div>-->
-
-<!--                <Panel
-                    :title="'Create ' + resource.labels.singular"
-                    :description="'This is the basic information of the resource.'"
-                    :fields="resource.data.fields" />-->
-
                 <div class="space-y-6">
                     <template v-for="panel in resource.data.panels">
                         <Panel
                             :title="panel.title"
-                            :description="panel.description"
-                            :fields="panel.fields" />
+                            :description="panel.description">
+
+                            <div v-for="field in panel.fields" class="gap-6 grid grid-cols-3">
+                                <Component
+                                    :is="`form-${field.component}`"
+                                    :field="field" />
+                            </div>
+                        </Panel>
                     </template>
                 </div>
 
                 <div class="flex items-center justify-end space-x-2">
                     <button class="btn-secondary" type="button" @click.prevent="cancel">Cancel</button>
 
-                    <div class="btn-group-primary">
-                        <button v-if="saveMode === 'create'" @click="changeMode = false"
-                                name="create" type="submit">
-                            <span>Create {{ resource?.labels?.singular.toLowerCase() }}</span>
-                        </button>
+                    <button @click="changeMode = false" name="create" class="btn-primary" type="submit">
+                        <span>Create {{ resource?.labels?.singular.toLowerCase() }}</span>
+                    </button>
 
-                        <button v-if="saveMode === 'create-and-edit'" @click="changeMode = false"
-                                name="create-and-edit" type="submit">
-                            <span>Create & edit</span>
-                        </button>
-
-                        <div v-click-away="() => this.changeMode = false">
-                            <button type="button" @click.prevent="changeMode = !changeMode">
-                                <Icon name="chevron-down" class="w-3"/>
-                            </button>
-
-                            <Transition
-                                enter-from-class="transform opacity-0 scale-95"
-                                enter-to-class="transform opacity-100 scale-100"
-                                enter-active-class="transition ease-out duration-100"
-                                leave-from-class="transform opacity-100 scale-100"
-                                leave-to-class="transform opacity-0 scale-95"
-                                leave-active-class="transition ease-in duration-75">
-
-                                <div class="dropdown-menu" v-if="changeMode">
-                                    <div class="py-1 flex flex-col">
-                                        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                                        <button @click.prevent="saveMode = 'create'" class="dropdown-item">
-                                                    <span class="text-blue-700 w-3.5">
-                                                        <Icon name="check" class="w-3.5"
-                                                              v-show="saveMode === 'create'"/>
-                                                    </span>
-
-                                            <span class="lowercase first-letter:uppercase -mt-0.5">
-                                                        Create {{ resource?.labels?.singular }}
-                                                    </span>
-                                        </button>
-
-                                        <button class="dropdown-item"
-                                                @click.prevent="saveMode = 'create-and-edit'">
-                                                    <span class="text-blue-700 w-3.5">
-                                                      <Icon name="check" class="w-3.5"
-                                                            v-show="saveMode === 'create-and-edit'"/>
-                                                    </span>
-
-                                            <span class="lowercase first-letter:uppercase">Create & edit</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </Transition>
-                        </div>
-                    </div>
+                    <button @click="changeMode = false" name="create-and-edit" class="btn-primary" type="submit">
+                        <span>Create & edit</span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -109,6 +53,7 @@ export default {
     name: "Create",
     data() {
         return {
+            errors: {},
             resource: {},
             changeMode: false,
             saveMode: 'create', // create, create-and-edit
@@ -126,6 +71,8 @@ export default {
             this.$router.push({name: 'resource-index', params: {resourceName: this.$route.params.resourceName}})
         },
         submit() {
+            this.errors = {}
+
             let formData = new FormData(this.$refs.form);
             const isCreateAndEdit = document.activeElement.name === 'create-and-edit'
 
@@ -146,6 +93,20 @@ export default {
                         name: 'resource-edit',
                         params: {resourceName: this.$route.params.resourceName, resourceId: response.data.data.key}
                     })
+                })
+                .catch(error => {
+                    if (error.response.status === 409) {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Error',
+                            text: 'A conflict has been detected, the resource has been edited by other session.',
+                            timeout: 8000
+                        })
+                        return null
+                    }
+
+                    const data = error.response.data
+                    this.errors = data.errors
                 })
         }
     }

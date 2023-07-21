@@ -7,22 +7,8 @@
             </div>
         </div>
 
-<!--        <div class="mt-5 md:mt-0 md:col-span-3 shadow rounded-md">
-            <div class="px-4 py-5 bg-white space-y-6 sm:p-6 rounded-t-md">
-                <div v-for="field in fields" class="gap-6 grid grid-cols-3">
-                    <Component :is="`form-${field.component}`" :field="field"/>
-                </div>
-            </div>
-
-            <div class="bg-gray-50 flex items-center justify-end px-4 py-3 rounded-b-md space-x-2">
-                <slot name="footer"></slot>
-            </div>
-        </div>-->
-
         <div class="mt-5 md:mt-0 md:col-span-3 shadow rounded-md px-4 py-5 bg-white space-y-6">
-            <div v-for="field in fields" class="gap-6 grid grid-cols-3">
-                <Component :is="`form-${field.component}`" :field="field"/>
-            </div>
+            <slot />
         </div>
     </div>
 </template>
@@ -37,10 +23,6 @@ export default {
         },
         description: {
             type: String,
-            required: true,
-        },
-        fields: {
-            type: Array,
             required: true,
         },
     },

@@ -12,27 +12,6 @@ use SertxuDeveloper\Lyra\Resources\Resource;
 class ResourceStoreController extends Controller
 {
     /**
-     * Return a new empty resource.
-     *
-     * @param  Request  $request
-     * @param  string  $resource
-     * @return JsonResponse
-     *
-     * @throws ResourceNotFoundException
-     */
-    public function create(Request $request, string $resource): JsonResponse {
-        /** @var Resource $class */
-        $class = Lyra::resourceBySlug($resource);
-
-        $model = new $class::$model;
-
-        return response()->json([
-            'data' => $class::make($model)->toArray($request),
-            'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
-        ]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
@@ -41,7 +20,7 @@ class ResourceStoreController extends Controller
      *
      * @throws ResourceNotFoundException
      */
-    public function store(Request $request, string $resource): Response|JsonResponse {
+    public function __invoke(Request $request, string $resource): JsonResponse {
         /** @var Resource $class */
         $class = Lyra::resourceBySlug($resource);
 
@@ -57,8 +36,7 @@ class ResourceStoreController extends Controller
         abort_if(!$model->save(), Response::HTTP_NOT_ACCEPTABLE);
 
         return response()->json([
-            'data' => $class::make($model->fresh())->toArray($request),
-            'labels' => ['singular' => $class::singular(), 'plural' => $class::label()],
+            'key' => $model->getKey(),
         ], Response::HTTP_CREATED);
     }
 }
