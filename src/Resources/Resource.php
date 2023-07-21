@@ -300,7 +300,6 @@ abstract class Resource
     }
 
     /**
-     * @param Request $request
      * @return array
      */
     protected function getPanels(Request $request) {
@@ -313,10 +312,10 @@ abstract class Resource
 
         // Get the fields that are not in a panel and add them to a new panel
         if (!$fieldsWithoutPanels->isEmpty()) {
-            $title = match(Lyra::getRouteName($request)) {
-                'resources.create' => 'Create ' . static::singular(),
-                'resources.edit' => 'Edit ' . static::singular(),
-                default => static::singular() . ' details',
+            $title = match (Lyra::getRouteName($request)) {
+                'resources.create' => 'Create '.static::singular(),
+                'resources.edit' => 'Edit '.static::singular(),
+                default => static::singular().' details',
             };
 
             $panel = Panel::make($title, $fieldsWithoutPanels->toArray())
