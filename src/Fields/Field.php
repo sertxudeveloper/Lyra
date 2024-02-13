@@ -37,7 +37,7 @@ abstract class Field
      *
      * @return $this
      */
-    public static function make(string $name, object|string $column = null): self {
+    public static function make(string $name, object|string|null $column = null): self {
         $field = new static;
         $field->name = $name;
         $field->column = $column ?? Str::snake(Str::lower($name));
@@ -139,8 +139,8 @@ abstract class Field
     /**
      * Update the field value using the given data
      *
-     * @param  Model  $model The model to be updated
-     * @param  array  $data The new validated data
+     * @param  Model  $model  The model to be updated
+     * @param  array  $data  The new validated data
      */
     public function save(Model $model, array $data): void {
         if (is_callable($this->column)) {

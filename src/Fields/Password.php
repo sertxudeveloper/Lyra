@@ -19,7 +19,7 @@ class Password extends Field
      *
      * @return $this
      */
-    public static function make(string $name, object|string $column = null): Field {
+    public static function make(string $name, object|string|null $column = null): Field {
         $field = parent::make($name, $column);
 
         $field->placeholder(Str::repeat('*', 12));
@@ -39,8 +39,8 @@ class Password extends Field
     /**
      * Update the field value using the given data
      *
-     * @param  Model  $model The model to be updated
-     * @param  array  $data The new validated data
+     * @param  Model  $model  The model to be updated
+     * @param  array  $data  The new validated data
      */
     public function save(Model $model, array $data): void {
         if ($data[$this->getKey()]) {

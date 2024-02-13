@@ -27,7 +27,7 @@ class Lyra
     /**
      * Generate a URL of the given asset
      *
-     * @param  string  $file The asset file name
+     * @param  string  $file  The asset file name
      * @return string The URL of the asset
      */
     public static function asset(string $file): string {
@@ -53,7 +53,7 @@ class Lyra
     /**
      * Get the resource class from the given slug
      *
-     * @param  string  $slug Slug of the wanted resource
+     * @param  string  $slug  Slug of the wanted resource
      * @return string Class name of the resource
      *
      * @throws ResourceNotFoundException
@@ -71,7 +71,7 @@ class Lyra
     /**
      * Register given resources
      *
-     * @param  string  ...$resource The resources to register
+     * @param  string  ...$resource  The resources to register
      */
     public static function resources(string ...$resource): void {
         static::$resources = array_unique(array_merge(static::$resources, $resource));
@@ -80,7 +80,7 @@ class Lyra
     /**
      * Register resources in a directory
      *
-     * @param  string  $directory Directory to scan for resources
+     * @param  string  $directory  Directory to scan for resources
      */
     public static function resourcesIn(string $directory): void {
         $namespace = app()->getNamespace();
@@ -111,7 +111,7 @@ class Lyra
     /**
      * Register Lyra routes
      *
-     * @param  bool  $auth Whether to register authentication routes
+     * @param  bool  $auth  Whether to register authentication routes
      */
     public static function routes(bool $auth = false): void {
         require __DIR__.'/../routes/api.php';

@@ -57,7 +57,7 @@ abstract class PartitionCard extends Card
      *
      * @return array[]
      */
-    public function count(Request $request, Builder|string $model, string $groupBy, string $column = null): array {
+    public function count(Request $request, Builder|string $model, string $groupBy, ?string $column = null): array {
         return $this->query($request, $model, 'count', $column, $groupBy);
     }
 

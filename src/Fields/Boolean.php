@@ -39,8 +39,8 @@ class Boolean extends Field
     /**
      * Update the field value using the given data
      *
-     * @param  Model  $model The model to be updated
-     * @param  array  $data The new validated data
+     * @param  Model  $model  The model to be updated
+     * @param  array  $data  The new validated data
      */
     public function save(Model $model, array $data): void {
         $model->{$this->getKey()} = $data[$this->getKey()] == true ? $this->trueValue : $this->falseValue;

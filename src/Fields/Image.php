@@ -26,7 +26,7 @@ class Image extends Field
      *
      * @return $this
      */
-    public static function make(string $name, object|string $column = null): Field {
+    public static function make(string $name, object|string|null $column = null): Field {
         $field = parent::make($name, $column);
 
         $field->folder = $field->getKey();

@@ -33,7 +33,7 @@ abstract class SimpleCard extends Card
     /**
      * Count instances of the model
      */
-    public function count(Request $request, Builder|string $model, string $column = null): float {
+    public function count(Request $request, Builder|string $model, ?string $column = null): float {
         return $this->query($request, $model, 'count', $column);
     }
 
@@ -54,7 +54,7 @@ abstract class SimpleCard extends Card
     /**
      * Return the result of the query
      */
-    public function query(Request $request, Builder|string $model, string $method, string $column = null): float {
+    public function query(Request $request, Builder|string $model, string $method, ?string $column = null): float {
         $query = $model instanceof Builder ? $model : $model::query();
         $column = $column ?? $query->getModel()->getQualifiedKeyName();
 

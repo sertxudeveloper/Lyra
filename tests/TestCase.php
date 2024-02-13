@@ -34,7 +34,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         );
     }
 
-    protected function authenticate(Authenticatable $user = null): Authenticatable {
+    protected function authenticate(?Authenticatable $user = null): Authenticatable {
         $this->actingAs($user ??= User::factory()->create());
 
         return $user;

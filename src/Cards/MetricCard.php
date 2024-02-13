@@ -30,7 +30,7 @@ abstract class MetricCard extends Card
      *
      * @return float[]
      */
-    public function count(Request $request, Builder|string $model, string $column = null, string $dateColumn = null): array {
+    public function count(Request $request, Builder|string $model, ?string $column = null, ?string $dateColumn = null): array {
         return $this->query($request, $model, 'count', $column, $dateColumn);
     }
 
@@ -62,7 +62,7 @@ abstract class MetricCard extends Card
      *
      * @return float[]
      */
-    public function max(Request $request, Builder|string $model, string $column, string $dateColumn = null): array {
+    public function max(Request $request, Builder|string $model, string $column, ?string $dateColumn = null): array {
         return $this->query($request, $model, 'max', $column, $dateColumn);
     }
 
@@ -71,7 +71,7 @@ abstract class MetricCard extends Card
      *
      * @return float[]
      */
-    public function min(Request $request, Builder|string $model, string $column, string $dateColumn = null): array {
+    public function min(Request $request, Builder|string $model, string $column, ?string $dateColumn = null): array {
         return $this->query($request, $model, 'min', $column, $dateColumn);
     }
 
@@ -89,7 +89,7 @@ abstract class MetricCard extends Card
      *
      * @return float[]
      */
-    public function query(Request $request, Builder|string $model, string $method, string $column = null, string $dateColumn = null): array {
+    public function query(Request $request, Builder|string $model, string $method, ?string $column = null, ?string $dateColumn = null): array {
         $query = $model instanceof Builder ? $model : $model::query();
         $column = $column ?? $query->getModel()->getQualifiedKeyName();
         $createdAt = $query->getModel()->getCreatedAtColumn();
@@ -122,7 +122,7 @@ abstract class MetricCard extends Card
      *
      * @return float[]
      */
-    public function sum(Request $request, Builder|string $model, string $column, string $dateColumn = null): array {
+    public function sum(Request $request, Builder|string $model, string $column, ?string $dateColumn = null): array {
         return $this->query($request, $model, 'sum', $column, $dateColumn);
     }
 

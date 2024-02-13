@@ -18,9 +18,9 @@ class AssetsController extends Controller
     /**
      * Get the requested asset from the internal vendor folder.
      *
-     * @param $any string|null Asset path
+     * @param  $any  string|null Asset path
      */
-    public function show(Request $request, string $any = null): Response {
+    public function show(Request $request, ?string $any = null): Response {
         abort_if(!$any, Response::HTTP_NOT_FOUND);
 
         $file = Lyra::asset($any);

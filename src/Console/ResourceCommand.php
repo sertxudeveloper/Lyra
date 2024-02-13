@@ -94,8 +94,8 @@ class ResourceCommand extends GeneratorCommand
     /**
      * Replace the class name for the given stub.
      *
-     * @param  string  $stub The stub to replace the class name in
-     * @param  string  $name The name of the class
+     * @param  string  $stub  The stub to replace the class name in
+     * @param  string  $name  The name of the class
      */
     protected function replaceModel(string $stub, string $name): string {
         $namespace = is_dir(app_path('Models')) ? $this->rootNamespace()."Models\\$name" : $this->rootNamespace().$name;
